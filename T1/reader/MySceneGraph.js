@@ -27,7 +27,7 @@ class MySceneGraph {
 
         this.nodes = [];
 
-        this.idRoot = null;                    // The id of the root element.
+        this.idRoot = null; // The id of the root element.
 
         this.axisCoords = [];
         this.axisCoords['x'] = [1, 0, 0];
@@ -147,6 +147,22 @@ class MySceneGraph {
      */
     parseScene(sceneNode) {
 
+        var rootId = this.reader.getString(sceneNode, 'id');
+
+        if (rootId == null)
+            return "no rootId defined";
+
+        var axis_length = this.reader.getFloat(sceneNode, 'axis_length');
+
+        if (axis_length == null)
+            return "no axis_length defined";
+
+
+        this.sceneInfo = {
+            rootId: rootId,
+            axis_length: axis_length
+        };
+
         this.log("Parsed scene");
 
         return null;
@@ -157,7 +173,70 @@ class MySceneGraph {
      * @param {views block element} viewsNode
      */
     parseViews(viewsNode) {
-        // TODO: Parse views node
+        // TODO: Parse views node CHECK ERRORS
+
+        var children = viewsNode.children;
+
+        this.views = {};
+
+        for (let i = 0; i < children.length; ++i) {
+
+            if (children[i].nodeName == "ortho") {
+                var id = this.reader.getString(children[i], 'id');
+                var near = this.reader.getFloat(children[i], 'near');
+                var far = this.reader.getFloat(children[i], 'far');
+                var left = this.reader.getFloat(children[i], 'left');
+                var right = this.reader.getFloat(children[i], 'right');
+                var top = this.reader.getFloat(children[i], 'top');
+                var bottom = this.reader.getFloat(children[i], 'bottom');
+
+                this.views[id] = {
+                    near: near,
+                    far: far,
+                    left: left,
+                    right: right,
+                    top: top,
+                    bottom: bottom
+                };
+
+            } else if (children[i].nodeName == "perspective") {
+                var id = this.reader.getString(children[i], 'id');
+                var near = this.reader.getFloat(children[i], 'near');
+                var far = this.reader.getFloat(children[i], 'far');
+                var angle = this.reader.getFloat(children[i], 'left');
+
+                var grandChildren = children[i].children;
+
+                var fx = this.reader.getFloat(grandChildren[0], 'x');
+                var fy = this.reader.getFloat(grandChildren[0], 'y');
+                var fz = this.reader.getFloat(grandChildren[0], 'z');
+                var tx = this.reader.getFloat(grandChildren[1], 'x');
+                var ty = this.reader.getFloat(grandChildren[1], 'y');
+                var tz = this.reader.getFloat(grandChildren[1], 'z');
+
+                this.views[id] = {
+                    near: near,
+                    far: far,
+                    angle: angle,
+                    from: {
+                        x: fx,
+                        y: fy,
+                        z: fz
+                    },
+                    to: {
+                        x: tx,
+                        y: ty,
+                        z: tz
+                    }
+                };
+            } else {
+                this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+                continue;
+            }
+        }
+
+        if (this.views.length == 0)
+            return "no valid view defined"
 
         this.log("Parsed views");
 
@@ -170,6 +249,39 @@ class MySceneGraph {
      */
     parseAmbient(ambientNode) {
         // TODO: Parse views node
+
+        var children = ambientNode.children;
+
+        for (let i = 0; i < children.length; ++i) {
+            if (children[i].nodeName == "ambient" && this.ambient == null) {
+                var r = this.reader.getFloat(children[i], 'r');
+                var g = this.reader.getFloat(children[i], 'g');
+                var b = this.reader.getFloat(children[i], 'b');
+                var a = this.reader.getFloat(children[i], 'a');
+
+                this.ambient = {
+                    r: r,
+                    g: g,
+                    b: b,
+                    a: a
+                };
+            } else if (children[i].nodeName == "background" && this.background == null) {
+                var r = this.reader.getFloat(children[i], 'r');
+                var g = this.reader.getFloat(children[i], 'g');
+                var b = this.reader.getFloat(children[i], 'b');
+                var a = this.reader.getFloat(children[i], 'a');
+
+                this.background = {
+                    r: r,
+                    g: g,
+                    b: b,
+                    a: a
+                };
+            } else {
+                this.onXMLMinorError("wrong or duplicate tag");
+                continue;
+            }
+        }
 
         this.log("Parsed ambient");
 
@@ -227,8 +339,7 @@ class MySceneGraph {
             var enableLight = true;
             if (enableIndex == -1) {
                 this.onXMLMinorError("enable value missing for ID = " + lightId + "; assuming 'value = 1'");
-            }
-            else {
+            } else {
                 var aux = this.reader.getFloat(grandChildren[enableIndex], 'value');
                 if (!(aux != null && !isNaN(aux) && (aux == 0 || aux == 1)))
                     this.onXMLMinorError("unable to parse value component of the 'enable light' field for ID = " + lightId + "; assuming 'value = 1'");
@@ -266,8 +377,7 @@ class MySceneGraph {
                     return "unable to parse x-coordinate of the light position for ID = " + lightId;
                 else
                     positionLight.push(w);
-            }
-            else
+            } else
                 return "light position undefined for ID = " + lightId;
 
             // Retrieves the ambient component.
@@ -300,8 +410,7 @@ class MySceneGraph {
                     return "unable to parse A component of the ambient illumination for ID = " + lightId;
                 else
                     ambientIllumination.push(a);
-            }
-            else
+            } else
                 return "ambient component undefined for ID = " + lightId;
 
             // TODO: Retrieve the diffuse component
