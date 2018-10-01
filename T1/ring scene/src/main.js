@@ -59,7 +59,12 @@ serialInclude([
 	'MyTerrain.js',
 	'MyMirror.js',
 	'MyCylinderCovered.js',
-
+	'MyTriangle.js',
+	'MyRamp.js',
+	'MyBarrier.js',
+	'MyChair.js',
+	'MyChairs.js',
+	'MyStage.js',
 	main = function () {
 		var app = new CGFapplication(document.body);
 		var myScene = new LightingScene();

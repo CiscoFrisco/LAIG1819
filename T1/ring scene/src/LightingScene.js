@@ -20,6 +20,10 @@ class LightingScene extends CGFscene {
 		this.ringPost = new MyCylinderCovered(this, 20, 20);
 		this.ringRope = new MyCylinderCovered(this, 20, 20);
 		this.stairs = new MyUnitCubeQuad(this);
+		this.ramp = new MyRamp(this, 20,100,20);
+		this.barrier = new MyBarrier(this,10,40,5);
+		this.chairs = new MyChairs(this, 5,20);
+		this.stage = new MyStage(this);
 	}
 
 	/**
@@ -57,7 +61,7 @@ class LightingScene extends CGFscene {
 	 * Initializes the scene's camera.
 	 */
 	initCameras() {
-		this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(100, 100, 100), vec3.fromValues(0, 0, 0));
+		this.camera = new CGFcamera(0.4, 0.1, 1000, vec3.fromValues(250, 250, 250), vec3.fromValues(0, 0, 0));
 	};
 
 	/**
@@ -168,7 +172,7 @@ class LightingScene extends CGFscene {
 		this.updateLights();
 
 		//Ring core
-		this.pushMatrix();
+		/*this.pushMatrix();
 		this.scale(40,10,40);
 		this.ringCore.display();
 		this.popMatrix();
@@ -307,7 +311,40 @@ class LightingScene extends CGFscene {
 		this.ringRope.display();
 		this.popMatrix();
 
+		//ramp
 
+		this.pushMatrix();
+		this.translate(-120,0,0)	
+		this.ramp.display();
+		this.popMatrix();
+
+		//barrier
+
+		this.pushMatrix();
+		this.barrier.display();
+		this.popMatrix();
+
+		this.pushMatrix();
+			this.translate(-30,0,-80);
+			this.chairs.display();
+		this.popMatrix();
+
+		this.pushMatrix();
+			this.translate(35,0,80);
+			this.rotate(Math.PI,0,1,0);
+			this.chairs.display();
+		this.popMatrix();
+
+		this.pushMatrix();
+			this.translate(70,0,-35);
+			this.rotate(-Math.PI/2,0,1,0);
+			this.chairs.display();
+		this.popMatrix();*/
+		
+
+		this.pushMatrix();
+			this.stage.display();
+		this.popMatrix();
 
 
 
