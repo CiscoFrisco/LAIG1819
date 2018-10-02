@@ -38,32 +38,32 @@ class MyBarrier extends CGFobject {
 
         this.scene.pushMatrix();
             this.scene.translate(0,0, 4/3*this.radius);   
-            this.scene.scale(2*this.radius,this.height,this.width)
+            this.scene.scale(2.2*this.radius,this.height,this.width)
             this.barrier.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
             this.scene.translate(0,0, -4/3*this.radius);   
-            this.scene.scale(2*this.radius,this.height,this.width)
+            this.scene.scale(2.2*this.radius,this.height,this.width)
             this.barrier.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-            this.scene.translate(19/20*this.radius,0, -27/50*this.radius);   
+            this.scene.translate(52/50*this.radius,0, 0);   
             this.scene.rotate(Math.PI/2,0,1,0);
-            this.scene.scale(1.7*this.radius,this.height,this.width)
+            this.scene.scale(8/3*this.radius,this.height,this.width)
             this.barrier.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-            this.scene.translate(-this.radius,0, 53/50*this.radius);  
+            this.scene.translate(-52/50*this.radius,0, 53/50*this.radius);  
             this.scene.rotate(Math.PI/2,0,1,0); 
             this.scene.scale(2*this.radius/3,this.height,this.width)
             this.barrier.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-            this.scene.translate(-this.radius,0, - 53/50*this.radius); 
+            this.scene.translate(-52/50*this.radius,0, - 53/50*this.radius); 
             this.scene.rotate(Math.PI/2,0,1,0);
             this.scene.scale(2*this.radius/3,this.height,this.width)
             this.barrier.display();

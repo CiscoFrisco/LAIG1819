@@ -20,9 +20,10 @@ class LightingScene extends CGFscene {
 		this.ringPost = new MyCylinderCovered(this, 20, 20);
 		this.ringRope = new MyCylinderCovered(this, 20, 20);
 		this.stairs = new MyUnitCubeQuad(this);
-		this.ramp = new MyRamp(this, 20,100,20);
+		this.ramp = new MyRamp(this, 20,100,40);
 		this.barrier = new MyBarrier(this,10,40,5);
-		this.chairs = new MyChairs(this, 5,20);
+		this.number_chairs = 1000;
+		this.chairs = new MyChairs(this, 5,this.number_chairs);
 		this.stage = new MyStage(this);
 	}
 
@@ -82,17 +83,17 @@ class LightingScene extends CGFscene {
 		this.lights[2].setPosition(15, 10, -15, 1);
 		this.lights[2].setAmbient(0, 0, 0, 1);
 		this.lights[2].setDiffuse(1.0, 1.0, 1.0, 1.0);
-		this.lights[2].setSpecular(1.0, 1.0, 0.0, 1.0);
+		this.lights[2].setSpecular(0.0, 0.0, 1.0, 1.0);
 
 		this.lights[3].setPosition(-15, 10, -15, 1);
 		this.lights[3].setAmbient(1.0, 1.0, 1.0, 1.0);
 		this.lights[3].setDiffuse(1.0, 1.0, 1.0, 1.0);
-		this.lights[3].setSpecular(1.0, 1.0, 1.0, 1.0);
+		this.lights[3].setSpecular(0.0, 0.0, 1.0, 1.0);
 
 		this.lights[4].setPosition(0, 10, 0, 1);
 		this.lights[4].setAmbient(1.0, 1.0, 1.0, 1.0);
 		this.lights[4].setDiffuse(1.0, 1.0, 1.0, 1.0);
-		this.lights[4].setSpecular(1.0, 1.0, 1.0, 1.0);
+		this.lights[4].setSpecular(0.0, 0.0, 1.0, 1.0);
 
 		//Attenuation
 		this.lights[2].setConstantAttenuation(0);
@@ -172,7 +173,7 @@ class LightingScene extends CGFscene {
 		this.updateLights();
 
 		//Ring core
-		/*this.pushMatrix();
+		this.pushMatrix();
 		this.scale(40,10,40);
 		this.ringCore.display();
 		this.popMatrix();
@@ -325,24 +326,26 @@ class LightingScene extends CGFscene {
 		this.popMatrix();
 
 		this.pushMatrix();
-			this.translate(-30,0,-80);
+			this.translate(-30,0,-75);
 			this.chairs.display();
 		this.popMatrix();
 
 		this.pushMatrix();
-			this.translate(35,0,80);
+			this.translate(35,0,75);
 			this.rotate(Math.PI,0,1,0);
 			this.chairs.display();
 		this.popMatrix();
 
 		this.pushMatrix();
-			this.translate(70,0,-35);
+			this.translate(65,0,-35);
 			this.rotate(-Math.PI/2,0,1,0);
 			this.chairs.display();
-		this.popMatrix();*/
+		this.popMatrix();
 		
 
 		this.pushMatrix();
+			this.translate(-195,0,0);
+			this.scale(50,20,40);
 			this.stage.display();
 		this.popMatrix();
 

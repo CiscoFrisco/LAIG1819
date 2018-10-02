@@ -59,7 +59,7 @@ class MyChairs extends CGFobject {
             }
             chairs -= row;
             translate_x = 0;
-            translate_z += 1.5*this.inc;
+            translate_z -= 1.5*this.inc;
         }
 
         row = 10;
