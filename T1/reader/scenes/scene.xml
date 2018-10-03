@@ -28,19 +28,45 @@
     <lights>
         <!-- Deve existir um ou mais blocos "omni" ou "spot" -->
         <!-- Os identificadores "id" nao podem ser repetidos -->
-        <omni id="ss" enabled="tt">
-            <location x="0.0" y="0.0" z="0.0" w="0.0" />
-            <ambient r="1.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
-            <specular r="1.0" g="0.0" b="0.0" a="1.0" />
+        <omni id="0" enabled="1">
+            <location x="-20.0" y="40.0" z="-20.0" w="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
         </omni>
-        <spot id="ss" enabled="tt" angle="ff" exponent="ff">
+        <omni id="1" enabled="1">
+            <location x="-20.0" y="40.0" z="20.0" w="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </omni>
+        <omni id="2" enabled="1">
+            <location x="20.0" y="40.0" z="20.0" w="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </omni>
+        <omni id="3" enabled="1">
+            <location x="20.0" y="40.0" z="-20.0" w="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </omni>
+        <spot id="4" enabled="1" angle="45" exponent="1.0">
             <!-- atencao, "target" e' diferente de "direction" -->
-            <location x="ff" y="ff" z="ff" />
-            <target x="ff" y="ff" z="ff" />
-            <ambient r="ff" g="ff" b="ff" a="ff" />
-            <diffuse r="ff" g="ff" b="ff" a="ff" />
-            <specular r="ff" g="ff" b="ff" a="ff" />
+            <location x="-190.0" y="20.0" z="30.0" />
+            <target x="-200.0" y="20.0" z="0.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </spot>
+        <spot id="5" enabled="1" angle="45" exponent="1000.0">
+  <!-- atencao, "target" e' diferente de "direction" -->
+            <location x="-190.0" y="20.0" z="-30.0" />
+            <target x="-200.0" y="20.0" z="0.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
         </spot>
     </lights>
     <textures>
@@ -87,12 +113,109 @@
         <!-- Deve existir um ou mais blocos "transformation" -->
         <!-- Os identificadores "id" nao podem ser repetidos -->
         <!-- Os angulos sao expressos em graus -->
-        <transformation id="ss">
+        <transformation id="floor">
             <!-- instrucoes a usar sem limite nem ordem -->
             <!-- deve existir pelo menos uma transformacao -->
-            <translate x="ff" y="ff" z="ff" />
-            <rotate axis="cc" angle="ff" />
-            <scale x="ff" y="ff" z="ff" />
+            <translate x="-100.0" y="-5.0" z="0.0" />
+            <scale x="400.0" y="1.0" z="250.0" />
+            <rotate axis="x" angle="-90" />
+        </transformation>
+        <transformation id="ring1">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <translate x="0.0" y="5.0" z="0.0" />
+            <rotate axis="x" angle="-90" />
+            <scale x="40.0" y="40.0" z="1.0" />
+        </transformation>
+        <transformation id="ring2">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <translate x="0.0" y="-5.0" z="0.0" />
+            <rotate axis="x" angle="90" />
+            <scale x="40.0" y="40.0" z="1.0" />
+        </transformation>
+        <transformation id="ring3">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <translate x="0.0" y="0.0" z="20.0" />
+            <scale x="40.0" y="10.0" z="1.0" />
+        </transformation>
+        <transformation id="ring4">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <translate x="0.0" y="0.0" z="-20.0" />
+            <rotate axis="y" angle="180" />
+            <scale x="40.0" y="10.0" z="1.0" />
+        </transformation>
+        <transformation id="ring5">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <translate x="20.0" y="0.0" z="0.0" />
+            <rotate axis="y" angle="90" />
+            <scale x="40.0" y="10.0" z="1.0" />
+        </transformation>
+        <transformation id="ring6">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <translate x="-20.0" y="0.0" z="0.0" />
+            <rotate axis="y" angle="-90" />
+            <scale x="40.0" y="10.0" z="1.0" />
+        </transformation>
+        <transformation id="stairs1">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <translate x="-20.0" y="-3.6" z="20.0" />
+            <rotate axis="y" angle="45" />
+            <scale x="10.0" y="2.3" z="30.0" />
+        </transformation>
+        <transformation id="stairs2">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <translate x="17.5" y="-1.2" z="17.5" />
+            <rotate axis="y" angle="45" />
+            <scale x="10.0" y="2.5" z="30.0" />
+        </transformation>
+        <transformation id="stairs3">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <translate x="15.0" y="1.3" z="15.0" />
+            <rotate axis="y" angle="45" />
+            <scale x="10.0" y="2.5" z="30.0" />
+        </transformation>
+        <transformation id="stairs4">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <translate x="12.5" y="3.7" z="12.5" />
+            <rotate axis="y" angle="45" />
+            <scale x="10.0" y="2.3" z="30.0" />
+        </transformation>
+        <transformation id="post1">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <translate x="20.0" y="-5.0" z="20.0" />
+            <scale x="1.0" y="22.0" z="1.0" />
+            <rotate axis="x" angle="-90" />
+        </transformation>
+        <transformation id="post2">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <translate x="-20.0" y="-5.0" z="-20.0" />
+            <scale x="1.0" y="22.0" z="1.0" />
+            <rotate axis="x" angle="-90" />
+        </transformation>
+        <transformation id="post3">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <translate x="20.0" y="-5.0" z="-20.0" />
+            <scale x="1.0" y="22.0" z="1.0" />
+            <rotate axis="x" angle="-90" />
+        </transformation>
+        <transformation id="post4">
+            <!-- instrucoes a usar sem limite nem ordem -->
+            <!-- deve existir pelo menos uma transformacao -->
+            <translate x="-20.0" y="-5.0" z="20.0" />
+            <scale x="1.0" y="22.0" z="1.0" />
+            <rotate axis="x" angle="-90" />
         </transformation>
     </transformations>
     <primitives>
@@ -112,7 +235,7 @@
         </primitive >
     </primitives >
     <components>
-        <component id="ss">
+        <component id="scene">
             <!-- Uma "component" e' um objeto composto e pode ser -->
             <!-- usada em nos intermédios -->
             <!-- bloco "transformation" e' obrigatorio -->
@@ -160,6 +283,276 @@
                 <!-- componentes ou primitivas -->
                 <componentref id="ss" />
                 <primitiveref id="ss" />
+            </children>
+        </component>
+
+        <component id = "floor">
+            <transformation>
+                <translate x="-100.0" y="-5" z="0.0" />
+                <scale x="400" y="1" z="250.0" />
+                <rotate axis="x" angle="-45" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+        <component id = "ringside">
+            <transformation>
+                <scale x="40" y="10" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+        <component id = "ringside1">
+            <transformation>
+                <translate x="0.0" y="0.0" z="20.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="ringApron"/>
+            <children>
+                <componentref id="ringside" />
+            </children>
+        </component>
+        <component id = "ringside2">
+            <transformation>
+                <translate x="0.0" y="0.0" z="-20.0" />
+                <rotate axis="y" angle="180" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="ringApron"/>
+            <children>
+                <componentref id="ringside" />
+            </children>
+        </component>
+        <component id = "ringside3">
+            <transformation>
+                <translate x="20.0" y="0.0" z="0.0" />
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="ringApron"/>
+            <children>
+                <componentref id="ringside" />
+            </children>
+        </component>
+        <component id = "ringside4">
+            <transformation>
+                <translate x="-20.0" y="0.0" z="0.0" />
+                <rotate axis="y" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="ringApron"/>
+            <children>
+                <componentref id="ringside" />
+            </children>
+        </component>
+        <component id = "ringcore">
+            <transformation>
+                <scale x="40.0" y="40.0" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="rectangle" />
+            </children>
+        </component>
+        <component id = "ringcore1">
+            <transformation>
+                <translate x="0.0" y="5.0" z="0.0" />
+                <rotate axis="x" angle="-90" />            </transformation>
+            <materials>
+                <material id="ringMat" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ringcore" />
+            </children>
+        </component>
+        <component id = "ringcore2">
+            <transformation>
+                <translate x="0.0" y="-5.0" z="0.0" />
+                <rotate axis="x" angle="90" />            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ringcore" />
+            </children>
+        </component>
+        <component id = "ringpost">
+            <transformation>
+                <scale x="1.0" y="22.0" z="1.0" />
+                <rotate axis="x" angle="-90" />            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="cylinder" />
+            </children>
+        </component>
+        <component id = "ringpost1">
+            <transformation>
+                <translate x="20.0" y="-5.0" z="20.0" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ringpost" />
+            </children>
+        </component>
+        <component id = "ringpost2">
+            <transformation>
+                <translate x="-20.0" y="-5.0" z="-20.0" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ringpost" />
+            </children>
+        </component>
+        <component id = "ringpost3">
+            <transformation>
+                <translate x="20.0" y="-5.0" z="20.0" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ringpost" />
+            </children>
+        </component>
+        <component id = "ringpost4">
+            <transformation>
+                <translate x="-20.0" y="-5.0" z="20.0" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ringpost" />
+            </children>
+        </component>
+        <component id="rope1">
+            <transformation>
+                <scale x="0.25" y="0.25" z="40.0" />
+                <translate x="0.0" y="3.5" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="cylinder" />
+            </children>
+        </component>
+        <component id="rope2">
+            <transformation>
+                <scale x="0.25" y="0.25" z="40.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="cylinder" />
+            </children>
+        </component>
+        <component id="rope3">
+            <transformation>
+                <scale x="0.25" y="0.25" z="40.0" />
+                <translate x="0.0" y="-3.5" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="cylinder" />
+            </children>
+        </component>
+        <component id="ropes1">
+            <transformation>
+                <translate x="20.0" y="11.5" z="-20.0" />
+            </transformation>
+            <materials>
+                <material id="ringRopeApp" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="rope1" />
+                <componentref id="rope2" />
+                <componentref id="rope3" />
+            </children>
+        </component>
+        <component id="ropes2">
+            <transformation>
+                <translate x="20.0" y="11.5" z="20.0" />
+            </transformation>
+            <materials>
+                <material id="ringRopeApp" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="rope1" />
+                <componentref id="rope2" />
+                <componentref id="rope3" />
+            </children>
+        </component>
+        <component id="ropes3">
+            <transformation>
+                <translate x="-20.0" y="11.5" z="20.0" />
+                <rotate axis="y" angle="45" />
+            </transformation>
+            <materials>
+                <material id="ringRopeApp" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="rope1" />
+                <componentref id="rope2" />
+                <componentref id="rope3" />
+            </children>
+        </component>
+        <component id="ropes4">
+            <transformation>
+                <translate x="-20.0" y="11.5" z="-20.0" />
+                <rotate axis="y" angle="45" />
+            </transformation>
+            <materials>
+                <material id="ringRopeApp" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="rope1" />
+                <componentref id="rope2" />
+                <componentref id="rope3" />
             </children>
         </component>
     </components>

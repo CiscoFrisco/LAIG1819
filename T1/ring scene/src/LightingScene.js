@@ -78,7 +78,7 @@ class LightingScene extends CGFscene {
     this.initCameras();
     this.initLights();
 
-    this.gl.clearColor(126.0 / 255, 192.0 / 255, 238.0 / 255, 1.0);
+    this.gl.clearColor(0/*126.0 / 255*/,0/* 192.0 / 255*/, 0/*238.0 / 255*/, 1.0);
     this.gl.clearDepth(100.0);
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.enable(this.gl.CULL_FACE);
@@ -114,47 +114,49 @@ class LightingScene extends CGFscene {
 
         // Positions for five lights
 
-        this.lights[0]
-            .setPosition(-20, 40, -20, 1);
+    this.lights[0].setPosition(-20, 40, -20, 1);
+    this.lights[0].setAmbient(0.1, 0.1, 0.1, 1);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[0].setSpotDirection(20, -5, 20);
+    this.lights[0].setSpecular(0.0, 0.0, 1.0, 1.0);
     this.lights[0].setVisible(true);
 
-    this.lights[1].setPosition(-15, 10, 15, 1.0);
-    this.lights[1].setAmbient(0, 0, 0, 1);
+
+    this.lights[1].setPosition(-20, 40, 20, 1);
+    this.lights[1].setAmbient(0.1, 0.1, 0.1, 1);
     this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
+    this.lights[1].setSpecular(0.0, 0.0, 1.0, 1.0);
     this.lights[1].setVisible(true);
 
-
-    this.lights[2].setPosition(-20, 40, 20, 1);
-    this.lights[2].setAmbient(0, 0, 0, 1);
+    this.lights[2].setPosition(20, 40, 20, 1);
+    this.lights[2].setAmbient(0.1, 0.1, 0.1, 1.0);
     this.lights[2].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[2].setSpecular(0.0, 0.0, 1.0, 1.0);
     this.lights[2].setVisible(true);
 
-    this.lights[3].setPosition(20, 40, 20, 1);
+    this.lights[3].setPosition(20, 40, -20, 1);
     this.lights[3].setAmbient(0.1, 0.1, 0.1, 1.0);
     this.lights[3].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[3].setSpecular(0.0, 0.0, 1.0, 1.0);
     this.lights[3].setVisible(true);
 
-    this.lights[4].setPosition(20, 40, -20, 1);
+    //spot
+    this.lights[4].setPosition(-190, 20, 30, 1);
+    this.lights[4].setSpotDirection(-200,20,0);
+    this.lights[4].setSpotCutOff(Math.PI/4);
+    this.lights[4].setSpotExponent(1);
     this.lights[4].setAmbient(0.1, 0.1, 0.1, 1.0);
-    this.lights[4].setDiffuse(1.0, 1.0, 1.0, 1.0);
+    this.lights[4].setDiffuse(1, 1.0, 1.0, 1.0);
     this.lights[4].setSpecular(0.0, 0.0, 1.0, 1.0);
     this.lights[4].setVisible(true);
 
-    this.lights[5].setPosition(-120, 40, 20, 1);
+    this.lights[5].setPosition(-190, 20, -30, 1);
+    this.lights[5].setSpotDirection(-200,20,0);
+    this.lights[5].setSpotCutOff(45);
+    this.lights[5].setSpotExponent(1000);
     this.lights[5].setAmbient(0.1, 0.1, 0.1, 1.0);
     this.lights[5].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[5].setSpecular(0.0, 0.0, 1.0, 1.0);
+    this.lights[5].setSpecular(1.0, 1.0, 1.0, 1.0);
     this.lights[5].setVisible(true);
-
-    this.lights[6].setPosition(-120, 40, -20, 1);
-    this.lights[6].setAmbient(0.1, 0.1, 0.1, 1.0);
-    this.lights[6].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[6].setSpecular(0.0, 0.0, 1.0, 1.0);
-    this.lights[6].setVisible(true);
 
     // Attenuation
     this.lights[2].setConstantAttenuation(0);
@@ -162,20 +164,18 @@ class LightingScene extends CGFscene {
     this.lights[2].setQuadraticAttenuation(1);
 
     // Enable
-    this.lights[0].enable();
+    /*this.lights[0].enable();
     this.lights[1].enable();
     this.lights[2].enable();
-    this.lights[3].enable();
+    this.lights[3].enable();*/
     this.lights[4].enable();
     this.lights[5].enable();
-    this.lights[6].enable();
 
     // Booleans for dat.gui
-    this.light1 = true;
-    this.light2 = true;
-    this.light3 = true;
-    this.light4 = true;
-    this.light5 = true;
+    this.light1 = false;
+    this.light2 = false;
+    this.light3 = false;
+    this.light4 = false;
   };
 
   /**

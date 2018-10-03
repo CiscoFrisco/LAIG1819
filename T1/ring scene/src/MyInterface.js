@@ -35,7 +35,7 @@
  		this.gui = new dat.GUI();
 
  		//Buttons to enable/disable lights (enabled by default)
- 		this.createLights(5);
+ 		this.createLights(4);
 
  		return true;
  	};
