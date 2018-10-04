@@ -37,19 +37,19 @@ class MyStairs extends CGFobject {
         this.scene.popMatrix();
     
         this.scene.pushMatrix();
-        this.scene.translate(0, -1.1, 1.25);
+        this.scene.translate(0, -1.0, 1.25);
         this.scene.scale(10, 2.4, 30);
         this.stair.display();
         this.scene.popMatrix();
     
         this.scene.pushMatrix();
-        this.scene.translate(0, 1.2, -1.25);
+        this.scene.translate(0, 1.3, -1.25);
         this.scene.scale(10, 2.4, 30);
         this.stair.display();
         this.scene.popMatrix();
     
         this.scene.pushMatrix();
-        this.scene.translate(0, 3.6, -3.75);
+        this.scene.translate(0, 3.5, -3.75);
         this.scene.scale(10, 2.4, 30);
         this.stair.display();
         this.scene.popMatrix();

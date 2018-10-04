@@ -58,7 +58,7 @@ class LightingScene extends CGFscene {
     this.stairs = new MyStairs(this);
     this.ramp = new MyRamp(this, 20, 100, 40);
     this.barrier = new MyBarrier(this, 10, 40, 5);
-    this.number_chairs = 10;
+    this.number_chairs = 20;
     this.chairs = new MyChairs(this, 5, this.number_chairs);
     this.stage = new MyStage(this);
 
