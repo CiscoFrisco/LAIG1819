@@ -128,6 +128,15 @@ class MySceneGraph {
             return error;
     }
 
+    /**
+     * Process a main XML block
+     * @param {string} type 
+     * @param {array} nodeNames 
+     * @param {array} nodes 
+     * @param {Integer} typeIndex 
+     * @param {function} parser 
+     * @param {string} error 
+     */
     processNode(type, nodeNames, nodes, typeIndex, parser, error) {
         var index;
 
@@ -144,13 +153,23 @@ class MySceneGraph {
         return error != null;
     }
 
+    checkMissingValue(value, def) {
+        if (value == null) {
+            value = def;
+            this.onXMLMinorError("value missing; assuming default value " + value)
+        }
+    }
+
     /**
      * Parses the <scene> block.
+     * @param {scene block element} sceneNode
      */
     parseScene(sceneNode) {
 
         var rootId = this.reader.getString(sceneNode, 'id', true);
-        var axis_length = this.reader.getFloat(sceneNode, 'axis_length', true);
+        var axis_length = this.reader.getFloat(sceneNode, 'axis_length');
+
+        this.checkMissingValue(axis_length, 5.0);
 
         this.sceneInfo = {
             rootId: rootId,
@@ -169,22 +188,46 @@ class MySceneGraph {
     parseViews(viewsNode) {
         // TODO: Parse views node CHECK ERRORS
 
+        var def = this.reader.getString(viewsNode, 'default');
+
         var children = viewsNode.children;
 
         this.views = {};
 
         for (let i = 0; i < children.length; ++i) {
+            var id = this.reader.getString(children[i], 'id', true);
+
+            if (this.views[id] != null) {
+                return "duplicate view";
+            }
+
+            var near = this.reader.getFloat(children[i], 'near');
+
+            this.checkMissingValue(near, 0.1);
+
+            var far = this.reader.getFloat(children[i], 'far');
+
+            this.checkMissingValue(far, 500.0);
 
             if (children[i].nodeName == "ortho") {
-                var id = this.reader.getString(children[i], 'id');
-                var near = this.reader.getFloat(children[i], 'near');
-                var far = this.reader.getFloat(children[i], 'far');
                 var left = this.reader.getFloat(children[i], 'left');
+
+                this.checkMissingValue(left, 0.1);
+
                 var right = this.reader.getFloat(children[i], 'right');
+
+                this.checkMissingValue(right, 0.1);
+
                 var top = this.reader.getFloat(children[i], 'top');
+
+                this.checkMissingValue(top, 0.1);
+
                 var bottom = this.reader.getFloat(children[i], 'bottom');
 
-                this.views[id] = {
+                this.checkMissingValue(bottom, 0.1);
+
+                this.views.array[id] = {
+                    type: "ortho",
                     near: near,
                     far: far,
                     left: left,
@@ -194,21 +237,33 @@ class MySceneGraph {
                 };
 
             } else if (children[i].nodeName == "perspective") {
-                var id = this.reader.getString(children[i], 'id');
-                var near = this.reader.getFloat(children[i], 'near');
-                var far = this.reader.getFloat(children[i], 'far');
                 var angle = this.reader.getFloat(children[i], 'left');
+                this.checkMissingValue(angle, 23.0);
 
                 var grandChildren = children[i].children;
+                var fromIndex = grandChildren.indexOf('from');
+                var toIndex = grandChildren.indexOf('to');
 
-                var fx = this.reader.getFloat(grandChildren[0], 'x');
-                var fy = this.reader.getFloat(grandChildren[0], 'y');
-                var fz = this.reader.getFloat(grandChildren[0], 'z');
-                var tx = this.reader.getFloat(grandChildren[1], 'x');
-                var ty = this.reader.getFloat(grandChildren[1], 'y');
-                var tz = this.reader.getFloat(grandChildren[1], 'z');
+                var fx = this.reader.getFloat(grandChildren[fromIndex], 'x');
+                this.checkMissingValue(fx, 250.0);
 
-                this.views[id] = {
+                var fy = this.reader.getFloat(grandChildren[fromIndex], 'y');
+                this.checkMissingValue(fy, 250.0);
+
+                var fz = this.reader.getFloat(grandChildren[fromIndex], 'z');
+                this.checkMissingValue(fz, 250.0);
+
+                var tx = this.reader.getFloat(grandChildren[toIndex], 'x');
+                this.checkMissingValue(tx, 0.0);
+
+                var ty = this.reader.getFloat(grandChildren[toIndex], 'y');
+                this.checkMissingValue(ty, 0.0);
+
+                var tz = this.reader.getFloat(grandChildren[toIndex], 'z');
+                this.checkMissingValue(tz, 0.0);
+
+                this.views.array[id] = {
+                    type: "perspective",
                     near: near,
                     far: far,
                     angle: angle,
@@ -229,8 +284,13 @@ class MySceneGraph {
             }
         }
 
-        if (this.views.length == 0)
+        if (this.views.array.length == 0)
             return "no valid view defined"
+
+        if (this.views.array[def] == null)
+            return "no default view defined";
+
+        this.views.default = def;
 
         this.log("Parsed views");
 
@@ -242,60 +302,97 @@ class MySceneGraph {
      * @param {ambient block element} ambientNode
      */
     parseAmbient(ambientNode) {
-        // TODO: Parse views node
 
         var children = ambientNode.children;
+        var error;
 
         for (let i = 0; i < children.length; ++i) {
             if (children[i].nodeName == "ambient" && this.ambient == null) {
-                this.ambient = this.extractRGBA(children[i]);
+                error = this.extractRGBA(children[i], this.ambient);
+                if (error != null)
+                    return error;
             } else if (children[i].nodeName == "background" && this.background == null) {
-                this.background = this.extractRGBA(children[i]);
+                error = this.extractRGBA(children[i], this.background);
+                if (error != null)
+                    return error;
             } else {
                 this.onXMLMinorError("wrong or duplicate tag");
                 continue;
             }
         }
 
+        this.checkMissingValue(this.ambient, {
+            r: 0.3,
+            g: 0.3,
+            b: 0.3,
+            a: 1.0
+        });
+
+        this.checkMissingValue(this.background, {
+            r: 0.5,
+            g: 0.75,
+            b: 0.93,
+            a: 1.0
+        });
+
         this.log("Parsed ambient");
 
         return null;
     }
 
-    extractIllumination(index, component, type, illumination, lightId) {
-        // Retrieves the ambient component.
-        if (index != -1) {
-            // R
-            var r = this.reader.getFloat(component[index], 'r');
-            if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
-                return "unable to parse R component of the " + type + " illumination for ID = " + lightId;
-            else
-                illumination.push(r);
-
-            // G
-            var g = this.reader.getFloat(component[index], 'g');
-            if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
-                return "unable to parse G component of the " + type + " illumination for ID = " + lightId;
-            else
-                illumination.push(g);
-
-            // B
-            var b = this.reader.getFloat(component[index], 'b');
-            if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
-                return "unable to parse B component of the " + type + " illumination for ID = " + lightId;
-            else
-                illumination.push(b);
-
-            // A
-            var a = this.reader.getFloat(component[index], 'a');
-            if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
-                return "unable to parse A component of the " + type + " illumination for ID = " + lightId;
-            else
-                illumination.push(a);
-        } else
+    /**
+     * Extract RGBA illumination component
+     * @param {*} index 
+     * @param {*} component 
+     * @param {*} type 
+     * @param {*} rgba 
+     * @param {*} lightId 
+     */
+    extractIllumination(index, component, type, rgba, lightId) {
+        if (index != -1)
+            this.extractRGBA(component[index], rgba);
+        else
             return type + " component undefined for ID = " + lightId;
     }
 
+    extractRGBA(node, rgba) {
+
+        // R
+        var r = this.reader.getFloat(node, 'r');
+        if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+            return "unable to parse R component of the " + node.nodeName + " block";
+
+        // G
+        var g = this.reader.getFloat(node, 'g');
+        if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+            return "unable to parse G component of the " + node.nodeName + " block";
+
+        // B
+        var b = this.reader.getFloat(node, 'b');
+        if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+            return "unable to parse B component of the " + node.nodeName + " block";
+
+        // A
+        var a = this.reader.getFloat(node, 'a');
+        if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
+            return "unable to parse A component of the " + node.nodeName + " block";
+
+        rgba = {
+            r: r,
+            g: g,
+            b: b,
+            a: a
+        };
+    }
+
+    /**
+     * Extract light position values
+     * @param {*} index 
+     * @param {*} component 
+     * @param {*} positionLight 
+     * @param {*} lightId 
+     * @param {*} all 
+     */
     extractPosition(index, component, positionLight, lightId, all) {
         if (index != -1) {
             // x
@@ -303,21 +400,21 @@ class MySceneGraph {
             if (!(x != null && !isNaN(x)))
                 return "unable to parse x-coordinate of the light location for ID = " + lightId;
             else
-                positionLight.push(x);
+                positionLight.x = x;
 
             // y
             var y = this.reader.getFloat(component[index], 'y');
             if (!(y != null && !isNaN(y)))
                 return "unable to parse y-coordinate of the light location for ID = " + lightId;
             else
-                positionLight.push(y);
+                positionLight.y = y;
 
             // z
             var z = this.reader.getFloat(component[index], 'z');
             if (!(z != null && !isNaN(z)))
                 return "unable to parse z-coordinate of the light location for ID = " + lightId;
             else
-                positionLight.push(z);
+                positionLight.z = z;
 
             if (all) {
                 // w
@@ -325,7 +422,7 @@ class MySceneGraph {
                 if (!(w != null && !isNaN(w) && w >= 0 && w <= 1))
                     return "unable to parse x-coordinate of the light location for ID = " + lightId;
                 else
-                    positionLight.push(w);
+                    positionLight.w = w;
             }
         } else
             return "light location undefined for ID = " + lightId;
@@ -363,6 +460,8 @@ class MySceneGraph {
 
             var lightEnabled = this.reader.getBoolean(children[i], 'enabled');
 
+            this.checkMissingValue(lightEnabled, true);
+
             grandChildren = children[i].children;
             // Specifications for the current light.
 
@@ -378,15 +477,15 @@ class MySceneGraph {
             var specularIndex = nodeNames.indexOf("specular");
 
             // Retrieves the ambient component.
-            var ambientIllumination = [];
+            var ambientIllumination = {};
             extractIllumination(ambientIndex, grandChildren, "ambient", ambientIllumination, lightId);
 
             // Retrieves the diffuse component.
-            var diffuseIllumination = [];
+            var diffuseIllumination = {};
             extractIllumination(diffuseIndex, grandChildren, "diffuse", diffuseIllumination, lightId);
 
             // Retrieves the specular component.
-            var specularIllumination = [];
+            var specularIllumination = {};
             extractIllumination(specularIndex, grandChildren, "specular", specularIllumination, lightId);
 
 
@@ -403,19 +502,18 @@ class MySceneGraph {
                     locationLight: locationLight
                 };
                 numLights++;
-            }
-            else if (children[i].nodeName == "spot") {
+            } else if (children[i].nodeName == "spot") {
 
                 var angle = this.reader.getFloat(children[i], 'angle');
                 var exponent = this.reader.getFloat(children[i], 'exponent');
                 var targetIndex = nodeNames.indexOf("target");
 
                 // Retrieves the light location.
-                var locationLight = [];
+                var locationLight = {};
                 this.extractPosition(locationIndex, grandChildren, locationLight, lightId, false);
 
                 // Retrieves the light location.
-                var targetLight = [];
+                var targetLight = {};
                 this.extractPosition(targetIndex, grandChildren, targetLight, lightId, false);
 
                 this.lights[lightId] = {
@@ -460,12 +558,9 @@ class MySceneGraph {
                 continue;
             }
 
-            var id = this.reader.getString(texturesNode, 'id');
+            var id = this.reader.getString(texturesNode, 'id', true);
 
-            if (id == null)
-                return "no texture id defined";
-
-            if (i > 0 && this.findStringOnArray(id, this.textures))
+            if (this.textures[id] != null)
                 return "duplicate texture id";
 
             var file = this.reader.getString(texturesNode, 'file');
@@ -473,10 +568,7 @@ class MySceneGraph {
             if (file == null)
                 return "no texture filepath defined";
 
-            this.textures.push({
-                id: id,
-                file: file
-            });
+            this.textures[id] = file;
         }
 
         if (this.textures.length == 0)
@@ -485,18 +577,6 @@ class MySceneGraph {
         console.log("Parsed textures");
 
         return null;
-    }
-
-
-    findStringOnArray(string, array) {
-
-        for (let i = 0; i < array.length; ++i) {
-            let object = array[i];
-            if (object[string] === id)
-                return true;
-        }
-
-        return false;
     }
 
     /**
@@ -515,12 +595,9 @@ class MySceneGraph {
                 continue;
             }
 
-            var id = this.reader.getString(materialsNode, 'id');
+            var id = this.reader.getString(materialsNode, 'id', true);
 
-            if (id == null)
-                return "no material id defined!";
-
-            if (i > 0 && this.findStringOnArray(id, this.materials))
+            if (this.materials[id] != null)
                 return "duplicate material id";
 
             var shininess = this.reader.getFloat(materialsNode, 'shininess');
@@ -533,16 +610,19 @@ class MySceneGraph {
             var material = {};
 
             for (let j = 0; j < properties.length; ++j) {
-
-                if (properties[j].nodeName === "emission" || properties[j].nodeName === "ambient"
-                    || properties[j].nodeName === "diffuse" || properties[j].nodeName === "specular")
-                    material[properties[j].nodeName] = this.extractRGBA(material);
+                if (properties[j].nodeName === "emission" || properties[j].nodeName === "ambient" ||
+                    properties[j].nodeName === "diffuse" || properties[j].nodeName === "specular")
+                    this.extractRGBA(properties[j], material[properties[j].nodeName]);
                 else
                     return "invalid material property";
             }
 
-            this.materials.push(material);
+            material.shininess = shininess;
+            this.materials[id] = material;
         }
+
+        if (this.materials.length == 0)
+            return "no material defined";
 
         // TODO: Parse block
         this.log("Parsed materials");
@@ -550,21 +630,7 @@ class MySceneGraph {
 
     }
 
-    extractRGBA(node) {
-        var r = this.reader.getFloat(node, 'r');
-        var g = this.reader.getFloat(node, 'g');
-        var b = this.reader.getFloat(node, 'b');
-        var a = this.reader.getFloat(node, 'a');
 
-        var rgba = {
-            r: r,
-            g: g,
-            b: b,
-            a: a
-        };
-
-        return rgba;
-    }
 
     /**
      * Parses the <transformations> block.
@@ -581,39 +647,40 @@ class MySceneGraph {
                 continue;
             }
 
-            var id = this.reader.getString(transformationsNode, 'id');
+            var id = this.reader.getString(transformationsNode, 'id', true);
 
-            if (id == null)
-                return "no transformation id defined!";
-
-            if (i > 0 && this.findStringOnArray(id, this.transformations))
+            if (this.transformations[id] != null)
                 return "duplicate transformation id";
-
 
             var children = transformations[i].children;
             var types = [];
             for (let j = 0; j < children.length; ++j) {
-                this.parseExplicitTransformations(children[j], types);
+                this.parseExplicitTransformation(children[j], types);
             }
 
             if (types.length == 0)
                 return "no transformations defined!";
 
-            transformations.push({
-                id: id,
-                types: types
-            });
+            transformations[id] = types;
         }
+
+        if (this.transformations.length == 0)
+            return "no transformation defined";
 
         this.log("Parsed transformations");
         return null;
     }
 
-    parseExplicitTransformations(node, transformationsArray) {
+    /**
+     * Parse explicit transformation on component transformations block
+     * @param {*} node transformation block
+     * @param {*} transformationsArray array of transformations associated
+     */
+    parseExplicitTransformation(node, transformationsArray) {
         if (node.nodeName == "translate") {
-            var x = this.reader.getFloat(node, 'x');
-            var y = this.reader.getFloat(node, 'y');
-            var z = this.reader.getFloat(node, 'z');
+            var x = this.reader.getFloat(node, 'x', true);
+            var y = this.reader.getFloat(node, 'y', true);
+            var z = this.reader.getFloat(node, 'z', true);
 
             transformationsArray.push({
                 type: "translate",
@@ -624,8 +691,11 @@ class MySceneGraph {
 
         } else if (node.nodeName == "rotate") {
 
-            var axis = this.reader.getString(node, 'axis');
-            var angle = this.reader.getFloat(node, 'angle');
+            var axis = this.reader.getString(node, 'axis', true);
+            var angle = this.reader.getFloat(node, 'angle', true);
+
+            if (!(axis == 'x' || axis == 'y' || axis == 'z'))
+                return "invalid rotate axis";
 
             transformationsArray.push({
                 type: "rotate",
@@ -633,11 +703,10 @@ class MySceneGraph {
                 angle: angle
             });
 
-        }
-        else if (node.nodeName == "scale") {
-            var x = this.reader.getFloat(node, 'x');
-            var y = this.reader.getFloat(node, 'y');
-            var z = this.reader.getFloat(node, 'z');
+        } else if (node.nodeName == "scale") {
+            var x = this.reader.getFloat(node, 'x', true);
+            var y = this.reader.getFloat(node, 'y', true);
+            var z = this.reader.getFloat(node, 'z', true);
 
             transformationsArray.push({
                 type: "scale",
@@ -665,12 +734,9 @@ class MySceneGraph {
                 continue;
             }
 
-            var id = this.reader.getString(primitives[i], 'id');
+            var id = this.reader.getString(primitives[i], 'id', true);
 
-            if (id == null)
-                return "no primitive id defined!";
-
-            if (i > 0 && this.findStringOnArray(id, this.primitives))
+            if (this.primitives[id] != null)
                 return "duplicate primitive id";
 
             if (primitives[i].chidren.length != 1)
@@ -679,33 +745,31 @@ class MySceneGraph {
             var primitive = primitives[i].children[0];
 
             if (primitive.nodeName == "rectangle") {
-                var x1 = this.reader.getFloat(primitive, 'x1');
-                var y1 = this.reader.getFloat(primitive, 'y1');
-                var x2 = this.reader.getFloat(primitive, 'x2');
-                var y2 = this.reader.getFloat(primitive, 'y2');
+                var x1 = this.reader.getFloat(primitive, 'x1', true);
+                var y1 = this.reader.getFloat(primitive, 'y1', true);
+                var x2 = this.reader.getFloat(primitive, 'x2', true);
+                var y2 = this.reader.getFloat(primitive, 'y2', true);
 
-                this.primitives.push({
-                    id: id,
+                this.primitives[id] = {
                     type: "rectangle",
                     x1: x1,
                     y1: y1,
                     x2: x2,
                     y2: y2
-                });
+                };
 
             } else if (primitive.nodeName == "triangle") {
-                var x1 = this.reader.getFloat(primitive, 'x1');
-                var y1 = this.reader.getFloat(primitive, 'y1');
-                var z1 = this.reader.getFloat(primitive, 'z1');
-                var x2 = this.reader.getFloat(primitive, 'x2');
-                var y2 = this.reader.getFloat(primitive, 'y2');
-                var z2 = this.reader.getFloat(primitive, 'z2');
-                var x3 = this.reader.getFloat(primitive, 'x3');
-                var y3 = this.reader.getFloat(primitive, 'y3');
-                var z3 = this.reader.getFloat(primitive, 'z3');
+                var x1 = this.reader.getFloat(primitive, 'x1', true);
+                var y1 = this.reader.getFloat(primitive, 'y1', true);
+                var z1 = this.reader.getFloat(primitive, 'z1', true);
+                var x2 = this.reader.getFloat(primitive, 'x2', true);
+                var y2 = this.reader.getFloat(primitive, 'y2', true);
+                var z2 = this.reader.getFloat(primitive, 'z2', true);
+                var x3 = this.reader.getFloat(primitive, 'x3', true);
+                var y3 = this.reader.getFloat(primitive, 'y3', true);
+                var z3 = this.reader.getFloat(primitive, 'z3', true);
 
-                this.primitives.push({
-                    id: id,
+                this.primitives[id] = {
                     type: "triangle",
                     x1: x1,
                     y1: y1,
@@ -716,54 +780,49 @@ class MySceneGraph {
                     x3: x3,
                     y3: y3,
                     z3: z3
-                });
+                };
 
-            }
-            else if (primitive.nodeName == "cylinder") {
-                var base = this.reader.getFloat(primitive, 'base');
-                var top = this.reader.getFloat(primitive, 'top');
-                var height = this.reader.getFloat(primitive, 'height');
-                var slices = this.reader.getInteger(primitive, 'slices');
-                var stacks = this.reader.getInteger(primitive, 'stacks');
+            } else if (primitive.nodeName == "cylinder") {
+                var base = this.reader.getFloat(primitive, 'base', true);
+                var top = this.reader.getFloat(primitive, 'top', true);
+                var height = this.reader.getFloat(primitive, 'height', true);
+                var slices = this.reader.getInteger(primitive, 'slices', true);
+                var stacks = this.reader.getInteger(primitive, 'stacks', true);
 
-                this.primitives.push({
-                    id: id,
+                this.primitives[id] = {
                     type: "sphere",
                     base: base,
                     top: top,
                     height: height,
                     slices: slices,
                     stacks: stacks
-                });
+                };
 
-            }
-            else if (primitive.nodeName == "sphere") {
-                var radius = this.reader.getFloat(primitive, 'radius');
-                var slices = this.reader.getInteger(primitive, 'slices');
-                var stacks = this.reader.getInteger(primitive, 'stacks');
+            } else if (primitive.nodeName == "sphere") {
+                var radius = this.reader.getFloat(primitive, 'radius', true);
+                var slices = this.reader.getInteger(primitive, 'slices', true);
+                var stacks = this.reader.getInteger(primitive, 'stacks', true);
 
-                this.primitives.push({
-                    id: id,
+                this.primitives[id] = {
                     type: "sphere",
                     radius: radius,
                     slices: slices,
                     stacks: stacks
-                });
+                };
             } else if (primitive.nodeName == "torus") {
-                var inner = this.reader.getFloat(primitive, 'inner');
-                var outer = this.reader.getFloat(primitive, 'outer');
-                var slices = this.reader.getInteger(primitive, 'slices');
-                var loops = this.reader.getInteger(primitive, 'loops');
+                var inner = this.reader.getFloat(primitive, 'inner', true);
+                var outer = this.reader.getFloat(primitive, 'outer', true);
+                var slices = this.reader.getInteger(primitive, 'slices', true);
+                var loops = this.reader.getInteger(primitive, 'loops', true);
 
 
-                this.primitives.push({
-                    id: id,
+                this.primitives[id] = {
                     type: "torus",
                     inner: inner,
                     outer: outer,
                     slices: slices,
                     loops: loops
-                });
+                };
             }
         }
 
@@ -790,13 +849,10 @@ class MySceneGraph {
                 continue;
             }
 
-            var id = this.reader.getString(components[i], 'id');
+            var id = this.reader.getString(components[i], 'id', true);
 
-            if (id == null)
-                return "no component id defined!";
-
-            if (i > 0 && this.findStringOnArray(id, this.components))
-                return "duplicate component id";
+            if (this.components[id] != null)
+                return "duplicate component";
 
             var children = components[i].children;
             var component = {};
@@ -809,31 +865,28 @@ class MySceneGraph {
 
                     if (transformations.length == 1 && transformation[0].nodeName == "transformationref") {
 
-                        var id = this.reader.getString(transformation[0], 'id');
+                        var id = this.reader.getString(transformation[0], 'id', true);
 
                         if (id == null)
                             return "no transformationref id defined!";
 
                         component.transformation.id = id;
 
-                    }
-                    else if (transformations.length > 0) {
+                    } else if (transformations.length > 0) {
                         var types = [];
                         for (let c = 0; c < transformations.length; c++) {
-                            parseExplicitTransformations(transformations[c], types);
+                            parseExplicitTransformation(transformations[c], types);
                         }
 
                         component.transformation = types;
-                    }
-                    else
+                    } else
                         return "invalid transformation block";
-                }
-                else if (children[i].nodeName == "materials") {
+                } else if (children[i].nodeName == "materials") {
 
                     var materials = children[i].children;
 
                     for (let c = 0; c < materials.length; ++c) {
-                        var id = this.reader.getString(materials[c], 'id');
+                        var id = this.reader.getString(materials[c], 'id', true);
 
                         component.materials.push(id);
                     }
@@ -841,9 +894,8 @@ class MySceneGraph {
                     if (materials.length == 0)
                         return "no materials defined for this component";
 
-                }
-                else if (children[i].nodeName == "texture") {
-                    var id = this.reader.getString(materials[j], 'id');
+                } else if (children[i].nodeName == "texture") {
+                    var id = this.reader.getString(materials[j], 'id', true);
                     var length_s = this.reader.getFloat(materials[j], 'length_s');
                     var length_t = this.reader.getFloat(materials[j], 'length_t');
 
@@ -852,17 +904,16 @@ class MySceneGraph {
                         length_s: length_s,
                         length_t: length_t
                     };
-                }
-                else if (children[i].nodeName == "children") {
+                } else if (children[i].nodeName == "children") {
 
                     var refs = children[i].children;
 
                     for (let c = 0; c < refs.length; ++c) {
+                        var id = this.reader.getString(refs[c], 'id', true);
+
                         if (refs[c].nodeName == "primitiveref") {
-                            var id = this.reader.getString(refs[c], 'id');
                             component.primitives.push(id);
                         } else if (refs[c].nodeName == "componentref") {
-                            var id = this.reader.getString(refs[c], 'id');
                             component.children.push(id);
                         }
                     }
@@ -872,7 +923,15 @@ class MySceneGraph {
             if (component.transformation == null || component.materials == null || component.texture == null ||
                 component.children == null)
                 return "invalid component";
+
+            this.components[id] = component;
         }
+
+        if (this.components[this.sceneInfo.rootId] == null)
+            return "missing root node, id = " + this.sceneInfo.rootId;
+
+        if(this.components.length == 0)
+            return "no component defined";
 
         this.log("Parsed components");
         return null;
