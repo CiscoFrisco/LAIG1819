@@ -222,16 +222,16 @@
         <!-- Uma "primitive" e' uma primitiva e pode ser usada em nos folha -->
         <!-- Deve existir um ou mais blocos "primitive" -->
         <!-- Os identificadores "id" nao podem ser repetidos -->
-        <primitive id="ss">
-            <!-- apenas pode existir UMA das seguintes tags: -->
-            <!-- rectangle, triangle, cylinder, sphere, torus -->
-            <!-- os parametros devem ser interpretados, genericamente, -->
-            <!-- como em WebGL; o cilindro deve adicionalmente ter tampas -->
-            <rectangle x1="ff" y1="ff" x2="ff" y2="ff" />
-            <triangle x1="ff" y1="ff" z1="ff" x2="ff" y2="ff" z2="ff" x3="ff" y3="ff" z3="ff" />
-            <cylinder base="ff" top="ff" height="ff" slices="ii" stacks="ii" />
-            <sphere radius="ff" slices="ii" stacks="ii" />
-            <torus inner="ff" outer="ff" slices="ii" loops="ii" />
+        <primitive id="quad1">
+            <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+        </primitive >
+
+        <primitive id="quad2">
+            <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+        </primitive >
+
+        <primitive id="rampside">
+            <triangle x1="-0.5" y1="-0.5" z1="0.0" x2="0.5" y2="-0.5" z2="0.0" x3="0.5" y3="-0.5" z3="0.0"/>
         </primitive >
     </primitives >
     <components>
@@ -286,6 +286,177 @@
             </children>
         </component>
 
+         <component id="cube">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="cube1"/>               
+                <componentref id="cube2"/>
+                <componentref id="cube3"/>
+                <componentref id="cube4"/>
+                <componentref id="cube5"/>
+                <componentref id="cube6"/>
+            </children>
+        </component>
+        <component id="cube1">
+            <transformation>
+                <translate x="0.0" y="0.0", z="0.5">
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="quad"/>         
+            </children>
+        </component>
+         <component id="cube2">
+            <transformation>
+                <translate x="0.0" y="0.0", z="-0.5">
+                <rotate axis="y" angle ="180">
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="quad"/>         
+            </children>
+        </component>
+         <component id="cube3">
+            <transformation>
+                <translate x="0.0" y="-0.5", z="0.0">
+                <rotate axis="x" angle ="90">
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="quad"/>         
+            </children>
+        </component>
+         <component id="cube4">
+            <transformation>
+                <translate x="0.0" y="0.5", z="0.0">
+                <rotate axis="x" angle ="-90">
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="quad"/>         
+            </children>
+        </component>
+         <component id="cube5">
+            <transformation>
+                <translate x="-0.5" y="0.0", z="0.0">
+                <rotate axis="y" angle ="-90">
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="quad"/>         
+            </children>
+        </component>
+         <component id="cube6">
+            <transformation>
+               <translate x="0.5" y="0.0", z="0.0">
+                <rotate axis="y" angle ="90">
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="quad"/>         
+            </children>
+        </component>
+        <component id="triangularprism">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="side1" />
+                <componentref id="side2" />
+                <componentref id="top" />
+                <componentref id="bottom">
+                <componentref id="support">
+            </children>
+        </component>
+        <component id="side1">
+            <transformation>
+                <translate x="0" y="0" z="0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="rampside" />
+            </children>
+        </component>
+        <component id="side2">
+            <transformation>
+                <translate x="0" y="0" z="-0.5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="rampside" />
+            </children>
+        </component>
+        <component id="top">
+            <transformation>
+                <rotate axis="z" angle="-45" /> 
+                <rotate axis="x" angle="-90" /> 
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="quad" />
+            </children>
+        </component>
+        <component id="bottom">
+            <transformation>
+                <translate x="0" y="-0.5" z="0" />
+                <rotate axis="x" angle="90" /> 
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="quad" />
+            </children>
+        </component>
+        <component id="support">
+            <transformation>
+                <translate x="-0.5" y="0" z="0" />
+                <rotate axis="x" angle="-90" /> 
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="quad" />
+            </children>
+        </component>
         <component id = "floor">
             <transformation>
                 <translate x="-100.0" y="-5" z="0.0" />
@@ -297,7 +468,7 @@
             </materials>
             <texture id="none"/>
             <children>
-                <primitiveref id="rectangle" />
+                <primitiveref id="quad" />
             </children>
         </component>
         <component id = "ringside">
@@ -309,7 +480,7 @@
             </materials>
             <texture id="none"/>
             <children>
-                <primitiveref id="rectangle" />
+                <primitiveref id="quad" />
             </children>
         </component>
         <component id = "ringside1">
@@ -363,6 +534,20 @@
                 <componentref id="ringside" />
             </children>
         </component>
+        <component id = "ringsides">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="ringApron"/>
+            <children>
+                <componentref id="ringside1" />
+                <componentref id="ringside2" />
+                <componentref id="ringside3" />
+                <componentref id="ringside4" />
+            </children>
+        </component>
         <component id = "ringcore">
             <transformation>
                 <scale x="40.0" y="40.0" z="1" />
@@ -372,13 +557,14 @@
             </materials>
             <texture id="none"/>
             <children>
-                <primitiveref id="rectangle" />
+                <primitiveref id="quad" />
             </children>
         </component>
         <component id = "ringcore1">
             <transformation>
                 <translate x="0.0" y="5.0" z="0.0" />
-                <rotate axis="x" angle="-90" />            </transformation>
+                <rotate axis="x" angle="-90" />            
+            </transformation>
             <materials>
                 <material id="ringMat" />
             </materials>
@@ -390,7 +576,8 @@
         <component id = "ringcore2">
             <transformation>
                 <translate x="0.0" y="-5.0" z="0.0" />
-                <rotate axis="x" angle="90" />            </transformation>
+                <rotate axis="x" angle="90" />            
+            </transformation>
             <materials>
                 <material id="default" />
             </materials>
@@ -399,10 +586,23 @@
                 <componentref id="ringcore" />
             </children>
         </component>
+        <component id = "ringcenters">
+            <transformation>           
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ringcore1" />
+                <componentref id="ringcore2" />
+            </children>
+        </component>
         <component id = "ringpost">
             <transformation>
                 <scale x="1.0" y="22.0" z="1.0" />
-                <rotate axis="x" angle="-90" />            </transformation>
+                <rotate axis="x" angle="-90" />            
+            </transformation>
             <materials>
                 <material id="default" />
             </materials>
@@ -459,9 +659,34 @@
                 <componentref id="ringpost" />
             </children>
         </component>
-        <component id="rope1">
+        <component id = "ringposts">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ringpost1" />
+                <componentref id="ringpost2" />
+                <componentref id="ringpost3" />
+                <componentref id="ringpost4" />
+            </children>
+        </component>
+        <component id="rope">
             <transformation>
                 <scale x="0.25" y="0.25" z="40.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="cylinder" />
+            </children>
+        </component>
+        <component id="rope1">
+            <transformation>
                 <translate x="0.0" y="3.5" z="0.0" />
             </transformation>
             <materials>
@@ -469,24 +694,23 @@
             </materials>
             <texture id="none"/>
             <children>
-                <primitiveref id="cylinder" />
+                <componentref id="rope" />
             </children>
         </component>
         <component id="rope2">
             <transformation>
-                <scale x="0.25" y="0.25" z="40.0" />
+                <translate x="0.0" y="0" z="0.0" />
             </transformation>
             <materials>
                 <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
-                <primitiveref id="cylinder" />
+                <componentref id="rope" />
             </children>
         </component>
         <component id="rope3">
             <transformation>
-                <scale x="0.25" y="0.25" z="40.0" />
                 <translate x="0.0" y="-3.5" z="0.0" />
             </transformation>
             <materials>
@@ -494,7 +718,7 @@
             </materials>
             <texture id="none"/>
             <children>
-                <primitiveref id="cylinder" />
+                <componentref id="rope" />
             </children>
         </component>
         <component id="ropes1">
@@ -553,6 +777,250 @@
                 <componentref id="rope1" />
                 <componentref id="rope2" />
                 <componentref id="rope3" />
+            </children>
+        </component>
+        <component id="ropes">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="ringRopeApp" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ropes1" />
+                <componentref id="ropes2" />
+                <componentref id="ropes3" />
+                <componentref id="ropes4" />
+            </children>
+        </component>
+        <component id="ringstair">
+            <transformation>
+                <scale x="10" y="2.4" z="30">
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+        <component id="ringstair1">
+            <transformation>
+                0, -3.3, 3.75
+                <translate x="0.0" y="-3.3" z="3.75" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="ringstair" />
+            </children>
+        </component>
+        <component id="ringstair2">
+            <transformation>
+                <translate x="0.0" y="-1.1" z="1.25" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="ringstair" />
+            </children>
+        </component>
+        <component id="ringstair3">
+            <transformation>
+                <translate x="0.0" y="1.2" z="-1.25" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="ringstair" />
+            </children>
+        </component>
+        <component id="ringstair4">
+            <transformation>
+                <translate x="0.0" y="3.6" z="-3.75" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="ringstair" />
+            </children>
+        </component>
+        <component id="ringstairs">
+             <transformation>
+                <translate x= "16.25" y="0.0" z="16.25"/>
+                <rotate axis="y" angle="45" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="stairs"/>
+            <children>
+                <componentref id="ringstair1" />
+                <componentref id="ringstair2" />
+                <componentref id="ringstair3" />
+                <componentref id="ringstair4" />
+            </children>
+        <component />
+        <component id="ring">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ringsides" />
+                <componentref id="ringposts" />
+                <componentref id="ringropes" />
+                <componentref id="ringstairs" />
+                <componentref id="ringcenters" />
+            </children>
+        </component>
+         <component id="ramp">
+            <transformation>
+                <translate x="-120" y="5" z="0">
+                <scale x="100" y="20" z="40"/>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="triangularprism" />
+            </children>
+        </component>
+        <component id="stageside1">
+            <transformation>
+                <translate x="0.0" y="0.0" z="1.0">
+                <rotate axis="x" angle="90"/>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="triangularprism" />
+            </children>
+        </component>
+        <component id="stageside2">
+            <transformation>
+                <translate x="0.0" y="0.0" z="-1.0">
+                <rotate axis="x" angle="-90" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="triangularprism" />
+            </children>
+        </component>
+        <component id="stage">
+            <transformation>
+                <translate x="-195" y="5" z="0" />
+                <scale x="50" y="20" z="40" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="stageside1" />
+                <componentref id="stageside2" />
+                <componentref id="cube" />
+            </children>
+        </component>
+
+        <component id="barrier1">
+            <transformation>
+                <translate x="0.0" y="0.0" z="4/3*40" />
+                <scale x="2.2*40" y="10" z="5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+        <component id="barrier2">
+            <transformation>
+                <translate x="0.0" y="0.0" z="-4/3*40" />
+                <scale x="2.2*40" y="10" z="5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+        <component id="barrier3">
+            <transformation>
+                <translate x="52/50*40" y="0.0" z="0.0" />
+                <rotate axis="y" angle="90" />
+                <scale x="8/3*40" y="10" z="5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+        <component id="barrier4">
+            <transformation>
+                <translate x="-52/50*40" y="0.0" z="53/50*40" />
+                <rotate axis="y" angle="90" />
+                <scale x="2*40/3" y="10" z="5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+        <component id="barrier5">
+            <transformation>
+                <translate x="-52/50*40" y="0.0" z="53/50*40" />
+                <rotate axis="y" angle="90" />
+                <scale x="2/3*40" y="10" z="5" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="cube" />
+            </children>
+        </component>
+        <component id="barriers">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="barrierApp" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="barrier1" />
+                <componentref id="barrier2" />
+                <componentref id="barrier3" />
+                <componentref id="barrier4" />
+                <componentref id="barrier5" />
             </children>
         </component>
     </components>

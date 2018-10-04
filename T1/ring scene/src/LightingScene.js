@@ -55,7 +55,7 @@ class LightingScene extends CGFscene {
     this.ringCore = new MyQuad(this);
     this.ringPost = new MyCylinderCovered(this, 20, 20);
     this.ringRope = new MyCylinderCovered(this, 20, 20);
-    this.stairs = new MyUnitCubeQuad(this);
+    this.stairs = new MyStairs(this);
     this.ramp = new MyRamp(this, 20, 100, 40);
     this.barrier = new MyBarrier(this, 10, 40, 5);
     this.number_chairs = 10;
@@ -78,7 +78,7 @@ class LightingScene extends CGFscene {
     this.initCameras();
     this.initLights();
 
-    this.gl.clearColor(0/*126.0 / 255*/,0/* 192.0 / 255*/, 0/*238.0 / 255*/, 1.0);
+    this.gl.clearColor(126.0 / 255,192.0 / 255, 238.0 / 255, 1.0);
     this.gl.clearDepth(100.0);
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.enable(this.gl.CULL_FACE);
@@ -172,10 +172,10 @@ class LightingScene extends CGFscene {
     this.lights[5].enable();
 
     // Booleans for dat.gui
-    this.light1 = false;
-    this.light2 = false;
-    this.light3 = false;
-    this.light4 = false;
+    this.light1 = true;
+    this.light2 = true;
+    this.light3 = true;
+    this.light4 = true;
   };
 
   /**
@@ -287,33 +287,12 @@ class LightingScene extends CGFscene {
     this.defaultMaterial.apply();
 
     this.pushMatrix();
-    this.translate(20, -3.6, 20);
-    this.rotate(Math.PI / 4, 0, 1, 0);
-    this.scale(10, 2.3, 30);
-    this.stairsApp.apply();
-    this.stairs.display();
+      this.translate(16.25,0,16.25);
+      this.rotate(Math.PI/4,0,1,0);
+      this.stairs.display();
     this.popMatrix();
 
-    this.pushMatrix();
-    this.translate(17.5, -1.2, 17.5);
-    this.rotate(Math.PI / 4, 0, 1, 0);
-    this.scale(10, 2.5, 30);
-    this.stairs.display();
-    this.popMatrix();
-
-    this.pushMatrix();
-    this.translate(15, 1.3, 15);
-    this.rotate(Math.PI / 4, 0, 1, 0);
-    this.scale(10, 2.5, 30);
-    this.stairs.display();
-    this.popMatrix();
-
-    this.pushMatrix();
-    this.translate(12.5, 3.7, 12.5);
-    this.rotate(Math.PI / 4, 0, 1, 0);
-    this.scale(10, 2.3, 30);
-    this.stairs.display();
-    this.popMatrix();
+    
 
     this.defaultMaterial.apply();
 

@@ -51,7 +51,7 @@ class MyRamp extends CGFobject {
 
         //top
         this.scene.pushMatrix();
-        this.scene.rotate(-Math.atan(this.height/this.length),0,0,1);
+            this.scene.rotate(-Math.atan(this.height/this.length),0,0,1);
             this.scene.scale(Math.sqrt(this.length*this.length + this.height*this.height), 1, this.width);
             this.scene.rotate(-Math.PI/2, 1,0,0);
             this.ramp_top.display();
@@ -60,9 +60,8 @@ class MyRamp extends CGFobject {
         //down
         this.scene.pushMatrix();
             this.scene.translate(0,-this.height/2 ,0);
-            this.scene.rotate(Math.PI,0,0,1);
             this.scene.scale(this.length, 1, this.width);
-            this.scene.rotate(-Math.PI/2, 1,0,0);
+            this.scene.rotate(Math.PI/2, 1,0,0);
             this.ramp_top.display();
         this.scene.popMatrix();
 
