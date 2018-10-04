@@ -598,7 +598,7 @@
                 <translate x="20.0" y="11.5" z="-20.0" />
             </transformation>
             <materials>
-                <material id="ringRopeApp" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -612,7 +612,7 @@
                 <translate x="20.0" y="11.5" z="20.0" />
             </transformation>
             <materials>
-                <material id="ringRopeApp" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -627,7 +627,7 @@
                 <rotate axis="y" angle="45" />
             </transformation>
             <materials>
-                <material id="ringRopeApp" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -642,7 +642,7 @@
                 <rotate axis="y" angle="45" />
             </transformation>
             <materials>
-                <material id="ringRopeApp" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -672,7 +672,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="cube" />
             </children>
@@ -685,7 +685,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="ringstair" />
             </children>
@@ -697,7 +697,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="ringstair" />
             </children>
@@ -709,7 +709,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="ringstair" />
             </children>
@@ -721,7 +721,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="ringstair" />
             </children>
@@ -819,7 +819,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="none"/>
             <children>
                 <componentref id="cube" />
             </children>
@@ -832,7 +832,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="none"/>
             <children>
                 <componentref id="cube" />
             </children>
@@ -846,7 +846,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="none"/>
             <children>
                 <componentref id="cube" />
             </children>
@@ -860,7 +860,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="none"/>
             <children>
                 <componentref id="cube" />
             </children>
@@ -874,7 +874,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="none"/>
             <children>
                 <componentref id="cube" />
             </children>
@@ -903,7 +903,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <primitiveref id="cylinder" />
             </children>
@@ -915,7 +915,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="leg" />
             </children>
@@ -927,7 +927,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="leg" />
             </children>
@@ -940,7 +940,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="leg" />
             </children>
@@ -953,7 +953,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="leg" />
             </children>
@@ -966,7 +966,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="cube" />
             </children>
@@ -979,7 +979,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="cube" />
             </children>
@@ -991,7 +991,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="leg1" />
                 <componentref id="leg2" />
@@ -1009,7 +1009,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="chair" />
             </children>
@@ -1021,7 +1021,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="chair" />
             </children>
@@ -1033,7 +1033,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="chair" />
             </children>
@@ -1045,7 +1045,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="chair" />
             </children>
@@ -1057,7 +1057,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="chair" />
             </children>
@@ -1069,7 +1069,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="chair" />
             </children>
@@ -1081,7 +1081,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="chair" />
             </children>
@@ -1093,7 +1093,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="chair" />
             </children>
@@ -1105,7 +1105,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="chair" />
             </children>
@@ -1117,7 +1117,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="chair" />
             </children>
@@ -1128,7 +1128,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="chair1" />
                 <componentref id="chair2" />
@@ -1148,7 +1148,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="chairblock" />
             </children>
@@ -1160,7 +1160,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="chairblock" />
             </children>
@@ -1171,7 +1171,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="chairblock1" />
                 <componentref id="chairblock2" />
@@ -1184,7 +1184,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="chairside" />
             </children>
@@ -1194,7 +1194,7 @@
                 <transformationref id="chairstransformation2">
             </transformation>
             <materials>
-                <material id="inherit" />
+                <material id="inherit" length_s="1.0" length_t="1.0"/>
             </materials>
             <texture id="inherit"/>
             <children>
@@ -1208,7 +1208,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="chairside" />
             </children>
