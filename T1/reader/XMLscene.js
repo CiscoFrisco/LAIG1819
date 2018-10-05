@@ -24,7 +24,13 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = false;
 
-        this.initCameras();
+        //default camera
+        this.camera = new CGFcamera(
+            0.4, 0.1, 1000, vec3.fromValues(250, 250, 250),
+            vec3.fromValues(0, 0, 0));
+
+        //default axis
+        this.axis = new CGFaxis(this);
 
         this.enableTextures(true);
 
@@ -32,15 +38,14 @@ class XMLscene extends CGFscene {
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
-
-        this.axis = new CGFaxis(this);
     }
 
     /**
      * Initializes the scene cameras.
+     * TODO: handle multiple
      */
-    initCameras() {
-        this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+    initCameras(view) {
+        this.camera = new CGFcamera(view.angle, view.near, view.far, vec3.fromValues(view.from.x, view.from.y, view.from.z), vec3.fromValues(view.to.x, view.to.y, view.to.z));
     }
     /**
      * Initializes the scene lights with the values read from the XML file.
@@ -52,7 +57,7 @@ class XMLscene extends CGFscene {
         // Reads the lights from the scene graph.
         for (var key in this.graph.lights) {
             if (i >= 8)
-                break;              // Only eight lights allowed by WebGL.
+                break; // Only eight lights allowed by WebGL.
 
             if (this.graph.lights.hasOwnProperty(key)) {
                 var light = this.graph.lights[key];
@@ -81,13 +86,16 @@ class XMLscene extends CGFscene {
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
-        this.camera.near = this.graph.near;
-        this.camera.far = this.graph.far;
+
+        this.initCameras(this.graph.views.array["perspective"]);
 
         //TODO: Change reference length according to parsed graph
-        //this.axis = new CGFaxis(this, this.graph.referenceLength);
+        this.axis = new CGFaxis(this, this.graph.sceneInfo.axis_length);
 
         // TODO: Change ambient and background details according to parsed graph
+
+        this.gl.clearColor(this.graph.background.r, this.graph.background.g, this.graph.background.b, this.graph.background.a);
+        this.setGlobalAmbientLight(this.graph.ambient.r, this.graph.ambient.g, this.graph.ambient.b, this.graph.ambient.a)
 
         this.initLights();
 
@@ -127,8 +135,7 @@ class XMLscene extends CGFscene {
                     if (this.lightValues[key]) {
                         this.lights[i].setVisible(true);
                         this.lights[i].enable();
-                    }
-                    else {
+                    } else {
                         this.lights[i].setVisible(false);
                         this.lights[i].disable();
                     }
@@ -139,8 +146,7 @@ class XMLscene extends CGFscene {
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
-        }
-        else {
+        } else {
             // Draw axis
             this.axis.display();
         }
