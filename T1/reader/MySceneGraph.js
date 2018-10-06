@@ -1,15 +1,15 @@
 var DEGREE_TO_RAD = Math.PI / 180;
 
 // Order of the groups in the XML document.
-var SCENE_INDEX = 1;
-var VIEWS_INDEX = 2;
-var AMBIENT_INDEX = 3;
-var LIGHTS_INDEX = 4;
-var TEXTURES_INDEX = 5;
-var MATERIALS_INDEX = 6;
-var TRANSFORMATIONS_INDEX = 7;
-var PRIMITIVES_INDEX = 8;
-var COMPONENTS_INDEX = 9;
+var SCENE_INDEX = 0;
+var VIEWS_INDEX = 1;
+var AMBIENT_INDEX = 2;
+var LIGHTS_INDEX = 3;
+var TEXTURES_INDEX = 4;
+var MATERIALS_INDEX = 5;
+var TRANSFORMATIONS_INDEX = 6;
+var PRIMITIVES_INDEX = 7;
+var COMPONENTS_INDEX = 8;
 
 // TODO: verificar erros e tipos de erro (minor e assumir valor default, ou retornar logo)
 
@@ -526,12 +526,15 @@ class MySceneGraph {
             if (error != null)
                 return error;
 
+            var locationLight = {};
+
+
             if (children[i].nodeName == "omni") {
                 // Retrieves the light location.
-                var locationLight = [];
                 this.extractPosition(locationIndex, grandChildren, locationLight, lightId, true);
 
                 this.lights[lightId] = {
+                    type: "omni",
                     enabled: lightEnabled,
                     ambientIllumination: ambientIllumination,
                     diffuseIllumination: diffuseIllumination,
@@ -546,7 +549,6 @@ class MySceneGraph {
                 var targetIndex = nodeNames.indexOf("target");
 
                 // Retrieves the light location.
-                var locationLight = {};
                 this.extractPosition(locationIndex, grandChildren, locationLight, lightId, false);
 
                 // Retrieves the light location.
@@ -554,6 +556,7 @@ class MySceneGraph {
                 this.extractPosition(targetIndex, grandChildren, targetLight, lightId, false);
 
                 this.lights[lightId] = {
+                    type: "spot",
                     enabled: lightEnabled,
                     ambientIllumination: ambientIllumination,
                     diffuseIllumination: diffuseIllumination,
@@ -923,37 +926,36 @@ class MySceneGraph {
 
                     if (transformations.length == 1 && transformations[0].nodeName == "transformationref") {
 
-                        var id = this.reader.getString(transformations[0], 'id', true);
+                        let transfId = this.reader.getString(transformations[0], 'id', true);
 
-                        if (id == null)
+                        if (transfId == null)
                             return "no transformationref id defined!";
 
-                        component.transformation.id = id;
+                        component.transformationref = transfId;
 
                     } else if (!this.findStringOnArray(transformations, "transformationref", "nodeName")) {
                         var types = [];
                         for (let c = 0; c < transformations.length; c++) {
-                            parseExplicitTransformation(transformations[c], types);
+                            this.parseExplicitTransformation(transformations[c], types);
                         }
 
-                        component.transformation = types;
+                        component.transformations = types;
                     } else
                         return "invalid transformation block";
                 } else if (children[j].nodeName == "materials") {
-
                     var materials = children[j].children;
                     component.materials = [];
                     for (let c = 0; c < materials.length; ++c) {
-                        var id = this.reader.getString(materials[c], 'id', true);
+                        let matId = this.reader.getString(materials[c], 'id', true);
 
-                        component.materials.push(id);
+                        component.materials.push(matId);
                     }
 
-                    if (materials.length == 0)
+                    if (component.materials.length == 0)
                         return "no materials defined for this component";
 
                 } else if (children[j].nodeName == "texture") {
-                    var id = this.reader.getString(children[j], 'id', true);
+                    let textId = this.reader.getString(children[j], 'id', true);
                     var length_s = this.reader.getFloat(children[j], 'length_s', false);
                     var length_t = this.reader.getFloat(children[j], 'length_t', false);
 
@@ -961,7 +963,7 @@ class MySceneGraph {
                     length_t = length_t == null ? 1.0 : length_t;
 
                     component.texture = {
-                        id: id,
+                        id: textId,
                         length_s: length_s,
                         length_t: length_t
                     };
@@ -969,33 +971,25 @@ class MySceneGraph {
 
                     var refs = children[j].children;
                     component.children = [];
+                    component.primitives = [];
 
                     for (let c = 0; c < refs.length; ++c) {
-                        var id = this.reader.getString(refs[c], 'id', true);
+                        let childId = this.reader.getString(refs[c], 'id', true);
 
                         if (refs[c].nodeName == "primitiveref") {
-                            component.primitives.push(id);
+                            component.primitives.push(childId);
                         } else if (refs[c].nodeName == "componentref") {
-                            component.children.push(id);
+                            component.children.push(childId);
                         }
                     }
-                }
-                else
+                } else
                     return "invalid component property name";
             }
 
-            if (component.materials == null)
-                return "boi";
 
-            if (component.texture == null)
-                return "bois";
-
-            if (component.children == null)
-                return "fds";
-
-            // if (component.materials == null || component.texture == null ||
-            //     component.children == null)
-            //     return "invalid component";
+            if ((component.transformationref == null && component.transformations == null) || component.materials == null || component.texture == null ||
+                (component.children == null && component.primitives == null))
+                return "invalid component";
 
             this.components[id] = component;
             numComponents++;

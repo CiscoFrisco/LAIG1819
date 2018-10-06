@@ -45,7 +45,11 @@ class XMLscene extends CGFscene {
      * TODO: handle multiple
      */
     initCameras(view) {
-        this.camera = new CGFcamera(view.angle, view.near, view.far, vec3.fromValues(view.from.x, view.from.y, view.from.z), vec3.fromValues(view.to.x, view.to.y, view.to.z));
+        this.camera.near = view.near;
+        this.camera.far = view.far;
+        this.camera.fov = view.angle * DEGREE_TO_RAD;
+        this.camera.setPosition(vec3.fromValues(view.from.x, view.from.y, view.from.z));
+        this.camera.setTarget(vec3.fromValues(view.to.x, view.to.y, view.to.z));
     }
     /**
      * Initializes the scene lights with the values read from the XML file.
@@ -62,19 +66,40 @@ class XMLscene extends CGFscene {
             if (this.graph.lights.hasOwnProperty(key)) {
                 var light = this.graph.lights[key];
 
+                let pos = light.locationLight;
+                let ambient = light.ambientIllumination;
+                let diffuse = light.diffuseIllumination;
+                let specular = light.specularIllumination;
+
+                this.lights[i].setAmbient(ambient.r, ambient.g, ambient.b, ambient.a);
+                this.lights[i].setDiffuse(diffuse.r, diffuse.g, diffuse.b, diffuse.a);
+                this.lights[i].setSpecular(specular.r, specular.g, specular.b, specular.a);
+
+                if (light.type == "omni") {
+                    this.lights[i].setPosition(pos.x, pos.y, pos.z, pos.w);
+
+                } else {
+                    let angle = light.angle;
+                    let exponent = light.exponent;
+                    let target = light.targetLight;
+
+                    this.lights[i].setPosition(pos.x, pos.y, pos.z);
+                    this.lights[i].setSpotDirection(target.x, target.y, target.z);
+                    this.lights[i].setSpotExponent(exponent);
+                    this.lights[i].setSpotCutOff(angle);
+                }
+
                 //lights are predefined in cgfscene
-                this.lights[i].setPosition(light[1][0], light[1][1], light[1][2], light[1][3]);
-                this.lights[i].setAmbient(light[2][0], light[2][1], light[2][2], light[2][3]);
-                this.lights[i].setDiffuse(light[3][0], light[3][1], light[3][2], light[3][3]);
-                this.lights[i].setSpecular(light[4][0], light[4][1], light[4][2], light[4][3]);
 
                 this.lights[i].setVisible(true);
-                if (light[0])
+                if (light.enabled)
                     this.lights[i].enable();
                 else
                     this.lights[i].disable();
 
                 this.lights[i].update();
+
+                this[key] = light.enabled;
 
                 i++;
             }
