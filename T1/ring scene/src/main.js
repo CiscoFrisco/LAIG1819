@@ -66,6 +66,7 @@ serialInclude([
 	'MyChairs.js',
 	'MyStage.js',
 	'MyStairs.js',
+	'MyTorus.js',
 	main = function () {
 		var app = new CGFapplication(document.body);
 		var myScene = new LightingScene();

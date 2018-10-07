@@ -40,6 +40,12 @@ class LightingScene extends CGFscene {
     this.stairsApp = new CGFappearance(this);
     this.stairsApp.loadTexture("../res/images/stairs.jpeg");
 
+    this.zephyr = new CGFappearance(this);
+    this.zephyr.loadTexture("../res/images/mrzephyr.png");
+
+    this.rick = new CGFappearance(this);
+    this.rick.loadTexture("../res/images/682020.jpg");
+
     this.defaultMaterial = new CGFappearance(this);
 
     this.ringApron = new CGFappearance(this);
@@ -61,6 +67,11 @@ class LightingScene extends CGFscene {
     this.number_chairs = 20;
     this.chairs = new MyChairs(this, 5, this.number_chairs);
     this.stage = new MyStage(this);
+
+    this.torus = new MyTorus(this,4,20,2.5,4);
+    this.cupula = new MyLamp(this, 20,20);
+    this.ray = new MyCylinder(this, 20, 20);
+    this.circle = new MyPoligon(this,20);
 
     this.floor = new MyQuad(this);
   }
@@ -114,26 +125,26 @@ class LightingScene extends CGFscene {
 
         // Positions for five lights
 
-    this.lights[0].setPosition(-20, 40, -20, 1);
+    this.lights[0].setPosition(-20, 80, -20, 1);
     this.lights[0].setAmbient(0.1, 0.1, 0.1, 1);
     this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[0].setSpecular(0.0, 0.0, 1.0, 1.0);
     this.lights[0].setVisible(true);
 
 
-    this.lights[1].setPosition(-20, 40, 20, 1);
+    this.lights[1].setPosition(-20, 80, 20, 1);
     this.lights[1].setAmbient(0.1, 0.1, 0.1, 1);
     this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[1].setSpecular(0.0, 0.0, 1.0, 1.0);
     this.lights[1].setVisible(true);
 
-    this.lights[2].setPosition(20, 40, 20, 1);
+    this.lights[2].setPosition(20, 80, 20, 1);
     this.lights[2].setAmbient(0.1, 0.1, 0.1, 1.0);
     this.lights[2].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[2].setSpecular(0.0, 0.0, 1.0, 1.0);
     this.lights[2].setVisible(true);
 
-    this.lights[3].setPosition(20, 40, -20, 1);
+    this.lights[3].setPosition(20, 80, -20, 1);
     this.lights[3].setAmbient(0.1, 0.1, 0.1, 1.0);
     this.lights[3].setDiffuse(1.0, 1.0, 1.0, 1.0);
     this.lights[3].setSpecular(0.0, 0.0, 1.0, 1.0);
@@ -159,9 +170,9 @@ class LightingScene extends CGFscene {
     this.lights[5].setVisible(true);
 
     // Attenuation
-    this.lights[2].setConstantAttenuation(0);
+    /*this.lights[2].setConstantAttenuation(0);
     this.lights[2].setLinearAttenuation(0);
-    this.lights[2].setQuadraticAttenuation(1);
+    this.lights[2].setQuadraticAttenuation(1);*/
 
     // Enable
     /*this.lights[0].enable();
@@ -445,6 +456,62 @@ class LightingScene extends CGFscene {
     this.scale(50, 20, 40);
     this.stage.display();
     this.popMatrix();
+
+
+    this.pushMatrix();
+    this.translate(0,70,0);
+    this.scale(10,10,10);
+      
+      this.pushMatrix();
+      this.rotate(-Math.PI/2,1,0,0);
+      this.scale(2.5,2.5,2.5);
+      this.zephyr.apply();
+      this.cupula.display();
+      this.popMatrix();
+
+      this.defaultMaterial.apply();
+
+      this.pushMatrix();
+      this.scale(2.5,1,2.5);
+      this.rotate(Math.PI/2,1,0,0);
+      this.circle.display();
+      this.popMatrix();
+
+      this.pushMatrix();
+      this.rotate(Math.PI/2,0,0,1);
+      this.torus.display();
+      this.popMatrix();
+
+      var angle = 2*Math.PI/20;
+      var x = Math.cos(angle)*2.7;
+      var z = Math.sin(angle)*2.7;
+
+      for(let i = 0; i < 21; i++)
+      {
+        x = Math.cos(angle*i)*2.7;
+        z = Math.sin(angle*i)*2.7;
+
+          this.pushMatrix();
+          this.translate(x,0.3,z);
+          this.rotate(- angle*i + Math.PI/2 ,0,1,0);
+          this.rotate(-Math.PI/4,1,0,0);
+          this.scale(0.25,0.25,0.25);
+          this.cupula.display();
+          this.popMatrix();    
+
+      }
+
+    this.popMatrix();
+
+    this.pushMatrix();
+    this.translate(0,70,0);
+    this.scale(7.5,70,7.5);
+    this.rotate(Math.PI/2,1,0,0);
+    this.rick.apply();
+    this.ray.display();
+    this.popMatrix();
+
+    this.defaultMaterial.apply();
 
 
 
