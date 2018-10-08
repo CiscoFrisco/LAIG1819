@@ -44,4 +44,8 @@ class MyInterface extends CGFinterface {
             }
         }
     }
+
+    addCameraDrop(){
+         this.gui.add(this.scene, 'currCamera', this.scene.cameraList);
+    }
 }

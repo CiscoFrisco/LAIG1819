@@ -660,7 +660,7 @@ class MySceneGraph {
                     return "no valid transformations defined!";
             }
 
-            transformations[id] = this.scene.getMatrix();
+            this.transformations[id] = this.scene.getMatrix();
             numTransformations++;
         }
 
@@ -903,8 +903,7 @@ class MySceneGraph {
             }
 
 
-            if ((component.transformationref == null && component.transformations == null) || component.materials == null || component.texture == null ||
-                (component.children == null && component.primitives == null))
+            if (component.transformations == null || component.materials == null || component.texture == null)
                 return "invalid component";
 
             this.components[id] = component;
@@ -922,10 +921,14 @@ class MySceneGraph {
             var id = this.reader.getString(components[i], 'id', true);
 
             var children = components[i].children;
+
+            for(let j = 0; j < children.length; ++j){
+                if (children[j].nodeName == "children"){
+                    this.parseChildren(this.components[id], children[j].children, this.components);
+                }
+            }
         }
 
-        for(var key in this.components)
-            parseChildren(this.components[key], )
 
         this.log("Parsed components");
         return null;

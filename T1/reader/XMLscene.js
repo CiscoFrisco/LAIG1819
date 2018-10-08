@@ -46,13 +46,42 @@ class XMLscene extends CGFscene {
      * 
      * cgfinterface setactivecamera
      */
-    initCameras(view) {
-        this.camera.near = view.near;
-        this.camera.far = view.far;
-        this.camera.fov = view.angle * DEGREE_TO_RAD;
-        this.camera.setPosition(vec3.fromValues(view.from.x, view.from.y, view.from.z));
-        this.camera.setTarget(vec3.fromValues(view.to.x, view.to.y, view.to.z));
+    initCameras() {
+
+        this.cameras = [];
+
+        var views = this.graph.views;
+        var def = views.default;
+        var i = 0;
+
+        this.cameraList = {};
+
+        for (var key in views.array) {
+            var el = views.array[key];
+            if (el.type == "ortho") {
+                this.cameras.push(new CGFcameraOrtho(el.left, el.right, el.bottom, el.top, el.near, el.farvec3.fromValues(el.from.x, el.from.y, el.from.z), vec3.fromValues(el.to.x, el.to.y, el.to.z)));
+            } else {
+                this.cameras.push(new CGFcamera(el.angle * DEGREE_TO_RAD, el.near, el.far, vec3.fromValues(el.from.x, el.from.y, el.from.z), vec3.fromValues(el.to.x, el.to.y, el.to.z)));
+            }
+
+            if (key == def) {
+                this.camera = this.cameras[this.cameras.length - 1];
+                this.currCamera = i;
+            }
+
+            this.cameraList[key] = i++;
+
+        }
+
+        this.interface.setActiveCamera(this.camera);
+        this.interface.addCameraDrop();
     }
+
+    updateCamera() {
+        this.camera = this.cameras[this.currCamera];
+        this.interface.setActiveCamera(this.camera);
+    }
+
     /**
      * Initializes the scene lights with the values read from the XML file.
      */
@@ -114,7 +143,7 @@ class XMLscene extends CGFscene {
      */
     onGraphLoaded() {
 
-        this.initCameras(this.graph.views.array["perspective"]);
+        this.initCameras();
 
         //TODO: Change reference length according to parsed graph
         this.axis = new CGFaxis(this, this.graph.sceneInfo.axis_length);
@@ -153,6 +182,9 @@ class XMLscene extends CGFscene {
         this.pushMatrix();
 
         if (this.sceneInited) {
+
+            this.updateCamera();
+
             // Draw axis
             this.axis.display();
 
