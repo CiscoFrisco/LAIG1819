@@ -160,13 +160,6 @@ class MySceneGraph {
         }
     }
 
-    checkMissingValue(value, def) {
-        if (value == null) {
-            value = def;
-            this.onXMLMinorError("value missing; assuming default value " + value)
-        }
-    }
-
     /**
      * Parses the <scene> block.
      * @param {scene block element} sceneNode
@@ -174,9 +167,7 @@ class MySceneGraph {
     parseScene(sceneNode) {
 
         var rootId = this.reader.getString(sceneNode, 'root', true);
-        var axis_length = this.reader.getFloat(sceneNode, 'axis_length');
-
-        this.checkMissingValue(axis_length, 5.0);
+        var axis_length = this.reader.getFloat(sceneNode, 'axis_length', true);
 
         this.sceneInfo = {
             rootId: rootId,
@@ -209,30 +200,14 @@ class MySceneGraph {
                 return "duplicate view";
             }
 
-            var near = this.reader.getFloat(children[i], 'near');
-
-            this.checkMissingValue(near, 0.1);
-
-            var far = this.reader.getFloat(children[i], 'far');
-
-            this.checkMissingValue(far, 500.0);
+            var near = this.reader.getFloat(children[i], 'near', true);
+            var far = this.reader.getFloat(children[i], 'far', true);
 
             if (children[i].nodeName == "ortho") {
-                var left = this.reader.getFloat(children[i], 'left');
-
-                this.checkMissingValue(left, 0.1);
-
-                var right = this.reader.getFloat(children[i], 'right');
-
-                this.checkMissingValue(right, 0.1);
-
-                var top = this.reader.getFloat(children[i], 'top');
-
-                this.checkMissingValue(top, 0.1);
-
-                var bottom = this.reader.getFloat(children[i], 'bottom');
-
-                this.checkMissingValue(bottom, 0.1);
+                var left = this.reader.getFloat(children[i], 'left', true);
+                var right = this.reader.getFloat(children[i], 'right', true);
+                var top = this.reader.getFloat(children[i], 'top', true);
+                var bottom = this.reader.getFloat(children[i], 'bottom', true);
 
                 this.views.array[id] = {
                     type: "ortho",
@@ -246,8 +221,7 @@ class MySceneGraph {
                 numViews++;
 
             } else if (children[i].nodeName == "perspective") {
-                var angle = this.reader.getFloat(children[i], 'angle');
-                this.checkMissingValue(angle, 23.0);
+                var angle = this.reader.getFloat(children[i], 'angle', true);
 
                 var grandChildren = children[i].children;
                 // Reads the names of the nodes to an auxiliary buffer.
@@ -256,26 +230,16 @@ class MySceneGraph {
                 for (var c = 0; c < grandChildren.length; c++) {
                     nodeNames.push(grandChildren[c].nodeName);
                 }
+
                 var fromIndex = nodeNames.indexOf('from');
                 var toIndex = nodeNames.indexOf('to');
 
-                var fx = this.reader.getFloat(grandChildren[fromIndex], 'x');
-                this.checkMissingValue(fx, 250.0);
-
-                var fy = this.reader.getFloat(grandChildren[fromIndex], 'y');
-                this.checkMissingValue(fy, 250.0);
-
-                var fz = this.reader.getFloat(grandChildren[fromIndex], 'z');
-                this.checkMissingValue(fz, 250.0);
-
-                var tx = this.reader.getFloat(grandChildren[toIndex], 'x');
-                this.checkMissingValue(tx, 0.0);
-
-                var ty = this.reader.getFloat(grandChildren[toIndex], 'y');
-                this.checkMissingValue(ty, 0.0);
-
-                var tz = this.reader.getFloat(grandChildren[toIndex], 'z');
-                this.checkMissingValue(tz, 0.0);
+                var fx = this.reader.getFloat(grandChildren[fromIndex], 'x', true);
+                var fy = this.reader.getFloat(grandChildren[fromIndex], 'y', true);
+                var fz = this.reader.getFloat(grandChildren[fromIndex], 'z', true);
+                var tx = this.reader.getFloat(grandChildren[toIndex], 'x', true);
+                var ty = this.reader.getFloat(grandChildren[toIndex], 'y', true);
+                var tz = this.reader.getFloat(grandChildren[toIndex], 'z', true);
 
                 this.views.array[id] = {
                     type: "perspective",
@@ -338,20 +302,6 @@ class MySceneGraph {
             }
         }
 
-        this.checkMissingValue(this.ambient, {
-            r: 0.3,
-            g: 0.3,
-            b: 0.3,
-            a: 1.0
-        });
-
-        this.checkMissingValue(this.background, {
-            r: 0.5,
-            g: 0.75,
-            b: 0.93,
-            a: 1.0
-        });
-
         this.log("Parsed ambient");
 
         return null;
@@ -378,28 +328,28 @@ class MySceneGraph {
         var rgba = {};
 
         // R
-        var r = this.reader.getFloat(node, 'r');
+        var r = this.reader.getFloat(node, 'r', true);
         if (!(r != null && !isNaN(r) && r >= 0 && r <= 1)) {
             error = "unable to parse R component of the " + node.nodeName + " block";
             return;
         }
 
         // G
-        var g = this.reader.getFloat(node, 'g');
+        var g = this.reader.getFloat(node, 'g', true);
         if (!(g != null && !isNaN(g) && g >= 0 && g <= 1)) {
             error = "unable to parse G component of the " + node.nodeName + " block";
             return;
         }
 
         // B
-        var b = this.reader.getFloat(node, 'b');
+        var b = this.reader.getFloat(node, 'b', true);
         if (!(b != null && !isNaN(b) && b >= 0 && b <= 1)) {
             error = "unable to parse B component of the " + node.nodeName + " block";
             return;
         }
 
         // A
-        var a = this.reader.getFloat(node, 'a');
+        var a = this.reader.getFloat(node, 'a', true);
         if (!(a != null && !isNaN(a) && a >= 0 && a <= 1)) {
             error = "unable to parse A component of the " + node.nodeName + " block";
             return;
@@ -426,21 +376,21 @@ class MySceneGraph {
     extractPosition(index, component, positionLight, lightId, all) {
         if (index != -1) {
             // x
-            var x = this.reader.getFloat(component[index], 'x');
+            var x = this.reader.getFloat(component[index], 'x', true);
             if (!(x != null && !isNaN(x)))
                 return "unable to parse x-coordinate of the light location for ID = " + lightId;
             else
                 positionLight.x = x;
 
             // y
-            var y = this.reader.getFloat(component[index], 'y');
+            var y = this.reader.getFloat(component[index], 'y', true);
             if (!(y != null && !isNaN(y)))
                 return "unable to parse y-coordinate of the light location for ID = " + lightId;
             else
                 positionLight.y = y;
 
             // z
-            var z = this.reader.getFloat(component[index], 'z');
+            var z = this.reader.getFloat(component[index], 'z', true);
             if (!(z != null && !isNaN(z)))
                 return "unable to parse z-coordinate of the light location for ID = " + lightId;
             else
@@ -448,7 +398,7 @@ class MySceneGraph {
 
             if (all) {
                 // w
-                var w = this.reader.getFloat(component[index], 'w');
+                var w = this.reader.getFloat(component[index], 'w', true);
                 if (!(w != null && !isNaN(w) && w >= 0 && w <= 1))
                     return "unable to parse x-coordinate of the light location for ID = " + lightId;
                 else
@@ -488,9 +438,7 @@ class MySceneGraph {
             if (this.lights[lightId] != null)
                 return "ID must be unique for each light (conflict: ID = " + lightId + ")";
 
-            var lightEnabled = this.reader.getBoolean(children[i], 'enabled');
-
-            this.checkMissingValue(lightEnabled, true);
+            var lightEnabled = this.reader.getBoolean(children[i], 'enabled', true);
 
             grandChildren = children[i].children;
             // Specifications for the current light.
@@ -544,8 +492,8 @@ class MySceneGraph {
                 numLights++;
             } else if (children[i].nodeName == "spot") {
 
-                var angle = this.reader.getFloat(children[i], 'angle');
-                var exponent = this.reader.getFloat(children[i], 'exponent');
+                var angle = this.reader.getFloat(children[i], 'angle', true);
+                var exponent = this.reader.getFloat(children[i], 'exponent', true);
                 var targetIndex = nodeNames.indexOf("target");
 
                 // Retrieves the light location.
@@ -604,7 +552,7 @@ class MySceneGraph {
             if (this.textures[id] != null)
                 return "duplicate texture id";
 
-            var file = this.reader.getString(textures[i], 'file');
+            var file = this.reader.getString(textures[i], 'file', true);
 
             if (file == null)
                 return "no texture filepath defined";
@@ -643,7 +591,7 @@ class MySceneGraph {
             if (this.materials[id] != null)
                 return "duplicate material id";
 
-            var shininess = this.reader.getFloat(materials[i], 'shininess');
+            var shininess = this.reader.getFloat(materials[i], 'shininess', true);
 
             if (shininess == null)
                 return "no material shininess defined!";
