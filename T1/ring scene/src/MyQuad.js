@@ -14,8 +14,13 @@ class MyQuad extends CGFobject {
 	 * @param {Number} minT minimum t texture coordinate
 	 * @param {Number} maxT maximum t texture coordinate
 	 */
-	constructor(scene, minS = 0, maxS = 1, minT = 0, maxT = 1) {
+	constructor(scene, x1,y1,x2,y2,minS = 0, maxS = 1, minT = 0, maxT = 1) {
 		super(scene);
+
+		this.x1 = x1;
+		this.y1 = y1;
+		this.x2 = x2;
+		this.y2 = y2;
 
 		this.minS = minS;
 		this.maxS = maxS;
@@ -29,9 +34,9 @@ class MyQuad extends CGFobject {
 	 * Initializes vertices, indices, normals and texture coordinates
 	 */
 	initBuffers() {
-		this.vertices = [-0.5, -0.5, 0,
-			0.5, -0.5, 0, -0.5, 0.5, 0,
-			0.5, 0.5, 0,
+		this.vertices = [this.x1, this.y1, 0,
+			this.x2, this.y1, 0, this.x1, this.y2, 0,
+			this.x2, this.y2, 0,
 		];
 
 		this.indices = [

@@ -58,7 +58,7 @@ class LightingScene extends CGFscene {
    * and solids.
    */
   initElements() {
-    this.ringCore = new MyQuad(this);
+    this.ringCore = new MyQuad(this, -0.5,-0.5,0.5,0.5);
     this.ringPost = new MyCylinderCovered(this, 20, 20);
     this.ringRope = new MyCylinderCovered(this, 20, 20);
     this.stairs = new MyStairs(this);
@@ -75,7 +75,7 @@ class LightingScene extends CGFscene {
 
     this.cylinder = new MyNewCylinder(this,0.1,1,5,20,20);
 
-    this.floor = new MyQuad(this);
+    this.floor = new MyQuad(this, -0.5,-0.5,0.5,0.5);
     this.inc = 0.1;
   }
 
@@ -520,7 +520,7 @@ class LightingScene extends CGFscene {
       this.inc += 0.1;*/
 
       this.pushMatrix();
-      this.cylinder.display();
+      this.floor.display();
       this.popMatrix();
 
 
