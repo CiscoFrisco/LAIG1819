@@ -73,7 +73,10 @@ class LightingScene extends CGFscene {
     this.ray = new MyCylinder(this, 20, 20);
     this.circle = new MyPoligon(this,20);
 
+    this.cylinder = new MyNewCylinder(this,0.1,1,5,20,20);
+
     this.floor = new MyQuad(this);
+    this.inc = 0.1;
   }
 
   /**
@@ -113,7 +116,7 @@ class LightingScene extends CGFscene {
    */
   initCameras() {
     this.camera = new CGFcamera(
-        0.4, 0.1, 1000, vec3.fromValues(250, 250, 250),
+        0.4, 0.1, 1000, vec3.fromValues(30, 30, 30),
         vec3.fromValues(0, 0, 0));
   };
 
@@ -244,7 +247,7 @@ class LightingScene extends CGFscene {
     // Update all lights used
     this.updateLights();
 
-    this.pushMatrix();
+    /*this.pushMatrix();
     this.translate(-100, -5, 0);
     this.scale(400, 1, 250);
     this.rotate(-Math.PI / 2, 1, 0, 0);
@@ -457,9 +460,10 @@ class LightingScene extends CGFscene {
     this.stage.display();
     this.popMatrix();
 
-
+    
     this.pushMatrix();
-    this.translate(0,70,0);
+    this.translate(Math.sin(this.inc)*10,70,Math.cos(this.inc)*10);
+    this.rotate(this.inc,0,1,0);
     this.scale(10,10,10);
       
       this.pushMatrix();
@@ -493,7 +497,7 @@ class LightingScene extends CGFscene {
 
           this.pushMatrix();
           this.translate(x,0.3,z);
-          this.rotate(- angle*i + Math.PI/2 ,0,1,0);
+          this.rotate(- angle*i + Math.PI/2,0,1,0);
           this.rotate(-Math.PI/4,1,0,0);
           this.scale(0.25,0.25,0.25);
           this.cupula.display();
@@ -504,15 +508,20 @@ class LightingScene extends CGFscene {
     this.popMatrix();
 
     this.pushMatrix();
-    this.translate(0,70,0);
-    this.scale(7.5,70,7.5);
+    this.translate(Math.sin(this.inc)*10,70,Math.cos(this.inc)*10);
+    this.rotate(this.inc,0,1,0);
+    this.scale(7.5,70,7.5);  
     this.rotate(Math.PI/2,1,0,0);
     this.rick.apply();
     this.ray.display();
     this.popMatrix();
 
     this.defaultMaterial.apply();
+      this.inc += 0.1;*/
 
+      this.pushMatrix();
+      this.cylinder.display();
+      this.popMatrix();
 
 
     // Draw axis
