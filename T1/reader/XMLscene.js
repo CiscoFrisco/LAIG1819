@@ -43,6 +43,8 @@ class XMLscene extends CGFscene {
     /**
      * Initializes the scene cameras.
      * TODO: handle multiple
+     * 
+     * cgfinterface setactivecamera
      */
     initCameras(view) {
         this.camera.near = view.near;

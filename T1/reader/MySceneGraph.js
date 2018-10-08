@@ -634,6 +634,7 @@ class MySceneGraph {
         this.transformations = [];
         var numTransformations = 0;
 
+
         for (let i = 0; i < transformations.length; ++i) {
             if (transformations[i].nodeName != "transformation") {
                 this.onXMLMinorError("unknown tag <" + transformations[i].nodeName + ">");
@@ -646,17 +647,24 @@ class MySceneGraph {
                 return "duplicate transformation id";
 
             var children = transformations[i].children;
-            var types = [];
-            for (let j = 0; j < children.length; ++j) {
-                this.parseExplicitTransformation(children[j], types);
-            }
+            var error;
+            this.scene.loadIdentity();
 
-            if (types.length == 0)
+            if (children.length == 0)
                 return "no transformations defined!";
 
-            transformations[id] = types;
+            for (let j = 0; j < children.length; ++j) {
+                error = this.parseExplicitTransformation(children[j]);
+
+                if (error != null)
+                    return "no valid transformations defined!";
+            }
+
+            transformations[id] = this.scene.getMatrix();
             numTransformations++;
         }
+
+        this.scene.loadIdentity();
 
         if (numTransformations == 0)
             return "no transformation defined";
@@ -670,18 +678,14 @@ class MySceneGraph {
      * @param {*} node transformation block
      * @param {*} transformationsArray array of transformations associated
      */
-    parseExplicitTransformation(node, transformationsArray) {
+    parseExplicitTransformation(node) {
+
         if (node.nodeName == "translate") {
             var x = this.reader.getFloat(node, 'x', true);
             var y = this.reader.getFloat(node, 'y', true);
             var z = this.reader.getFloat(node, 'z', true);
 
-            transformationsArray.push({
-                type: "translate",
-                x: x,
-                y: y,
-                z: z
-            });
+            this.scene.translate(x, y, z);
 
         } else if (node.nodeName == "rotate") {
 
@@ -691,25 +695,21 @@ class MySceneGraph {
             if (!(axis == 'x' || axis == 'y' || axis == 'z'))
                 return "invalid rotate axis";
 
-            transformationsArray.push({
-                type: "rotate",
-                axis: axis,
-                angle: angle
-            });
+            var x = axis == 'x' ? 1 : 0;
+            var y = axis == 'y' ? 1 : 0;
+            var z = axis == 'z' ? 1 : 0;
+
+            this.scene.rotate(angle, x, y, z);
 
         } else if (node.nodeName == "scale") {
             var x = this.reader.getFloat(node, 'x', true);
             var y = this.reader.getFloat(node, 'y', true);
             var z = this.reader.getFloat(node, 'z', true);
 
-            transformationsArray.push({
-                type: "scale",
-                x: x,
-                y: y,
-                z: z
-            });
-
+            this.scene.scale(x, y, z);
         }
+        else
+            return "invalid transformation";
     }
 
     /**
@@ -745,39 +745,33 @@ class MySceneGraph {
                 var x2 = this.reader.getFloat(primitive, 'x2', true);
                 var y2 = this.reader.getFloat(primitive, 'y2', true);
 
-                this.primitives[id] = {
-                    type: "rectangle",
-                    x1: x1,
-                    y1: y1,
-                    x2: x2,
-                    y2: y2
-                };
+                this.primitives[id] = new MyQuad(this.scene, x1, y1, x2, y2);
                 numPrimitives++;
 
             } else if (primitive.nodeName == "triangle") {
-                var x1 = this.reader.getFloat(primitive, 'x1', true);
-                var y1 = this.reader.getFloat(primitive, 'y1', true);
-                var z1 = this.reader.getFloat(primitive, 'z1', true);
-                var x2 = this.reader.getFloat(primitive, 'x2', true);
-                var y2 = this.reader.getFloat(primitive, 'y2', true);
-                var z2 = this.reader.getFloat(primitive, 'z2', true);
-                var x3 = this.reader.getFloat(primitive, 'x3', true);
-                var y3 = this.reader.getFloat(primitive, 'y3', true);
-                var z3 = this.reader.getFloat(primitive, 'z3', true);
-
-                this.primitives[id] = {
-                    type: "triangle",
-                    x1: x1,
-                    y1: y1,
-                    z1: z1,
-                    x2: x2,
-                    y2: y2,
-                    z2: z2,
-                    x3: x3,
-                    y3: y3,
-                    z3: z3
-                };
-                numPrimitives++;
+                /*  var x1 = this.reader.getFloat(primitive, 'x1', true);
+                  var y1 = this.reader.getFloat(primitive, 'y1', true);
+                  var z1 = this.reader.getFloat(primitive, 'z1', true);
+                  var x2 = this.reader.getFloat(primitive, 'x2', true);
+                  var y2 = this.reader.getFloat(primitive, 'y2', true);
+                  var z2 = this.reader.getFloat(primitive, 'z2', true);
+                  var x3 = this.reader.getFloat(primitive, 'x3', true);
+                  var y3 = this.reader.getFloat(primitive, 'y3', true);
+                  var z3 = this.reader.getFloat(primitive, 'z3', true);
+     
+                  this.primitives[id] = {
+                      type: "triangle",
+                      x1: x1,
+                      y1: y1,
+                      z1: z1,
+                      x2: x2,
+                      y2: y2,
+                      z2: z2,
+                      x3: x3,
+                      y3: y3,
+                      z3: z3
+                  };
+                  numPrimitives++;*/
 
             } else if (primitive.nodeName == "cylinder") {
                 var base = this.reader.getFloat(primitive, 'base', true);
@@ -786,28 +780,21 @@ class MySceneGraph {
                 var slices = this.reader.getInteger(primitive, 'slices', true);
                 var stacks = this.reader.getInteger(primitive, 'stacks', true);
 
-                this.primitives[id] = {
-                    type: "sphere",
-                    base: base,
-                    top: top,
-                    height: height,
-                    slices: slices,
-                    stacks: stacks
-                };
+                this.primitives[id] = new MyCylinder(this.scene, base, top, height, slices, stacks);
                 numPrimitives++;
 
             } else if (primitive.nodeName == "sphere") {
-                var radius = this.reader.getFloat(primitive, 'radius', true);
-                var slices = this.reader.getInteger(primitive, 'slices', true);
-                var stacks = this.reader.getInteger(primitive, 'stacks', true);
-
-                this.primitives[id] = {
-                    type: "sphere",
-                    radius: radius,
-                    slices: slices,
-                    stacks: stacks
-                };
-                numPrimitives++;
+                /*  var radius = this.reader.getFloat(primitive, 'radius', true);
+                  var slices = this.reader.getInteger(primitive, 'slices', true);
+                  var stacks = this.reader.getInteger(primitive, 'stacks', true);
+     
+                  this.primitives[id] = {
+                      type: "sphere",
+                      radius: radius,
+                      slices: slices,
+                      stacks: stacks
+                  };
+                  numPrimitives++;*/
             } else if (primitive.nodeName == "torus") {
                 var inner = this.reader.getFloat(primitive, 'inner', true);
                 var outer = this.reader.getFloat(primitive, 'outer', true);
@@ -815,13 +802,7 @@ class MySceneGraph {
                 var loops = this.reader.getInteger(primitive, 'loops', true);
 
 
-                this.primitives[id] = {
-                    type: "torus",
-                    inner: inner,
-                    outer: outer,
-                    slices: slices,
-                    loops: loops
-                };
+                this.primitives[id] = new MyTorus(this.scene, inner, outer, slices, loops);
                 numPrimitives++;
             }
         }
@@ -879,15 +860,16 @@ class MySceneGraph {
                         if (transfId == null)
                             return "no transformationref id defined!";
 
-                        component.transformationref = transfId;
+                        component.transformations = this.transformations[transfId];
 
                     } else if (!this.findStringOnArray(transformations, "transformationref", "nodeName")) {
-                        var types = [];
+                        this.scene.loadIdentity();
                         for (let c = 0; c < transformations.length; c++) {
-                            this.parseExplicitTransformation(transformations[c], types);
+                            this.parseExplicitTransformation(transformations[c]);
                         }
 
-                        component.transformations = types;
+                        this.scene.loadIdentity();
+                        component.transformations = this.scene.getMatrix();
                     } else
                         return "invalid transformation block";
                 } else if (children[j].nodeName == "materials") {
@@ -915,22 +897,8 @@ class MySceneGraph {
                         length_s: length_s,
                         length_t: length_t
                     };
-                } else if (children[j].nodeName == "children") {
-
-                    var refs = children[j].children;
-                    component.children = [];
-                    component.primitives = [];
-
-                    for (let c = 0; c < refs.length; ++c) {
-                        let childId = this.reader.getString(refs[c], 'id', true);
-
-                        if (refs[c].nodeName == "primitiveref") {
-                            component.primitives.push(childId);
-                        } else if (refs[c].nodeName == "componentref") {
-                            component.children.push(childId);
-                        }
-                    }
-                } else
+                }
+                else if (children[j].nodeName != "children")
                     return "invalid component property name";
             }
 
@@ -949,8 +917,27 @@ class MySceneGraph {
         if (numComponents == 0)
             return "no component defined";
 
+
+        for(let i = 0; i < components.length; ++i){
+            var id = this.reader.getString(components[i], 'id', true);
+
+            var children = components[i].children;
+        }
+
+        for(var key in this.components)
+            parseChildren(this.components[key], )
+
         this.log("Parsed components");
         return null;
+    }
+
+    parseChildren(component, refs, components) {
+        component.children = [];
+
+        for (let c = 0; c < refs.length; ++c) {
+            let childId = this.reader.getString(refs[c], 'id', true);
+            component.children.push(components[childId]);
+        }
     }
 
     /*
