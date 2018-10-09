@@ -497,7 +497,7 @@ class MySceneGraph {
                 var targetIndex = nodeNames.indexOf("target");
 
                 // Retrieves the light location.
-                this.extractPosition(locationIndex, grandChildren, locationLight, lightId, false);
+                this.extractPosition(locationIndex, grandChildren, locationLight, lightId, true);
 
                 // Retrieves the light location.
                 var targetLight = {};

@@ -40,14 +40,14 @@
             <specular r="0.0" g="0.0" b="1.0" a="1.0" />
         </omni>
         <spot id="light4" enabled="1" angle="45.0" exponent="1.0">
-            <location x="-190.0" y="20.0" z="30.0" />
+            <location x="-190.0" y="20.0" z="30.0" w="1.0"/>
             <target x="-200.0" y="20.0" z="0.0" />
             <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="0.0" g="0.0" b="1.0" a="1.0" />
         </spot>
         <spot id="light5" enabled="1" angle="45.0" exponent="1000.0">
-            <location x="-190.0" y="20.0" z="-30.0" />
+            <location x="-190.0" y="20.0" z="-30.0" w="1.0"/>
             <target x="-200.0" y="20.0" z="0.0" />
             <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
