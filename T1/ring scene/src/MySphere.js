@@ -4,6 +4,8 @@
  * @constructor
  */
 
+// TODO: radius
+
 class MySphere extends CGFobject {
 	/**
 	 * Builds a MyLamp object, resembling a semi-sphere.
@@ -11,21 +13,13 @@ class MySphere extends CGFobject {
 	 * @param {CGFscene} scene CGFscene
 	 * @param {Number} slices number of slices
 	 * @param {Number} stacks number of stacks
-	 * @param {Number} minS minimum s texture coordinates
-	 * @param {Number} maxS maximum s texture coordinate
-	 * @param {Number} minT minimum t texture coordinate
-	 * @param {Number} maxT maximum t texture coordinate
 	 */
-	constructor(scene, slices, stacks, minS = 0, maxS = 1, minT = 0, maxT = 1) {
+	constructor(scene, radius, slices, stacks) {
 		super(scene);
 
+		this.radius = radius;
 		this.slices = slices;
 		this.stacks = stacks;
-
-		this.maxS = maxS;
-		this.minS = minS;
-		this.minT = minT;
-		this.maxT = maxT;
 
 		this.initBuffers();
 	};
@@ -35,7 +29,7 @@ class MySphere extends CGFobject {
 	 */
 	initBuffers() {
 		var alpha = 2 * Math.PI / this.slices;
-		
+
 		this.vertices = [];
 		this.normals = [];
 		this.indices = [];
@@ -44,7 +38,7 @@ class MySphere extends CGFobject {
 		var z = 0;
 		var raio = 1;
 
-		for (var i = 0; i < this.stacks/2; i++) {
+		for (var i = 0; i < this.stacks / 2; i++) {
 			if (i > 0)
 				raio = Math.cos(Math.asin(z));
 
@@ -52,19 +46,19 @@ class MySphere extends CGFobject {
 				this.vertices.push(Math.cos(j * alpha) * raio, Math.sin(j * alpha) * raio, z);
 				this.normals.push(Math.cos(j * alpha), Math.sin(j * alpha), raio);
 				this.texCoords.push(0.5 + (Math.cos(j * alpha) * raio) / 2.0, 0.5 - (Math.sin(j * alpha) * raio) / 2.0);
-            }
+			}
 
-			z += 1 / (this.stacks/2);
-        }
+			z += 1 / (this.stacks / 2);
+		}
 
-        this.vertices.push(0, 0, 1);
+		this.vertices.push(0, 0, 1);
 		this.normals.push(Math.cos(j * alpha), Math.sin(j * alpha), raio);
-        this.texCoords.push(1, 1);
-        
-        var z = 0;
+		this.texCoords.push(1, 1);
+
+		var z = 0;
 		var raio = 1;
-        
-        for (var i = 0; i < this.stacks/2; i++) {
+
+		for (var i = 0; i < this.stacks / 2; i++) {
 			if (i > 0)
 				raio = Math.cos(Math.asin(z));
 
@@ -72,18 +66,18 @@ class MySphere extends CGFobject {
 				this.vertices.push(Math.cos(j * alpha) * raio, Math.sin(j * alpha) * raio, -z);
 				this.normals.push(Math.cos(j * alpha), Math.sin(j * alpha), -raio);
 				this.texCoords.push(0.5 + (Math.cos(j * alpha) * raio) / 2.0, 0.5 - (Math.sin(j * alpha) * raio) / 2.0);
-            }
+			}
 
-			z += 1 / (this.stacks/2);
+			z += 1 / (this.stacks / 2);
 		}
-        
-        this.vertices.push(0, 0, -1);
+
+		this.vertices.push(0, 0, -1);
 		this.normals.push(Math.cos(j * alpha), Math.sin(j * alpha), -raio);
 		this.texCoords.push(0.0, 0.0);
 
 		var ind = 0;
 
-		for (var i = 0; i < this.stacks/2 - 1; i++) {
+		for (var i = 0; i < this.stacks / 2 - 1; i++) {
 			for (var j = 0; j <= this.slices; j++) {
 				if (j != this.slices) {
 					this.indices.push(ind, ind + 1, ind + this.slices + 1);
@@ -103,11 +97,11 @@ class MySphere extends CGFobject {
 				this.indices.push(ind, ind + 1, vert_ind);
 			}
 			ind++;
-        }
-        
-        ind++;
+		}
 
-        for (var i = 0; i < this.stacks/2 - 1; i++) {
+		ind++;
+
+		for (var i = 0; i < this.stacks / 2 - 1; i++) {
 			for (var j = 0; j <= this.slices; j++) {
 				if (j != this.slices) {
 					this.indices.push(ind, ind + this.slices + 1, ind + 1);
@@ -132,4 +126,9 @@ class MySphere extends CGFobject {
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
 	};
+
+	updateTexCoords(length_s, length_t) {
+
+		this.updateTexCoordsGLBuffers();
+	}
 };

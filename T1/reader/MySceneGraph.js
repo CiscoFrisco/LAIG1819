@@ -758,19 +758,8 @@ class MySceneGraph {
                   var x3 = this.reader.getFloat(primitive, 'x3', true);
                   var y3 = this.reader.getFloat(primitive, 'y3', true);
                   var z3 = this.reader.getFloat(primitive, 'z3', true);
-     
-                  this.primitives[id] = {
-                      type: "triangle",
-                      x1: x1,
-                      y1: y1,
-                      z1: z1,
-                      x2: x2,
-                      y2: y2,
-                      z2: z2,
-                      x3: x3,
-                      y3: y3,
-                      z3: z3
-                  };
+    
+                  this.primitives[id] = new MyTriangle(this.scene, x1, y1, z1, x2, y2, z2, x3, y3, z3);
                   numPrimitives++;*/
 
             } else if (primitive.nodeName == "cylinder") {
@@ -787,13 +776,8 @@ class MySceneGraph {
                 /*  var radius = this.reader.getFloat(primitive, 'radius', true);
                   var slices = this.reader.getInteger(primitive, 'slices', true);
                   var stacks = this.reader.getInteger(primitive, 'stacks', true);
-     
-                  this.primitives[id] = {
-                      type: "sphere",
-                      radius: radius,
-                      slices: slices,
-                      stacks: stacks
-                  };
+
+                  this.primitives[id] = new MySphere(this.scene, radius, slices, stacks);
                   numPrimitives++;*/
             } else if (primitive.nodeName == "torus") {
                 var inner = this.reader.getFloat(primitive, 'inner', true);

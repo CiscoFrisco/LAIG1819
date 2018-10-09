@@ -9,10 +9,6 @@ class MyTriangle extends CGFobject {
 	 * Builds a MyQuad object
 	 * 
 	 * @param {CGFscene} scene CGFscene
-	 * @param {Number} minS minimum s texture coordinate
-	 * @param {Number} maxS maximum s texture coordinate
-	 * @param {Number} minT minimum t texture coordinate
-	 * @param {Number} maxT maximum t texture coordinate
 	 */
 	constructor(scene, x1, y1, z1, x2, y2, z2, x3, y3, z3) {
 		super(scene);
@@ -61,6 +57,8 @@ class MyTriangle extends CGFobject {
 
 		var beta = Math.acos((Math.pow(a, 2) - Math.pow(b, 2) + Math.pow(c, 2)) / (2 * a * c));
 
+		// TODO: v???
+
 		this.texCoords = [
 			0, v/length_t,
 			c/length_s, v/length_t,
@@ -68,6 +66,5 @@ class MyTriangle extends CGFobject {
 		];
 
 		this.updateTexCoordsGLBuffers();
-
 	}
 };
