@@ -210,6 +210,16 @@ class MySceneGraph {
                 var top = this.reader.getFloat(children[i], 'top', true);
                 var bottom = this.reader.getFloat(children[i], 'bottom', true);
 
+                var fromIndex = nodeNames.indexOf('from');
+                var toIndex = nodeNames.indexOf('to');
+
+                var fx = this.reader.getFloat(grandChildren[fromIndex], 'x', true);
+                var fy = this.reader.getFloat(grandChildren[fromIndex], 'y', true);
+                var fz = this.reader.getFloat(grandChildren[fromIndex], 'z', true);
+                var tx = this.reader.getFloat(grandChildren[toIndex], 'x', true);
+                var ty = this.reader.getFloat(grandChildren[toIndex], 'y', true);
+                var tz = this.reader.getFloat(grandChildren[toIndex], 'z', true);
+
                 this.views.array[id] = {
                     type: "ortho",
                     near: near,
@@ -217,7 +227,17 @@ class MySceneGraph {
                     left: left,
                     right: right,
                     top: top,
-                    bottom: bottom
+                    bottom: bottom,
+                    from: {
+                        x: fx,
+                        y: fy,
+                        z: fz
+                    },
+                    to: {
+                        x: tx,
+                        y: ty,
+                        z: tz
+                    }
                 };
                 numViews++;
 
@@ -700,7 +720,7 @@ class MySceneGraph {
             var y = axis == 'y' ? 1 : 0;
             var z = axis == 'z' ? 1 : 0;
 
-            this.scene.rotate(angle, x, y, z);
+            this.scene.rotate(angle*DEGREE_TO_RAD, x, y, z);
 
         } else if (node.nodeName == "scale") {
             var x = this.reader.getFloat(node, 'x', true);
@@ -773,12 +793,12 @@ class MySceneGraph {
                 numPrimitives++;
 
             } else if (primitive.nodeName == "sphere") {
-                /*  var radius = this.reader.getFloat(primitive, 'radius', true);
+                  var radius = this.reader.getFloat(primitive, 'radius', true);
                   var slices = this.reader.getInteger(primitive, 'slices', true);
                   var stacks = this.reader.getInteger(primitive, 'stacks', true);
 
                   this.primitives[id] = new MySphere(this.scene, radius, slices, stacks);
-                  numPrimitives++;*/
+                  numPrimitives++;
             } else if (primitive.nodeName == "torus") {
                 var inner = this.reader.getFloat(primitive, 'inner', true);
                 var outer = this.reader.getFloat(primitive, 'outer', true);
@@ -852,8 +872,8 @@ class MySceneGraph {
                             this.parseExplicitTransformation(transformations[c]);
                         }
 
-                        this.scene.loadIdentity();
                         component.transformations = this.scene.getMatrix();
+                        this.scene.loadIdentity();
                     } else
                         return "invalid transformation block";
                 } else if (children[j].nodeName == "materials") {
@@ -924,16 +944,19 @@ class MySceneGraph {
         for (let c = 0; c < refs.length; ++c) {
             let childId = this.reader.getString(refs[c], 'id', true);
             if (refs[c].nodeName == "componentref") {
+                console.log(childId + ' ' + this.components[childId]);
                 this.components[id].children[childId] = {
                     data: this.components[childId],
                     type: "component"
                 };
 
             } else {
+                console.log(childId + ' ' + this.primitives[childId]);
                 this.components[id].children[childId] = {
                     data: this.primitives[childId],
                     type: "primitive"
                 };
+                console.log(childId + ' ' +  this.primitives[childId]);
             }
         }
     }
@@ -966,12 +989,17 @@ class MySceneGraph {
     }
 
     displayComponent(component) {
+        this.scene.multMatrix(component.transformations);
+
         for (var key in component.children) {
+            this.scene.pushMatrix();
             if (component.children[key].type == "primitive")
                 this.displayPrimitive(component.children[key].data);
             else if (component.children[key].type == "component")
                 this.displayComponent(component.children[key].data);
+            this.scene.popMatrix();
         }
+        //this.scene.loadIdentity();
     }
 
     displayPrimitive(primitive) {

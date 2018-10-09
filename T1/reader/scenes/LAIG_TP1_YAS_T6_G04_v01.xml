@@ -1,0 +1,606 @@
+<yas>
+
+	<scene root="cenaPrincipal" axis_length="2.5" />
+
+	<views default="inicial" >
+		<perspective id="inicial" near="0.1" far="500" angle="23">
+		<from x="30" y="30" z="30" />
+		<to x="0" y="0" z="0" />
+		</perspective>
+	</views>
+
+	<ambient>
+		<ambient r="0.1" g="0.1" b="0.1" a="1" />
+		<background r="0.3" g="0.7" b="1" a="1" />
+	</ambient>
+
+	<lights>
+		<omni id="lights0" enabled="1" >
+			<location x="0" y="10" z="0" w="1" />
+			<ambient r="0.2" g="0.2" b="0.2" a="1.0" />       
+       		<diffuse r="0.6" g="0.6" b="0.6" a="1.0" />        
+        	<specular r="0.2" g="0.2" b="0.2" a="1.0" />
+		 </omni>	
+		 	
+		 <spot id="lights1" enabled="1" angle="30" exponent="1">
+		 	<location x="0" y="10" z="0" w="1" />
+			<target x="0" y="0" z="0" />
+			<ambient r="0.2" g="0.2" b="0.2" a="1.0" />       
+        	<diffuse r="0.6" g="0.6" b="0.6" a="1.0" />        
+        	<specular r="0.2" g="0.2" b="0.2" a="1.0" />
+		</spot>
+	</lights>
+
+	<textures>
+		<texture id="default" file="default.png" />
+		<texture id="terrainTexture" file="terrain.png" />
+ 		<texture id="pineWoodtexture" file="treetrunk.png" />
+ 		<texture id="pineToptexture" file="treetop.png" />
+	</textures>
+
+	<materials>
+		<material id="default" shininess = "1" >
+ 			<emission r="0" g="0" b="0" a="1" />
+			<ambient r="0.1" g="0.1" b="0.1" a="1" />
+			<diffuse r="0.1" g="0.1" b="0.1" a="1" />
+			<specular r="0.3" g="0.3" b="0.3" a="1" />
+		</material>
+		<material id="brown" shininess = "1" >
+ 			<emission r="0" g="0" b="0" a="1" />
+			<ambient r="0.56" g="0.48" b="0.4" a="1" />
+			<diffuse r="0.1" g="0.1" b="0.1" a="1" />
+			<specular r="0.3" g="0.3" b="0.3" a="1" />
+		</material>
+		<material id="green" shininess = "1" >
+ 			<emission r="0" g="0" b="0" a="1" />
+			<ambient r="0" g="1" b="0" a="1" />
+			<diffuse r="0.1" g="0.1" b="0.1" a="1" />
+			<specular r="0.3" g="0.3" b="0.3" a="1" />
+		</material>
+	</materials>
+
+	<transformations>
+
+		<transformation id="RoundTree1">
+			<translate x="7" y="0" z="6"/>
+			<rotate axis="y" angle="-90"/>
+		</transformation>
+
+		<transformation id="smallTopRound">
+			<translate x="0" y="-2.5" z="4.5"/>
+			<scale x="1" y="0.8" z="0.5"/>
+		</transformation>
+
+		<transformation id="twigPosition1">
+			<translate x="0" y="0" z="3"/>
+			<rotate axis="y" angle="60"/>
+		</transformation>
+
+		<transformation id="TopTreeRound">
+			<translate x="0" y="0" z="6"/>
+			<scale x="2" y="2" z="3"/>
+		</transformation>
+
+		<transformation id="nulo">
+			<translate x="0" y="0" z="0"/>
+		</transformation>
+
+		<transformation id="treeTop1">
+			<translate x="1" y="1" z="3.5"/>
+		</transformation>
+		
+		<transformation id="planoxy">
+			<rotate axis="x" angle="-90" />
+		</transformation>
+
+		<transformation id="toptree1">
+			<translate x="6" y="1" z="-5"/>
+			<rotate axis="y" angle="-90"/>
+		</transformation>
+
+		<transformation id="toptree2">
+			<translate x="0" y="0" z="1.3"/>
+		</transformation>
+
+		<transformation id="toptree3">
+			<translate x="0" y="0" z="2.25"/>
+		</transformation>
+
+		<transformation id="trunktree">
+			<translate x="0" y="0" z="-1"/>
+		</transformation>
+
+	</transformations>
+
+	<primitives>
+		<primitive id="floor">
+			<rectangle x1="10" x2="-10" y1="10" y2="-10" />
+		</primitive>
+		<primitive id="canopyPineBig">
+			<cylinder base="1.2" top="0" height="2.3" slices="50" stacks="50"/>
+		</primitive>
+
+		<primitive id="canopyPineMedium">
+			<cylinder base="0.7" top="0" height="1.5" slices="50" stacks="50"/>
+		</primitive>
+
+		<primitive id="canopyPineSmall">
+			<cylinder base="0.4" top="0" height="0.8" slices="50" stacks="50"/>
+		</primitive>
+
+		<primitive id="treeTrunk">
+			<cylinder base="0.2" top="0.2" height="1.2" slices="50" stacks="50"/>
+		</primitive>
+
+		<primitive id="bigTreePart1">
+			<cylinder base="2.8" top="1.5" height="2" slices="30" stacks="30" />
+		</primitive>
+
+		<primitive id="bigTreePart2">
+			<cylinder base="1.5" top="0.8" height="3.5" slices="30" stacks="30" />
+		</primitive>
+
+		<primitive id="bigTreeTop">
+			<sphere radius="2.2" slices="30" stacks="30" />
+		</primitive>
+
+		<primitive id="sphere">
+			<sphere radius="0.8" slices="10" stacks="10" />
+		</primitive>
+
+		<primitive id="roundTrunkTree">
+			<cylinder base="0.8" top="0.4" height="4" slices="50" stacks="50" />
+		</primitive>
+
+		<primitive id="twig">
+			<cylinder base="0.2" top="0.05" height="2.5" slices="30" stacks="30" />
+		</primitive>
+
+	</primitives>
+
+	<components>
+		<component id="cenaPrincipal">
+
+			<transformation>
+				<transformationref id="nulo" />
+			</transformation>
+
+			<materials>
+				<material id="default" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<componentref id="bigTree"/>
+				<componentref id="terrain"/>
+				<componentref id="pinetree"/>
+				<componentref id="pinetree2"/>
+				<componentref id="pinetree3"/>
+				<componentref id="pinetreegroup1"/>
+				<componentref id="pinetreegroup2"/>
+				<componentref id="pinetreegroup3"/>
+				<componentref id="RoundTree"/>
+			</children>
+		</component>
+
+		<component id="bigTree">
+
+			<transformation>
+				<rotate axis="x" angle="-90" />
+			</transformation>
+
+			<materials>
+				<material id="brown" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<primitiveref id="bigTreePart1" />
+				<componentref id="door"/>
+				<componentref id="bigTreePart2"/>
+			</children>
+		</component>
+
+		<component id="door">
+
+			<transformation>
+				<translate x="0" y="-2.23" z="0.91"/>
+				<scale x="0.1" y="1" z="0.1"/>
+				<rotate axis="x" angle="86.2"/>
+			</transformation>
+
+			<materials>
+				<material id="default" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<primitiveref id="floor" />
+			</children>
+		</component>
+
+		<component id="bigTreePart2">
+
+			<transformation>
+				<translate x="0" y="0" z="2" />
+			</transformation>
+
+			<materials>
+				<material id="inherit" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<componentref id="bigTreeTop"/>
+				<componentref id="bigTreeTop2"/>
+				<componentref id="bigTreeTop3"/>
+				<componentref id="bigTreeTop4"/>
+				<componentref id="bigTreeTop5"/>
+				<componentref id="bigTreeTop6"/>
+				<primitiveref id="bigTreePart2" />
+			</children>
+		</component>
+
+		<component id="bigTreeTop">
+
+			<transformation>
+				<translate x="0" y="0" z="5.5" />
+			</transformation>
+
+			<materials>
+				<material id="green" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<primitiveref id="bigTreeTop" />
+			</children>
+		</component>
+
+		<component id="bigTreeTop2">
+
+			<transformation>
+				<translate x="0" y="2" z="4.5"/>
+				<scale x="0.8" y="0.8" z="0.8"/>
+			</transformation>
+
+			<materials>
+				<material id="green" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<primitiveref id="bigTreeTop" />
+			</children>
+		</component>
+
+		<component id="bigTreeTop3">
+
+			<transformation>
+				<translate x="1.2" y="0" z="4.5"/>
+			</transformation>
+
+			<materials>
+				<material id="green" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<primitiveref id="bigTreeTop" />
+			</children>
+		</component>
+
+		<component id="bigTreeTop4">
+
+			<transformation>
+				<rotate axis="z" angle="180"/>
+				<translate x="0" y="0.5" z="0.1"/>
+			</transformation>
+
+			<materials>
+				<material id="green" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<componentref id="bigTreeTop3"/>
+			</children>
+		</component>
+
+		<component id="bigTreeTop5">
+
+			<transformation>
+				<translate x="0" y="0" z="2"/>
+			</transformation>
+
+			<materials>
+				<material id="green" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<componentref id="bigTreeTop4"/>
+			</children>
+		</component>
+
+		<component id="bigTreeTop6">
+
+			<transformation>
+				<translate x="0" y="1.3" z="6"/>
+			</transformation>
+
+			<materials>
+				<material id="green" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<primitiveref id="bigTreeTop" />
+			</children>
+		</component>
+
+		<component id="pinetreegroup1">
+
+			<transformation>
+				<rotate axis="y" angle ="25"/>
+			</transformation>
+
+			<materials>
+				<material id="inherit" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<componentref id="pinetree" />
+				<componentref id="pinetree2" />
+				<componentref id="pinetree3" />
+			</children>
+		</component>
+
+		<component id="pinetreegroup2">
+
+			<transformation>
+				<rotate axis="y" angle ="50"/>
+			</transformation>
+
+			<materials>
+				<material id="inherit" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<componentref id="pinetreegroup1" />
+			</children>
+		</component>		
+
+		<component id="pinetreegroup3">
+
+			<transformation>
+				<rotate axis="y" angle ="25"/>
+			</transformation>
+
+			<materials>
+				<material id="inherit" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<componentref id="pinetreegroup1" />
+			</children>
+		</component>
+
+		<component id="pinetree">
+
+			<transformation>
+				<transformationref id="toptree1" />
+			</transformation>
+
+			<materials>
+				<material id="green" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<primitiveref id="canopyPineBig" />
+				<componentref id="canopyPineMedium" />
+				<componentref id="canopyPineSmall" />
+				<componentref id="treeTrunk" />
+			</children>
+		</component>
+
+		<component id="pinetree2">
+
+			<transformation>
+				<scale x="1" y="1.3" z="1"/>
+				<translate x="-1.5" y="0" z="-2"/>
+			</transformation>
+
+			<materials>
+				<material id="inherit" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<componentref id="pinetree" />
+			</children>
+		</component>
+
+		<component id="pinetree3">
+
+			<transformation>
+				<scale x="1.2" y="0.9" z="1.1"/>
+				<translate x="-2.5" y="0" z="0"/>
+			</transformation>
+
+			<materials>
+				<material id="inherit" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<componentref id="pinetree" />
+			</children>
+		</component>
+
+		<component id="treeTrunk">
+
+			<transformation>
+				<transformationref id="trunktree" />
+			</transformation>
+
+			<materials>
+				<material id="brown" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<primitiveref id="treeTrunk" />
+			</children>
+		</component>
+
+			<component id="canopyPineMedium">
+
+			<transformation>
+				<transformationref id="toptree2" />
+			</transformation>
+
+			<materials>
+				<material id="inherit" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<primitiveref id="canopyPineMedium" />
+			</children>
+		</component>
+
+			<component id="canopyPineSmall">
+
+			<transformation>
+				<transformationref id="toptree3" />
+			</transformation>
+
+			<materials>
+				<material id="inherit"/>
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<primitiveref id="canopyPineSmall" />
+			</children>
+		</component>
+
+
+		<component id="terrain">
+
+			<transformation>
+				<transformationref id="planoxy" />
+			</transformation>
+
+			<materials>
+				<material id="default" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<primitiveref id="floor" />
+			</children>
+		</component>
+
+		<component id="RoundTree">
+
+			<transformation>
+				<transformationref id="RoundTree1" />
+			</transformation>
+
+			<materials>
+				<material id="brown" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<primitiveref id="roundTrunkTree" />
+				<componentref id="bigToproundTree"/>
+				<componentref id="twig"/>
+				<componentref id="smallTop"/>
+
+			</children>
+		</component>
+
+
+		<component id="bigToproundTree">
+
+			<transformation>
+				<transformationref id="TopTreeRound" />
+			</transformation>
+
+			<materials>
+				<material id="green" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<primitiveref id="sphere" />
+			</children>
+		</component>
+
+
+		<component id="twig">
+
+			<transformation>
+				<transformationref id="twigPosition1" />
+			</transformation>
+
+			<materials>
+				<material id="brown" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<primitiveref id="twig" />
+			</children>
+		</component>
+
+
+		<component id="smallTop">
+
+			<transformation>
+				<transformationref id="smallTopRound" />
+			</transformation>
+
+			<materials>
+				<material id="green" />
+			</materials>
+
+			<texture id="none" length_s="1" length_t="1" />
+
+			<children>
+				<primitiveref id="sphere" />
+			</children>
+		</component>
+
+	</components>
+</yas>
