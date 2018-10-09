@@ -626,7 +626,7 @@
                 <componentref id="rope3" />
             </children>
         </component>
-        <component id="ropes">
+        <component id="ringropes">
             <transformation>
             </transformation>
             <materials>

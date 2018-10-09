@@ -13,6 +13,7 @@ var COMPONENTS_INDEX = 8;
 
 // TODO: verificar erros e tipos de erro (minor e assumir valor default, ou retornar logo)
 
+
 /**
  * MySceneGraph class, representing the scene graph.
  */
@@ -707,8 +708,7 @@ class MySceneGraph {
             var z = this.reader.getFloat(node, 'z', true);
 
             this.scene.scale(x, y, z);
-        }
-        else
+        } else
             return "invalid transformation";
     }
 
@@ -749,18 +749,18 @@ class MySceneGraph {
                 numPrimitives++;
 
             } else if (primitive.nodeName == "triangle") {
-                /*  var x1 = this.reader.getFloat(primitive, 'x1', true);
-                  var y1 = this.reader.getFloat(primitive, 'y1', true);
-                  var z1 = this.reader.getFloat(primitive, 'z1', true);
-                  var x2 = this.reader.getFloat(primitive, 'x2', true);
-                  var y2 = this.reader.getFloat(primitive, 'y2', true);
-                  var z2 = this.reader.getFloat(primitive, 'z2', true);
-                  var x3 = this.reader.getFloat(primitive, 'x3', true);
-                  var y3 = this.reader.getFloat(primitive, 'y3', true);
-                  var z3 = this.reader.getFloat(primitive, 'z3', true);
-    
-                  this.primitives[id] = new MyTriangle(this.scene, x1, y1, z1, x2, y2, z2, x3, y3, z3);
-                  numPrimitives++;*/
+                var x1 = this.reader.getFloat(primitive, 'x1', true);
+                var y1 = this.reader.getFloat(primitive, 'y1', true);
+                var z1 = this.reader.getFloat(primitive, 'z1', true);
+                var x2 = this.reader.getFloat(primitive, 'x2', true);
+                var y2 = this.reader.getFloat(primitive, 'y2', true);
+                var z2 = this.reader.getFloat(primitive, 'z2', true);
+                var x3 = this.reader.getFloat(primitive, 'x3', true);
+                var y3 = this.reader.getFloat(primitive, 'y3', true);
+                var z3 = this.reader.getFloat(primitive, 'z3', true);
+
+                this.primitives[id] = new MyTriangle(this.scene, x1, y1, z1, x2, y2, z2, x3, y3, z3);
+                numPrimitives++;
 
             } else if (primitive.nodeName == "cylinder") {
                 var base = this.reader.getFloat(primitive, 'base', true);
@@ -881,8 +881,7 @@ class MySceneGraph {
                         length_s: length_s,
                         length_t: length_t
                     };
-                }
-                else if (children[j].nodeName != "children")
+                } else if (children[j].nodeName != "children")
                     return "invalid component property name";
             }
 
@@ -901,29 +900,41 @@ class MySceneGraph {
             return "no component defined";
 
 
-        for(let i = 0; i < components.length; ++i){
+        for (let i = 0; i < components.length; ++i) {
             var id = this.reader.getString(components[i], 'id', true);
 
             var children = components[i].children;
 
-            for(let j = 0; j < children.length; ++j){
-                if (children[j].nodeName == "children"){
-                    this.parseChildren(this.components[id], children[j].children, this.components);
+            for (let j = 0; j < children.length; ++j) {
+                if (children[j].nodeName == "children") {
+                    this.parseChildren(id, children[j].children);
+                    break;
                 }
             }
+            if (this.components[id].children == null)
+                return "no children defined";
         }
-
 
         this.log("Parsed components");
         return null;
     }
 
-    parseChildren(component, refs, components) {
-        component.children = [];
-
+    parseChildren(id, refs) {
+        this.components[id].children = {};
         for (let c = 0; c < refs.length; ++c) {
             let childId = this.reader.getString(refs[c], 'id', true);
-            component.children.push(components[childId]);
+            if (refs[c].nodeName == "componentref") {
+                this.components[id].children[childId] = {
+                    data: this.components[childId],
+                    type: "component"
+                };
+
+            } else {
+                this.components[id].children[childId] = {
+                    data: this.primitives[childId],
+                    type: "primitive"
+                };
+            }
         }
     }
 
@@ -950,5 +961,20 @@ class MySceneGraph {
     displayScene() {
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
+
+        this.displayComponent(this.components[this.sceneInfo.rootId]);
+    }
+
+    displayComponent(component) {
+        for (var key in component.children) {
+            if (component.children[key].type == "primitive")
+                this.displayPrimitive(component.children[key].data);
+            else if (component.children[key].type == "component")
+                this.displayComponent(component.children[key].data);
+        }
+    }
+
+    displayPrimitive(primitive) {
+        primitive.display();
     }
 }
