@@ -59,8 +59,8 @@
         </spot>
     </lights>
     <textures>
-        <texture id="ringApron" file="images/ringApron.jpeg" />
-        <texture id="stairs" file="images/stairs.jpeg" />
+        <texture id="ringApron" file="scenes/images/ringApron.jpeg" />
+        <texture id="stairs" file="scenes/images/stairs.jpeg" />
     </textures>
     <materials>
         <material id="ringMat" shininess = "1.0">
@@ -316,6 +316,7 @@
             </transformation>
             <materials>
                 <material id="inherit" />
+                <material id="ringRopeApp"/>
             </materials>
             <texture id="none"/>
             <children>

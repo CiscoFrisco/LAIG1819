@@ -156,6 +156,8 @@ class XMLscene extends CGFscene {
         this.interface.addLightsGroup(this.graph.lights);
 
         this.sceneInited = true;
+
+        this.materialNo = 0;
     }
 
 

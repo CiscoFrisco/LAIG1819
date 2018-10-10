@@ -1,9 +1,13 @@
 <yas>
     <scene root="root" axis_length="1.0" />
 
-     <views default="3D_view">
+     <views default="perspective2">
         <perspective id="3D_view" near="10.0" far="20.0" angle="0.0">
             <from x="20.0" y="5.0" z="0.0" />
+            <to x="0.0" y="0.0" z="0.0" />
+        </perspective>
+        <perspective id="perspective2" near="0.1" far="1000.0" angle="23.0">
+            <from x="100.0" y="100.0" z="100.0" />
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
     </views>

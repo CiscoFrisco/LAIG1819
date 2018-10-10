@@ -578,7 +578,7 @@ class MySceneGraph {
             if (file == null)
                 return "no texture filepath defined";
 
-            this.textures[id] = file;
+            this.textures[id] = new CGFtexture(this.scene, file);
             numTextures++;
         }
 
@@ -597,7 +597,7 @@ class MySceneGraph {
     parseMaterials(materialsNode) {
 
         var materials = materialsNode.children;
-        this.materials = [];
+        this.materials = {};
         var numMaterials = 0;
 
         for (let i = 0; i < materials.length; ++i) {
@@ -619,17 +619,48 @@ class MySceneGraph {
 
             var properties = materials[i].children;
 
-            var material = {};
+            var material = new CGFappearance(this.scene);
+            var ambient = {};
+            var diffuse = {};
+            var specular = {};
+            var emission = {};
+            var error;
 
             for (let j = 0; j < properties.length; ++j) {
-                if (properties[j].nodeName === "emission" || properties[j].nodeName === "ambient" ||
-                    properties[j].nodeName === "diffuse" || properties[j].nodeName === "specular")
-                    this.extractRGBA(properties[j], material[properties[j].nodeName]);
+                if (properties[j].nodeName === "emission") {
+                    emission = this.extractRGBA(properties[j], error);
+
+                    if (error != null)
+                        return error;
+                }
+                else if (properties[j].nodeName === "ambient") {
+                    ambient = this.extractRGBA(properties[j], error);
+
+                    if (error != null)
+                        return error;
+                }
+                else if (properties[j].nodeName === "diffuse") {
+                    diffuse = this.extractRGBA(properties[j], error);
+
+                    if (error != null)
+                        return error;
+                }
+                else if (properties[j].nodeName === "specular") {
+                    specular = this.extractRGBA(properties[j], error);
+
+                    if (error != null)
+                        return error;
+                }
                 else
                     return "invalid material property";
             }
 
-            material.shininess = shininess;
+            material.setAmbient(ambient.r, ambient.g, ambient.b, ambient.a);
+            material.setDiffuse(diffuse.r, diffuse.g, diffuse.b, diffuse.a);
+            material.setSpecular(specular.r, specular.g, specular.b, specular.a);
+            material.setEmission(emission.r, emission.g, emission.b, emission.a);
+            material.setShininess(shininess);
+
             this.materials[id] = material;
             numMaterials++;
         }
@@ -720,7 +751,7 @@ class MySceneGraph {
             var y = axis == 'y' ? 1 : 0;
             var z = axis == 'z' ? 1 : 0;
 
-            this.scene.rotate(angle*DEGREE_TO_RAD, x, y, z);
+            this.scene.rotate(angle * DEGREE_TO_RAD, x, y, z);
 
         } else if (node.nodeName == "scale") {
             var x = this.reader.getFloat(node, 'x', true);
@@ -793,12 +824,12 @@ class MySceneGraph {
                 numPrimitives++;
 
             } else if (primitive.nodeName == "sphere") {
-                  var radius = this.reader.getFloat(primitive, 'radius', true);
-                  var slices = this.reader.getInteger(primitive, 'slices', true);
-                  var stacks = this.reader.getInteger(primitive, 'stacks', true);
+                var radius = this.reader.getFloat(primitive, 'radius', true);
+                var slices = this.reader.getInteger(primitive, 'slices', true);
+                var stacks = this.reader.getInteger(primitive, 'stacks', true);
 
-                  this.primitives[id] = new MySphere(this.scene, radius, slices, stacks);
-                  numPrimitives++;
+                this.primitives[id] = new MySphere(this.scene, radius, slices, stacks);
+                numPrimitives++;
             } else if (primitive.nodeName == "torus") {
                 var inner = this.reader.getFloat(primitive, 'inner', true);
                 var outer = this.reader.getFloat(primitive, 'outer', true);
@@ -944,19 +975,16 @@ class MySceneGraph {
         for (let c = 0; c < refs.length; ++c) {
             let childId = this.reader.getString(refs[c], 'id', true);
             if (refs[c].nodeName == "componentref") {
-                console.log(childId + ' ' + this.components[childId]);
                 this.components[id].children[childId] = {
                     data: this.components[childId],
                     type: "component"
                 };
 
             } else {
-                console.log(childId + ' ' + this.primitives[childId]);
                 this.components[id].children[childId] = {
                     data: this.primitives[childId],
                     type: "primitive"
                 };
-                console.log(childId + ' ' +  this.primitives[childId]);
             }
         }
     }
@@ -985,21 +1013,60 @@ class MySceneGraph {
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
 
-        this.displayComponent(this.components[this.sceneInfo.rootId]);
+        this.displayComponent(this.components[this.sceneInfo.rootId], null);
     }
 
-    displayComponent(component) {
+    displayComponent(component, parent) {
         this.scene.multMatrix(component.transformations);
+
+        this.applyMaterial(component, parent);
+
+        this.applyTexture(component, parent);
 
         for (var key in component.children) {
             this.scene.pushMatrix();
             if (component.children[key].type == "primitive")
                 this.displayPrimitive(component.children[key].data);
             else if (component.children[key].type == "component")
-                this.displayComponent(component.children[key].data);
+                this.displayComponent(component.children[key].data, component);
             this.scene.popMatrix();
         }
+
         //this.scene.loadIdentity();
+    }
+
+    applyTexture(component, parent) {
+        var texId = component.texture.id;
+        var texParentId;
+
+        if (parent != null)
+            texParentId = parent.texture.id;
+
+        if (texId == "inherit") {
+            if (texParentId != "none")
+                this.textures[texParentId].bind();
+            component.texture.id = texParentId;
+        }
+        else if (texId == "none") {
+            if (texParentId != null && texParentId != "none") {
+                this.textures[texParentId].unbind();
+            }
+        }
+        else {
+            this.textures[texId].bind();
+        }
+    }
+
+    applyMaterial(component, parent) {
+        var matId = component.materials[this.scene.materialNo % component.materials.length];
+
+        if (matId != "inherit")
+            this.materials[matId].apply();
+        else {
+            let parentMatId = parent.materials[this.scene.materialNo % parent.materials.length];
+            this.materials[parentMatId].apply();
+            component.materials[this.scene.materialNo % component.materials.length] = parentMatId;
+        }
     }
 
     displayPrimitive(primitive) {

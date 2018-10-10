@@ -43,9 +43,49 @@ class MyInterface extends CGFinterface {
                 group.add(this.scene.lightValues, key);
             }
         }
+
+        this.initKeys();
     }
 
-    addCameraDrop(){
-         this.gui.add(this.scene, 'currCamera', this.scene.cameraList);
+    addCameraDrop() {
+        this.gui.add(this.scene, 'currCamera', this.scene.cameraList);
+    }
+
+
+    /**
+     * Initializes key event capturing
+     */
+    initKeys() {
+        this.scene.gui = this;
+        this.processKeyboard = function () { };
+        this.activeKeys = {};
+    }
+
+    /**
+     * Processes a key down event, updating active keys information
+     * @param {*} event 
+     */
+    processKeyDown(event) {
+        this.activeKeys[event.code] = true;
+
+        if(event.code == "KeyM"){
+            this.scene.materialNo++;
+        }
+    };
+
+    /**
+     * Processes a key up event, updating active keys information
+     * @param {*} event 
+     */
+    processKeyUp(event) {
+        this.activeKeys[event.code] = false;
+    };
+
+    /**
+     * Checks if a given key is currently pressed
+     * @param {*} keyCode 
+     */
+    isKeyPressed(keyCode) {
+        return this.activeKeys[keyCode] || false;
     }
 }
