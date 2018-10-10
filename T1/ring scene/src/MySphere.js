@@ -131,4 +131,11 @@ class MySphere extends CGFobject {
 
 		this.updateTexCoordsGLBuffers();
 	}
+
+	display() {
+		this.scene.pushMatrix();
+		this.scene.scale(this.radius,this.radius,this.radius);
+		this.drawElements(this.scene.gl.TRIANGLES);
+		this.scene.popMatrix();
+	}
 };

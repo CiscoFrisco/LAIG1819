@@ -73,7 +73,7 @@ class LightingScene extends CGFscene {
     this.ray = new MyCylinder(this, 20, 20);
     this.circle = new MyPoligon(this,20);
 
-    this.sphere = new MySphere(this,40,40);
+    this.sphere = new MySphere(this,10, 40,40);
 
     this.floor = new MyQuad(this, -0.5,-0.5,0.5,0.5);
     this.inc = 0.1;
@@ -521,7 +521,7 @@ class LightingScene extends CGFscene {
 
       this.pushMatrix();
       this.zephyr.apply();
-      this.sphere.display();
+      this.torus.display();
       this.popMatrix();
 
 
