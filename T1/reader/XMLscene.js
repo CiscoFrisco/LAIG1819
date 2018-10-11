@@ -59,7 +59,7 @@ class XMLscene extends CGFscene {
         for (var key in views.array) {
             var el = views.array[key];
             if (el.type == "ortho") {
-               // this.cameras.push(new CGFcameraOrtho(el.left, el.right, el.bottom, el.top, el.near, el.far,vec3.fromValues(el.from.x, el.from.y, el.from.z), vec3.fromValues(el.to.x, el.to.y, el.to.z)));
+                this.cameras.push(new CGFcameraOrtho(el.left, el.right, el.bottom, el.top, el.near, el.far, vec3.fromValues(el.from.x, el.from.y, el.from.z), vec3.fromValues(el.to.x, el.to.y, el.to.z), vec3.fromValues(0.0,1.0,0.0)));
             } else {
                 this.cameras.push(new CGFcamera(el.angle * DEGREE_TO_RAD, el.near, el.far, vec3.fromValues(el.from.x, el.from.y, el.from.z), vec3.fromValues(el.to.x, el.to.y, el.to.z)));
             }

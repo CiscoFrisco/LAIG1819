@@ -59,6 +59,8 @@ class MyTriangle extends CGFobject {
 
 		// TODO: v???
 
+		var v = a * Math.sin(beta);
+
 		this.texCoords = [
 			0, v/length_t,
 			c/length_s, v/length_t,

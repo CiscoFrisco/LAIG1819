@@ -127,16 +127,14 @@ class MySphere extends CGFobject {
 		this.initGLBuffers();
 	};
 
+	display() {
+		this.scene.pushMatrix();
+		this.scene.scale(this.radius, this.radius, this.radius);
+		this.drawElements(this.scene.gl.TRIANGLES);
+		this.scene.popMatrix();
+	}
 
 	updateTexCoords(length_s, length_t) {
 
-		this.updateTexCoordsGLBuffers();
-	}
-
-	display() {
-		this.scene.pushMatrix();
-		this.scene.scale(this.radius,this.radius,this.radius);
-		this.drawElements(this.scene.gl.TRIANGLES);
-		this.scene.popMatrix();
 	}
 };

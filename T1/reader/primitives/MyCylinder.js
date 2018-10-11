@@ -70,11 +70,7 @@ class MyCylinder extends CGFobject {
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
 	};
-
-	updateTexCoords(length_s, length_t) {
-		this.updateTexCoordsGLBuffers();
-	}
-
+	
 	display() {
 
 		this.scene.pushMatrix();
@@ -93,5 +89,9 @@ class MyCylinder extends CGFobject {
 		this.circle.display();
 		this.scene.popMatrix();
 
+	}
+
+	updateTexCoords(length_s, length_t){
+		
 	}
 };

@@ -56,8 +56,8 @@ class MyQuad extends CGFobject {
 
 	updateTexCoords(length_s, length_t) {
 
-		var maxT = 1.0 / length_t;
-		var maxS = 1.0 / length_s;
+		var maxT = (this.y2 - this.y1)/ length_t;
+		var maxS = (this.x2 - this.x1)/ length_s;
 
 		this.texCoords = [
 			0.0, maxT,
@@ -67,6 +67,5 @@ class MyQuad extends CGFobject {
 		]
 
 		this.updateTexCoordsGLBuffers();
-
 	}
 };

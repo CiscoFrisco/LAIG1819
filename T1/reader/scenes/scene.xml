@@ -9,7 +9,7 @@
             <from x="100.0" y="100.0" z="100.0" />
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
-        <ortho id="ortho" near="0.1" far="1000.0" left="1.0" right="1.0" top="1.0" bottom="1.0">
+        <ortho id="ortho" near="0.1" far="1000.0" left="-100.0" right="100.0" top="1.0" bottom="-1.0">
             <from x="100.0" y="100.0" z="100.0" />
             <to x="0.0" y="0.0" z="0.0" />
         </ortho>
@@ -330,7 +330,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1.0" length_t="1.0"/>
+            <texture id="inherit" length_s="1.0" length_t="0.5"/>
             <children>
                 <primitiveref id="quad" />
             </children>
@@ -342,7 +342,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1.0" length_t="1.0"/>
+            <texture id="inherit" length_s="2.0" length_t="2.0"/>
             <children>
                 <componentref id="ringside" />
             </children>
@@ -392,7 +392,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="ringApron" length_s="1.0" length_t="1.0"/>
+            <texture id="ringApron" length_s="2.0" length_t="2.0"/>
             <children>
                 <componentref id="ringside1" />
                 <componentref id="ringside2" />
