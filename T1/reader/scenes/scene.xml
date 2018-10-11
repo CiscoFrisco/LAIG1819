@@ -1,8 +1,8 @@
 <yas>
     <scene root="scene" axis_length="5.0" />
     <views default="perspective">
-        <perspective id="perspective" near="0.1" far="1000.0" angle="23.0">
-            <from x="250.0" y="250.0" z="250.0" />
+        <perspective id="perspective" near="0.1" far="1000.0" angle="25.0">
+            <from x="300.0" y="300.0" z="300.0" />
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
         <perspective id="perspective2" near="0.1" far="1000.0" angle="23.0">
@@ -96,14 +96,14 @@
     </materials>
     <transformations>
         <transformation id="chairstransformation1">
-            <translate x="-30.0" y="0.0" z="75.0" />
+            <translate x="-30.0" y="0.0" z="-55.0" />
         </transformation>
         <transformation id="chairstransformation2">
             <translate x="65.0" y="0.0" z="-35.0" />
             <rotate axis="y" angle="-90" />
         </transformation>
         <transformation id="chairstransformation3">
-            <translate x="35.0" y="0.0" z="75.0" />
+            <translate x="35.0" y="0.0" z="55.0" />
             <rotate axis="y" angle="180" />
         </transformation>
     </transformations>
@@ -112,8 +112,11 @@
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
         </primitive >
 
-        <primitive id="rampside">
-            <triangle x1="-0.5" y1="-0.5" z1="0.0" x2="0.5" y2="-0.5" z2="0.0" x3="0.5" y3="-0.5" z3="0.0"/>
+        <primitive id="rampside1">
+            <triangle x1="-0.5" y1="-0.5" z1="0.0" x2="0.5" y2="-0.5" z2="0.0" x3="-0.5" y3="0.5" z3="0.0"/>
+        </primitive >
+        <primitive id="rampside2">
+            <triangle x1="-0.5" y1="-0.5" z1="0.0" x2="0.5" y2="-0.5" z2="0.0" x3="0.5" y3="0.5" z3="0.0"/>
         </primitive >
 
         <primitive id="cylinder">
@@ -132,6 +135,8 @@
                 <componentref id="stage" />
                 <componentref id="ramp" />
                 <componentref id="floor" />
+                <componentref id="wall1" />
+                <componentref id="wall2" />
                 <componentref id="ring" />
                 <componentref id="barriers" />
                 <componentref id="chairs" />
@@ -239,23 +244,25 @@
             </materials>
             <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
-                <primitiveref id="rampside" />
+                <primitiveref id="rampside1" />
             </children>
         </component>
         <component id="side2">
             <transformation>
                 <translate x="0" y="0" z="-0.5" />
+                <rotate axis="y" angle="180" />
             </transformation>
             <materials>
                 <material id="inherit" />
             </materials>
             <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
-                <primitiveref id="rampside" />
+                <primitiveref id="rampside2" />
             </children>
         </component>
         <component id="top">
             <transformation>
+                <scale  x="1.41421356" y ="1" z ="1" />
                 <rotate axis="z" angle="-45" />
                 <rotate axis="x" angle="-90" />
             </transformation>
@@ -283,7 +290,7 @@
         <component id="support">
             <transformation>
                 <translate x="-0.5" y="0" z="0" />
-                <rotate axis="x" angle="-90" />
+                <rotate axis="y" angle="-90" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -319,6 +326,35 @@
                 <material id="ringRopeApp"/>
             </materials>
             <texture id="none"/>
+            <children>
+                <primitiveref id="quad" />
+            </children>
+        </component>
+        <component id="wall1">
+            <transformation>
+                <translate x="-100.0" y="45" z="-88" />
+                <scale x="400" y="100" z="1" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+                <material id="ringRopeApp"/>
+            </materials>
+            <texture id="ringApron" length_s="2.0" length_t="2.0"/>
+            <children>
+                <primitiveref id="quad" />
+            </children>
+        </component>
+        <component id="wall2">
+            <transformation>
+                <translate x="-300.0" y="45" z="0.0" />
+                <scale x="1" y="100" z="178.0" />
+                <rotate axis="y" angle="90" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+                <material id="ringRopeApp"/>
+            </materials>
+            <texture id="ringApron" length_s="2.0" length_t="2.0"/>
             <children>
                 <primitiveref id="quad" />
             </children>
@@ -465,7 +501,7 @@
         </component>
         <component id="ringpost1">
             <transformation>
-                <translate x="20.0" y="-5.0" z="20.0" />
+                <translate x="20.0" y="-5.0" z="-20.0" />
             </transformation>
             <materials>
                 <material id="default" />
@@ -590,6 +626,8 @@
         <component id="ropes2">
             <transformation>
                 <translate x="20.0" y="11.5" z="20.0" />
+                <rotate axis="y" angle="-90" />
+
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -603,8 +641,8 @@
         </component>
         <component id="ropes3">
             <transformation>
-                <translate x="-20.0" y="11.5" z="20.0" />
-                <rotate axis="y" angle="45" />
+                <translate x="-20.0" y="11.5" z="-20.0" />
+                <rotate axis="y" angle="90" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -619,7 +657,6 @@
         <component id="ropes4">
             <transformation>
                 <translate x="-20.0" y="11.5" z="-20.0" />
-                <rotate axis="y" angle="45" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -792,8 +829,8 @@
         </component>
         <component id="barrier1">
             <transformation>
-                <translate x="0.0" y="0.0" z="4/3*40" />
-                <scale x="2.2*40" y="10" z="5" />
+                <translate x="0.0" y="0.0" z="45" />
+                <scale x="88" y="10" z="5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -805,8 +842,8 @@
         </component>
         <component id="barrier2">
             <transformation>
-                <translate x="0.0" y="0.0" z="-4/3*40" />
-                <scale x="2.2*40" y="10" z="5" />
+                <translate x="0.0" y="0.0" z="-45.0" />
+                <scale x="88" y="10" z="5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -818,9 +855,9 @@
         </component>
         <component id="barrier3">
             <transformation>
-                <translate x="52/50*40" y="0.0" z="0.0" />
+                <translate x="42" y="0.0" z="0.0" />
                 <rotate axis="y" angle="90" />
-                <scale x="8/3*40" y="10" z="5" />
+                <scale x="95" y="10" z="5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -832,9 +869,9 @@
         </component>
         <component id="barrier4">
             <transformation>
-                <translate x="-52/50*40" y="0.0" z="53/50*40" />
+                <translate x="-42" y="0.0" z="37.4" />
                 <rotate axis="y" angle="90" />
-                <scale x="2*40/3" y="10" z="5" />
+                <scale x="20" y="10" z="5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -846,9 +883,9 @@
         </component>
         <component id="barrier5">
             <transformation>
-                <translate x="-52/50*40" y="0.0" z="53/50*40" />
+                <translate x="-42" y="0.0" z="-37.4" />
                 <rotate axis="y" angle="90" />
-                <scale x="2/3*40" y="10" z="5" />
+                <scale x="20" y="10" z="5" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -912,7 +949,7 @@
         </component>
         <component id="leg3">
             <transformation>
-                <translate x="-0.40" y="1" z="-0.50"/>
+                <translate x="-0.40" y="2" z="-0.50"/>
                 <scale x="1" y="2" z="1"/>
             </transformation>
             <materials>
@@ -925,7 +962,7 @@
         </component>
         <component id="leg4">
             <transformation>
-                <translate x="0.40" y="1" z="-0.50"/>
+                <translate x="0.40" y="2" z="-0.50"/>
                 <scale x="1" y="2" z="1"/>
             </transformation>
             <materials>
@@ -951,8 +988,8 @@
         </component>
         <component id="rest">
             <transformation>
-                <translate x="0.0" y="1.75" z="-0.50"/>
-                <scale x="1" y="0.5" z="0.1"/>
+                <translate x="0.0" y="1.75" z="-0.5"/>
+                <scale x="1" y="0.5" z="0.15"/>
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -964,6 +1001,7 @@
         </component>
         <component id="chair">
             <transformation>
+                <translate x="0.0" y="-5" z="0.0"/>
                 <scale x="5" y="5" z="5" />
             </transformation>
             <materials>
@@ -1204,4 +1242,5 @@
             </children>
         </component>
     </components>
+
 </yas>
