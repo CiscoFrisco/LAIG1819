@@ -50,6 +50,10 @@ class LightingScene extends CGFscene {
 
     this.ringApron = new CGFappearance(this);
     this.ringApron.loadTexture("../res/images/ringApron.jpeg");
+
+    this.donut = new CGFappearance(this);
+    this.donut.loadTexture("../res/images/donut.png");
+    
   }
 
   /**
@@ -68,15 +72,14 @@ class LightingScene extends CGFscene {
     this.chairs = new MyChairs(this, 5, this.number_chairs);
     this.stage = new MyStage(this);
 
-    this.torus = new MyTorus(this,4,20,2.5,4);
-    this.cupula = new MyLamp(this, 20,20);
-    this.ray = new MyCylinder(this, 20, 20);
+    this.torus = new MyTorus(this,20,20,1,2);
+    this.cylinder = new MyCylinder(this, 0.5, 2.0, 2.0, 20, 20);
     this.circle = new MyPoligon(this,20);
 
-    this.sphere = new MySphere(this,10, 40,40);
+    this.sphere = new MySphere(this,5, 40,40);
 
     this.floor = new MyQuad(this, -0.5,-0.5,0.5,0.5);
-    this.inc = 0.1;
+    this.triangle = new MyTriangle(this, 0,1,0,-1,-1,0,1,-1,0);
   }
 
   /**
@@ -520,8 +523,9 @@ class LightingScene extends CGFscene {
       this.inc += 0.1;*/
 
       this.pushMatrix();
-      this.zephyr.apply();
-      this.torus.display();
+      this.ringApron.apply();
+      //this.floor.updateTexCoords(2.0,2.0);
+      this.sphere.display();
       this.popMatrix();
 
 

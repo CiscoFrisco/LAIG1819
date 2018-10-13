@@ -53,7 +53,6 @@ serialInclude([
 	'MyStage.js',
 	'MyStairs.js',
 	'MyTorus.js',
-	'MyNewCylinder.js',
 	'MySphere.js',
 	main = function () {
 		var app = new CGFapplication(document.body);

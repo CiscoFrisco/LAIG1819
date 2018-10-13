@@ -56,6 +56,12 @@ class MyTriangle extends CGFobject {
 			n[0], n[1], n[2],
 		];
 
+		this.texCoords = [
+			0, 0, //this.minS, this.minT,
+			0, 1, //this.minS, this.maxT,
+			1, 1, //this.maxS, this.maxT,
+		];
+
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
 	};
@@ -77,9 +83,9 @@ class MyTriangle extends CGFobject {
 		var v = a * Math.sin(beta);
 
 		this.texCoords = [
+			(c - a * Math.cos(beta)) / length_s, (v - a * Math.sin(beta)) / length_t,
 			0, v / length_t,
 			c / length_s, v / length_t,
-			(c - a * Math.cos(beta)) / length_s, (v - a * Math.sin(beta)) / length_t,
 		];
 
 		this.updateTexCoordsGLBuffers();
