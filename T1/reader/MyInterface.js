@@ -46,11 +46,13 @@ class MyInterface extends CGFinterface {
 
         this.initKeys();
     }
-
+    
+    /**
+     * Adds a dropdown lists containing IDs for the scene's cameras.
+     */
     addCameraDrop() {
         this.gui.add(this.scene, 'currCamera', this.scene.cameraList);
     }
-
 
     /**
      * Initializes key event capturing

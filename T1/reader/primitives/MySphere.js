@@ -8,9 +8,10 @@
 
 class MySphere extends CGFobject {
 	/**
-	 * Builds a MyLamp object, resembling a semi-sphere.
+	 * Builds a MySphere object.
 	 * 
-	 * @param {CGFscene} scene CGFscene
+	 * @param {CGFscene} scene main scene
+	 * @param {Number} radius radius of the sphere
 	 * @param {Number} slices number of slices
 	 * @param {Number} stacks number of stacks
 	 */
@@ -127,6 +128,9 @@ class MySphere extends CGFobject {
 		this.initGLBuffers();
 	};
 
+	/**
+	 * Displays this object according to its radius.
+	 */
 	display() {
 		this.scene.pushMatrix();
 		this.scene.scale(this.radius, this.radius, this.radius);
@@ -134,6 +138,11 @@ class MySphere extends CGFobject {
 		this.scene.popMatrix();
 	}
 
+	/**
+	 * Used to update texture coordinates upon drawing. Not required for this object.
+	 * @param {Number} length_s scale factor (length)
+	 * @param {Number} length_t scale factor (width)
+	 */
 	updateTexCoords(length_s, length_t) {
 
 	}

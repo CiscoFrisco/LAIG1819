@@ -5,10 +5,14 @@
  */
 
 class MyCylinder extends CGFobject {
+
 	/**
-	 * Builds a MyCylinderRound object, used to make a wheel. 
+	 * Builds a MyCylinder object, with covers on both sides.
 	 * 
-	 * @param {CGFScene} scene CGFscene
+	 * @param {CGFscene} scene main scene
+	 * @param {Number} base radius for base
+	 * @param {Number} top radius for top
+	 * @param {Number} height distance between covers
 	 * @param {Number} slices number of slices
 	 * @param {Number} stacks number of stacks
 	 */
@@ -71,6 +75,9 @@ class MyCylinder extends CGFobject {
 		this.initGLBuffers();
 	};
 	
+	/**
+	 * Displays this object, on the origin
+	 */
 	display() {
 
 		this.scene.pushMatrix();
@@ -91,6 +98,11 @@ class MyCylinder extends CGFobject {
 
 	}
 
+	/**
+	 * Used to update texture coordinates upon drawing. Not required for this object.
+	 * @param {Number} length_s scale factor (length)
+	 * @param {Number} length_t scale factor (width)
+	 */
 	updateTexCoords(length_s, length_t){
 		
 	}

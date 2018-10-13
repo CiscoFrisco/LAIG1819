@@ -42,9 +42,6 @@ class XMLscene extends CGFscene {
 
     /**
      * Initializes the scene cameras.
-     * TODO: handle multiple
-     * 
-     * cgfinterface setactivecamera
      */
     initCameras() {
 
@@ -77,6 +74,9 @@ class XMLscene extends CGFscene {
         this.interface.addCameraDrop();
     }
 
+    /**
+     * Updates the current camera according to the interface's active value 
+     */
     updateCamera() {
         this.camera = this.cameras[this.currCamera];
         this.interface.setActiveCamera(this.camera);

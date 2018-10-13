@@ -6,7 +6,7 @@
 
 class MyPoligon extends CGFobject {
 	/**
-	 * Builds a MyPoligon object.
+	 * Builds a MyPoligon object, used to create round covers for a cylinder.
 	 * 
 	 * @param {CGFscene} scene CGFscene
 	 * @param {Number} slices number of slices

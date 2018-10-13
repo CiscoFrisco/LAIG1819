@@ -19,7 +19,9 @@ var COMPONENTS_INDEX = 8;
  */
 class MySceneGraph {
     /**
-     * @constructor
+     * Creates a MySceneGraph object.
+     * @param {String} filename name of the scene xml
+     * @param {CGFscene} scene main scene
      */
     constructor(filename, scene) {
         this.loadedOk = null;
@@ -141,11 +143,11 @@ class MySceneGraph {
 
     /**
      * Process a main XML block
-     * @param {string} type 
-     * @param {array} nodeNames 
-     * @param {array} nodes 
-     * @param {Integer} typeIndex 
-     * @param {function} parser 
+     * @param {String} type name of the XML block
+     * @param {Array} nodeNames array containing the names of all the XML blocks
+     * @param {Array} nodes array contaning all of the XML blocks
+     * @param {Number} typeIndex index of the corresponding block in the tree
+     * @param {Function} parser function responsible for parsing the given block type
      */
     processNode(type, nodeNames, nodes, typeIndex, parser) {
         var index;
@@ -330,7 +332,7 @@ class MySceneGraph {
 
     /**
      * Extract RGBA illumination component
-     * @param {*} index 
+     * @param {Number} index 
      * @param {*} component 
      * @param {*} type 
      * @param {*} rgba 
@@ -344,6 +346,11 @@ class MySceneGraph {
             error = type + " component undefined for ID = " + lightId;
     }
 
+    /**
+     * Extracts RGBA values from XML into an object
+     * @param {block element} node node containg the RBGA values
+     * @param {String} error to be altered in case of an error
+     */
     extractRGBA(node, error) {
 
         var rgba = {};
@@ -388,11 +395,11 @@ class MySceneGraph {
 
     /**
      * Extract light position values
-     * @param {*} index 
+     * @param {Number} index 
      * @param {*} component 
      * @param {*} positionLight 
      * @param {*} lightId 
-     * @param {*} all 
+     * @param {Boolean} all indicates whether w component should be extracted or not
      */
     extractPosition(index, component, positionLight, lightId, all) {
         if (index != -1) {
@@ -431,7 +438,7 @@ class MySceneGraph {
 
 
     /**
-     * Parses the <lights> node. TODO: adaptar
+     * Parses the <lights> node.
      * @param {lights block element} lightsNode
      */
     parseLights(lightsNode) {
@@ -632,26 +639,22 @@ class MySceneGraph {
 
                     if (error != null)
                         return error;
-                }
-                else if (properties[j].nodeName === "ambient") {
+                } else if (properties[j].nodeName === "ambient") {
                     ambient = this.extractRGBA(properties[j], error);
 
                     if (error != null)
                         return error;
-                }
-                else if (properties[j].nodeName === "diffuse") {
+                } else if (properties[j].nodeName === "diffuse") {
                     diffuse = this.extractRGBA(properties[j], error);
 
                     if (error != null)
                         return error;
-                }
-                else if (properties[j].nodeName === "specular") {
+                } else if (properties[j].nodeName === "specular") {
                     specular = this.extractRGBA(properties[j], error);
 
                     if (error != null)
                         return error;
-                }
-                else
+                } else
                     return "invalid material property";
             }
 
@@ -673,8 +676,6 @@ class MySceneGraph {
         return null;
 
     }
-
-
 
     /**
      * Parses the <transformations> block.
@@ -728,7 +729,6 @@ class MySceneGraph {
     /**
      * Parse explicit transformation on component transformations block
      * @param {*} node transformation block
-     * @param {*} transformationsArray array of transformations associated
      */
     parseExplicitTransformation(node) {
 
@@ -849,15 +849,6 @@ class MySceneGraph {
         return null;
     }
 
-
-    findStringOnArray(string, array, attribute) {
-        for (let i = 0; i < array.length; ++i) {
-            if (array[i][attribute] == string)
-                return true
-        }
-        return false;
-    }
-
     /**
      * Parses the <components> block.
      * @param {components block element} componentsNode
@@ -970,6 +961,11 @@ class MySceneGraph {
         return null;
     }
 
+    /**
+     * Parses the children block on <component>
+     * @param {String} id 
+     * @param {Array} refs 
+     */
     parseChildren(id, refs) {
         this.components[id].children = {};
         for (let c = 0; c < refs.length; ++c) {
@@ -1011,11 +1007,14 @@ class MySceneGraph {
      */
     displayScene() {
         // entry point for graph rendering
-        //TODO: Render loop starting at root of graph
-
         this.displayComponent(this.components[this.sceneInfo.rootId], null);
     }
-
+    
+    /**
+     * Displays a given component onto the scene
+     * @param {*} component 
+     * @param {*} parent 
+     */
     displayComponent(component, parent) {
         this.scene.multMatrix(component.transformations);
 
@@ -1026,15 +1025,19 @@ class MySceneGraph {
         for (var key in component.children) {
             this.scene.pushMatrix();
             if (component.children[key].type == "primitive")
-                this.displayPrimitive(component.children[key].data);
+                this.displayPrimitive(component.children[key].data, component.length_s, component.length_t);
             else if (component.children[key].type == "component")
                 this.displayComponent(component.children[key].data, component);
             this.scene.popMatrix();
         }
-
-        //this.scene.loadIdentity();
     }
-
+    
+    /**
+     * Applies a component's texture according to its specification
+     * 
+     * @param {*} component 
+     * @param {*} parent 
+     */
     applyTexture(component, parent) {
         var texId = component.texture.id;
         var texParentId;
@@ -1046,17 +1049,20 @@ class MySceneGraph {
             if (texParentId != "none")
                 this.textures[texParentId].bind();
             component.texture.id = texParentId;
-        }
-        else if (texId == "none") {
+        } else if (texId == "none") {
             if (texParentId != null && texParentId != "none") {
                 this.textures[texParentId].unbind();
             }
-        }
-        else {
+        } else {
             this.textures[texId].bind();
         }
     }
 
+    /**
+     * Applies a component's material according to its specification
+     * @param {*} component 
+     * @param {*} parent 
+     */
     applyMaterial(component, parent) {
         var matId = component.materials[this.scene.materialNo % component.materials.length];
 
@@ -1069,7 +1075,29 @@ class MySceneGraph {
         }
     }
 
-    displayPrimitive(primitive) {
+    /**
+     * Diplays the given primitive onto the scene
+     * @param {CGFobject} primitive primitive to be displayed
+     * @param {Number} length_s scale factor (length)
+     * @param {Number} length_t scale factor (width)
+     */
+    displayPrimitive(primitive, length_s, length_t) {
+        primitive.updateTexCoords(length_s, length_t);
         primitive.display();
+    }
+
+    /**
+     * Helper function that finds an object on an array with a given attribute
+     * 
+     * @param {String} string 
+     * @param {Array} array 
+     * @param {String} attribute 
+     */
+    findStringOnArray(string, array, attribute) {
+        for (let i = 0; i < array.length; ++i) {
+            if (array[i][attribute] == string)
+                return true;
+        }
+        return false;
     }
 }

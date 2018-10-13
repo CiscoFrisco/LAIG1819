@@ -6,13 +6,13 @@
 
 class MyTorus extends CGFobject {
 	/**
-	 * Builds a MyCylinder object
+	 * Builds a MyTorus object
 	 * 
-	 * @param {CGFscene} scene CGFscene
+	 * @param {CGFscene} scene main scene
+	 * @param {Number} inner inner radius
+	 * @param {Number} outer outer radius
 	 * @param {Number} slices number of slices
-	 * @param {Number} stacks number of stacks
-	 * @param {Boolean} outside 
-	 * @param {Boolean} half 
+	 * @param {Number} sides number of loops
 	 */
 	constructor(scene, inner, outer, slices, sides) {
 		super(scene);
@@ -68,6 +68,11 @@ class MyTorus extends CGFobject {
 		this.initGLBuffers();
 	};
 
+	/**
+	 * Used to update texture coordinates upon drawing. Not required for this object.
+	 * @param {Number} length_s scale factor (length)
+	 * @param {Number} length_t scale factor (width)
+	 */
 	updateTexCoords(length_s, length_t) {
 
 	}
