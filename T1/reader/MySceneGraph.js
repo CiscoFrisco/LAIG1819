@@ -164,6 +164,20 @@ class MySceneGraph {
     }
 
     /**
+     * Checks if a number is valid 
+     * @param {*} node 
+     * @param {Number} number number parsed from XML
+     * @param {String} error to be altered in case of error
+     * @param {String} name name of the number id
+     */
+    checkNumber(node, number, name, low = 0, high = 1000) {
+        if (!(number != null && !isNaN(number) && number >= low && number <= high))
+            return "unable to parse " + name + " component of the " + node.nodeName + " block";
+
+        return null;
+    }
+
+    /**
      * Parses the <scene> block.
      * @param {scene block element} sceneNode
      */
@@ -562,7 +576,6 @@ class MySceneGraph {
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
-        // TODO: Parse block
 
         var textures = texturesNode.children;
         this.textures = [];
@@ -671,7 +684,6 @@ class MySceneGraph {
         if (numMaterials == 0)
             return "no material defined";
 
-        // TODO: Parse block
         this.log("Parsed materials");
         return null;
 
@@ -682,7 +694,6 @@ class MySceneGraph {
      * @param {transformations block element} transformationsNode
      */
     parseTransformations(transformationsNode) {
-        // TODO: Parse block
         var transformations = transformationsNode.children;
         this.transformations = [];
         var numTransformations = 0;
@@ -768,7 +779,6 @@ class MySceneGraph {
      * @param {primitives block element} primitivesNode
      */
     parsePrimitives(primitivesNode) {
-        // TODO: Parse block
 
         this.primitives = [];
         var primitives = primitivesNode.children;
@@ -854,7 +864,6 @@ class MySceneGraph {
      * @param {components block element} componentsNode
      */
     parseComponents(componentsNode) {
-        // TODO: Parse block
 
         this.components = [];
         var components = componentsNode.children;
@@ -1009,7 +1018,7 @@ class MySceneGraph {
         // entry point for graph rendering
         this.displayComponent(this.components[this.sceneInfo.rootId], null);
     }
-    
+
     /**
      * Displays a given component onto the scene
      * @param {*} component 
@@ -1025,13 +1034,13 @@ class MySceneGraph {
         for (var key in component.children) {
             this.scene.pushMatrix();
             if (component.children[key].type == "primitive")
-                this.displayPrimitive(component.children[key].data, component.length_s, component.length_t);
+                this.displayPrimitive(component.children[key].data, component.texture.length_s, component.texture.length_t);
             else if (component.children[key].type == "component")
                 this.displayComponent(component.children[key].data, component);
             this.scene.popMatrix();
         }
     }
-    
+
     /**
      * Applies a component's texture according to its specification
      * 
