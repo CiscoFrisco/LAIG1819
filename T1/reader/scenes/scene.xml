@@ -262,8 +262,8 @@
         </component>
         <component id="top">
             <transformation>
-                <scale  x="1.41421356" y ="1" z ="1" />
                 <rotate axis="z" angle="-45" />
+                <scale x="1.41421356" y ="1" z ="1" />
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
