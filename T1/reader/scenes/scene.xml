@@ -242,7 +242,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="stairs" length_s="1.0" length_t="1.0"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <primitiveref id="rampside1" />
             </children>
@@ -339,7 +339,7 @@
                 <material id="inherit" />
                 <material id="ringRopeApp"/>
             </materials>
-            <texture id="ringApron" length_s="2.0" length_t="2.0"/>
+            <texture id="inherit" length_s="2.0" length_t="2.0"/>
             <children>
                 <primitiveref id="quad" />
             </children>
@@ -354,7 +354,7 @@
                 <material id="inherit" />
                 <material id="ringRopeApp"/>
             </materials>
-            <texture id="ringApron" length_s="2.0" length_t="2.0"/>
+            <texture id="none" length_s="2.0" length_t="2.0"/>
             <children>
                 <primitiveref id="quad" />
             </children>
@@ -366,7 +366,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="1.0" length_t="0.5"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <primitiveref id="quad" />
             </children>
@@ -378,7 +378,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="inherit" length_s="2.0" length_t="2.0"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="ringside" />
             </children>
@@ -428,7 +428,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="ringApron" length_s="2.0" length_t="2.0"/>
+            <texture id="ringApron" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="ringside1" />
                 <componentref id="ringside2" />
@@ -748,9 +748,9 @@
                 <rotate axis="y" angle="45" />
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="inherit" />
             </materials>
-            <texture id="stairs"/>
+            <texture id="stairs" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="ringstair1" />
                 <componentref id="ringstair2" />
@@ -820,7 +820,7 @@
             <materials>
                 <material id="default" />
             </materials>
-            <texture id="none"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="stageside1" />
                 <componentref id="stageside2" />
@@ -901,7 +901,7 @@
             <materials>
                 <material id="barrierApp" />
             </materials>
-            <texture id="none"/>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
                 <componentref id="barrier1" />
                 <componentref id="barrier2" />

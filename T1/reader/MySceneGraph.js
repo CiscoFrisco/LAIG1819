@@ -936,7 +936,6 @@ class MySceneGraph {
                     return "invalid component property name";
             }
 
-
             if (component.transformations == null || component.materials == null || component.texture == null)
                 return "invalid component";
 
@@ -1027,9 +1026,9 @@ class MySceneGraph {
     displayComponent(component, parent) {
         this.scene.multMatrix(component.transformations);
 
-        this.applyMaterial(component, parent);
+        var matId = this.applyMaterial(component, parent);
 
-        this.applyTexture(component, parent);
+        var texId = this.applyTexture(component, parent);
 
         for (var key in component.children) {
             this.scene.pushMatrix();
@@ -1039,6 +1038,9 @@ class MySceneGraph {
                 this.displayComponent(component.children[key].data, component);
             this.scene.popMatrix();
         }
+
+        component.texture.id = texId;
+        component.materials[this.scene.materialNo % component.materials.length] = matId;
     }
 
     /**
@@ -1065,6 +1067,8 @@ class MySceneGraph {
         } else {
             this.textures[texId].bind();
         }
+
+        return texId;
     }
 
     /**
@@ -1082,6 +1086,8 @@ class MySceneGraph {
             this.materials[parentMatId].apply();
             component.materials[this.scene.materialNo % component.materials.length] = parentMatId;
         }
+
+        return matId;
     }
 
     /**
