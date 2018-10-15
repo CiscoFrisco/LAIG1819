@@ -182,8 +182,6 @@ class XMLscene extends CGFscene {
 
         if (this.sceneInited) {
 
-            this.updateCamera();
-
             // Draw axis
             this.axis.display();
 

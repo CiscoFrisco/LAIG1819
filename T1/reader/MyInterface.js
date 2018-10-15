@@ -46,12 +46,16 @@ class MyInterface extends CGFinterface {
 
         this.initKeys();
     }
-    
+
     /**
      * Adds a dropdown lists containing IDs for the scene's cameras.
      */
     addCameraDrop() {
-        this.gui.add(this.scene, 'currCamera', this.scene.cameraList);
+        var controller = this.gui.add(this.scene, 'currCamera', this.scene.cameraList);
+        var self = this;
+        controller.onFinishChange(function (value) {
+            return self.scene.updateCamera();
+        });
     }
 
     /**
@@ -70,7 +74,7 @@ class MyInterface extends CGFinterface {
     processKeyDown(event) {
         this.activeKeys[event.code] = true;
 
-        if(event.code == "KeyM"){
+        if (event.code == "KeyM") {
             this.scene.materialNo++;
         }
     };

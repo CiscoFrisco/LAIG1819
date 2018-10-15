@@ -9,8 +9,8 @@
             <from x="100.0" y="100.0" z="100.0" />
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
-        <ortho id="ortho" near="0.1" far="1000.0" left="-100.0" right="100.0" top="1.0" bottom="-1.0">
-            <from x="100.0" y="100.0" z="100.0" />
+        <ortho id="ortho" near="0.1" far="1000.0" left="-100.0" right="100.0" top="100.0" bottom="-100.0">
+            <from x="300.0" y="300.0" z="300.0" />
             <to x="0.0" y="0.0" z="0.0" />
         </ortho>
     </views>
@@ -75,6 +75,18 @@
             <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
             <specular r="1.0" g="0.0" b="0.0" a="1.0" />
         </material>
+        <material id="ringRopeApp2" shininess = "1.0">
+            <emission r="0.0" g="0.0" b="1.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="1.0" a="1.0" />
+            <diffuse r="0.0" g="0.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </material>
+        <material id="ringRopeApp3" shininess = "1.0">
+            <emission r="0.3" g="0.0" b="0.5" a="1.0" />
+            <ambient r="0.3" g="0.0" b="0.5" a="1.0" />
+            <diffuse r="0.3" g="0.0" b="0.5" a="1.0" />
+            <specular r="0.3" g="0.0" b="0.5" a="1.0" />
+        </material>
         <material id="chairApp" shininess = "1.0">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
@@ -86,6 +98,12 @@
             <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+        <material id="wallApp" shininess = "0.5">
+            <emission r="0.6" g="0.2" b="0.2" a="1.0" />
+            <ambient r="0.0" g="0.2" b="0.0" a="1.0" />
+            <diffuse r="0.5" g="0.7" b="0.5" a="1.0" />
+            <specular r="0.0" g="0.2" b="0.0" a="1.0" />
         </material>
         <material id="default" shininess = "10.0">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
@@ -323,7 +341,7 @@
             </transformation>
             <materials>
                 <material id="inherit" />
-                <material id="ringRopeApp"/>
+                <material id="wallApp"/>
             </materials>
             <texture id="none"/>
             <children>
@@ -337,7 +355,7 @@
             </transformation>
             <materials>
                 <material id="inherit" />
-                <material id="ringRopeApp"/>
+                <material id="wallApp"/>
             </materials>
             <texture id="inherit" length_s="2.0" length_t="2.0"/>
             <children>
@@ -352,7 +370,7 @@
             </transformation>
             <materials>
                 <material id="inherit" />
-                <material id="ringRopeApp"/>
+                <material id="wallApp"/>
             </materials>
             <texture id="none" length_s="2.0" length_t="2.0"/>
             <children>
@@ -673,6 +691,8 @@
             </transformation>
             <materials>
                 <material id="ringRopeApp" />
+                <material id="ringRopeApp2"/>
+                <material id="ringRopeApp3"/>
             </materials>
             <texture id="none"/>
             <children>
