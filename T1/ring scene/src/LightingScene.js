@@ -73,10 +73,10 @@ class LightingScene extends CGFscene {
     this.stage = new MyStage(this);
 
     this.torus = new MyTorus(this,20,20,1,2);
-    this.cylinder = new MyCylinder(this, 0.5, 2.0, 2.0, 20, 20);
+    this.cylinder = new MyCylinder(this, 0.5, 2.0, 2.0, 3, 2);
     this.circle = new MyPoligon(this,20);
 
-    this.sphere = new MySphere(this,5, 40,40);
+    this.sphere = new MySphere(this,5,60,60);
 
     this.floor = new MyQuad(this, -0.5,-0.5,0.5,0.5);
     this.triangle = new MyTriangle(this, 0,1,0,-1,-1,0,1,-1,0);
@@ -523,8 +523,8 @@ class LightingScene extends CGFscene {
       this.inc += 0.1;*/
 
       this.pushMatrix();
-      this.ringApron.apply();
-      //this.floor.updateTexCoords(2.0,2.0);
+      this.rick.apply();
+      //this.triangle.updateTexCoords(2.0,2.0);
       this.sphere.display();
       this.popMatrix();
 

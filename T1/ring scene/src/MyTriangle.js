@@ -76,17 +76,16 @@ class MyTriangle extends CGFobject {
 		var b = Math.sqrt(Math.pow(this.v2[0] - this.v1[0], 2) + Math.pow(this.v2[1] - this.v1[1], 2) + Math.pow(this.v2[2] - this.v1[2], 2));
 		var c = Math.sqrt(Math.pow(this.v3[0] - this.v2[0], 2) + Math.pow(this.v3[1] - this.v2[1], 2) + Math.pow(this.v3[2] - this.v2[2], 2));
 
+		console.log(a + ":" + b + ":" + c);
 		var beta = Math.acos((Math.pow(a, 2) - Math.pow(b, 2) + Math.pow(c, 2)) / (2 * a * c));
-
-		// TODO: v???
-
-		var v = a * Math.sin(beta);
-
+		console.log(a*Math.cos(beta));
 		this.texCoords = [
-			(c - a * Math.cos(beta)) / length_s, (v - a * Math.sin(beta)) / length_t,
-			0, v / length_t,
-			c / length_s, v / length_t,
+			(c/length_s - a * Math.cos(beta)), (length_t - a * Math.sin(beta)),
+			0, length_t,
+			c / length_s, length_t,
 		];
+
+		console.log(this.texCoords);
 
 		this.updateTexCoordsGLBuffers();
 	}
