@@ -50,7 +50,7 @@
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="0.0" g="0.0" b="1.0" a="1.0" />
         </spot>
-        <spot id="light5" enabled="1" angle="45.0" exponent="1000.0">
+        <spot id="light5" enabled="1" angle="45.0" exponent="1.0">
             <location x="-190.0" y="20.0" z="-30.0" w="1.0"/>
             <target x="-200.0" y="20.0" z="0.0" />
             <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
@@ -140,6 +140,10 @@
         <primitive id="cylinder">
             <cylinder base="1.0" top="1.0" height="1.0" slices="20" stacks="20" />
         </primitive >
+
+        <primitive id="sphere">
+            <sphere radius="1.5" slices="20" stacks="20"/>
+        </primitive>
     </primitives >
     <components>
         <component id="scene">
@@ -581,7 +585,7 @@
         </component>
         <component id="rope">
             <transformation>
-                <scale x="0.25" y="0.25" z="40.0" />
+                <scale x="0.25" y="0.25" z="36.0" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -629,7 +633,7 @@
         </component>
         <component id="ropes1">
             <transformation>
-                <translate x="20.0" y="11.5" z="-20.0" />
+                <translate x="18.0" y="11.5" z="-18.0" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -643,7 +647,7 @@
         </component>
         <component id="ropes2">
             <transformation>
-                <translate x="20.0" y="11.5" z="20.0" />
+                <translate x="18.0" y="11.5" z="18.0" />
                 <rotate axis="y" angle="-90" />
 
             </transformation>
@@ -659,7 +663,7 @@
         </component>
         <component id="ropes3">
             <transformation>
-                <translate x="-20.0" y="11.5" z="-20.0" />
+                <translate x="-18.0" y="11.5" z="-18.0" />
                 <rotate axis="y" angle="90" />
             </transformation>
             <materials>
@@ -674,7 +678,7 @@
         </component>
         <component id="ropes4">
             <transformation>
-                <translate x="-20.0" y="11.5" z="-20.0" />
+                <translate x="-18.0" y="11.5" z="-18.0" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -788,9 +792,116 @@
             <children>
                 <componentref id="ringsides" />
                 <componentref id="ringposts" />
+                <componentref id="ringturnbuckles"/>
                 <componentref id="ringropes" />
                 <componentref id="ringstairs" />
                 <componentref id="ringcenters" />
+            </children>
+        </component>
+        <component id="ringturnbuckles">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="ringApron"/>
+            <children>
+                <componentref id="turnbuckles1" />
+                <componentref id="turnbuckles2" />
+                <componentref id="turnbuckles3"/>
+                <componentref id="turnbuckles4" />
+            </children>
+        </component>
+        <component id="turnbuckles1">
+            <transformation>
+                <translate x="18.0" y="11.5" z="-18.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="turnbuckle1" />
+                <componentref id="turnbuckle2" />
+                <componentref id="turnbuckle3"/>
+            </children>
+        </component>
+        <component id="turnbuckles2">
+            <transformation>
+                <translate x="18.0" y="11.5" z="18.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="turnbuckle1" />
+                <componentref id="turnbuckle2" />
+                <componentref id="turnbuckle3"/>
+            </children>
+        </component>
+        <component id="turnbuckles3">
+            <transformation>
+                <translate x="-18.0" y="11.5" z="18.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="turnbuckle1" />
+                <componentref id="turnbuckle2" />
+                <componentref id="turnbuckle3"/>
+            </children>
+        </component>
+        <component id="turnbuckles4">
+            <transformation>
+                <translate x="-18.0" y="11.5" z="-18.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <componentref id="turnbuckle1" />
+                <componentref id="turnbuckle2" />
+                <componentref id="turnbuckle3"/>
+            </children>
+        </component>
+        <component id="turnbuckle1">
+            <transformation>
+                <translate x="0.0" y="3.5" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+        <component id="turnbuckle2">
+            <transformation>
+                <translate x="0.0" y="0" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+        <component id="turnbuckle3">
+            <transformation>
+                <translate x="0.0" y="-3.5" z="0.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
+            <children>
+                <primitiveref id="sphere" />
             </children>
         </component>
         <component id="ramp">

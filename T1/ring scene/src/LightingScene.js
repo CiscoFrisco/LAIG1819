@@ -44,7 +44,7 @@ class LightingScene extends CGFscene {
     this.zephyr.loadTexture("../res/images/mrzephyr.png");
 
     this.rick = new CGFappearance(this);
-    this.rick.loadTexture("../res/images/682020.jpg");
+    this.rick.loadTexture("../res/images/ball.jpg");
 
     this.defaultMaterial = new CGFappearance(this);
 

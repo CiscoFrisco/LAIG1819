@@ -202,7 +202,6 @@ class MySceneGraph {
      * @param {views block element} viewsNode
      */
     parseViews(viewsNode) {
-        // TODO: Parse views node CHECK ERRORS
         var error;
         var def = this.reader.getString(viewsNode, 'default', true);
         var numViews = 0;
@@ -333,7 +332,7 @@ class MySceneGraph {
                     type: "perspective",
                     near: near,
                     far: far,
-                    angle: angle,
+                    angle: angle*DEGREE_TO_RAD,
                     from: {
                         x: fx,
                         y: fy,
@@ -613,7 +612,7 @@ class MySceneGraph {
                     specularIllumination: specularIllumination,
                     locationLight: locationLight,
                     targetLight: targetLight,
-                    angle: angle,
+                    angle: angle*DEGREE_TO_RAD,
                     exponent: exponent
                 };
                 numLights++;
@@ -1004,12 +1003,12 @@ class MySceneGraph {
             } else if (primitive.nodeName == "sphere") {
                 var radius = this.reader.getFloat(primitive, 'radius', true);
 
-                if ((error = this.checkNumber(primitive, stacks, "stacks")) != null)
+                if ((error = this.checkNumber(primitive, radius, "radius")) != null)
                     return error;
 
                 var slices = this.reader.getInteger(primitive, 'slices', true);
 
-                if ((error = this.checkNumber(primitive, stacks, "stacks")) != null)
+                if ((error = this.checkNumber(primitive, slices, "slices")) != null)
                     return error;
 
                 var stacks = this.reader.getInteger(primitive, 'stacks', true);
@@ -1170,7 +1169,7 @@ class MySceneGraph {
 
             for (let j = 0; j < children.length; ++j) {
                 if (children[j].nodeName == "children") {
-                    if((error = this.parseChildren(id, children[j].children)) != null)
+                    if ((error = this.parseChildren(id, children[j].children)) != null)
                         return error;
                     break;
                 }
@@ -1193,7 +1192,7 @@ class MySceneGraph {
         for (let c = 0; c < refs.length; ++c) {
             let childId = this.reader.getString(refs[c], 'id', true);
 
-            if(this.components[childId] == null && this.primitives[childId] == null)
+            if (this.components[childId] == null && this.primitives[childId] == null)
                 return "invalid childId";
 
             if (refs[c].nodeName == "componentref") {
