@@ -815,6 +815,7 @@
         <component id="turnbuckles1">
             <transformation>
                 <translate x="18.0" y="11.5" z="-18.0" />
+                <rotate axis ="y" angle ="45" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -829,6 +830,7 @@
         <component id="turnbuckles2">
             <transformation>
                 <translate x="18.0" y="11.5" z="18.0" />
+                <rotate axis ="y" angle ="-45" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -843,6 +845,7 @@
         <component id="turnbuckles3">
             <transformation>
                 <translate x="-18.0" y="11.5" z="18.0" />
+                <rotate axis ="y" angle ="-135" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -857,6 +860,7 @@
         <component id="turnbuckles4">
             <transformation>
                 <translate x="-18.0" y="11.5" z="-18.0" />
+                <rotate axis ="y" angle ="135" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -871,6 +875,7 @@
         <component id="turnbuckle1">
             <transformation>
                 <translate x="0.0" y="3.5" z="0.0" />
+                <rotate axis="x" angle="90" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -883,6 +888,7 @@
         <component id="turnbuckle2">
             <transformation>
                 <translate x="0.0" y="0" z="0.0" />
+                <rotate axis="x" angle="90" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -895,6 +901,7 @@
         <component id="turnbuckle3">
             <transformation>
                 <translate x="0.0" y="-3.5" z="0.0" />
+                 <rotate axis="x" angle="90" />
             </transformation>
             <materials>
                 <material id="inherit" />

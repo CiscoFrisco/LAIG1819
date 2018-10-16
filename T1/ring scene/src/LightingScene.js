@@ -44,14 +44,14 @@ class LightingScene extends CGFscene {
     this.zephyr.loadTexture("../res/images/mrzephyr.png");
 
     this.rick = new CGFappearance(this);
-    this.rick.loadTexture("../res/images/ball.jpg");
+    this.rick.loadTexture("../res/images/682021.jpg");
 
     this.defaultMaterial = new CGFappearance(this);
 
     this.ringApron = new CGFappearance(this);
     this.ringApron.loadTexture("../res/images/ringApron.jpeg");
 
-    this.donut = new CGFappearance(this);
+    this.donut = new CGFappearance(this); 
     this.donut.loadTexture("../res/images/donut.png");
     
   }
@@ -73,13 +73,13 @@ class LightingScene extends CGFscene {
     this.stage = new MyStage(this);
 
     this.torus = new MyTorus(this,20,20,1,2);
-    this.cylinder = new MyCylinder(this, 0.5, 2.0, 2.0, 3, 2);
+    this.cylinder = new MyCylinder(this, 10.0, 2.0, 2.0, 3, 2);
     this.circle = new MyPoligon(this,20);
 
-    this.sphere = new MySphere(this,5,60,60);
+    this.sphere = new MySphere(this,5,20,10);
 
     this.floor = new MyQuad(this, -0.5,-0.5,0.5,0.5);
-    this.triangle = new MyTriangle(this, 0,1,0,-1,-1,0,1,-1,0);
+    this.triangle = new MyTriangle(this, 0,0,0,4,0,0,2,0,2.5);
   }
 
   /**
@@ -473,7 +473,7 @@ class LightingScene extends CGFscene {
       this.rotate(-Math.PI/2,1,0,0);
       this.scale(2.5,2.5,2.5);
       this.zephyr.apply();
-      this.cupula.display();
+      this.sphere.display();
       this.popMatrix();
 
       this.defaultMaterial.apply();
@@ -503,7 +503,7 @@ class LightingScene extends CGFscene {
           this.rotate(- angle*i + Math.PI/2,0,1,0);
           this.rotate(-Math.PI/4,1,0,0);
           this.scale(0.25,0.25,0.25);
-          this.cupula.display();
+          this.sphere.display();
           this.popMatrix();    
 
       }
@@ -516,7 +516,7 @@ class LightingScene extends CGFscene {
     this.scale(7.5,70,7.5);  
     this.rotate(Math.PI/2,1,0,0);
     this.rick.apply();
-    this.ray.display();
+    this.cylinder.display();
     this.popMatrix();
 
     this.defaultMaterial.apply();
@@ -524,8 +524,8 @@ class LightingScene extends CGFscene {
 
       this.pushMatrix();
       this.rick.apply();
-      //this.triangle.updateTexCoords(2.0,2.0);
-      this.sphere.display();
+      //this.triangle.updateTexCoords(1.0,1.0);
+      this.cylinder.display();
       this.popMatrix();
 
 
