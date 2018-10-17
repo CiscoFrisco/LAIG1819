@@ -332,7 +332,7 @@ class MySceneGraph {
                     type: "perspective",
                     near: near,
                     far: far,
-                    angle: angle*DEGREE_TO_RAD,
+                    angle: angle * DEGREE_TO_RAD,
                     from: {
                         x: fx,
                         y: fy,
@@ -612,7 +612,7 @@ class MySceneGraph {
                     specularIllumination: specularIllumination,
                     locationLight: locationLight,
                     targetLight: targetLight,
-                    angle: angle*DEGREE_TO_RAD,
+                    angle: angle,
                     exponent: exponent
                 };
                 numLights++;
@@ -1130,15 +1130,6 @@ class MySceneGraph {
                     var length_s = this.reader.getFloat(grandChildNode, 'length_s', false);
                     var length_t = this.reader.getFloat(grandChildNode, 'length_t', false);
 
-                    length_s = length_s == null ? 1.0 : length_s;
-                    length_t = length_t == null ? 1.0 : length_t;
-
-                    if ((error = this.checkNumber(grandChildNode, length_s, "length_s", false)) != null)
-                        return error;
-
-                    if ((error = this.checkNumber(grandChildNode, length_t, "length_t", false)) != null)
-                        return error;
-
                     component.texture = {
                         id: textId,
                         length_s: length_s,
@@ -1245,7 +1236,7 @@ class MySceneGraph {
 
         var matId = this.applyMaterial(component, parent);
 
-        var texId = this.applyTexture(component, parent);
+        var texInfo = this.applyTexture(component, parent);
 
         for (var key in component.children) {
             this.scene.pushMatrix();
@@ -1256,7 +1247,9 @@ class MySceneGraph {
             this.scene.popMatrix();
         }
 
-        component.texture.id = texId;
+        component.texture.id = texInfo.texId;
+        component.texture.length_s = texInfo.texLengthS;
+        component.texture.length_t = texInfo.texLengthT;
         component.materials[this.scene.materialNo % component.materials.length] = matId;
     }
 
@@ -1268,6 +1261,8 @@ class MySceneGraph {
      */
     applyTexture(component, parent) {
         var texId = component.texture.id;
+        var texLengthS = component.texture.length_s;
+        var texLengthT = component.texture.length_t;
         var texParentId;
 
         if (parent != null)
@@ -1277,6 +1272,14 @@ class MySceneGraph {
             if (texParentId != "none")
                 this.textures[texParentId].bind();
             component.texture.id = texParentId;
+
+            if (component.texture.length_s == null) {
+                component.texture.length_s = parent.texture.length_s;
+            }
+
+            if (component.texture.length_t == null) {
+                component.texture.length_t = parent.texture.length_t;
+            }
         } else if (texId == "none") {
             if (texParentId != null && texParentId != "none") {
                 this.textures[texParentId].unbind();
@@ -1285,7 +1288,11 @@ class MySceneGraph {
             this.textures[texId].bind();
         }
 
-        return texId;
+        return {
+            texId: texId,
+            texLengthS: texLengthS,
+            texLengthT: texLengthT
+        };
     }
 
     /**
