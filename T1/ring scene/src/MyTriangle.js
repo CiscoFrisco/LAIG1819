@@ -46,7 +46,8 @@ class MyTriangle extends CGFobject {
 
 		this.v21 = vec3.fromValues(this.v2[0] - this.v1[0], this.v2[1] - this.v1[1], this.v2[2] - this.v1[2]);
 		this.v31 = vec3.fromValues(this.v3[0] - this.v1[0], this.v3[1] - this.v1[1], this.v3[2] - this.v1[2]);
-		this.v32 = vec3.fromValues(this.v3[0] - this.v2[0], this.v3[1] - this.v2[1], this.v3[2] - this.v2[2]); 
+		this.v32 = vec3.fromValues(this.v3[0] - this.v2[0], this.v3[1] - this.v2[1], this.v3[2] - this.v2[2]);
+
 		var n = vec3.create()
 		vec3.cross(n, this.v21, this.v32);
 		vec3.normalize(n, n);
@@ -57,11 +58,8 @@ class MyTriangle extends CGFobject {
 			n[0], n[1], n[2],
 		];
 
-		this.texCoords = [
-			0, 0, //this.minS, this.minT,
-			0, 1, //this.minS, this.maxT,
-			1, 1, //this.maxS, this.maxT,
-		];
+		this.texCoords = [];
+		this.updateTexCoords(1,1);
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();

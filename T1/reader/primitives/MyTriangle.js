@@ -44,10 +44,12 @@ class MyTriangle extends CGFobject {
 			0, 1, 2,
 		];
 
-		var v21 = vec3.fromValues(this.v2[0] - this.v1[0], this.v2[1] - this.v1[1], this.v2[2] - this.v1[2]);
-		var v32 = vec3.fromValues(this.v3[0] - this.v2[0], this.v3[1] - this.v2[1], this.v3[2] - this.v3[2]); //vetor do ponto 2 ao ponto 3
+		this.v21 = vec3.fromValues(this.v2[0] - this.v1[0], this.v2[1] - this.v1[1], this.v2[2] - this.v1[2]);
+		this.v31 = vec3.fromValues(this.v3[0] - this.v1[0], this.v3[1] - this.v1[1], this.v3[2] - this.v1[2]);
+		this.v32 = vec3.fromValues(this.v3[0] - this.v2[0], this.v3[1] - this.v2[1], this.v3[2] - this.v2[2]);
+
 		var n = vec3.create()
-		vec3.cross(n, v21, v32);
+		vec3.cross(n, this.v21, this.v32);
 		vec3.normalize(n, n);
 
 		this.normals = [
@@ -56,11 +58,8 @@ class MyTriangle extends CGFobject {
 			n[0], n[1], n[2],
 		];
 
-		this.texCoords = [
-			0, 0, //this.minS, this.minT,
-			0, 1, //this.minS, this.maxT,
-			1, 1, //this.maxS, this.maxT,
-		];
+		this.texCoords = [];
+		this.updateTexCoords(1,1);
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
@@ -72,20 +71,19 @@ class MyTriangle extends CGFobject {
 	 * @param {Number} length_t scale factor (width)
 	 */
 	updateTexCoords(length_s, length_t) {
-		var a = Math.sqrt(Math.pow(this.v1[0] - this.v3[0], 2) + Math.pow(this.v1[1] - this.v3[1], 2) + Math.pow(this.v1[2] - this.v3[2], 2));
-		var b = Math.sqrt(Math.pow(this.v2[0] - this.v1[0], 2) + Math.pow(this.v2[1] - this.v1[1], 2) + Math.pow(this.v2[2] - this.v1[2], 2));
-		var c = Math.sqrt(Math.pow(this.v3[0] - this.v2[0], 2) + Math.pow(this.v3[1] - this.v2[1], 2) + Math.pow(this.v3[2] - this.v2[2], 2));
+		var a = Math.sqrt(Math.pow(this.v31[0], 2) + Math.pow(this.v31[1], 2) + Math.pow(this.v31[2], 2));
+		var b = Math.sqrt(Math.pow(this.v21[0], 2) + Math.pow(this.v21[1], 2) + Math.pow(this.v21[2], 2));
+		var c = Math.sqrt(Math.pow(this.v32[0], 2) + Math.pow(this.v32[1], 2) + Math.pow(this.v32[2], 2));
 
-		var beta = Math.acos((Math.pow(a, 2) - Math.pow(b, 2) + Math.pow(c, 2)) / (2 * a * c));
+		//var beta = Math.acos((Math.pow(a, 2) - Math.pow(b, 2) + Math.pow(c, 2)) / (2 * a * c));
 
-		// TODO: v???
-
-		var v = a * Math.sin(beta);
-
+		var cos_beta = (Math.pow(a, 2) - Math.pow(b, 2) + Math.pow(c, 2)) / (2 * a * c);
+		var sin_beta = Math.sqrt(Math.pow(a, 2) - Math.pow(a*cos_beta, 2)) / a;
+		
 		this.texCoords = [
-			(c - a * Math.cos(beta)) / length_s, (v - a * Math.sin(beta)) / length_t,
-			0, v / length_t,
-			c / length_s, v / length_t,
+			(c/length_s - a * cos_beta), (length_t - a * sin_beta),
+			0, length_t,
+			c / length_s, length_t,
 		];
 
 		this.updateTexCoordsGLBuffers();

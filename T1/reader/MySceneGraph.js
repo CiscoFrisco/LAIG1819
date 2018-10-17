@@ -1130,6 +1130,9 @@ class MySceneGraph {
                     var length_s = this.reader.getFloat(grandChildNode, 'length_s', false);
                     var length_t = this.reader.getFloat(grandChildNode, 'length_t', false);
 
+                    if(length_s == null || length_t == null)
+                        this.onXMLMinorError("Unspecified scale factor for texture with id=" + textId);
+
                     component.texture = {
                         id: textId,
                         length_s: length_s,
@@ -1183,16 +1186,22 @@ class MySceneGraph {
         for (let c = 0; c < refs.length; ++c) {
             let childId = this.reader.getString(refs[c], 'id', true);
 
-            if (this.components[childId] == null && this.primitives[childId] == null)
-                return "invalid childId";
 
             if (refs[c].nodeName == "componentref") {
+
+                if(this.components[childId] == null)
+                    return "invalid childId on component with id=" + id;
+
                 this.components[id].children[childId] = {
                     data: this.components[childId],
                     type: "component"
                 };
 
             } else {
+
+                if(this.primitives[childId] == null)
+                    return "invalid childId on component with id=" + id;
+
                 this.components[id].children[childId] = {
                     data: this.primitives[childId],
                     type: "primitive"
