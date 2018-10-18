@@ -672,6 +672,17 @@ class MySceneGraph {
         return null;
     }
 
+    getDefaultMaterial() {
+        var material = new CGFappearance(this.scene);
+        material.setAmbient(0.2, 0.2, 0.2, 1.0);
+        material.setDiffuse(0.5, 0.5, 0.5, 1.0);
+        material.setSpecular(0.5, 0.5, 0.5, 1.0);
+        material.setEmission(0.0, 0.0, 0.0, 1.0);
+        material.setShininess(10.0);
+
+        return material;
+    }
+
     /**
      * Parses the <materials> node.
      * @param {materials block element} materialsNode
@@ -681,6 +692,8 @@ class MySceneGraph {
         var materials = materialsNode.children;
         this.materials = {};
         var numMaterials = 0;
+
+        this.materials['T1G2Def'] = this.getDefaultMaterial();
 
         for (let i = 0; i < materials.length; ++i) {
             var childNode = materials[i];
@@ -1114,6 +1127,8 @@ class MySceneGraph {
 
                         if (this.materials[matId] == null && matId != "inherit")
                             return "invalid material id";
+                        else if (matId == "inherit" && id == this.sceneInfo.rootId)
+                            this.onXMLMinorError('Detected inherit material on root node. Default is going to be applied!');
 
                         component.materials.push(matId);
                     }
@@ -1130,7 +1145,7 @@ class MySceneGraph {
                     var length_s = this.reader.getFloat(grandChildNode, 'length_s', false);
                     var length_t = this.reader.getFloat(grandChildNode, 'length_t', false);
 
-                    if(length_s == null || length_t == null)
+                    if (length_s == null || length_t == null)
                         this.onXMLMinorError("Unspecified scale factor for texture with id=" + textId);
 
                     component.texture = {
@@ -1189,7 +1204,7 @@ class MySceneGraph {
 
             if (refs[c].nodeName == "componentref") {
 
-                if(this.components[childId] == null)
+                if (this.components[childId] == null)
                     return "invalid childId on component with id=" + id;
 
                 this.components[id].children[childId] = {
@@ -1199,7 +1214,7 @@ class MySceneGraph {
 
             } else {
 
-                if(this.primitives[childId] == null)
+                if (this.primitives[childId] == null)
                     return "invalid childId on component with id=" + id;
 
                 this.components[id].children[childId] = {
@@ -1314,10 +1329,13 @@ class MySceneGraph {
 
         if (matId != "inherit")
             this.materials[matId].apply();
-        else {
+        else if (parent != null) {
             let parentMatId = parent.materials[this.scene.materialNo % parent.materials.length];
             this.materials[parentMatId].apply();
             component.materials[this.scene.materialNo % component.materials.length] = parentMatId;
+        } else {
+            this.materials['T1G2Def'].apply();
+            component.materials[this.scene.materialNo % component.materials.length] = 'T1G2Def';
         }
 
         return matId;
