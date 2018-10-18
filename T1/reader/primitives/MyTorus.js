@@ -15,7 +15,7 @@ class MyTorus extends CGFobject {
 	 * @param {Number} inner 
 	 * @param {Number} outer 
 	 */
-	constructor(scene, slices, sides, inner, outer) {
+	constructor(scene, inner, outer, slices, sides) {
 		super(scene);
 
 		this.slices = slices;

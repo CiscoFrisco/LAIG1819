@@ -144,6 +144,9 @@
         <primitive id="sphere">
             <sphere radius="1.5" slices="20" stacks="20"/>
         </primitive>
+        <primitive id="torus">
+            <torus inner="1" outer="2" slices="4" loops="20" />
+        </primitive>
     </primitives >
     <components>
         <component id="scene">
@@ -162,6 +165,7 @@
                 <componentref id="ring" />
                 <componentref id="barriers" />
                 <componentref id="chairs" />
+                <componentref id="ovni" />
             </children>
         </component>
         <component id="cube">
@@ -901,7 +905,7 @@
         <component id="turnbuckle3">
             <transformation>
                 <translate x="0.0" y="-3.5" z="0.0" />
-                 <rotate axis="x" angle="90" />
+                <rotate axis="x" angle="90" />
             </transformation>
             <materials>
                 <material id="inherit" />
@@ -1377,6 +1381,45 @@
                 <componentref id="chairs1" />
                 <componentref id="chairs2" />
                 <componentref id="chairs3" />
+            </children>
+        </component>
+        <component id="ovni_chassi">
+            <transformation>
+                <rotate axis="x" angle ="90" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="torus" />
+            </children>
+        </component>
+        <component id="ovni_dome">
+            <transformation>
+                <translate x="0" y="0.5" z="0"/>
+                <scale x="1.5" y="1.5" z="1.5"/>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+        <component id="ovni">
+            <transformation>
+                <translate x="0" y="70" z="0"/>
+                <scale x="10" y="7.5" z="10"/>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ovni_chassi" />
+                <componentref id="ovni_dome" />
             </children>
         </component>
     </components>
