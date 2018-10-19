@@ -61,6 +61,8 @@
     <textures>
         <texture id="ringApron" file="scenes/images/ringApron.jpeg" />
         <texture id="stairs" file="scenes/images/stairs.jpeg" />
+        <texture id="john_cena" file="scenes/images/john_cena.jpg" />
+        <texture id="aliens" file="scenes/images/aliens.jpg" />
     </textures>
     <materials>
         <material id="ringMat" shininess = "1.0">
@@ -105,6 +107,18 @@
             <diffuse r="0.5" g="0.7" b="0.5" a="1.0" />
             <specular r="0.0" g="0.2" b="0.0" a="1.0" />
         </material>
+        <material id="stageApp" shininess = "0.5">
+            <emission r="0.3" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
+            <diffuse r="0.3" g="0.0" b="0.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+        <material id="rayApp" shininess = "50.0">
+            <emission r="0.0" g="0.3" b="0.0" a="1.0" />
+            <ambient r="0.0" g="0.3" b="0.0" a="1.0" />
+            <diffuse r="0.0" g="0.3" b="0.0" a="1.0" />
+            <specular r="0.0" g="0.3" b="0.0" a="1.0" />
+        </material>
         <material id="default" shininess = "10.0">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
             <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
@@ -139,6 +153,10 @@
 
         <primitive id="cylinder">
             <cylinder base="1.0" top="1.0" height="1.0" slices="20" stacks="20" />
+        </primitive >
+
+        <primitive id="ray">
+            <cylinder base="0.5" top="2.0" height="1.0" slices="20" stacks="20" />
         </primitive >
 
         <primitive id="sphere">
@@ -330,7 +348,7 @@
             <transformation>
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -365,7 +383,7 @@
                 <material id="inherit" />
                 <material id="wallApp"/>
             </materials>
-            <texture id="inherit" length_s="2.0" length_t="2.0"/>
+            <texture id="john_cena" length_s="1.0" length_t="1.0"/>
             <children>
                 <primitiveref id="quad" />
             </children>
@@ -380,7 +398,7 @@
                 <material id="inherit" />
                 <material id="wallApp"/>
             </materials>
-            <texture id="none" length_s="2.0" length_t="2.0"/>
+            <texture id="aliens" length_s="1.0" length_t="1.0"/>
             <children>
                 <primitiveref id="quad" />
             </children>
@@ -921,7 +939,7 @@
                 <scale x="100" y="20" z="40"/>
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="stageApp" />
             </materials>
             <texture id="none"/>
             <children>
@@ -934,7 +952,7 @@
                 <rotate axis="x" angle="90"/>
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -947,7 +965,7 @@
                 <rotate axis="x" angle="-90" />
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -960,7 +978,7 @@
                 <scale x="50" y="20" z="40" />
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="stageApp" />
             </materials>
             <texture id="inherit" length_s="1.0" length_t="1.0"/>
             <children>
@@ -1385,6 +1403,7 @@
         </component>
         <component id="ovni_chassi">
             <transformation>
+                <scale x="1" y="0.8" z="1" />
                 <rotate axis="x" angle ="90" />
             </transformation>
             <materials>
@@ -1397,8 +1416,8 @@
         </component>
         <component id="ovni_dome">
             <transformation>
-                <translate x="0" y="0.5" z="0"/>
-                <scale x="1.5" y="1.5" z="1.5"/>
+                <translate x="0" y="0.75" z="0"/>
+                <scale x="1.25" y="1" z="1.25"/>
             </transformation>
             <materials>
                 <material id="default" />
@@ -1408,18 +1427,234 @@
                 <primitiveref id="sphere" />
             </children>
         </component>
-        <component id="ovni">
+        <component id="ovni_light">
             <transformation>
-                <translate x="0" y="70" z="0"/>
-                <scale x="10" y="7.5" z="10"/>
+                <translate x="0" y="0.5" z="0" />
+                <rotate axis="y" angle="90" />
+                <rotate axis = "x" angle ="-45" />
+                <scale x="0.2" y="0.2" z="0.1"/>
             </transformation>
             <materials>
                 <material id="default" />
             </materials>
             <texture id="none"/>
             <children>
-                <componentref id="ovni_chassi" />
+                <primitiveref id="sphere" />
+            </children>
+        </component>
+        <component id="ovni_light1">
+            <transformation>
+                <translate x="2.4" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ovni_light" />
+            </children>
+        </component>
+        <component id="ovni_light2">
+            <transformation>
+                <translate x="2.28253563937" y="0" z="0.74164078568"/>
+                <rotate axis="y" angle ="-18" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ovni_light" />
+            </children>
+        </component>
+        <component id="ovni_light3">
+            <transformation>
+                <translate x="1.94164078751" y="0" z="1.41068460411"/>
+                <rotate axis="y" angle ="-36" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ovni_light" />
+            </children>
+        </component>
+        <component id="ovni_light4">
+            <transformation>
+                <translate x="1.41068460759" y="0" z="1.94164078498"/>
+                <rotate axis="y" angle ="-54" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ovni_light" />
+            </children>
+        </component>
+        <component id="ovni_light5">
+            <transformation>
+                <translate x="0.74164078977" y="0" z="2.28253563804"/>
+                <rotate axis="y" angle ="-72" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ovni_light" />
+            </children>
+        </component>
+        <component id="ovni_light6">
+            <transformation>
+                <translate x="0" y="0" z="2.4"/>
+                <rotate axis="y" angle ="-90" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ovni_light" />
+            </children>
+        </component>
+        <component id="ovni_light7">
+            <transformation>
+                <translate x="-0.74164078158" y="0" z="2.28253564071"/>
+                <rotate axis="y" angle ="-108" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ovni_light" />
+            </children>
+        </component>
+        <component id="ovni_light8">
+            <transformation>
+                <translate x="-1.41068460062" y="0" z="1.94164079004"/>
+                <rotate axis="y" angle ="-126" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ovni_light" />
+            </children>
+        </component>
+        <component id="ovni_light9">
+            <transformation>
+                <translate x="-1.94164078245" y="0" z="1.41068461108"/>
+                <rotate axis="y" angle ="-144" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ovni_light" />
+            </children>
+        </component>
+        <component id="ovni_light10">
+            <transformation>
+                <translate x="-2.28253563671" y="0" z="0.74164079387"/>
+                <rotate axis="y" angle ="-162" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ovni_light" />
+            </children>
+        </component>
+        <component id="ovni_lights_half">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ovni_light1" />
+                <componentref id="ovni_light2" />
+                <componentref id="ovni_light3" />
+                <componentref id="ovni_light4" />
+                <componentref id="ovni_light5" />
+                <componentref id="ovni_light6" />
+                <componentref id="ovni_light7" />
+                <componentref id="ovni_light8" />
+                <componentref id="ovni_light9" />
+                <componentref id="ovni_light10" />
+            </children>
+        </component>
+        <component id="ovni_lights_half1">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ovni_lights_half" />
+            </children>
+        </component>
+        <component id="ovni_lights_half2">
+            <transformation>
+                <rotate axis="y" angle ="180" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ovni_lights_half" />
+            </children>
+        </component>
+        <component id="ovni_lights">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ovni_lights_half1" />
+                <componentref id="ovni_lights_half2" />
+            </children>
+        </component>
+        <component id="ovni_ray">
+            <transformation>
+                <scale x="1" y="8" z="1" />
+                <rotate axis="x" angle ="90" />
+
+            </transformation>
+            <materials>
+                <material id="rayApp" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="ray" />
+            </children>
+        </component>
+        <component id="ovni">
+            <transformation>
+                <translate x="0" y="60" z="0"/>
+                <scale x="7" y="7" z="7" />
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="ovni_lights" />
                 <componentref id="ovni_dome" />
+                <componentref id="ovni_chassi" />
+                <componentref id="ovni_ray" />
+
             </children>
         </component>
     </components>
