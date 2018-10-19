@@ -63,6 +63,7 @@
         <texture id="stairs" file="scenes/images/stairs.jpeg" />
         <texture id="john_cena" file="scenes/images/john_cena.jpg" />
         <texture id="aliens" file="scenes/images/aliens.jpg" />
+        <texture id="glass" file="scenes/images/glass.jpg" />
     </textures>
     <materials>
         <material id="ringMat" shininess = "1.0">
@@ -70,6 +71,24 @@
             <ambient r="0.5" g="0.6" b="0.7" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </material>
+        <material id="ovni_light1" shininess = "1.0">
+            <emission r="1.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.5" g="0.6" b="0.7" a="1.0" />
+            <diffuse r="1.0" g="0.0" b="0.0" a="1.0" />
+            <specular r="1.0" g="0.0" b="0.0" a="1.0" />
+        </material>
+        <material id="ovni_light2" shininess = "1.0">
+            <emission r="0.0" g="1.0" b="0.0" a="1.0" />
+            <ambient r="0.5" g="0.6" b="0.7" a="1.0" />
+            <diffuse r="0.0" g="1.0" b="0.0" a="1.0" />
+            <specular r="0.0" g="1.0" b="0.0" a="1.0" />
+        </material>
+        <material id="ovni_light3" shininess = "1.0">
+            <emission r="0.0" g="0.0" b="1.0" a="1.0" />
+            <ambient r="0.5" g="0.6" b="0.7" a="1.0" />
+            <diffuse r="0.0" g="0.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
         </material>
         <material id="ringRopeApp" shininess = "1.0">
             <emission r="1.0" g="0.0" b="0.0" a="1.0" />
@@ -118,6 +137,12 @@
             <ambient r="0.0" g="0.3" b="0.0" a="1.0" />
             <diffuse r="0.0" g="0.3" b="0.0" a="1.0" />
             <specular r="0.0" g="0.3" b="0.0" a="1.0" />
+        </material>
+        <material id="ovni" shininess = "5.0">
+            <emission r="0.6" g="0.0" b="0.6" a="0.5" />
+            <ambient r="0.1" g="0.1" b="0.1" a="0.5" />
+            <diffuse r="0.6" g="0.0" b="0.6" a="0.5" />
+            <specular r="0.6" g="0.0" b="0.6" a="0.5" />
         </material>
         <material id="default" shininess = "10.0">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
@@ -1407,7 +1432,7 @@
                 <rotate axis="x" angle ="90" />
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="ovni" />
             </materials>
             <texture id="none"/>
             <children>
@@ -1422,7 +1447,7 @@
             <materials>
                 <material id="default" />
             </materials>
-            <texture id="none"/>
+            <texture id="glass" length_t="1.0" length_s="1.0"/>
             <children>
                 <primitiveref id="sphere" />
             </children>
@@ -1435,7 +1460,7 @@
                 <scale x="0.2" y="0.2" z="0.1"/>
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="inherit" />
             </materials>
             <texture id="none"/>
             <children>
@@ -1447,7 +1472,9 @@
                 <translate x="2.4" y="0" z="0"/>
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="ovni_light1" />
+                <material id="ovni_light2" />
+                <material id="ovni_light3" />
             </materials>
             <texture id="none"/>
             <children>
@@ -1460,7 +1487,9 @@
                 <rotate axis="y" angle ="-18" />
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="ovni_light2" />
+                <material id="ovni_light3" />
+                <material id="ovni_light1" />
             </materials>
             <texture id="none"/>
             <children>
@@ -1473,7 +1502,9 @@
                 <rotate axis="y" angle ="-36" />
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="ovni_light3" />
+                <material id="ovni_light1" />
+                <material id="ovni_light2" />
             </materials>
             <texture id="none"/>
             <children>
@@ -1486,7 +1517,9 @@
                 <rotate axis="y" angle ="-54" />
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="ovni_light1" />
+                <material id="ovni_light2" />
+                <material id="ovni_light3" />
             </materials>
             <texture id="none"/>
             <children>
@@ -1499,7 +1532,9 @@
                 <rotate axis="y" angle ="-72" />
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="ovni_light2" />
+                <material id="ovni_light3" />
+                <material id="ovni_light1" />
             </materials>
             <texture id="none"/>
             <children>
@@ -1512,7 +1547,9 @@
                 <rotate axis="y" angle ="-90" />
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="ovni_light3" />
+                <material id="ovni_light1" />
+                <material id="ovni_light2" />
             </materials>
             <texture id="none"/>
             <children>
@@ -1525,7 +1562,9 @@
                 <rotate axis="y" angle ="-108" />
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="ovni_light1" />
+                <material id="ovni_light2" />
+                <material id="ovni_light3" />
             </materials>
             <texture id="none"/>
             <children>
@@ -1538,7 +1577,9 @@
                 <rotate axis="y" angle ="-126" />
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="ovni_light2" />
+                <material id="ovni_light3" />
+                <material id="ovni_light1" />
             </materials>
             <texture id="none"/>
             <children>
@@ -1551,7 +1592,9 @@
                 <rotate axis="y" angle ="-144" />
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="ovni_light3" />
+                <material id="ovni_light1" />
+                <material id="ovni_light2" />
             </materials>
             <texture id="none"/>
             <children>
@@ -1564,7 +1607,9 @@
                 <rotate axis="y" angle ="-162" />
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="ovni_light1" />
+                <material id="ovni_light2" />
+                <material id="ovni_light3" />
             </materials>
             <texture id="none"/>
             <children>
