@@ -29,6 +29,7 @@ class MySphere extends CGFobject {
 	 * Initializes vertices, normals, indices and texture coordinates
 	 */
 	initBuffers() {
+		var beta = Math.PI/this.stacks;
 		var alpha = 2 * Math.PI / this.slices;
 
 		this.vertices = [];
@@ -37,76 +38,34 @@ class MySphere extends CGFobject {
 		this.texCoords = [];
 
 		var z = 0;
-		var raio = 1;
+
 		var incS = 1.0 / this.slices;
 		var incT = 1.0 / this.stacks;
-		
-		//metade inferior da esfera
-		for (var i = 0; i < this.stacks / 2; i++) {
-			if (i > 0)
-				raio = Math.cos(Math.asin(z));
 
+		for (let i = 0; i <= this.stacks; i++) {
 			for (var j = 0; j <= this.slices; j++) {
-				this.vertices.push(Math.cos(j * alpha) * raio, Math.sin(j * alpha) * raio, z);
-				this.normals.push(Math.cos(j * alpha), Math.sin(j * alpha), raio);
-				this.texCoords.push(1 - incS*j, 0.5 + incT*i);
+				this.vertices.push(- Math.cos(j * alpha) * Math.sin(i*beta), -Math.sin(j * alpha) * Math.sin(i*beta), -Math.cos(i*beta));
+				this.normals.push(Math.cos(j * alpha), Math.sin(j * alpha), -Math.cos(i*beta));
+				this.texCoords.push(1.0 - incS * j, 0.0 + incT * i);
 			}
-
-			z += 1 / (this.stacks / 2);
-		}
-		
-		for(let i = 0; i <= this.slices; i++ ){
-			this.vertices.push(0, 0, z);
-			this.normals.push(Math.cos(j * alpha), Math.sin(j * alpha), raio);
-			this.texCoords.push(1 - incS*i, 1);
 		}
 
-		//metade superior da esfera
-		var z = 0;
-		var raio = 1;
+		console.log(this.vertices.length);
 
-		for (var i = 0; i < this.stacks / 2; i++) {
-			if (i > 0)
-				raio = Math.cos(Math.asin(z));
-
-			for (var j = 0; j <= this.slices; j++) {
-				this.vertices.push(Math.cos(j * alpha) * raio, Math.sin(j * alpha) * raio, -z);
-				this.normals.push(Math.cos(j * alpha), Math.sin(j * alpha), -raio);
-				this.texCoords.push(1- incS*j, 0.5 - incT*i);
-			}
-
-			z += 1 / (this.stacks / 2);
-		}
-
-		for(let i = 0; i <= this.slices; i++ ){
-			this.vertices.push(0, 0, -z);
-			this.normals.push(Math.cos(j * alpha), Math.sin(j * alpha), -raio);
-			this.texCoords.push(1 - incS*i, 0);
-		}
-
-		
-		
-		//indices
 		var ind = 0;
 
-		for (var i = 0; i <= this.stacks / 2; i++) {
-			for (var j = 0; j < this.slices; j++) {
-				
-				this.indices.push(ind, ind + 1, ind + this.slices + 1);
-				this.indices.push(ind + this.slices + 1, ind + 1, ind + this.slices + 2);
+		for (let i = 0; i < this.stacks; i++) {
+			for (let j = 0; j <= this.slices; j++) {
+				if (j != this.slices) {
+					this.indices.push(ind, ind + 1, ind + this.slices + 1);
+					this.indices.push(ind + this.slices + 1, ind + 1, ind + this.slices + 2);
+				}
 				ind++;
 			}
 		}
 
+		console.log(this.indices.length);
 
-		for (var i = 0; i <= this.stacks / 2; i++) {
-			for (var j = 0; j < this.slices; j++) {
-				
-				this.indices.push(ind, ind + this.slices + 1, ind + 1);
-				this.indices.push(ind + this.slices + 1, ind + this.slices + 2, ind + 1);
-				ind++;
-			}
-		}
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
