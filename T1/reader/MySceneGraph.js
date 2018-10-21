@@ -393,7 +393,7 @@ class MySceneGraph {
                 this.background = this.extractRGBA(children[i], error);
                 if (error != null) return error;
             } else {
-                this.onXMLMinorError('wrong or duplicate tag');
+                this.onXMLMinorError('wrong or duplicate tag on node ' + ambientNode.nodeName);
                 continue;
             }
         }
@@ -1142,7 +1142,7 @@ class MySceneGraph {
 
                     if (length_s == null || length_t == null)
                         this.onXMLMinorError(
-                            'Unspecified scale factor for texture with id=' + textId);
+                            'Unspecified scale factor for texture with id=' + textId + ' on component ' + id);
 
                     component
                         .texture = {
