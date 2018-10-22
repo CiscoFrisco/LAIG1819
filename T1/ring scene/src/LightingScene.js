@@ -73,7 +73,7 @@ class LightingScene extends CGFscene {
     this.stage = new MyStage(this);
 
     this.torus = new MyTorus(this,20,20,1,2);
-    this.cylinder = new MyCylinder(this, 10.0, 2.0, 2.0, 3, 2);
+    this.cylinder = new MyCylinder(this, 10.0, 2.0, 2.0, 4, 2);
     this.circle = new MyPoligon(this,20);
 
     this.sphere = new MySphere(this,5,20,10);

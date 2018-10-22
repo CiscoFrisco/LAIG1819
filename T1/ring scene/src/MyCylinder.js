@@ -25,7 +25,6 @@ class MyCylinder extends CGFobject {
 		this.slices = slices;
 		this.stacks = stacks;
 
-		this.circle = new MyPoligon(scene, slices);
 		this.initBuffers();
 	};
 
@@ -48,6 +47,13 @@ class MyCylinder extends CGFobject {
 		var incS = 1.0 / this.slices;
 		var incT = 1.0 / this.stacks;
 
+
+		for (var j = 0; j <= this.slices; j++) {
+			this.vertices.push(0,0,z);
+			this.normals.push(0,0,-1);
+			this.texCoords.push( 0 + incS * j, 0.0);
+		}
+
 		for (let i = 0; i <= this.stacks; i++) {
 			for (var j = 0; j <= this.slices; j++) {
 				this.vertices.push(Math.cos(j * alpha) * raio, Math.sin(j * alpha) * raio, z);
@@ -59,9 +65,15 @@ class MyCylinder extends CGFobject {
 			raio += r_inc;
 		}
 
+		for (var j = 0; j <= this.slices; j++) {
+			this.vertices.push(0,0,z - z_inc);
+			this.normals.push(0,0,1);
+			this.texCoords.push( 0 + incS * j, 1.0);
+		}
+
 		var ind = 0;
 
-		for (let i = 0; i < this.stacks; i++) {
+		for (let i = 0; i < this.stacks + 2; i++) {
 			for (let j = 0; j <= this.slices; j++) {
 				if (j != this.slices) {
 					this.indices.push(ind, ind + 1, ind + this.slices + 1);
@@ -74,36 +86,15 @@ class MyCylinder extends CGFobject {
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();
 	};
-	
-	/**
-	 * Displays this object, on the origin
-	 */
-	display() {
 
-		this.scene.pushMatrix();
-		this.scene.rotate(Math.PI, 0, 1, 0);
-		this.scene.scale(this.base, this.base, 1);
-		this.circle.display();
-		this.scene.popMatrix();
 
-		this.scene.pushMatrix();
-		this.drawElements(this.scene.gl.TRIANGLES);
-		this.scene.popMatrix();
-
-		this.scene.pushMatrix();
-		this.scene.translate(0, 0, this.heigh);
-		this.scene.scale(this.top, this.top, 1);
-		this.circle.display();
-		this.scene.popMatrix();
-
-	}
 
 	/**
 	 * Used to update texture coordinates upon drawing. Not required for this object.
 	 * @param {Number} length_s scale factor (length)
 	 * @param {Number} length_t scale factor (width)
 	 */
-	updateTexCoords(length_s, length_t){
-		
+	updateTexCoords(length_s, length_t) {
+
 	}
 };
