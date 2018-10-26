@@ -49,4 +49,12 @@ class CircularAnimation extends Animation {
     getRotAngle(){
         return this.rotAngle;
     }
+
+    update(currTime){
+        super(currTime);
+    }
+
+    apply(){
+        
+    }
 }

@@ -8,8 +8,9 @@ var LIGHTS_INDEX = 3;
 var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
 var TRANSFORMATIONS_INDEX = 6;
-var PRIMITIVES_INDEX = 7;
-var COMPONENTS_INDEX = 8;
+var ANIMATIONS_INDEX = 7;
+var PRIMITIVES_INDEX = 8;
+var COMPONENTS_INDEX = 9;
 
 // TODO: verificar erros e tipos de erro (minor e assumir valor default, ou
 // retornar logo)
@@ -138,6 +139,11 @@ class MySceneGraph {
         if ((error = this.processNode(
                 'transformations', nodeNames, nodes, TRANSFORMATIONS_INDEX,
                 this.parseTransformations)) != null)
+            return error;
+
+        if ((error = this.processNode(
+                'animations', nodeNames, nodes, ANIMATIONS_INDEX,
+                this.parseAnimations)) != null)
             return error;
 
         if ((error = this.processNode(
@@ -871,6 +877,65 @@ class MySceneGraph {
             this.scene.scale(x, y, z);
         } else
             return 'invalid transformation';
+    }
+
+    /**
+     * Parses the <animations> block
+     * @param {animations block element} animationsNode 
+     */
+    parseAnimations(animationsNode) {
+        this.animations = [];
+        var animations = animationsNode.children;
+        var error;
+
+        for (let i = 0; i < animations.length; ++i) {
+            var animation = animations[i];
+            if (animation.nodeName != 'linear' && animation.nodeName != 'circular') {
+                this.onXMLMinorError('unknown tag <' + animation.nodeName + '>');
+                continue;
+            }
+
+            var id = this.reader.getString(animation, 'id', true);
+
+            if (id == '') return 'invalid animation id';
+
+            if (this.animations[id] != null) return 'duplicate animation (id=' + id + ')';
+
+
+            var span = this.reader.getFloat(animation, 'span', true);
+
+            if ((error = this.checkNumber(animation, span, 'span')) != null)
+                return error;
+
+            if (animation.nodeName == 'linear') {
+
+                var controlPoints = animation.children;
+                var numControlPoints = 0;
+                for (let j = 0; j < controlPoints.length; j++) {
+                    var x = this.reader.getFloat(controlPoints[j], 'x', true);
+
+                    if ((error = this.checkNumber(controlPoints[j], x, 'x', false)) != null)
+                        return error;
+
+                    var y = this.reader.getFloat(controlPoints[j], 'y', true);
+
+                    if ((error = this.checkNumber(controlPoints[j], y, 'y', false)) != null)
+                        return error;
+
+                    var z = this.reader.getFloat(controlPoints[j], 'z', true);
+
+                    if ((error = this.checkNumber(controlPoints[j], z, 'z', false)) != null)
+                        return error;
+
+                    numControlPoints++;
+                }
+
+                if (numControlPoints < 2)
+                    return 'animation (id=' + id + ') has less than two control points!';
+            } else {
+
+            }
+        }
     }
 
     /**

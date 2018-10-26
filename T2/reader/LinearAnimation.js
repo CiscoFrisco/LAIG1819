@@ -20,4 +20,12 @@ class LinearAnimation extends Animation{
     getControlPoints(){
         return this.controlPoints;
     }
+
+    update(currTime){
+        super(currTime);
+    }
+
+    apply(){
+        
+    }
 }
