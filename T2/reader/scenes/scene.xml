@@ -191,6 +191,13 @@
             <torus inner="1" outer="2" slices="4" loops="20" />
         </primitive>
     </primitives >
+    <animations>
+        <linear id="ovni_anim" span="10">
+        <controlpoint xx="0.0" yy="0.0" zz="0.0" />
+        <controlpoint xx="10.0" yy="0.0" zz="0.0" />
+        <controlpoint xx="10.0" yy="10.0" zz="0.0" />
+        </linear>
+    </animations>
     <components>
         <component id="scene">
             <transformation>
@@ -1690,6 +1697,9 @@
                 <translate x="0" y="60" z="0"/>
                 <scale x="7" y="7" z="7" />
             </transformation>
+            <animations>
+                <animationref id="ovni_anim" />
+            </animations>
             <materials>
                 <material id="default" />
             </materials>

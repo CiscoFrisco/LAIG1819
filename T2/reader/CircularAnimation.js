@@ -1,17 +1,12 @@
 class CircularAnimation extends Animation {
 
-    constructor(time, center, radius, initAngle, rotAngle){
-        super();
+    constructor(scene, time, center, radius, initAngle, rotAngle){
+        super(scene, time);
 
-        this.time = time;
         this.center = center;
         this.radius = radius;
         this.initAngle = initAngle;
         this.rotAngle = rotAngle;
-    }
-
-    setTime(time){
-        this.time = time;
     }
 
     setCenter(center){
@@ -28,10 +23,6 @@ class CircularAnimation extends Animation {
 
     setRotAngle(rotAngle){
         this.rotAngle = rotAngle;
-    }
-
-    getTime(){
-        return this.time;
     }
 
     getCenter(){
@@ -51,7 +42,7 @@ class CircularAnimation extends Animation {
     }
 
     update(currTime){
-        super(currTime);
+        super.update(currTime);
     }
 
     apply(){

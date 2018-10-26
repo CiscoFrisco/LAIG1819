@@ -108,52 +108,52 @@ class MySceneGraph {
         // Processes each node, verifying errors.
 
         if ((error = this.processNode(
-                'scene', nodeNames, nodes, SCENE_INDEX, this.parseScene)) != null)
+            'scene', nodeNames, nodes, SCENE_INDEX, this.parseScene)) != null)
             return error;
 
 
         if ((error = this.processNode(
-                'views', nodeNames, nodes, VIEWS_INDEX, this.parseViews)) != null)
+            'views', nodeNames, nodes, VIEWS_INDEX, this.parseViews)) != null)
             return error;
 
         if ((error = this.processNode(
-                'ambient', nodeNames, nodes, AMBIENT_INDEX, this.parseAmbient)) !=
+            'ambient', nodeNames, nodes, AMBIENT_INDEX, this.parseAmbient)) !=
             null)
             return error;
 
         if ((error = this.processNode(
-                'lights', nodeNames, nodes, LIGHTS_INDEX, this.parseLights)) !=
+            'lights', nodeNames, nodes, LIGHTS_INDEX, this.parseLights)) !=
             null)
             return error;
 
         if ((error = this.processNode(
-                'textures', nodeNames, nodes, TEXTURES_INDEX,
-                this.parseTextures)) != null)
+            'textures', nodeNames, nodes, TEXTURES_INDEX,
+            this.parseTextures)) != null)
             return error;
 
         if ((error = this.processNode(
-                'materials', nodeNames, nodes, MATERIALS_INDEX,
-                this.parseMaterials)) != null)
+            'materials', nodeNames, nodes, MATERIALS_INDEX,
+            this.parseMaterials)) != null)
             return error;
 
         if ((error = this.processNode(
-                'transformations', nodeNames, nodes, TRANSFORMATIONS_INDEX,
-                this.parseTransformations)) != null)
+            'transformations', nodeNames, nodes, TRANSFORMATIONS_INDEX,
+            this.parseTransformations)) != null)
             return error;
 
         if ((error = this.processNode(
-                'animations', nodeNames, nodes, ANIMATIONS_INDEX,
-                this.parseAnimations)) != null)
+            'animations', nodeNames, nodes, ANIMATIONS_INDEX,
+            this.parseAnimations)) != null)
             return error;
 
         if ((error = this.processNode(
-                'primitives', nodeNames, nodes, PRIMITIVES_INDEX,
-                this.parsePrimitives)) != null)
+            'primitives', nodeNames, nodes, PRIMITIVES_INDEX,
+            this.parsePrimitives)) != null)
             return error;
 
         if ((error = this.processNode(
-                'components', nodeNames, nodes, COMPONENTS_INDEX,
-                this.parseComponents)) != null)
+            'components', nodeNames, nodes, COMPONENTS_INDEX,
+            this.parseComponents)) != null)
             return error;
     }
 
@@ -210,7 +210,7 @@ class MySceneGraph {
         var axis_length = this.reader.getFloat(sceneNode, 'axis_length', true);
 
         if ((error = this.checkNumber(
-                sceneNode, axis_length, 'axis_length', true)) != null)
+            sceneNode, axis_length, 'axis_length', true)) != null)
             return error;
 
         this.sceneInfo = {
@@ -613,7 +613,7 @@ class MySceneGraph {
                 var exponent = this.reader.getFloat(childNode, 'exponent', true);
 
                 if ((error = this.checkNumber(
-                        childNode, exponent, 'exponent', false)) != null)
+                    childNode, exponent, 'exponent', false)) != null)
                     return error;
 
                 var targetIndex = nodeNames.indexOf('target');
@@ -727,7 +727,7 @@ class MySceneGraph {
             var shininess = this.reader.getFloat(childNode, 'shininess', true);
 
             if ((error = this.checkNumber(
-                    childNode, shininess, 'shininess', false)) != null)
+                childNode, shininess, 'shininess', false)) != null)
                 return error;
 
             var properties = childNode.children;
@@ -901,7 +901,6 @@ class MySceneGraph {
 
             if (this.animations[id] != null) return 'duplicate animation (id=' + id + ')';
 
-
             var span = this.reader.getFloat(animation, 'span', true);
 
             if ((error = this.checkNumber(animation, span, 'span')) != null)
@@ -910,30 +909,55 @@ class MySceneGraph {
             if (animation.nodeName == 'linear') {
 
                 var controlPoints = animation.children;
+                var controlPointsParsed = [];
                 var numControlPoints = 0;
                 for (let j = 0; j < controlPoints.length; j++) {
-                    var x = this.reader.getFloat(controlPoints[j], 'x', true);
+                    var x = this.reader.getFloat(controlPoints[j], 'xx', true);
 
-                    if ((error = this.checkNumber(controlPoints[j], x, 'x', false)) != null)
+                    if ((error = this.checkNumber(controlPoints[j], x, 'xx', false)) != null)
                         return error;
 
-                    var y = this.reader.getFloat(controlPoints[j], 'y', true);
+                    var y = this.reader.getFloat(controlPoints[j], 'yy', true);
 
-                    if ((error = this.checkNumber(controlPoints[j], y, 'y', false)) != null)
+                    if ((error = this.checkNumber(controlPoints[j], y, 'yy', false)) != null)
                         return error;
 
-                    var z = this.reader.getFloat(controlPoints[j], 'z', true);
+                    var z = this.reader.getFloat(controlPoints[j], 'zz', true);
 
-                    if ((error = this.checkNumber(controlPoints[j], z, 'z', false)) != null)
+                    if ((error = this.checkNumber(controlPoints[j], z, 'zz', false)) != null)
                         return error;
 
+                    controlPointsParsed.push({
+                        x: x,
+                        y: y,
+                        z: z
+                    });
                     numControlPoints++;
                 }
 
                 if (numControlPoints < 2)
                     return 'animation (id=' + id + ') has less than two control points!';
-            } else {
 
+                this.animations[id] = new LinearAnimation(this.scene, span, controlPointsParsed);
+            } else {
+                var center = this.reader.getVector3(animation, 'center', true);
+
+                var radius = this.reader.getFloat(animation, 'radius', true);
+
+                if ((error = this.checkNumber(animation, radius, 'radius')) != null)
+                    return error;
+
+                var startang = this.reader.getFloat(animation, 'startang', true);
+
+                if ((error = this.checkNumber(animation, startang, 'startang', false)) != null)
+                    return error;
+
+                var rotang = this.reader.getFloat(animation, 'rotang', true);
+
+                if ((error = this.checkNumber(animation, rotang, 'rotang', false)) != null)
+                    return error;
+
+                this.animations[id] = new CircularAnimation(this.scene, span, center, radius, startang * DEGREE_TO_RAD, rotang * DEGREE_TO_RAD);
             }
         }
     }
@@ -1165,7 +1189,7 @@ class MySceneGraph {
                         component.transformations = this.transformations[transfId];
 
                     } else if (!this.findStringOnArray(
-                            'transformationref', transformations, 'nodeName')) {
+                        'transformationref', transformations, 'nodeName')) {
                         this.scene.loadIdentity();
                         for (let c = 0; c < transformations.length; c++) {
                             this.parseExplicitTransformation(transformations[c]);
@@ -1215,7 +1239,20 @@ class MySceneGraph {
                             length_s: length_s,
                             length_t: length_t
                         };
-                } else if (grandChildNode.nodeName != 'children')
+
+                    //TODO: ORDEM -> animations imediatamente depois de transformations
+                } else if (grandChildNode.nodeName === 'animations') {
+                    let refs = grandChildNode.children;
+                    component.animations = [];
+                    for (let j = 0; j < refs.length; j++) {
+                        let animId = this.reader.getString(refs[j], 'id', true);
+                        if (this.animations[animId] == null)
+                            return 'invalid animId on component with id=' + id;
+                        component.animations.push(this.animations[animId]);
+                        component.animationsIndex = 0;
+                    }
+                }
+                else if (grandChildNode.nodeName != 'children')
                     return 'invalid component property name';
             }
 
@@ -1316,21 +1353,23 @@ class MySceneGraph {
      * @param {*} parent
      */
     displayComponent(component, parent) {
+        this.scene.pushMatrix();
+
         this.scene.multMatrix(component.transformations);
+        this.applyAnimation(component.animations, component.animationsIndex);
 
         var matId = this.applyMaterial(component, parent);
 
         var texInfo = this.applyTexture(component, parent);
 
+
         for (var key in component.children) {
-            this.scene.pushMatrix();
             if (component.children[key].type == 'primitive')
                 this.displayPrimitive(
                     component.children[key].data, component.texture.length_s,
                     component.texture.length_t);
             else if (component.children[key].type == 'component')
                 this.displayComponent(component.children[key].data, component);
-            this.scene.popMatrix();
         }
 
         component.texture.id = texInfo.texId;
@@ -1338,6 +1377,8 @@ class MySceneGraph {
         component.texture.length_t = texInfo.texLengthT;
         component.materials[this.scene.materialNo % component.materials.length] =
             matId;
+        this.scene.popMatrix();
+
     }
 
     /**
@@ -1406,6 +1447,31 @@ class MySceneGraph {
         return matId;
     }
 
+    updateAnimations(deltaTime) {
+        for (var key in this.animations) {
+            this.animations[key].update(deltaTime);
+        }
+    }
+
+    applyAnimation(animations, currAnim) {
+
+        if (animations == null)
+            return;
+
+        if (animations[currAnim].over) {
+
+            animations[currAnim].over = false;
+
+            if (currAnim == animations.length - 1)
+                currAnim = 0;
+            else
+                currAnim++;
+
+        }
+        else {
+            animations[currAnim].apply();
+        }
+    }
     /**
      * Diplays the given primitive onto the scene
      * @param {CGFobject} primitive primitive to be displayed

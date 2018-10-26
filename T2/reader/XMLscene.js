@@ -38,6 +38,9 @@ class XMLscene extends CGFscene {
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.enable(this.gl.CULL_FACE);
         this.gl.depthFunc(this.gl.LEQUAL);
+
+        this.fps = 60;
+        this.setUpdatePeriod(1000/this.fps);
     }
 
     /**
@@ -56,9 +59,9 @@ class XMLscene extends CGFscene {
         for (var key in views.array) {
             var el = views.array[key];
             if (el.type == "ortho") {
-                this.cameras.push(new CGFcameraOrtho(el.left, el.right, el.bottom, el.top, el.near, el.far, vec3.fromValues(el.from.x, el.from.y, el.from.z), vec3.fromValues(el.to.x, el.to.y, el.to.z), vec3.fromValues(0.0,1.0,0.0)));
+                this.cameras.push(new CGFcameraOrtho(el.left, el.right, el.bottom, el.top, el.near, el.far, vec3.fromValues(el.from.x, el.from.y, el.from.z), vec3.fromValues(el.to.x, el.to.y, el.to.z), vec3.fromValues(0.0, 1.0, 0.0)));
             } else {
-                this.cameras.push(new CGFcamera(el.angle , el.near, el.far, vec3.fromValues(el.from.x, el.from.y, el.from.z), vec3.fromValues(el.to.x, el.to.y, el.to.z)));
+                this.cameras.push(new CGFcamera(el.angle, el.near, el.far, vec3.fromValues(el.from.x, el.from.y, el.from.z), vec3.fromValues(el.to.x, el.to.y, el.to.z)));
             }
 
             if (key == def) {
@@ -209,5 +212,13 @@ class XMLscene extends CGFscene {
 
         this.popMatrix();
         // ---- END Background, camera and axis setup
+    }
+
+    update(currTime) {
+        this.lastTime = this.lastTime || 0;
+        this.deltaTime = currTime - this.lastTime;
+        this.lastTime = currTime;
+
+        this.graph.updateAnimations(this.deltaTime);
     }
 }
