@@ -108,52 +108,52 @@ class MySceneGraph {
         // Processes each node, verifying errors.
 
         if ((error = this.processNode(
-                'scene', nodeNames, nodes, SCENE_INDEX, this.parseScene)) != null)
+            'scene', nodeNames, nodes, SCENE_INDEX, this.parseScene)) != null)
             return error;
 
 
         if ((error = this.processNode(
-                'views', nodeNames, nodes, VIEWS_INDEX, this.parseViews)) != null)
+            'views', nodeNames, nodes, VIEWS_INDEX, this.parseViews)) != null)
             return error;
 
         if ((error = this.processNode(
-                'ambient', nodeNames, nodes, AMBIENT_INDEX, this.parseAmbient)) !=
+            'ambient', nodeNames, nodes, AMBIENT_INDEX, this.parseAmbient)) !=
             null)
             return error;
 
         if ((error = this.processNode(
-                'lights', nodeNames, nodes, LIGHTS_INDEX, this.parseLights)) !=
+            'lights', nodeNames, nodes, LIGHTS_INDEX, this.parseLights)) !=
             null)
             return error;
 
         if ((error = this.processNode(
-                'textures', nodeNames, nodes, TEXTURES_INDEX,
-                this.parseTextures)) != null)
+            'textures', nodeNames, nodes, TEXTURES_INDEX,
+            this.parseTextures)) != null)
             return error;
 
         if ((error = this.processNode(
-                'materials', nodeNames, nodes, MATERIALS_INDEX,
-                this.parseMaterials)) != null)
+            'materials', nodeNames, nodes, MATERIALS_INDEX,
+            this.parseMaterials)) != null)
             return error;
 
         if ((error = this.processNode(
-                'transformations', nodeNames, nodes, TRANSFORMATIONS_INDEX,
-                this.parseTransformations)) != null)
+            'transformations', nodeNames, nodes, TRANSFORMATIONS_INDEX,
+            this.parseTransformations)) != null)
             return error;
 
         if ((error = this.processNode(
-                'animations', nodeNames, nodes, ANIMATIONS_INDEX,
-                this.parseAnimations)) != null)
+            'animations', nodeNames, nodes, ANIMATIONS_INDEX,
+            this.parseAnimations)) != null)
             return error;
 
         if ((error = this.processNode(
-                'primitives', nodeNames, nodes, PRIMITIVES_INDEX,
-                this.parsePrimitives)) != null)
+            'primitives', nodeNames, nodes, PRIMITIVES_INDEX,
+            this.parsePrimitives)) != null)
             return error;
 
         if ((error = this.processNode(
-                'components', nodeNames, nodes, COMPONENTS_INDEX,
-                this.parseComponents)) != null)
+            'components', nodeNames, nodes, COMPONENTS_INDEX,
+            this.parseComponents)) != null)
             return error;
     }
 
@@ -210,7 +210,7 @@ class MySceneGraph {
         var axis_length = this.reader.getFloat(sceneNode, 'axis_length', true);
 
         if ((error = this.checkNumber(
-                sceneNode, axis_length, 'axis_length', true)) != null)
+            sceneNode, axis_length, 'axis_length', true)) != null)
             return error;
 
         this.sceneInfo = {
@@ -614,7 +614,7 @@ class MySceneGraph {
                 var exponent = this.reader.getFloat(childNode, 'exponent', true);
 
                 if ((error = this.checkNumber(
-                        childNode, exponent, 'exponent', false)) != null)
+                    childNode, exponent, 'exponent', false)) != null)
                     return error;
 
                 var targetIndex = nodeNames.indexOf('target');
@@ -729,7 +729,7 @@ class MySceneGraph {
             var shininess = this.reader.getFloat(childNode, 'shininess', true);
 
             if ((error = this.checkNumber(
-                    childNode, shininess, 'shininess', false)) != null)
+                childNode, shininess, 'shininess', false)) != null)
                 return error;
 
             var properties = childNode.children;
@@ -941,11 +941,11 @@ class MySceneGraph {
                 var numControlPoints = 0;
                 for (let j = 0; j < controlPoints.length; j++) {
                     if ((error = this.parseControlPoint(
-                            controlPoints[j], controlPointsParsed)) !=
+                        controlPoints[j], controlPointsParsed)) !=
                         null)
                         return error;
 
-                        numControlPoints++;
+                    numControlPoints++;
                 }
 
                 if (numControlPoints < 2)
@@ -964,7 +964,7 @@ class MySceneGraph {
                 var startang = this.reader.getFloat(animation, 'startang', true);
 
                 if ((error = this.checkNumber(
-                        animation, startang, 'startang', false)) != null)
+                    animation, startang, 'startang', false)) != null)
                     return error;
 
                 var rotang = this.reader.getFloat(animation, 'rotang', true);
@@ -1369,7 +1369,7 @@ class MySceneGraph {
                         component.transformations = this.transformations[transfId];
 
                     } else if (!this.findStringOnArray(
-                            'transformationref', transformations, 'nodeName')) {
+                        'transformationref', transformations, 'nodeName')) {
                         this.scene.loadIdentity();
                         for (let c = 0; c < transformations.length; c++) {
                             this.parseExplicitTransformation(transformations[c]);
@@ -1535,7 +1535,7 @@ class MySceneGraph {
         this.scene.pushMatrix();
 
         this.scene.multMatrix(component.transformations);
-        this.applyAnimation(component.animations, component.animationsIndex);
+        this.applyAnimation(component);
 
         var matId = this.applyMaterial(component, parent);
 
@@ -1631,20 +1631,18 @@ class MySceneGraph {
         }
     }
 
-    applyAnimation(animations, currAnim) {
-        if (animations == null) return;
-
-        if (animations[currAnim].over) {
+    applyAnimation(component) {
+        var animations = component.animations;
+        var currAnim = component.animationsIndex;
+        if (animations == null || currAnim == animations.length) return;
+        
+        if (animations[currAnim].over) 
+        {
             animations[currAnim].over = false;
-
-            if (currAnim == animations.length - 1)
-                currAnim = 0;
-            else
-                currAnim++;
-
-        } else {
-            animations[currAnim].apply();
+            component.animationsIndex++;
         }
+        else
+            animations[currAnim].apply();
     }
     /**
      * Diplays the given primitive onto the scene

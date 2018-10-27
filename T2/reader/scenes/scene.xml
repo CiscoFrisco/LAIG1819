@@ -194,9 +194,12 @@
     <animations>
         <linear id="ovni_anim" span="10">
             <controlpoint xx="0.0" yy="0.0" zz="0.0" />
-            <controlpoint xx="10.0" yy="0.0" zz="0.0" />
+            <controlpoint xx="20.0" yy="0.0" zz="0.0" />
             <controlpoint xx="10.0" yy="10.0" zz="0.0" />
+            <controlpoint xx="0.0" yy="0.0" zz="-10.0" />
         </linear>
+        <circular id="ovni_anim_circ" span="10" center="0.0 0.0 0.0" radius="5" startang="0" rotang="90" />
+ 
     </animations>
     <components>
         <component id="scene">
@@ -1699,6 +1702,7 @@
             </transformation>
             <animations>
                 <animationref id="ovni_anim" />
+                <animationref id="ovni_anim_circ" />
             </animations>
             <materials>
                 <material id="default" />

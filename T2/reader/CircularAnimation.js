@@ -7,6 +7,10 @@ class CircularAnimation extends Animation {
         this.radius = radius;
         this.initAngle = initAngle;
         this.rotAngle = rotAngle;
+        this.x = Math.sin(this.initAngle);
+        this.z = Math.cos(this.initAngle); 
+        this.vel = this.getVel();
+        this.rotInc = 0;
     }
 
     setCenter(center){
@@ -41,11 +45,42 @@ class CircularAnimation extends Animation {
         return this.rotAngle;
     }
 
-    update(currTime){
-        super.update(currTime);
+    getVel() {
+        var dist = this.radius * this.rotAngle;
+        return dist / (this.time * 1000);
     }
 
-    apply(){
-        
+    updateAng() {
+        this.ang = this.rotInc + Math.PI/2;
+    }
+
+    resetAnimation() {
+        this.rotInc = 0;
+        this.x = Math.sin(this.initAngle)*this.radius;
+        this.z = Math.cos(this.initAngle)*this.radius;
+    }
+
+    update(deltaTime) {
+
+        if (Math.abs(this.rotAngle - this.rotInc) < 0.1) 
+        {   
+                this.over = true;
+                this.resetAnimation();
+        }
+        else
+        {
+            this.rotInc += this.vel*deltaTime;
+            this.updateAng();
+            this.x = Math.sin(this.initAngle + this.rotInc)*this.radius;
+            this.z = Math.cos(this.initAngle + this.rotInc)*this.radius; 
+        }
+    }
+
+    apply() {
+        //this.scene.pushMatrix();
+        this.scene.translate(this.x, 0, this.z);
+        this.scene.translate(this.center[0], this.center[1], this.center[2]);
+        //this.scene.rotate(this.ang, 0, 1, 0);
+        //this.scene.popMatrix();
     }
 }
