@@ -108,52 +108,52 @@ class MySceneGraph {
         // Processes each node, verifying errors.
 
         if ((error = this.processNode(
-            'scene', nodeNames, nodes, SCENE_INDEX, this.parseScene)) != null)
+                'scene', nodeNames, nodes, SCENE_INDEX, this.parseScene)) != null)
             return error;
 
 
         if ((error = this.processNode(
-            'views', nodeNames, nodes, VIEWS_INDEX, this.parseViews)) != null)
+                'views', nodeNames, nodes, VIEWS_INDEX, this.parseViews)) != null)
             return error;
 
         if ((error = this.processNode(
-            'ambient', nodeNames, nodes, AMBIENT_INDEX, this.parseAmbient)) !=
+                'ambient', nodeNames, nodes, AMBIENT_INDEX, this.parseAmbient)) !=
             null)
             return error;
 
         if ((error = this.processNode(
-            'lights', nodeNames, nodes, LIGHTS_INDEX, this.parseLights)) !=
+                'lights', nodeNames, nodes, LIGHTS_INDEX, this.parseLights)) !=
             null)
             return error;
 
         if ((error = this.processNode(
-            'textures', nodeNames, nodes, TEXTURES_INDEX,
-            this.parseTextures)) != null)
+                'textures', nodeNames, nodes, TEXTURES_INDEX,
+                this.parseTextures)) != null)
             return error;
 
         if ((error = this.processNode(
-            'materials', nodeNames, nodes, MATERIALS_INDEX,
-            this.parseMaterials)) != null)
+                'materials', nodeNames, nodes, MATERIALS_INDEX,
+                this.parseMaterials)) != null)
             return error;
 
         if ((error = this.processNode(
-            'transformations', nodeNames, nodes, TRANSFORMATIONS_INDEX,
-            this.parseTransformations)) != null)
+                'transformations', nodeNames, nodes, TRANSFORMATIONS_INDEX,
+                this.parseTransformations)) != null)
             return error;
 
         if ((error = this.processNode(
-            'animations', nodeNames, nodes, ANIMATIONS_INDEX,
-            this.parseAnimations)) != null)
+                'animations', nodeNames, nodes, ANIMATIONS_INDEX,
+                this.parseAnimations)) != null)
             return error;
 
         if ((error = this.processNode(
-            'primitives', nodeNames, nodes, PRIMITIVES_INDEX,
-            this.parsePrimitives)) != null)
+                'primitives', nodeNames, nodes, PRIMITIVES_INDEX,
+                this.parsePrimitives)) != null)
             return error;
 
         if ((error = this.processNode(
-            'components', nodeNames, nodes, COMPONENTS_INDEX,
-            this.parseComponents)) != null)
+                'components', nodeNames, nodes, COMPONENTS_INDEX,
+                this.parseComponents)) != null)
             return error;
     }
 
@@ -210,7 +210,7 @@ class MySceneGraph {
         var axis_length = this.reader.getFloat(sceneNode, 'axis_length', true);
 
         if ((error = this.checkNumber(
-            sceneNode, axis_length, 'axis_length', true)) != null)
+                sceneNode, axis_length, 'axis_length', true)) != null)
             return error;
 
         this.sceneInfo = {
@@ -399,7 +399,8 @@ class MySceneGraph {
                 this.background = this.extractRGBA(children[i], error);
                 if (error != null) return error;
             } else {
-                this.onXMLMinorError('wrong or duplicate tag on node ' + ambientNode.nodeName);
+                this.onXMLMinorError(
+                    'wrong or duplicate tag on node ' + ambientNode.nodeName);
                 continue;
             }
         }
@@ -613,7 +614,7 @@ class MySceneGraph {
                 var exponent = this.reader.getFloat(childNode, 'exponent', true);
 
                 if ((error = this.checkNumber(
-                    childNode, exponent, 'exponent', false)) != null)
+                        childNode, exponent, 'exponent', false)) != null)
                     return error;
 
                 var targetIndex = nodeNames.indexOf('target');
@@ -722,12 +723,13 @@ class MySceneGraph {
 
             if (id == '') return 'invalid material id';
 
-            if (this.materials[id] != null) return 'duplicate material (id=' + id + ')';
+            if (this.materials[id] != null)
+                return 'duplicate material (id=' + id + ')';
 
             var shininess = this.reader.getFloat(childNode, 'shininess', true);
 
             if ((error = this.checkNumber(
-                childNode, shininess, 'shininess', false)) != null)
+                    childNode, shininess, 'shininess', false)) != null)
                 return error;
 
             var properties = childNode.children;
@@ -879,9 +881,35 @@ class MySceneGraph {
             return 'invalid transformation';
     }
 
+    parseControlPoint(controlPoint, controlPointsParsed) {
+
+        var error;
+
+        var x = this.reader.getFloat(controlPoint, 'xx', true);
+
+        if ((error = this.checkNumber(controlPoint, x, 'xx', false)) != null)
+            return error;
+
+        var y = this.reader.getFloat(controlPoint, 'yy', true);
+
+        if ((error = this.checkNumber(controlPoint, y, 'yy', false)) != null)
+            return error;
+
+        var z = this.reader.getFloat(controlPoint, 'zz', true);
+
+        if ((error = this.checkNumber(controlPoint, z, 'zz', false)) != null)
+            return error;
+
+        controlPointsParsed.push({
+            x: x,
+            y: y,
+            z: z
+        });
+    }
+
     /**
      * Parses the <animations> block
-     * @param {animations block element} animationsNode 
+     * @param {animations block element} animationsNode
      */
     parseAnimations(animationsNode) {
         this.animations = [];
@@ -899,7 +927,8 @@ class MySceneGraph {
 
             if (id == '') return 'invalid animation id';
 
-            if (this.animations[id] != null) return 'duplicate animation (id=' + id + ')';
+            if (this.animations[id] != null)
+                return 'duplicate animation (id=' + id + ')';
 
             var span = this.reader.getFloat(animation, 'span', true);
 
@@ -907,38 +936,23 @@ class MySceneGraph {
                 return error;
 
             if (animation.nodeName == 'linear') {
-
                 var controlPoints = animation.children;
                 var controlPointsParsed = [];
                 var numControlPoints = 0;
                 for (let j = 0; j < controlPoints.length; j++) {
-                    var x = this.reader.getFloat(controlPoints[j], 'xx', true);
-
-                    if ((error = this.checkNumber(controlPoints[j], x, 'xx', false)) != null)
+                    if ((error = this.parseControlPoint(
+                            controlPoints[j], controlPointsParsed)) !=
+                        null)
                         return error;
 
-                    var y = this.reader.getFloat(controlPoints[j], 'yy', true);
-
-                    if ((error = this.checkNumber(controlPoints[j], y, 'yy', false)) != null)
-                        return error;
-
-                    var z = this.reader.getFloat(controlPoints[j], 'zz', true);
-
-                    if ((error = this.checkNumber(controlPoints[j], z, 'zz', false)) != null)
-                        return error;
-
-                    controlPointsParsed.push({
-                        x: x,
-                        y: y,
-                        z: z
-                    });
-                    numControlPoints++;
+                        numControlPoints++;
                 }
 
                 if (numControlPoints < 2)
                     return 'animation (id=' + id + ') has less than two control points!';
 
-                this.animations[id] = new LinearAnimation(this.scene, span, controlPointsParsed);
+                this.animations[id] =
+                    new LinearAnimation(this.scene, span, controlPointsParsed);
             } else {
                 var center = this.reader.getVector3(animation, 'center', true);
 
@@ -949,17 +963,56 @@ class MySceneGraph {
 
                 var startang = this.reader.getFloat(animation, 'startang', true);
 
-                if ((error = this.checkNumber(animation, startang, 'startang', false)) != null)
+                if ((error = this.checkNumber(
+                        animation, startang, 'startang', false)) != null)
                     return error;
 
                 var rotang = this.reader.getFloat(animation, 'rotang', true);
 
-                if ((error = this.checkNumber(animation, rotang, 'rotang', false)) != null)
+                if ((error = this.checkNumber(animation, rotang, 'rotang', false)) !=
+                    null)
                     return error;
 
-                this.animations[id] = new CircularAnimation(this.scene, span, center, radius, startang * DEGREE_TO_RAD, rotang * DEGREE_TO_RAD);
+                this.animations[id] = new CircularAnimation(
+                    this.scene, span, center, radius, startang * DEGREE_TO_RAD,
+                    rotang * DEGREE_TO_RAD);
             }
         }
+    }
+
+    parseCylinder(primitive, cylinderInf) {
+
+        var error;
+
+        var base = this.reader.getFloat(primitive, 'base', true);
+
+        if ((error = this.checkNumber(primitive, base, 'base')) != null)
+            return error;
+
+        var top = this.reader.getFloat(primitive, 'top', true);
+
+        if ((error = this.checkNumber(primitive, top, 'top')) != null) return error;
+
+        var height = this.reader.getFloat(primitive, 'height', true);
+
+        if ((error = this.checkNumber(primitive, height, 'height')) != null)
+            return error;
+
+        var slices = this.reader.getInteger(primitive, 'slices', true);
+
+        if ((error = this.checkNumber(primitive, slices, 'slices')) != null)
+            return error;
+
+        var stacks = this.reader.getInteger(primitive, 'stacks', true);
+
+        if ((error = this.checkNumber(primitive, stacks, 'stacks')) != null)
+            return error;
+
+        cylinderInf.base = base;
+        cylinderInf.top = top;
+        cylinderInf.height = height;
+        cylinderInf.slices = slices;
+        cylinderInf.stacks = stacks;
     }
 
     /**
@@ -982,7 +1035,8 @@ class MySceneGraph {
 
             if (id == '') return 'invalid primitive id';
 
-            if (this.primitives[id] != null) return 'duplicate primitive (id=' + id + ')';
+            if (this.primitives[id] != null)
+                return 'duplicate primitive (id=' + id + ')';
 
             if (primitives[i].children.length != 1)
                 return 'there should be only one primitive associated (id=' + id + ')';
@@ -1064,33 +1118,12 @@ class MySceneGraph {
                 numPrimitives++;
 
             } else if (primitive.nodeName == 'cylinder') {
-                var base = this.reader.getFloat(primitive, 'base', true);
+                var inf = {};
 
-                if ((error = this.checkNumber(primitive, base, 'base')) != null)
-                    return error;
+                if ((error = this.parseCylinder(primitive, inf)) != null) return error;
 
-                var top = this.reader.getFloat(primitive, 'top', true);
-
-                if ((error = this.checkNumber(primitive, top, 'top')) != null)
-                    return error;
-
-                var height = this.reader.getFloat(primitive, 'height', true);
-
-                if ((error = this.checkNumber(primitive, height, 'height')) != null)
-                    return error;
-
-                var slices = this.reader.getInteger(primitive, 'slices', true);
-
-                if ((error = this.checkNumber(primitive, slices, 'slices')) != null)
-                    return error;
-
-                var stacks = this.reader.getInteger(primitive, 'stacks', true);
-
-                if ((error = this.checkNumber(primitive, stacks, 'stacks')) != null)
-                    return error;
-
-                this.primitives[id] =
-                    new MyCylinder(this.scene, base, top, height, slices, stacks);
+                this.primitives[id] = new MyCylinder(
+                    this.scene, inf.base, inf.top, inf.height, inf.slices, inf.stacks);
                 numPrimitives++;
 
             } else if (primitive.nodeName == 'sphere') {
@@ -1136,6 +1169,152 @@ class MySceneGraph {
                 this.primitives[id] =
                     new MyTorus(this.scene, inner, outer, slices, loops);
                 numPrimitives++;
+            } /*else if (primitive.nodeName == 'plane') {
+                // TODO: e preciso?
+                var planeId = this.reader.getString(primitive, 'id', true);
+                var nPartsU = this.reader.getInteger(primitive, 'npartsU', true);
+
+                if ((error = this.checkNumber(primitive, npartsU, 'npartsU')) != null)
+                    return error;
+
+                var nPartsV = this.reader.getInteger(primitive, 'npartsV', true);
+
+                if ((error = this.checkNumber(primitive, npartsV, 'npartsV')) != null)
+                    return error;
+
+                this.primitives[id] = new Plane(this.scene, nPartsU, nPartsV);
+                numPrimitives++;
+
+            } else if (primitive.nodeName == 'patch') {
+                var npointsU = this.reader.getInteger(primitive, 'npointsU', true);
+
+                if ((error = this.checkNumber(primitive, npointsU, 'npointsU')) != null)
+                    return error;
+
+                var npointsV = this.reader.getInteger(primitive, 'npointsV', true);
+
+                if ((error = this.checkNumber(primitive, npointsV, 'npointsV')) != null)
+                    return error;
+
+                var npartsU = this.reader.getInteger(primitive, 'npartsU', true);
+
+                if ((error = this.checkNumber(primitive, npartsU, 'npartsU')) != null)
+                    return error;
+
+                var npartsV = this.reader.getInteger(primitive, 'npartsV', true);
+
+                if ((error = this.checkNumber(primitive, npartsV, 'npartsV')) != null)
+                    return error;
+
+
+                var controlPoints = primitive.children;
+
+                var controlPointsParsed = [];
+                var numControlPoints = 0;
+                for (let j = 0; j < controlPoints.length; ++j) {
+                    if ((error = this.parseControlPoint(
+                            controlPoints[j], controlPointsParsed)) !=
+                        null)
+                        return error;
+
+                        numControlPoints++;
+                }
+
+                if (numControlPoints != npointsU * npointsV) {
+                    return 'invalid number of controlPoints on primitive ' + id;
+                }
+
+                this.primitives[id] = new Patch(
+                    this.scene, nPointsU, nPointsV, npartsU, npartsV,
+                    controlPointsParsed);
+                numPrimitives++;
+
+            } else if (primitive.nodeName == 'vehicle') {
+                this.primitives[id] = new Vehicle(this.scene);
+                numPrimitives++;
+
+            } else if (primitive.nodeName == 'cylinder2') {
+                var inf = {};
+
+                if ((error = this.parseCylinder(primitive, inf)) != null) return error;
+
+                this.primitives[id] = new Cylinder2(
+                    this.scene, inf.base, inf.top, inf.height, inf.stacks, inf.slices);
+                numPrimitives++;
+            } else if (primitives.nodeName == 'terrain') {
+                var idTex = this.reader.getString(primitive, 'idtexture', true);
+
+                if (idTex == '') {
+                    return 'invalid texture in on primitive' + id;
+                } else if (this.textures[idTex] == null) {
+                    return 'nonexistent texture on primitive' + id;
+                }
+
+                var idheightmap = this.reader.getString(primitive, 'idheightmap', true);
+
+                if (idheightmap == '') {
+                    return 'invalid heightmap in on primitive' + id;
+                } else if (this.textures[idheightmap] == null) {
+                    return 'nonexistent heightmap on primitive' + id;
+                }
+
+                var parts = this.reader.getInteger(primitive, 'parts', true);
+                if ((error = this.checkNumber(primitive, parts, 'parts')) != null)
+                    return error;
+
+                var heightscale = this.reader.getFloat(primitive, 'heightscale', true);
+
+                if ((error = this.checkNumber(primitive, heightscale, 'heightscale')) != null)
+                    return error;
+
+                var tex = this.textures[idTex];
+                var heightmap = this.textures[idheightmap];
+
+                this.primitives[id] =
+                    new Terrain(this.scene, tex, heightmap, parts, heightscale);
+                numPrimitives++;
+
+            } else if (primitives.nodeName == 'water') {
+                var idTex = this.reader.getString(primitive, 'idtexture', true);
+
+                if (idTex == '') {
+                    return 'invalid texture in on primitive' + id;
+                } else if (this.textures[idTex] == null) {
+                    return 'nonexistent texture on primitive' + id;
+                }
+
+                var idwavemap = this.reader.getString(primitive, 'idwavemap', true);
+
+                if (idwavemap == '') {
+                    return 'invalid wavemap in on primitive' + id;
+                } else if (this.textures[idwavemap] == null) {
+                    return 'nonexistent wavemap on primitive' + id;
+                }
+
+                var parts = this.reader.getInteger(primitive, 'parts', true);
+
+                if ((error = this.checkNumber(primitive, parts, 'parts')) != null)
+                    return error;
+
+                var heightscale = this.reader.getFloat(primitive, 'heightscale', true);
+
+                if ((error = this.checkNumber(primitive, heightscale, 'heightscale')) != null)
+                    return error;
+
+                var texscale = this.reader.getFloat(primitive, 'texscale', true);
+
+                if ((error = this.checkNumber(primitive, texscale, 'texscale')) != null)
+                    return error;
+
+                var tex = this.textures[idTex];
+                var wavemap = this.textures[idwavemap];
+
+                this.primitives[id] =
+                    new Water(this.scene, tex, wavemap, parts, heightscale, texscale);
+                numPrimitives++;
+
+            } */else {
+                this.onXMLMinorError('unknown tag <' + primitive.nodeName + '>');
             }
         }
 
@@ -1167,7 +1346,8 @@ class MySceneGraph {
 
             if (id == '') return 'invalid component id';
 
-            if (this.components[id] != null) return 'duplicate component (id=' + id + ')';
+            if (this.components[id] != null)
+                return 'duplicate component (id=' + id + ')';
 
             var children = childNode.children;
             var component = {};
@@ -1189,7 +1369,7 @@ class MySceneGraph {
                         component.transformations = this.transformations[transfId];
 
                     } else if (!this.findStringOnArray(
-                        'transformationref', transformations, 'nodeName')) {
+                            'transformationref', transformations, 'nodeName')) {
                         this.scene.loadIdentity();
                         for (let c = 0; c < transformations.length; c++) {
                             this.parseExplicitTransformation(transformations[c]);
@@ -1231,7 +1411,8 @@ class MySceneGraph {
 
                     if (length_s == null || length_t == null)
                         this.onXMLMinorError(
-                            'Unspecified scale factor for texture with id=' + textId + ' on component ' + id);
+                            'Unspecified scale factor for texture with id=' + textId +
+                            ' on component ' + id);
 
                     component
                         .texture = {
@@ -1240,7 +1421,6 @@ class MySceneGraph {
                             length_t: length_t
                         };
 
-                    //TODO: ORDEM -> animations imediatamente depois de transformations
                 } else if (grandChildNode.nodeName === 'animations') {
                     let refs = grandChildNode.children;
                     component.animations = [];
@@ -1251,8 +1431,7 @@ class MySceneGraph {
                         component.animations.push(this.animations[animId]);
                         component.animationsIndex = 0;
                     }
-                }
-                else if (grandChildNode.nodeName != 'children')
+                } else if (grandChildNode.nodeName != 'children')
                     return 'invalid component property name';
             }
 
@@ -1378,7 +1557,6 @@ class MySceneGraph {
         component.materials[this.scene.materialNo % component.materials.length] =
             matId;
         this.scene.popMatrix();
-
     }
 
     /**
@@ -1454,12 +1632,9 @@ class MySceneGraph {
     }
 
     applyAnimation(animations, currAnim) {
-
-        if (animations == null)
-            return;
+        if (animations == null) return;
 
         if (animations[currAnim].over) {
-
             animations[currAnim].over = false;
 
             if (currAnim == animations.length - 1)
@@ -1467,8 +1642,7 @@ class MySceneGraph {
             else
                 currAnim++;
 
-        }
-        else {
+        } else {
             animations[currAnim].apply();
         }
     }
