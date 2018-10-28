@@ -1591,8 +1591,10 @@ class MySceneGraph {
   }
 
   updateAnimations(deltaTime) {
-    for (var key in this.animations) {
-      this.animations[key].update(deltaTime);
+    for (var key in this.components) {
+      var component = this.components[key];
+      if (component.animations != null && component.animationsIndex != component.animations.length)
+        component.animations[component.animationsIndex].update(deltaTime);
     }
   }
 
