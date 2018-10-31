@@ -6,6 +6,7 @@ class Animation {
     this.scene = scene;
     this.time = time;
     this.over = false;
+    this.timeElapsed = 0;
   }
 
   update(deltaTime) {

@@ -1501,9 +1501,9 @@ class MySceneGraph {
    */
   displayComponent(component, parent) {
     this.scene.pushMatrix();
-
-    this.scene.multMatrix(component.transformations);
+    
     this.applyAnimation(component);
+    this.scene.multMatrix(component.transformations);
 
     var matId = this.applyMaterial(component, parent);
 

@@ -8,6 +8,8 @@ class LinearAnimation extends Animation {
         this.y = controlPoints[0].y;
         this.z = controlPoints[0].z;
         this.ang = this.updateAng();
+
+        this.intervalTime = this.time / (controlPoints.length - 1);
     }
 
     setControlPoints(controlPoints) {
@@ -46,37 +48,44 @@ class LinearAnimation extends Animation {
     update(deltaTime) {
         var currPoint = this.controlPoints[this.currentControlPoint];
 
-        if (Math.abs(currPoint.x - this.x) < 0.5 && Math.abs(currPoint.y - this.y)<= 0.5  && Math.abs(currPoint.z - this.z) <= 0.5) 
+        if (this.timeElapsed > this.intervalTime * 1000)
+        //if (Math.abs(currPoint.x - this.x) < 0.5 && Math.abs(currPoint.y - this.y)<= 0.5  && Math.abs(currPoint.z - this.z) <= 0.5) 
         {
+            this.timeElapsed = 0;
+
             if (this.currentControlPoint == this.controlPoints.length - 1) {
                 this.over = true;
                 this.resetAnimation();
-            }
-            else {
+            } else {
                 this.x = currPoint.x;
                 this.y = currPoint.y;
                 this.z = currPoint.z;
                 this.currentControlPoint++;
                 this.updateAng();
             }
-        }
-        else
-        {
+        } else {
+            var timeLeft = deltaTime;
+            if(this.timeElapsed + deltaTime > this.interval * 1000){
+                timeLeft = this.timeElapsed + deltaTime - this.interval * 1000;
+            }
+
             if (currPoint.x > this.x)
-                this.x += this.vel * deltaTime;
+                this.x += this.vel * timeLeft;
             else if (currPoint.x < this.x)
-                this.x += -this.vel * deltaTime;
+                this.x += -this.vel * timeLeft;
 
             if (currPoint.y > this.y)
-                this.y += this.vel * deltaTime;
+                this.y += this.vel * timeLeft;
             else if (currPoint.y < this.y)
-                this.y += -this.vel * deltaTime;
+                this.y += -this.vel * timeLeft;
 
             if (currPoint.z > this.z)
-                this.z += this.vel * deltaTime;
+                this.z += this.vel * timeLeft;
             else if (currPoint.z < this.z)
-                this.z += -this.vel * deltaTime;
+                this.z += -this.vel * timeLeft;
         }
+
+        this.timeElapsed += deltaTime;
     }
 
     apply() {
