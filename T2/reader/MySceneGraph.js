@@ -1139,8 +1139,7 @@ class MySceneGraph {
             new MyTorus(this.scene, inner, outer, slices, loops);
         numPrimitives++;
       } else if (primitive.nodeName == 'plane') {
-          // TODO: e preciso?
-          //var planeId = this.reader.getString(primitive, 'id', true);
+
           var npartsU = this.reader.getInteger(primitive, 'npartsU', true);
 
           if ((error = this.checkNumber(primitive, npartsU, 'npartsU')) != null)

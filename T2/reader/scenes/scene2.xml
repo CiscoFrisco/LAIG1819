@@ -126,7 +126,7 @@
         <component id="plane">
             <transformation>
                 <translate x="50" y="50" z="50"/>
-                <scale x="50" y="1" z="50"/>
+                <!-- <scale x="50" y="1" z="50"/> -->
             </transformation>
             <materials>
                 <material id="default" />
