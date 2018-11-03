@@ -62,7 +62,6 @@ class CircularAnimation extends Animation {
 
     update(deltaTime) {
 
-       // if (Math.abs(this.rotAngle - this.rotInc) < 0.1) 
        if(this.timeElapsed >= this.time * 1000)
         {   
                 this.over = true;
@@ -73,7 +72,7 @@ class CircularAnimation extends Animation {
             var timeLeft = deltaTime;
 
             if(this.timeElapsed + deltaTime > this.time * 1000)
-                timeLeft = this.timeElapsed + deltaTime - this.time * 1000;
+                timeLeft = this.time * 1000 - this.timeElapsed;
 
             this.rotInc += this.vel * timeLeft;
             this.updateAng();
@@ -81,7 +80,7 @@ class CircularAnimation extends Animation {
             this.z = Math.cos(this.initAngle + this.rotInc)*this.radius; 
         }
 
-        this.timeElapsed+=deltaTime;
+        this.timeElapsed += deltaTime;
     }
 
     apply() {
