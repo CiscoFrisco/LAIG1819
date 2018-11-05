@@ -5,10 +5,10 @@ class LinearAnimation extends Animation {
     this.currentControlPoint = 1;
     this.vel = this.getVel();
     this.setVelComponents();
-    this.x = controlPoints[0].x;
-    this.y = controlPoints[0].y;
-    this.z = controlPoints[0].z;
-    this.ang = this.updateAng();
+    this.x = controlPoints[0][0];
+    this.y = controlPoints[0][1];
+    this.z = controlPoints[0][2];
+    this.updateAng();
   }
 
   setControlPoints(controlPoints) {
@@ -19,9 +19,9 @@ class LinearAnimation extends Animation {
     var currPoint = this.controlPoints[this.currentControlPoint];
     var previousPoint = this.controlPoints[this.currentControlPoint - 1];
     var dist = this.dists[this.currentControlPoint - 1];
-    this.velX = this.vel * ((currPoint.x - previousPoint.x) / dist);
-    this.velY = this.vel * ((currPoint.y - previousPoint.y) / dist);
-    this.velZ = this.vel * ((currPoint.z - previousPoint.z) / dist);
+    this.velX = this.vel * ((currPoint[0] - previousPoint[0]) / dist);
+    this.velY = this.vel * ((currPoint[1] - previousPoint[1]) / dist);
+    this.velZ = this.vel * ((currPoint[2] - previousPoint[2]) / dist);
   }
 
   getControlPoints() {
@@ -33,9 +33,9 @@ class LinearAnimation extends Animation {
     this.dists = [];
     for (let i = 0; i < this.controlPoints.length - 1; i++) {
       this.dists.push(Math.sqrt(
-        Math.pow((this.controlPoints[i + 1].x - this.controlPoints[i].x), 2) +
-        Math.pow((this.controlPoints[i + 1].y - this.controlPoints[i].y), 2) +
-        Math.pow((this.controlPoints[i + 1].z - this.controlPoints[i].z), 2)))
+        Math.pow((this.controlPoints[i + 1][0] - this.controlPoints[i][0]), 2) +
+        Math.pow((this.controlPoints[i + 1][1] - this.controlPoints[i][1]), 2) +
+        Math.pow((this.controlPoints[i + 1][2] - this.controlPoints[i][2]), 2)))
       dist += this.dists[i];
     }
 
@@ -51,18 +51,11 @@ class LinearAnimation extends Animation {
 
   updateAng() {
     var currPoint = this.controlPoints[this.currentControlPoint];
-    this.ang = Math.atan2(currPoint.z - this.z, currPoint.x - this.x);
-  }
-
-  resetAnimation() {
-    this.currentControlPoint = 1;
-    this.x = this.controlPoints[0].x;
-    this.y = this.controlPoints[0].y;
-    this.z = this.controlPoints[0].z;
-    this.ang = this.updateAng();
+    this.ang = Math.atan2(currPoint[2] - this.z, currPoint[0] - this.x);
   }
 
   update(deltaTime) {
+
     var currPoint = this.controlPoints[this.currentControlPoint];
 
     var time_after = deltaTime;
@@ -74,7 +67,6 @@ class LinearAnimation extends Animation {
 
       if (this.currentControlPoint == this.controlPoints.length - 1) {
         this.over = true;
-        this.resetAnimation();
       }
       else {
         this.currentControlPoint++;
@@ -89,18 +81,23 @@ class LinearAnimation extends Animation {
 
   incVars(currPoint, time) {
 
-    if (currPoint.x != this.x)
+    if (currPoint[0] != this.x)
       this.x += this.velX * time;
-    if (currPoint.y != this.y)
+    if (currPoint[1] != this.y)
       this.y += this.velY * time;
-    if (currPoint.z != this.z)
-      this.z += -this.velZ * time;
+    if (currPoint[2] != this.z)
+      this.z += this.velZ * time;
   }
 
   apply() {
-    // this.scene.pushMatrix();
+    this.scene.pushMatrix();
+    this.scene.loadIdentity();
+    this.scene.rotate(this.ang, 0, 1, 0);
+    var matrix = this.scene.getMatrix();
+    this.scene.popMatrix();
+
     this.scene.translate(this.x, this.y, this.z);
-    // this.scene.rotate(this.ang, 0, 1, 0);
-    // this.scene.popMatrix();
+    this.scene.multMatrix(matrix);
+
   }
 }

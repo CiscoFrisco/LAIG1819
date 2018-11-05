@@ -198,7 +198,7 @@
     <animations>
         <linear id="ovni_anim" span="10">
             <controlpoint xx="0.0" yy="0.0" zz="0.0" />
-            <controlpoint xx="20.0" yy="0.0" zz="0.0" />
+            <controlpoint xx="0.0" yy="0.0" zz="-10.0" />
             <controlpoint xx="10.0" yy="10.0" zz="0.0" />
             <controlpoint xx="0.0" yy="0.0" zz="-10.0" />
         </linear>

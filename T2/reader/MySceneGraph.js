@@ -857,7 +857,7 @@ class MySceneGraph {
       return 'invalid transformation';
   }
 
-  parseControlPoint(controlPoint, controlPointsParsed) {
+  parseControlPoint(controlPoint, controlPointsParsed, isAnim = false) {
     var error;
 
     var x = this.reader.getFloat(controlPoint, 'xx', true);
@@ -875,7 +875,9 @@ class MySceneGraph {
     if ((error = this.checkNumber(controlPoint, z, 'zz', false)) != null)
       return error;
 
-    controlPointsParsed.push({x: x, y: y, z: z});
+    var point = isAnim ? [x, y, z] : [x,y,z, 1];
+
+    controlPointsParsed.push(point);
   }
 
   /**
@@ -912,7 +914,7 @@ class MySceneGraph {
         var numControlPoints = 0;
         for (let j = 0; j < controlPoints.length; j++) {
           if ((error = this.parseControlPoint(
-                   controlPoints[j], controlPointsParsed)) != null)
+                   controlPoints[j], controlPointsParsed, true)) != null)
             return error;
 
           numControlPoints++;
@@ -1178,7 +1180,7 @@ class MySceneGraph {
           var controlPoints = primitive.children;
 
           var controlPointsParsed = [];
-          var numControlPoints = 0;
+          var numControlPoints = 0; 
           for (let j = 0; j < controlPoints.length; ++j) {
               if ((error = this.parseControlPoint(
                       controlPoints[j], controlPointsParsed)) !=
@@ -1188,13 +1190,23 @@ class MySceneGraph {
                   numControlPoints++;
           }
 
+          var allControlPoints = [];
+          var counter = 0;
+          for(let u = 0; u < npointsU; u++){
+            var controlPointsU = [];
+            for(let v = 0; v < npointsV; v++)
+              controlPointsU.push(controlPointsParsed[counter++]);
+
+            allControlPoints.push(controlPointsU);
+          }
+
           if (numControlPoints != npointsU * npointsV) {
               return 'invalid number of controlPoints on primitive ' + id;
           }
 
           this.primitives[id] = new Patch(
-              this.scene, nPointsU, nPointsV, npartsU, npartsV,
-              controlPointsParsed);
+              this.scene, npointsU, npointsV, npartsU, npartsV,
+              allControlPoints);
           numPrimitives++;
 
       } else if (primitive.nodeName == 'vehicle') {
@@ -1208,8 +1220,8 @@ class MySceneGraph {
       error;
 
           this.primitives[id] = new Cylinder2(
-              this.scene, inf.base, inf.top, inf.height, inf.stacks,
-      inf.slices); numPrimitives++; } else if (primitives.nodeName == 'terrain')
+              this.scene, inf.base, inf.top, inf.height, inf.slices,
+      inf.stacks); numPrimitives++; } else if (primitives.nodeName == 'terrain')
       { var idTex = this.reader.getString(primitive, 'idtexture', true);
 
           if (idTex == '') {
@@ -1299,6 +1311,7 @@ class MySceneGraph {
   /**
    * Parses the <components> block.
    * @param {components block element} componentsNode
+   * TODO: animations depois de transformations
    */
   parseComponents(componentsNode) {
     this.components = [];
