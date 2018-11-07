@@ -1423,7 +1423,7 @@ class MySceneGraph {
               component.animations.push(new LinearAnimation(this.scene, animation.span, animation.controlPoints));
             }
             else{
-              component.animations.push(new CircularAnimation(this.scene, animation.center, animation.radius, animation.startang, animation.rotang));
+              component.animations.push(new CircularAnimation(this.scene, animation.span, animation.center, animation.radius, animation.startang, animation.rotang));
             }
 
             component.animationsIndex = 0;

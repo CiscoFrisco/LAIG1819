@@ -97,7 +97,8 @@ class LinearAnimation extends Animation {
     this.scene.popMatrix();
 
     this.scene.translate(this.x, this.y, this.z);
-    this.scene.multMatrix(matrix);
+    console.log(this.ang);
+    //this.scene.multMatrix(matrix);
 
   }
 }
