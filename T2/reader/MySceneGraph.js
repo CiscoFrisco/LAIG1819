@@ -923,8 +923,11 @@ class MySceneGraph {
         if (numControlPoints < 2)
           return 'animation (id=' + id + ') has less than two control points!';
 
-        this.animations[id] =
-            new LinearAnimation(this.scene, span, controlPointsParsed);
+        this.animations[id] = {
+          type: 'linear',
+          span: span,
+          controlPoints: controlPointsParsed
+        };
       } else {
         var center = this.reader.getVector3(animation, 'center', true);
 
@@ -945,9 +948,14 @@ class MySceneGraph {
             null)
           return error;
 
-        this.animations[id] = new CircularAnimation(
-            this.scene, span, center, radius, startang * DEGREE_TO_RAD,
-            rotang * DEGREE_TO_RAD);
+        this.animations[id] ={
+          type: 'circular',
+          span: span,
+          center: center,
+          radius: radius,
+          startang: startang*DEGREE_TO_RAD,
+          rotang: rotang*DEGREE_TO_RAD
+        }; 
       }
     }
   }
@@ -1407,9 +1415,17 @@ class MySceneGraph {
           component.animations = [];
           for (let j = 0; j < refs.length; j++) {
             let animId = this.reader.getString(refs[j], 'id', true);
-            if (this.animations[animId] == null)
+            let animation = this.animations[animId];
+            if (animation == null)
               return 'invalid animId on component with id=' + id;
-            component.animations.push(this.animations[animId]);
+            
+            if(animation.type == 'linear'){
+              component.animations.push(new LinearAnimation(this.scene, animation.span, animation.controlPoints));
+            }
+            else{
+              component.animations.push(new CircularAnimation(this.scene, animation.center, animation.radius, animation.startang, animation.rotang));
+            }
+
             component.animationsIndex = 0;
           }
         } else if (grandChildNode.nodeName != 'children')
