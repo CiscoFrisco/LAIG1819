@@ -53,7 +53,7 @@ class MyCylinder extends CGFobject {
 			this.normals.push(0,0,-1);
 			this.texCoords.push( 0 + incS * j, 0.0);
 		}
-
+		
 		for (let i = 0; i <= this.stacks; i++) {
 			for (var j = 0; j <= this.slices; j++) {
 				this.vertices.push(Math.cos(j * alpha) * raio, Math.sin(j * alpha) * raio, z);

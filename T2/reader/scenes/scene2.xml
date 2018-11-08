@@ -104,7 +104,7 @@
         </primitive>
 
         <primitive id="cylinder2">
-            <cylinder2 base="0.5" top="1.0" height="1.0" slices="5" stacks="10" />
+            <cylinder2 base="0.5" top="1.0" height="1.0" slices="8" stacks="10" />
         </primitive >
 
         <primitive id="cylinder">
