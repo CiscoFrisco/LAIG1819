@@ -10,5 +10,7 @@ class Water extends CGFobject {
 
         this.plane = new Plane(this.scene, this.parts, this.parts);
         this.shader = new CGFshader(this.scene.gl, "../shaders/water.vert", "../shaders/water.frag");
+
+        this.shader.setUniformsValues({normScale: this.heightscale});
     }
 }

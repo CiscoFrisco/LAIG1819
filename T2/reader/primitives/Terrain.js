@@ -9,5 +9,7 @@ class Terrain extends CGFobject {
 
         this.plane = new Plane(this.scene, this.parts, this.parts);
         this.shader = new CGFshader(this.scene.gl, "../shaders/terrain.vert", "../shaders/terrain.frag");
+
+        this.shader.setUniformsValues({normScale: this.heightscale});
     }
 }
