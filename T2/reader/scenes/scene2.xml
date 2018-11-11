@@ -109,7 +109,7 @@
 
         <primitive id="cylinder">
             <cylinder base="0.5" top="1.0" height="1.0" slices="5" stacks="10" />
-        </primitive >
+        </primitive>
     </primitives>
     <components>
         <component id="scene">
@@ -121,29 +121,25 @@
             <texture id="none" />
             <children>
                 <!--  <componentref id="patch"/>
-                <componentref id="plane"/> -->
+                <componentref id="plane"/> 
                 <componentref id="cylinder2"/>
-                <componentref id="cylinder"/>
-                <!-- <componentref id="vehicle"/> -->
+                <componentref id="cylinder"/>-->
+                <componentref id="vehicle"/>
             </children>
         </component>
-        <!-- <component id="vehicle">
+        <component id="vehicle">
             <transformation>
-                <transformationref id="vehicle"/>
+                <!--<transformationref id="vehicle"/>-->
             </transformation>
             <materials>
                 <material id="default" />
             </materials>
             <texture id="none" />
-            <animations>
-                <animationref id="vehicle_start"/>
-                <animationref id="vehicle_mid"/>
-                <animationref id="vehicle_end"/>
-            </animations>
             <children>
                 <primitiveref id="vehicle"/>
             </children>
-        </component> -->
+        </component>
+
         <component id="patch">
             <transformation>
                 <translate x="5" y="1" z="1"/>
