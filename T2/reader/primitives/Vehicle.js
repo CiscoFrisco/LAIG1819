@@ -434,6 +434,38 @@ class Vehicle extends CGFobject {
         ];
         this.right_wing = new Patch(scene, 7, 5, 20, 20, this.right_wing_CP);
 
+        this.right_wing_back_CP = [
+            [
+                [-15.0, -0.25, 1.0, 1.0],
+                [-15.0, 0.25, 1.0, 1.0]
+            ],
+            [
+                [-15.0, -0.15, 3.5, 1.0],
+                [-15.0, 0.35, 3.5, 1.0]
+            ],
+            [
+                [-15.0, -0.05, 5.0, 1.0],
+                [-15.0, 0.45, 5.0, 1.0]
+            ],
+            [
+                [-15.0, 0.05, 6.5, 1.0],
+                [-15.0, 0.55, 6.5, 1.0]
+            ],
+            [
+                [-15.0, 0.15, 8.0, 1.0],
+                [-15.0, 0.65, 8.0, 1.0]
+            ],
+            [
+                [-15.0, 0.25, 9.5, 1.0],
+                [-15.0, 0.75, 9.5, 1.0]
+            ],
+            [
+                [-15.0, 0.35, 11.0, 1.0],
+                [-15.0, 0.85, 10.5, 1.0]
+            ]
+        ];
+        this.right_wing_back = new Patch(scene, 7, 2, 20, 20, this.right_wing_back_CP);
+
 
         this.right_wing_side_CP = [
             [
@@ -454,8 +486,8 @@ class Vehicle extends CGFobject {
                 [-15, 1.85, 10.7, 1.0],
                 [-8.5, 1.85, 10.7, 1.0],
                 [-13.0, 1.6, 10.9, 1.0],
-                [-8.5, 1.3, 11.1, 1.0],
-                [-15, 1.3, 11.1, 1.0]
+                [-8.5, 1.35, 11.1, 1.0],
+                [-15, 1.35, 11.1, 1.0]
             ],
             [
                 [-15.0, 2.35, 10.8, 1.0],
@@ -468,8 +500,8 @@ class Vehicle extends CGFobject {
                 [-15, 2.85, 10.9, 1.0],
                 [-9.5, 2.85, 10.9, 1.0],
                 [-13.5, 2.6, 11.05, 1.0],
-                [-9.5, 2.30, 11.2, 1.0],
-                [-15, 2.30, 11.2, 1.0]
+                [-9.5, 2.35, 11.2, 1.0],
+                [-15, 2.35, 11.2, 1.0]
             ],
             [
                 [-15.0, 3.35, 11.0, 1.0],
@@ -482,11 +514,59 @@ class Vehicle extends CGFobject {
                 [-15.0, 3.85, 11.1, 1.0],
                 [-10.5, 3.85, 11.1, 1.0],
                 [-14.0, 3.6, 11.2, 1.0],
-                [-10.5, 3.30, 11.3, 1.0],
-                [-15.0, 3.30, 11.3, 1.0]
+                [-10.5, 3.35, 11.3, 1.0],
+                [-15.0, 3.35, 11.3, 1.0]
             ]
         ];
         this.right_wing_side = new Patch(scene, 7, 5, 20, 20, this.right_wing_side_CP);
+
+        this.right_wing_side_back_CP = [
+            [
+                [-15.0, 0.35, 11.0, 1.0],
+                [-15.0, 0.85, 10.5, 1.0]
+            ],
+            [
+                [-15.0, 0.85, 11.05, 1.0],
+                [-15, 1.35, 10.6, 1.0]
+            ],
+            [
+                [-15, 1.35, 11.1, 1.0],
+                [-15, 1.85, 10.7, 1.0]
+            ],
+            [
+                [-15.0, 1.85, 11.15, 1.0],
+                [-15.0, 2.35, 10.8, 1.0]
+            ],
+            [
+                [-15, 2.35, 11.2, 1.0],
+                [-15, 2.85, 10.9, 1.0]
+            ],
+            [
+                [-15.0, 2.85, 11.25, 1.0],
+                [-15.0, 3.35, 11.0, 1.0]
+            ],
+            [
+                [-15.0, 3.35, 11.3, 1.0],
+                [-15.0, 3.85, 11.1, 1.0]
+            ]
+        ];
+        this.right_wing_side_back = new Patch(scene, 7, 2, 20, 20, this.right_wing_side_back_CP);
+
+        this.right_wing_side_top_CP = [
+            [
+                [-15.0, 3.35, 11.3, 1.0],
+                [-15.0, 3.85, 11.1, 1.0]
+            ],
+            [
+                [-12.35, 3.30, 11.3, 1.0],
+                [-12.35, 3.85, 11.1, 1.0]
+            ],
+            [
+                [-12.35, 3.6, 11.2, 1.0],
+                [-12.35, 3.6, 11.2, 1.0]
+            ]
+        ];
+        this.right_wing_side_top = new Patch(scene, 3, 2, 20, 20, this.right_wing_side_top_CP);
 
         this.left_wing_CP = [
             [
@@ -540,6 +620,38 @@ class Vehicle extends CGFobject {
             ]
         ];
         this.left_wing = new Patch(scene, 7, 5, 20, 20, this.left_wing_CP);
+
+        this.left_wing_back_CP = [
+            [
+                [-15.0, 0.25, -1.0, 1.0],
+                [-15.0, -0.25, -1.0, 1.0]
+            ],
+            [
+                [-15.0, 0.35, -3.5, 1.0],
+                [-15.0, -0.15, -3.5, 1.0]
+            ],
+            [
+                [-15.0, 0.45, -5.0, 1.0],
+                [-15.0, -0.05, -5.0, 1.0]
+            ],
+            [
+                [-15.0, 0.55, -6.5, 1.0],
+                [-15.0, 0.05, -6.5, 1.0]
+            ],
+            [
+                [-15.0, 0.65, -8.0, 1.0],
+                [-15.0, 0.15, -8.0, 1.0]
+            ],
+            [
+                [-15.0, 0.75, -9.5, 1.0],
+                [-15.0, 0.25, -9.5, 1.0]
+            ],
+            [
+                [-15.0, 0.85, -10.5, 1.0],
+                [-15.0, 0.35, -11.0, 1.0]
+            ]
+        ];
+        this.left_wing_back = new Patch(scene, 7, 2, 20, 20, this.left_wing_back_CP);
 
 
         this.left_wing_side_CP = [
@@ -595,32 +707,80 @@ class Vehicle extends CGFobject {
         ];
         this.left_wing_side = new Patch(scene, 7, 5, 20, 20, this.left_wing_side_CP);
 
+        this.left_wing_side_back_CP = [
+            [
+                [-15.0, 0.85, -10.5, 1.0],
+                [-15.0, 0.35, -11.0, 1.0]
+            ],
+            [
+                [-15.0, 1.35, -10.6, 1.0],
+                [-15, 0.85, -11.05, 1.0]
+            ],
+            [
+                [-15, 1.85, -10.7, 1.0],
+                [-15, 1.35, -11.1, 1.0]
+            ],
+            [
+                [-15.0, 2.35, -10.8, 1.0],
+                [-15.0, 1.85, -11.15, 1.0]
+            ],
+            [
+                [-15, 2.85, -10.9, 1.0],
+                [-15, 2.35, -11.2, 1.0]
+            ],
+            [
+                [-15.0, 3.35, -11.0, 1.0],
+                [-15.0, 2.85, -11.25, 1.0]
+            ],
+            [
+                [-15.0, 3.85, -11.1, 1.0],
+                [-15.0, 3.35, -11.3, 1.0]
+            ]
+        ];
+        this.left_wing_side_back = new Patch(scene, 7, 2, 20, 20, this.left_wing_side_back_CP);
+
+        this.left_wing_side_top_CP = [
+            [
+                [-15.0, 3.85, -11.1, 1.0],
+                [-15.0, 3.35, -11.3, 1.0]
+            ],
+            [
+                [-12.35, 3.85, -11.1, 1.0],
+                [-12.35, 3.3, -11.3, 1.0]
+            ],
+            [
+                [-12.35, 3.6, -11.2, 1.0],
+                [-12.35, 3.6, -11.2, 1.0]
+            ]
+        ];
+        this.left_wing_side_top = new Patch(scene, 3, 2, 20, 20, this.left_wing_side_top_CP);
+
         this.under_wing_front_CP = [
             [
                 [2.5, 0.0, -0.25, 1.0],
-                [2.5, -0.8, -0.25, 1.0],
+                [2.5, -1.8, -0.25, 1.0],
                 [2.5, -2.0, 0.0, 1.0],
-                [2.5, -0.8, 0.25, 1.0],
+                [2.5, -1.8, 0.25, 1.0],
                 [2.5, 0.0, 0.25, 1.0]
             ],
             [
                 [7.5, 0.0, -0.25, 1.0],
-                [7.5, -0.8, -0.25, 1.0],
-                [7.5, -1.0, 0.0, 1.0],
-                [7.5, -0.8, 0.25, 1.0],
+                [7.5, -1.8, -0.25, 1.0],
+                [7.5, -2.0, 0.0, 1.0],
+                [7.5, -1.8, 0.25, 1.0],
                 [7.5, 0.0, 0.25, 1.0]
             ],
             [
                 [12.5, 0.0, -0.25, 1.0],
-                [12.5, -0.8, -0.25, 1.0],
-                [12.5, -1.0,  0.0, 1.0],
-                [12.5, -0.8, 0.25, 1.0],
+                [12.5, -1.1, -0.25, 1.0],
+                [12.5, -1.5, 0.0, 1.0],
+                [12.5, -1.1, 0.25, 1.0],
                 [12.5, 0.0, 0.25, 1.0]
             ],
             [
                 [17.0, 0.0, -0.25, 1.0],
                 [17.0, -0.8, -0.25, 1.0],
-                [17.0, -1.0,  0.0, 1.0],
+                [17.0, -1.0, 0.0, 1.0],
                 [17.0, -0.8, 0.25, 1.0],
                 [17.0, 0.0, 0.25, 1.0]
             ],
@@ -634,6 +794,56 @@ class Vehicle extends CGFobject {
         ];
         this.under_wing_front = new Patch(scene, 5, 5, 20, 20, this.under_wing_front_CP);
 
+        this.under_wing_middle_CP = [
+            [
+                [-2.5, 0.0, -0.25, 1.0],
+                [-2.5, -2.5, -0.25, 1.0],
+                [-2.5, -3.0, 0.0, 1.0],
+                [-2.5, -2.5, 0.25, 1.0],
+                [-2.5, 0.0, 0.25, 1.0]
+            ],
+            [
+                [0.0, 0.0, -0.25, 1.0],
+                [0.0, -2.1, -0.25, 1.0],
+                [0.0, -2.5, 0.0, 1.0],
+                [0.0, -2.1, 0.25, 1.0],
+                [0.0, 0.0, 0.25, 1.0]
+            ],
+            [
+                [2.5, 0.0, -0.25, 1.0],
+                [2.5, -1.8, -0.25, 1.0],
+                [2.5, -2.0, 0.0, 1.0],
+                [2.5, -1.8, 0.25, 1.0],
+                [2.5, 0.0, 0.25, 1.0]
+            ]
+        ];
+        this.under_wing_middle = new Patch(scene, 3, 5, 20, 20, this.under_wing_middle_CP);
+
+        this.under_wing_back_CP = [
+            [
+                [-10.0, 0.0, -1.0, 1.0],
+                [-10.0, -1.1, -1.0, 1.0],
+                [-10.0, -1.5, 0.0, 1.0],
+                [-10.0, -1.1, 1.0, 1.0],
+                [-10.0, 0.0, 1.0, 1.0]
+            ],
+            [
+                [-6.25, 0.0, -0.25, 1.0],
+                [-6.25, -2.1, -0.25, 1.0],
+                [-6.25, -2.5, 0.0, 1.0],
+                [-6.25, -2.1, 0.25, 1.0],
+                [-6.25, 0.0, 0.25, 1.0]
+            ],
+            [
+                [-2.5, 0.0, -0.25, 1.0],
+                [-2.5, -2.5, -0.25, 1.0],
+                [-2.5, -3.0, 0.0, 1.0],
+                [-2.5, -2.5, 0.25, 1.0],
+                [-2.5, 0.0, 0.25, 1.0]
+            ]
+        ];
+        this.under_wing_back = new Patch(scene, 3, 5, 20, 20, this.under_wing_back_CP);
+
         this.combustion_tube = new Cylinder2(scene, 2.5, 2.0, 5.0, 20, 20);
 
         this.initTextures();
@@ -641,101 +851,151 @@ class Vehicle extends CGFobject {
 
     initTextures() {
         this.windowTexture = new CGFappearance(this.scene);
-        this.windowTexture.loadTexture("scenes/images/aliens.jpg");
+        this.windowTexture.loadTexture("scenes/images/galaxy.jpg");
 
-        this.defaultTexture = new CGFappearance(this.scene);
+        this.chapaTexture = new CGFappearance(this.scene);
+        this.chapaTexture.setAmbient(0.2, 0.2, 0.2, 1.0);
+        this.chapaTexture.setDiffuse(0.2, 0.2, 0.2, 1.0);
     };
 
     display() {
 
-        this.scene.pushMatrix()
-        this.scene.rotate(0, 1, 0, 0);
+       // var x = 50;
 
-        this.scene.pushMatrix();
-        this.front.display();
-        this.scene.popMatrix();
+        //for (let i = 0; i < 5; i++ , x -= 40) {
+          //  let z = 50* i;
+            //for (let j = 0; j < (1+ 2*i); j++ , z -= 50) {
+                this.chapaTexture.apply();
 
-        this.scene.pushMatrix();
-        this.left_under_window_front.display();
-        this.scene.popMatrix();
+                this.scene.pushMatrix()
+                //this.scene.translate(x, 0, z);
+                this.scene.rotate(0, 1, 0, 0);
 
-        this.scene.pushMatrix();
-        this.left_under_window_back.display();
-        this.scene.popMatrix();
+                this.scene.pushMatrix();
+                this.front.display();
+                this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.right_under_window_front.display();
-        this.scene.popMatrix();
+                this.scene.pushMatrix();
+                this.left_under_window_front.display();
+                this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.right_under_window_back.display();
-        this.scene.popMatrix();
+                this.scene.pushMatrix();
+                this.left_under_window_back.display();
+                this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.windowTexture.apply();
-        this.window_back.display();
-        this.scene.popMatrix();
+                this.scene.pushMatrix();
+                this.right_under_window_front.display();
+                this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.defaultTexture.apply();
-        this.window_middle.display();
-        this.scene.popMatrix();
+                this.scene.pushMatrix();
+                this.right_under_window_back.display();
+                this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.windowTexture.apply();
-        this.window_front.display();
-        this.scene.popMatrix();
+                this.scene.pushMatrix();
+                this.windowTexture.apply();
+                this.window_back.display();
+                this.scene.popMatrix();
 
-        this.defaultTexture.apply();
+                this.scene.pushMatrix();
+                this.chapaTexture.apply();
+                this.window_middle.display();
+                this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.bottom.display();
-        this.scene.popMatrix();
+                this.scene.pushMatrix();
+                this.windowTexture.apply();
+                this.window_front.display();
+                this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.scene.translate(0, 0, 0);
-        this.scene.rotate(-Math.PI / 2, 0, 1, 0);
-        //this.combustion_tube.display();
-        this.scene.popMatrix();
+                this.chapaTexture.apply();
 
-        this.scene.pushMatrix();
-        this.scene.translate(0, 0, 0);
-        this.top_frame.display();
-        this.scene.popMatrix();
+                this.scene.pushMatrix();
+                this.bottom.display();
+                this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.fin.display();
-        this.scene.popMatrix();
+                /*this.scene.pushMatrix();
+                this.scene.translate(-10, 0.5, 0);
+                this.scene.scale(1,0.5,1.5);
+                this.scene.rotate(-Math.PI / 2, 0, 1, 0);
+                this.combustion_tube.display();
+                this.scene.popMatrix();*/
 
-        this.scene.pushMatrix();
-        this.fin_top.display();
-        this.scene.popMatrix();
+                this.scene.pushMatrix();
+                this.scene.translate(0, 0, 0);
+                this.top_frame.display();
+                this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.fin_back.display();
-        this.scene.popMatrix();
+                this.scene.pushMatrix();
+                this.fin.display();
+                this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.right_wing.display();
-        this.scene.popMatrix();
-        
-        this.scene.pushMatrix();
-        this.right_wing_side.display();
-        this.scene.popMatrix();
+                this.scene.pushMatrix();
+                this.fin_top.display();
+                this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.left_wing.display();
-        this.scene.popMatrix();
-        
-        this.scene.pushMatrix();
-        this.left_wing_side.display();
-        this.scene.popMatrix();
+                this.scene.pushMatrix();
+                this.fin_back.display();
+                this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        //this.scene.translate(0,10,0);
-        this.under_wing_front.display();
-        this.scene.popMatrix();
+                this.scene.pushMatrix();
 
-        this.scene.popMatrix();
+                this.scene.translate(5, 0, 0);
+
+                this.scene.pushMatrix();
+                this.right_wing.display();
+                this.scene.popMatrix();
+
+                this.scene.pushMatrix();
+                this.right_wing_back.display();
+                this.scene.popMatrix();
+
+                this.scene.pushMatrix();
+                this.right_wing_side.display();
+                this.scene.popMatrix();
+
+                this.scene.pushMatrix();
+                this.right_wing_side_back.display();
+                this.scene.popMatrix();
+
+                this.scene.pushMatrix();
+                this.right_wing_side_top.display();
+                this.scene.popMatrix();
+
+                this.scene.pushMatrix();
+                this.left_wing.display();
+                this.scene.popMatrix();
+
+                this.scene.pushMatrix();
+                this.left_wing_back.display();
+                this.scene.popMatrix();
+
+                this.scene.pushMatrix();
+                this.left_wing_side.display();
+                this.scene.popMatrix();
+
+                this.scene.pushMatrix();
+                this.left_wing_side_back.display();
+                this.scene.popMatrix();
+
+                this.scene.pushMatrix();
+                this.left_wing_side_top.display();
+                this.scene.popMatrix();
+
+                this.scene.popMatrix();
+
+                this.scene.pushMatrix();
+                this.under_wing_front.display();
+                this.scene.popMatrix();
+
+                this.scene.pushMatrix();
+                this.under_wing_middle.display();
+                this.scene.popMatrix();
+
+                this.scene.pushMatrix();
+                this.under_wing_back.display();
+                this.scene.popMatrix();
+
+                this.scene.popMatrix();
+            //}
+        //}
     }
 }
