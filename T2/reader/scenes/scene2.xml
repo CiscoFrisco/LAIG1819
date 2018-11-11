@@ -1,6 +1,6 @@
 <yas>
     <scene root="scene" axis_length="5.0" />
-    <views default="perspective2">
+    <views default="perspective">
         <perspective id="perspective" near="0.1" far="1000.0" angle="25.0">
             <from x="300.0" y="300.0" z="300.0" />
             <to x="0.0" y="0.0" z="0.0" />
@@ -71,19 +71,25 @@
     </materials>
     <transformations>
         <transformation id="vehicle">
-            <translate x="-30.0" y="0.0" z="-55.0" />
+            <translate x="-10.0" y="0.0" z="0.0" />
         </transformation>
     </transformations>
     <animations>
         <linear id="vehicle_start" span="5">
-            <controlpoint xx="0.0" yy="0.0" zz="0.0" />
-            <controlpoint xx="20.0" yy="20.0" zz="0.0" />
+            <controlpoint xx="-10.0" yy="0.0" zz="0.0" />
+            <controlpoint xx="0.0" yy="0.0" zz="-10.0" />
+            <controlpoint xx="10.0" yy="10.0" zz="-10.0" />
+            <controlpoint xx="20.0" yy="20.0" zz="-15.0" />
+            <controlpoint xx="25.0" yy="20.0" zz="-15.0" />
         </linear>
-        <linear id="vehicle_mid" span="5">
-            <controlpoint xx="20.0" yy="0.0" zz="0.0" />
-            <controlpoint xx="20.0" yy="0.0" zz="20.0" />
+        <circular id="vehicle_mid" span="5" center="45.0 40.0 -15.0" radius="15" startang="90" rotang="-90" />
+        <linear id="vehicle_end" span="5">
+            <controlpoint xx="25.0" yy="20.0" zz="15.0" />
+            <controlpoint xx="20.0" yy="20.0" zz="15.0" />
+            <controlpoint xx="10.0" yy="10.0" zz="10.0" />
+            <controlpoint xx="0.0" yy="0.0" zz="10.0" />
+            <controlpoint xx="-10.0" yy="0.0" zz="0.0" />
         </linear>
-        <circular id="vehicle_end" span="5" center="20.0 0.0 20.0" radius="5" startang="0" rotang="90" />
     </animations>
     <primitives>
         <primitive id="plane">
@@ -133,8 +139,13 @@
         </component>
         <component id="vehicle">
             <transformation>
-                <!--<transformationref id="vehicle"/>-->
+                <transformationref id="vehicle"/>
             </transformation>
+            <animations>
+                <animationref id="vehicle_start"/>
+                <animationref id="vehicle_mid"/>
+                <animationref id="vehicle_end"/>
+            </animations>
             <materials>
                 <material id="default" />
             </materials>
@@ -184,7 +195,7 @@
 
         <component id="cylinder">
             <transformation>
-            <translate x="5" y="0" z="0"/>
+                <translate x="5" y="0" z="0"/>
             </transformation>
             <materials>
                 <material id="default" />
