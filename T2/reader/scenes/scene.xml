@@ -190,10 +190,6 @@
         <primitive id="torus">
             <torus inner="1" outer="2" slices="4" loops="20" />
         </primitive>
-
-        <primitive id="plane">
-            <plane npartsU="20" npartsV="20" />
-        </primitive>
     </primitives >
     <animations>
         <linear id="ovni_anim" span="10">
@@ -203,7 +199,7 @@
             <controlpoint xx="0.0" yy="0.0" zz="-10.0" />
         </linear>
         <linear id="ramp_anim" span="10">
-            <controlpoint xx="-120.0" yy="0.0" zz="0.0" />
+            <controlpoint xx="0.0" yy="0.0" zz="0.0" />
             <controlpoint xx="0.0" yy="0.0" zz="-10.0" />
             <controlpoint xx="10.0" yy="10.0" zz="0.0" />
             <controlpoint xx="0.0" yy="0.0" zz="-10.0" />
@@ -224,7 +220,6 @@
             </materials>
             <texture id="none" />
             <children>
-                <componentref id="plane"/>
                 <componentref id="stage" />
                 <componentref id="ramp" />
                 <componentref id="floor" />
@@ -234,19 +229,6 @@
                 <componentref id="barriers" />
                 <componentref id="chairs" />
                 <componentref id="ovni" />
-            </children>
-        </component>
-        <component id="plane">
-            <transformation>
-                <translate x="50" y="50" z="50"/>
-                <scale x="50" y="1" z="50"/>
-            </transformation>
-            <materials>
-                <material id="default" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <primitiveref id="plane"/>
             </children>
         </component>
         <component id="cube">

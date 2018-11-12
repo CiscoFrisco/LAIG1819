@@ -59,7 +59,10 @@
         </spot>
     </lights>
     <textures>
-        <texture id="ringApron" file="scenes/images/ringApron.jpeg" />
+        <texture id="terrain" file="scenes/images/terrain_texture.jpg" />
+        <texture id="heightmap" file="scenes/images/heightmap.jpg" />
+        <texture id="water" file="scenes/images/water_texture.jpg" />
+        <texture id="wavemap" file="scenes/images/wavemap.jpg" />
     </textures>
     <materials>
         <material id="default" shininess = "10.0">
@@ -82,7 +85,7 @@
             <controlpoint xx="20.0" yy="20.0" zz="-15.0" />
             <controlpoint xx="25.0" yy="20.0" zz="-15.0" />
         </linear>
-        <circular id="vehicle_mid" span="5" center="45.0 40.0 -15.0" radius="15" startang="90" rotang="-90" />
+        <circular id="vehicle_mid" span="5" center="25.0 20.0 0.0" radius="15" startang="180" rotang="-180" />
         <linear id="vehicle_end" span="5">
             <controlpoint xx="25.0" yy="20.0" zz="15.0" />
             <controlpoint xx="20.0" yy="20.0" zz="15.0" />
@@ -119,6 +122,15 @@
         <primitive id="cylinder">
             <cylinder base="0.5" top="1.0" height="1.0" slices="5" stacks="10" />
         </primitive>
+
+        <primitive id="terrain">
+            <terrain idtexture="terrain" idheightmap="heightmap" parts="20" heightscale="100"/>
+        </primitive>
+
+
+        <primitive id="water">
+            <water idtexture="water" idwavemap="wavemap" parts="20" heightscale="100" texscale="100"/>
+        </primitive>
     </primitives>
     <components>
         <component id="scene">
@@ -129,12 +141,39 @@
             </materials>
             <texture id="none" />
             <children>
-                <!--  <componentref id="patch"/>
-                <componentref id="plane"/> 
-                <componentref id="cylinder2"/>
-                <componentref id="cylinder"/>-->
-                <componentref id="vehicle"/>
+                <!-- <componentref id="patch"/> -->
+                <componentref id="plane"/>
+                <!-- <componentref id="cylinder2"/> -->
+                <!-- <componentref id="cylinder"/> -->
+                <!-- <componentref id="vehicle"/> -->
+                <componentref id="terrain"/>
+                <componentref id="water"/>
                 <!--<componentref id="vehicle2"/>-->
+            </children>
+        </component>
+        <component id="terrain">
+            <transformation>
+                <scale x="100" y="1" z="100"/>
+                <translate x="0" y="5" z="0"/>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="terrain"/>
+            </children>
+        </component>
+        <component id="water">
+            <transformation>
+                <scale x="200" y="1" z="200"/>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="water"/>
             </children>
         </component>
         <component id="vehicle">

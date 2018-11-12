@@ -1,6 +1,6 @@
 class CircularAnimation extends Animation {
 
-    constructor(scene, time, center, radius, initAngle, rotAngle){
+    constructor(scene, time, center, radius, initAngle, rotAngle) {
         super(scene, time);
 
         this.center = center;
@@ -8,59 +8,57 @@ class CircularAnimation extends Animation {
         this.initAngle = initAngle;
         this.rotAngle = rotAngle;
         this.x = Math.sin(this.initAngle);
-        this.z = Math.cos(this.initAngle); 
+        this.z = Math.cos(this.initAngle);
         this.vel = this.rotAngle / (this.time * 1000);
         this.rotInc = 0;
     }
 
-    setCenter(center){
+    setCenter(center) {
         this.center = center;
     }
-    
-    setRadius(radius){
+
+    setRadius(radius) {
         this.radius = radius;
     }
-    
-    setInitAngle(initAngle){
+
+    setInitAngle(initAngle) {
         this.initAngle = initAngle;
     }
 
-    setRotAngle(rotAngle){
+    setRotAngle(rotAngle) {
         this.rotAngle = rotAngle;
     }
 
-    getCenter(){
+    getCenter() {
         return this.center;
     }
 
-    getRadius(){
+    getRadius() {
         return this.radius;
     }
 
-    getInitAngle(){
+    getInitAngle() {
         return this.initAngle;
     }
 
-    getRotAngle(){
+    getRotAngle() {
         return this.rotAngle;
     }
 
     update(deltaTime) {
 
-       if(this.timeElapsed >= this.time * 1000)
-        {   
-                this.over = true;
+        if (this.timeElapsed >= this.time * 1000) {
+            this.over = true;
         }
-        else
-        {
+        else {
             var timeLeft = deltaTime;
 
-            if(this.timeElapsed + deltaTime > this.time * 1000)
+            if (this.timeElapsed + deltaTime > this.time * 1000)
                 timeLeft = this.time * 1000 - this.timeElapsed;
 
             this.rotInc += this.vel * timeLeft;
-            this.x = Math.sin(this.initAngle + this.rotInc)*this.radius;
-            this.z = Math.cos(this.initAngle + this.rotInc)*this.radius; 
+            this.x = Math.sin(this.initAngle + this.rotInc) * this.radius;
+            this.z = Math.cos(this.initAngle + this.rotInc) * this.radius;
         }
 
         this.timeElapsed += deltaTime;

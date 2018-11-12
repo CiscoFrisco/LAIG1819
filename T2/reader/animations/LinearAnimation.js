@@ -51,7 +51,7 @@ class LinearAnimation extends Animation {
 
   updateAng() {
     var currPoint = this.controlPoints[this.currentControlPoint];
-    this.ang = Math.atan2(currPoint[2] - this.z, currPoint[0] - this.x);
+    this.ang = -Math.atan2(currPoint[2] - this.z, currPoint[0] - this.x);
   }
 
   update(deltaTime) {
@@ -97,8 +97,8 @@ class LinearAnimation extends Animation {
     this.scene.popMatrix();
 
     this.scene.translate(this.x, this.y, this.z);
-    console.log(this.ang);
-    //this.scene.multMatrix(matrix);
+    console.log(this.ang*180/Math.PI);
+    this.scene.multMatrix(matrix);
 
   }
 }
