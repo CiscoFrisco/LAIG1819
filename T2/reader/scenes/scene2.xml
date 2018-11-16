@@ -1,12 +1,12 @@
 <yas>
     <scene root="scene" axis_length="5.0" />
-    <views default="perspective">
+    <views default="perspective2">
         <perspective id="perspective" near="0.1" far="1000.0" angle="25.0">
             <from x="300.0" y="300.0" z="300.0" />
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
         <perspective id="perspective2" near="0.1" far="1000.0" angle="23.0">
-            <from x="50.0" y="50.0" z="50.0" />
+            <from x="20.0" y="20.0" z="20.0" />
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
         <ortho id="ortho" near="0.1" far="1000.0" left="-100.0" right="100.0" top="100.0" bottom="-100.0">
@@ -116,18 +116,15 @@
         </primitive>
 
         <primitive id="cylinder2">
-            <cylinder2 base="0.5" top="1.0" height="1.0" slices="8" stacks="10" />
+            <cylinder2 base="0.5" top="1.0" height="1.0" slices="5" stacks="5" />
         </primitive >
 
         <primitive id="cylinder">
             <cylinder base="0.5" top="1.0" height="1.0" slices="5" stacks="10" />
         </primitive>
-
         <primitive id="terrain">
             <terrain idtexture="terrain" idheightmap="heightmap" parts="20" heightscale="100"/>
         </primitive>
-
-
         <primitive id="water">
             <water idtexture="water" idwavemap="wavemap" parts="20" heightscale="100" texscale="100"/>
         </primitive>
@@ -142,12 +139,12 @@
             <texture id="none" />
             <children>
                 <!-- <componentref id="patch"/> -->
-                <componentref id="plane"/>
-                <!-- <componentref id="cylinder2"/> -->
+                <!--<componentref id="plane"/>-->
+                <componentref id="cylinder2"/> -->
                 <!-- <componentref id="cylinder"/> -->
                 <!-- <componentref id="vehicle"/> -->
-                <componentref id="terrain"/>
-                <componentref id="water"/>
+                <!--<componentref id="terrain"/>
+                <componentref id="water"/>-->
                 <!--<componentref id="vehicle2"/>-->
             </children>
         </component>

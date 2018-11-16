@@ -9,7 +9,7 @@ class Cylinder2 extends CGFobject {
 		this.stacks = stacks;
 
 		this.nPointsU = 2;
-		this.nPointsV = 7;
+		this.nPointsV = 9;
 
 		this.initControlPoints();
 		console.log(this.nPointsV);
@@ -24,44 +24,28 @@ class Cylinder2 extends CGFobject {
 
 	initControlPoints() {
 
-		/*var radius = this.base;
-		var final_radius = this.top;
-		var ang = 2*Math.PI;
-		var angInc = 2*Math.PI/(this.slices);
-		var z = 0;
-		var final_z = this.height;
-		var allControlPoints = [];
-		for(let u = 0; u < this.nPointsU; u++){
-			var controlPointsU = [];
-			for(let j = 0; j <= this.nPointsV; j++){
-				controlPointsU.push([Math.cos(ang)*radius, Math.sin(ang)*radius, z, 1]);
-				ang -= angInc;
-			}
-		  
-			allControlPoints.push(controlPointsU);
-		  	ang = 2*Math.PI;
-		  	radius = final_radius;
-		  	z = final_z;
-		}*/
-
 		this.controlPoints = [
 			[
+				[0.0, -this.base, 0.0, 1.0],
+				[-this.base, -this.base, 0.0, Math.sqrt(2)/2.0],
 				[-this.base, 0.0, 0.0, 1.0],
-				[-this.base, this.base, 0.0, 1.0],
-				[this.base, this.base, 0.0, 1.0],
+				[-this.base, this.base, 0.0,  Math.sqrt(2)/2.0],
+				[0, this.base, 0.0, 1.0],
+				[this.base, this.base, 0.0,  Math.sqrt(2)/2.0],
 				[this.base, 0.0, 0.0, 1.0],
-				[this.base, -this.base, 0.0, 1.0],
-				[-this.base, -this.base, 0.0, 1.0],
-				[-this.base, 0.0, 0.0, 1.0]
+				[this.base, -this.base, 0.0,  Math.sqrt(2)/2.0],
+				[0.0,-this.base, 0.0, 1.0]
 			],
 			[
+				[0.0, -this.top, this.height, 1.0],
+				[-this.top, -this.top, this.height, Math.sqrt(2)/2.0],
 				[-this.top, 0.0, this.height, 1.0],
-				[-this.top, this.top, this.height, 1.0],
-				[this.base, this.top, this.height, 1.0],
+				[-this.top, this.top, this.height,  Math.sqrt(2)/2.0],
+				[0, this.top, this.height, 1.0],
+				[this.top, this.top, this.height,  Math.sqrt(2)/2.0],
 				[this.top, 0.0, this.height, 1.0],
-				[this.top, -this.top, this.height, 1.0],
-				[-this.top, -this.top, this.height, 1.0],
-				[-this.top, 0.0, this.height, 1.0]
+				[this.top, -this.top, this.height,  Math.sqrt(2)/2.0],
+				[0.0,-this.top, this.height, 1.0]
 			]
 		];
 
