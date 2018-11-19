@@ -68,7 +68,7 @@ class CircularAnimation extends Animation {
 
         this.scene.pushMatrix();
         this.scene.loadIdentity();
-        this.scene.rotate(this.rotInc, 0, 1, 0);
+        this.scene.rotate(this.rotInc + Math.PI/2 , 0, 1, 0);
         var matrix = this.scene.getMatrix();
         this.scene.popMatrix();
 

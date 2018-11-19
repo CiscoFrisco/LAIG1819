@@ -1666,4 +1666,12 @@ class MySceneGraph {
     }
     return false;
   }
+
+  updateWater(currTime){
+    for(let key in this.primitives){
+      if(this.primitives[key] instanceof Water){
+        this.primitives[key].update(currTime);
+      }
+    }
+  }
 }

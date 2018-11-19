@@ -4,7 +4,9 @@ precision highp float;
 
 varying vec2 vTextureCoord;
 uniform sampler2D uSampler;
+uniform float timeFactor;
+uniform float texscale;
 
 void main(){
-	gl_FragColor = texture2D(uSampler, vTextureCoord);
+	gl_FragColor = texture2D(uSampler, vTextureCoord + timeFactor);
 }

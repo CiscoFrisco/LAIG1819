@@ -860,142 +860,135 @@ class Vehicle extends CGFobject {
 
     display() {
 
-       // var x = 50;
+        this.scene.pushMatrix()
 
-        //for (let i = 0; i < 5; i++ , x -= 40) {
-          //  let z = 50* i;
-            //for (let j = 0; j < (1+ 2*i); j++ , z -= 50) {
-                this.chapaTexture.apply();
+            this.scene.rotate(-Math.PI/2,0,1,0);
 
-                this.scene.pushMatrix()
-                //this.scene.translate(x, 0, z);
-                this.scene.rotate(0, 1, 0, 0);
+            this.chapaTexture.apply();
 
-                this.scene.pushMatrix();
-                this.front.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.front.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.left_under_window_front.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.left_under_window_front.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.left_under_window_back.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.left_under_window_back.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.right_under_window_front.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.right_under_window_front.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.right_under_window_back.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.right_under_window_back.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.windowTexture.apply();
-                this.window_back.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.windowTexture.apply();
+            this.window_back.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.chapaTexture.apply();
-                this.window_middle.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.chapaTexture.apply();
+            this.window_middle.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.windowTexture.apply();
-                this.window_front.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.windowTexture.apply();
+            this.window_front.display();
+            this.scene.popMatrix();
 
-                this.chapaTexture.apply();
+            this.chapaTexture.apply();
 
-                this.scene.pushMatrix();
-                this.bottom.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.bottom.display();
+            this.scene.popMatrix();
 
-                /*this.scene.pushMatrix();
-                this.scene.translate(-10, 0.5, 0);
-                this.scene.scale(1,0.5,1.5);
-                this.scene.rotate(-Math.PI / 2, 0, 1, 0);
-                this.combustion_tube.display();
-                this.scene.popMatrix();*/
+            /*this.scene.pushMatrix();
+            this.scene.translate(-10, 0.5, 0);
+            this.scene.scale(1,0.5,1.5);
+            this.scene.rotate(-Math.PI / 2, 0, 1, 0);
+            this.combustion_tube.display();
+            this.scene.popMatrix();*/
 
-                this.scene.pushMatrix();
-                this.scene.translate(0, 0, 0);
-                this.top_frame.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.scene.translate(0, 0, 0);
+            this.top_frame.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.fin.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.fin.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.fin_top.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.fin_top.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.fin_back.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.fin_back.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
+            this.scene.pushMatrix();
 
-                this.scene.translate(5, 0, 0);
+            this.scene.translate(5, 0, 0);
 
-                this.scene.pushMatrix();
-                this.right_wing.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.right_wing.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.right_wing_back.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.right_wing_back.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.right_wing_side.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.right_wing_side.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.right_wing_side_back.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.right_wing_side_back.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.right_wing_side_top.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.right_wing_side_top.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.left_wing.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.left_wing.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.left_wing_back.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.left_wing_back.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.left_wing_side.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.left_wing_side.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.left_wing_side_back.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.left_wing_side_back.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.left_wing_side_top.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.left_wing_side_top.display();
+            this.scene.popMatrix();
 
-                this.scene.popMatrix();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.under_wing_front.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.under_wing_front.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.under_wing_middle.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.under_wing_middle.display();
+            this.scene.popMatrix();
 
-                this.scene.pushMatrix();
-                this.under_wing_back.display();
-                this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.under_wing_back.display();
+            this.scene.popMatrix();
 
-                this.scene.popMatrix();
-            //}
-        //}
+        this.scene.popMatrix();
     }
 }

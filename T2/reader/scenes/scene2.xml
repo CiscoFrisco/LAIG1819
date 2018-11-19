@@ -1,6 +1,6 @@
 <yas>
     <scene root="scene" axis_length="5.0" />
-    <views default="perspective2">
+    <views default="perspective">
         <perspective id="perspective" near="0.1" far="1000.0" angle="25.0">
             <from x="300.0" y="300.0" z="300.0" />
             <to x="0.0" y="0.0" z="0.0" />
@@ -62,7 +62,7 @@
         <texture id="terrain" file="scenes/images/terrain_texture.jpg" />
         <texture id="heightmap" file="scenes/images/heightmap.jpg" />
         <texture id="water" file="scenes/images/water_texture.jpg" />
-        <texture id="wavemap" file="scenes/images/wavemap.jpg" />
+        <texture id="wavemap" file="scenes/images/wavemap.png" />
     </textures>
     <materials>
         <material id="default" shininess = "10.0">
@@ -84,14 +84,26 @@
             <controlpoint xx="10.0" yy="10.0" zz="-10.0" />
             <controlpoint xx="20.0" yy="20.0" zz="-15.0" />
             <controlpoint xx="25.0" yy="20.0" zz="-15.0" />
+<!-- 
+            <controlpoint xx="50.0" yy="20.0" zz="50.0" />
+            <controlpoint xx="60.0" yy="20.0" zz="40.0" />
+            <controlpoint xx="70.0" yy="30.0" zz="40.0" />
+            <controlpoint xx="80.0" yy="40.0" zz="35.0" />
+            <controlpoint xx="85.0" yy="40.0" zz="35.0" /> -->
         </linear>
-        <circular id="vehicle_mid" span="5" center="25.0 20.0 0.0" radius="15" startang="180" rotang="-180" />
+        <circular id="vehicle_mid" span="5" center="25.0 20.0 0.0" radius="15" startang="0" rotang="-180" />
         <linear id="vehicle_end" span="5">
             <controlpoint xx="25.0" yy="20.0" zz="15.0" />
             <controlpoint xx="20.0" yy="20.0" zz="15.0" />
             <controlpoint xx="10.0" yy="10.0" zz="10.0" />
             <controlpoint xx="0.0" yy="0.0" zz="10.0" />
             <controlpoint xx="-10.0" yy="0.0" zz="0.0" />
+
+            <!-- <controlpoint xx="85.0" yy="40.0" zz="35.0" />
+            <controlpoint xx="80.0" yy="40.0" zz="35.0" />
+            <controlpoint xx="70.0" yy="30.0" zz="30.0" />
+            <controlpoint xx="60.0" yy="20.0" zz="30.0" />
+            <controlpoint xx="50.0" yy="20.0" zz="20.0" /> -->
         </linear>
     </animations>
     <primitives>
@@ -99,9 +111,6 @@
             <plane npartsU="20" npartsV="20" />
         </primitive>
         <primitive id="vehicle">
-            <vehicle/>
-        </primitive>
-        <primitive id="vehicle2">
             <vehicle/>
         </primitive>
         <primitive id="patch">
@@ -114,16 +123,11 @@
                 <controlpoint xx="1.5" yy="1.5" zz="0.0" />
             </patch>
         </primitive>
-
         <primitive id="cylinder2">
             <cylinder2 base="0.5" top="1.0" height="1.0" slices="5" stacks="5" />
         </primitive >
-
-        <primitive id="cylinder">
-            <cylinder base="0.5" top="1.0" height="1.0" slices="5" stacks="10" />
-        </primitive>
         <primitive id="terrain">
-            <terrain idtexture="terrain" idheightmap="heightmap" parts="20" heightscale="100"/>
+            <terrain idtexture="terrain" idheightmap="heightmap" parts="20" heightscale="150"/>
         </primitive>
         <primitive id="water">
             <water idtexture="water" idwavemap="wavemap" parts="20" heightscale="100" texscale="100"/>
@@ -138,14 +142,10 @@
             </materials>
             <texture id="none" />
             <children>
-                <!-- <componentref id="patch"/> -->
-                <!--<componentref id="plane"/>-->
-                <componentref id="cylinder2"/> -->
-                <!-- <componentref id="cylinder"/> -->
-                <!-- <componentref id="vehicle"/> -->
+                <componentref id="vehicle"/>
                 <!--<componentref id="terrain"/>
                 <componentref id="water"/>-->
-                <!--<componentref id="vehicle2"/>-->
+                <!-- <componentref id="plane"/> -->
             </children>
         </component>
         <component id="terrain">
@@ -163,6 +163,7 @@
         </component>
         <component id="water">
             <transformation>
+                <translate x="0.0" y="5.0" z="0.0"/>
                 <scale x="200" y="1" z="200"/>
             </transformation>
             <materials>
@@ -191,32 +192,6 @@
             </children>
         </component>
 
-        <component id="vehicle2">
-            <transformation>
-                <transformationref id="vehicle"/>
-            </transformation>
-            <materials>
-                <material id="default" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <primitiveref id="vehicle2"/>
-            </children>
-        </component>
-
-        <component id="patch">
-            <transformation>
-                <translate x="5" y="1" z="1"/>
-            </transformation>
-            <materials>
-                <material id="default" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <primitiveref id="patch"/>
-            </children>
-        </component>
-
         <component id="cylinder2">
             <transformation>
             </transformation>
@@ -229,22 +204,10 @@
             </children>
         </component>
 
-        <component id="cylinder">
-            <transformation>
-                <translate x="5" y="0" z="0"/>
-            </transformation>
-            <materials>
-                <material id="default" />
-            </materials>
-            <texture id="none" />
-            <children>
-                <primitiveref id="cylinder"/>
-            </children>
-        </component>
-
         <component id="plane">
             <transformation>
-                <scale x="1" y="1" z="1"/>
+                <translate x="50" y="20" z="50"/>
+                <scale x="50" y="1" z="50"/>
             </transformation>
             <materials>
                 <material id="default" />

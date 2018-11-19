@@ -220,5 +220,6 @@ class XMLscene extends CGFscene {
         this.lastTime = currTime;
 
         this.graph.updateAnimations(this.deltaTime);
+        this.graph.updateWater(this.deltaTime);
     }
 }

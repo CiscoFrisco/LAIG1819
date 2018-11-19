@@ -51,7 +51,7 @@ class LinearAnimation extends Animation {
 
   updateAng() {
     var currPoint = this.controlPoints[this.currentControlPoint];
-    this.ang = -Math.atan2(currPoint[2] - this.z, currPoint[0] - this.x);
+    this.ang = Math.atan2(currPoint[2] - this.z, currPoint[0] - this.x) + Math.PI;
   }
 
   update(deltaTime) {
