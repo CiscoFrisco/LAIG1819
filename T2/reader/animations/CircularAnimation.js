@@ -7,10 +7,8 @@ class CircularAnimation extends Animation {
         this.radius = radius;
         this.initAngle = initAngle;
         this.rotAngle = rotAngle;
-        this.x = Math.sin(this.initAngle);
-        this.z = Math.cos(this.initAngle);
         this.vel = this.rotAngle / (this.time * 1000);
-        this.rotInc = 0;
+        this.rotInc = this.InitAngle;
     }
 
     setCenter(center) {
@@ -41,39 +39,24 @@ class CircularAnimation extends Animation {
         return this.initAngle;
     }
 
-    getRotAngle() {
-        return this.rotAngle;
-    }
-
     update(deltaTime) {
 
         if (this.timeElapsed >= this.time * 1000) {
             this.over = true;
         }
-        else {
-            var timeLeft = deltaTime;
-
-            if (this.timeElapsed + deltaTime > this.time * 1000)
-                timeLeft = this.time * 1000 - this.timeElapsed;
-
-            this.rotInc += this.vel * timeLeft;
-            this.x = Math.sin(this.initAngle + this.rotInc) * this.radius;
-            this.z = Math.cos(this.initAngle + this.rotInc) * this.radius;
-        }
+        else 
+            this.rotInc =  this.initAngle + (this.vel * this.timeElapsed);
 
         this.timeElapsed += deltaTime;
     }
 
     apply() {
 
-        this.scene.pushMatrix();
-        this.scene.loadIdentity();
-        this.scene.rotate(this.rotInc + Math.PI/2 , 0, 1, 0);
-        var matrix = this.scene.getMatrix();
-        this.scene.popMatrix();
-
-        this.scene.translate(this.x, 0, this.z);
         this.scene.translate(this.center[0], this.center[1], this.center[2]);
-        this.scene.multMatrix(matrix);
+        this.scene.rotate(this.rotInc,0,1,0);
+        this.scene.translate(this.radius, 0, 0);
+        if(this.vel > 0)
+            this.scene.rotate(Math.PI,0,1,0);
+           
     }
 }

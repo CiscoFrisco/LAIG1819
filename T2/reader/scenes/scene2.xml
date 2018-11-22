@@ -6,7 +6,7 @@
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
         <perspective id="perspective2" near="0.1" far="1000.0" angle="23.0">
-            <from x="20.0" y="20.0" z="20.0" />
+            <from x="50.0" y="50.0" z="50.0" />
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
         <ortho id="ortho" near="0.1" far="1000.0" left="-100.0" right="100.0" top="100.0" bottom="-100.0">
@@ -57,12 +57,19 @@
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="1.0" g="1.0" b="1.0" a="1.0" />
         </spot>
+        <omni id="light6" enabled="1">
+            <location x="0.0" y="90.0" z="0.0" w="1.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </omni>
     </lights>
     <textures>
         <texture id="terrain" file="scenes/images/terrain_texture.jpg" />
         <texture id="heightmap" file="scenes/images/heightmap.jpg" />
         <texture id="water" file="scenes/images/water_texture.jpg" />
         <texture id="wavemap" file="scenes/images/wavemap.png" />
+        <texture id="helipad" file="scenes/images/helipad.jpg" />
     </textures>
     <materials>
         <material id="default" shininess = "10.0">
@@ -74,36 +81,24 @@
     </materials>
     <transformations>
         <transformation id="vehicle">
-            <translate x="-10.0" y="0.0" z="0.0" />
+                <translate x="0" y="18" z="80"/>
         </transformation>
     </transformations>
     <animations>
         <linear id="vehicle_start" span="5">
-            <controlpoint xx="-10.0" yy="0.0" zz="0.0" />
-            <controlpoint xx="0.0" yy="0.0" zz="-10.0" />
-            <controlpoint xx="10.0" yy="10.0" zz="-10.0" />
-            <controlpoint xx="20.0" yy="20.0" zz="-15.0" />
-            <controlpoint xx="25.0" yy="20.0" zz="-15.0" />
-<!-- 
-            <controlpoint xx="50.0" yy="20.0" zz="50.0" />
-            <controlpoint xx="60.0" yy="20.0" zz="40.0" />
-            <controlpoint xx="70.0" yy="30.0" zz="40.0" />
-            <controlpoint xx="80.0" yy="40.0" zz="35.0" />
-            <controlpoint xx="85.0" yy="40.0" zz="35.0" /> -->
+            <controlpoint xx="0.0" yy="0.0" zz="0.0" />
+            <controlpoint xx="10.0" yy="0.0" zz="-10.0" />
+            <controlpoint xx="20.0" yy="10.0" zz="-10.0" />
+            <controlpoint xx="30.0" yy="20.0" zz="-15.0" />
+            <controlpoint xx="35.0" yy="20.0" zz="-15.0" />
         </linear>
-        <circular id="vehicle_mid" span="5" center="25.0 20.0 0.0" radius="15" startang="0" rotang="-180" />
+        <circular id="vehicle_mid" span="5" center="35.0 20.0 0.0" radius="15" startang="90" rotang="-180" />
         <linear id="vehicle_end" span="5">
-            <controlpoint xx="25.0" yy="20.0" zz="15.0" />
-            <controlpoint xx="20.0" yy="20.0" zz="15.0" />
-            <controlpoint xx="10.0" yy="10.0" zz="10.0" />
-            <controlpoint xx="0.0" yy="0.0" zz="10.0" />
-            <controlpoint xx="-10.0" yy="0.0" zz="0.0" />
-
-            <!-- <controlpoint xx="85.0" yy="40.0" zz="35.0" />
-            <controlpoint xx="80.0" yy="40.0" zz="35.0" />
-            <controlpoint xx="70.0" yy="30.0" zz="30.0" />
-            <controlpoint xx="60.0" yy="20.0" zz="30.0" />
-            <controlpoint xx="50.0" yy="20.0" zz="20.0" /> -->
+            <controlpoint xx="35.0" yy="20.0" zz="15.0" />
+            <controlpoint xx="30.0" yy="20.0" zz="15.0" />
+            <controlpoint xx="20.0" yy="10.0" zz="10.0" />
+            <controlpoint xx="10.0" yy="0.0" zz="10.0" />
+            <controlpoint xx="0.0" yy="0.0" zz="0.0" />
         </linear>
     </animations>
     <primitives>
@@ -127,10 +122,10 @@
             <cylinder2 base="0.5" top="1.0" height="1.0" slices="5" stacks="5" />
         </primitive >
         <primitive id="terrain">
-            <terrain idtexture="terrain" idheightmap="heightmap" parts="20" heightscale="150"/>
+            <terrain idtexture="terrain" idheightmap="heightmap" parts="20" heightscale="60"/>
         </primitive>
         <primitive id="water">
-            <water idtexture="water" idwavemap="wavemap" parts="20" heightscale="100" texscale="100"/>
+            <water idtexture="water" idwavemap="wavemap" parts="10" heightscale="8" texscale="1"/>
         </primitive>
     </primitives>
     <components>
@@ -143,15 +138,17 @@
             <texture id="none" />
             <children>
                 <componentref id="vehicle"/>
-                <!--<componentref id="terrain"/>
-                <componentref id="water"/>-->
-                <!-- <componentref id="plane"/> -->
+                <componentref id="terrain"/>
+                <componentref id="water"/>
+ -->
+                <componentref id="plane"/>
             </children>
         </component>
         <component id="terrain">
             <transformation>
                 <scale x="100" y="1" z="100"/>
-                <translate x="0" y="5" z="0"/>
+                <rotate angle="180" axis="y"/>
+                <translate x="0" y="0" z="0"/>
             </transformation>
             <materials>
                 <material id="default" />
@@ -206,13 +203,13 @@
 
         <component id="plane">
             <transformation>
-                <translate x="50" y="20" z="50"/>
+                <translate x="0" y="15" z="80"/>
                 <scale x="50" y="1" z="50"/>
             </transformation>
             <materials>
                 <material id="default" />
             </materials>
-            <texture id="none" />
+            <texture id="helipad" />
             <children>
                 <primitiveref id="plane"/>
             </children>

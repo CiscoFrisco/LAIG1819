@@ -12,8 +12,6 @@ class Cylinder2 extends CGFobject {
 		this.nPointsV = 9;
 
 		this.initControlPoints();
-		console.log(this.nPointsV);
-		console.log(this.controlPoints);
 		var nurbsSurface = new CGFnurbsSurface(this.nPointsU - 1, this.nPointsV - 1, this.controlPoints);
 		this.obj = new CGFnurbsObject(this.scene, this.stacks, this.slices, nurbsSurface);
 	};

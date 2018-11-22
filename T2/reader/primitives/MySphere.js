@@ -50,8 +50,6 @@ class MySphere extends CGFobject {
 			}
 		}
 
-		console.log(this.vertices.length);
-
 		var ind = 0;
 
 		for (let i = 0; i < this.stacks; i++) {
@@ -63,9 +61,6 @@ class MySphere extends CGFobject {
 				ind++;
 			}
 		}
-
-		console.log(this.indices.length);
-
 
 		this.primitiveType = this.scene.gl.TRIANGLES;
 		this.initGLBuffers();

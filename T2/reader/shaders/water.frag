@@ -8,5 +8,5 @@ uniform float timeFactor;
 uniform float texscale;
 
 void main(){
-	gl_FragColor = texture2D(uSampler, vTextureCoord + timeFactor);
+	gl_FragColor = texture2D(uSampler, vTextureCoord*texscale + timeFactor);
 }
