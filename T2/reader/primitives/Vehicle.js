@@ -844,7 +844,9 @@ class Vehicle extends CGFobject {
         ];
         this.under_wing_back = new Patch(scene, 3, 5, 20, 20, this.under_wing_back_CP);
 
-        this.combustion_tube = new Cylinder2(scene, 2.5, 2.0, 5.0, 20, 20);
+        this.combustion_tube = new Cylinder2(scene, 2.5, 1.5, 2.0, 20, 20);
+
+        this.cover = new Cylinder2(scene, 1.5, 0.01, 0.01, 20, 20);
 
         this.initTextures();
     }
@@ -853,13 +855,18 @@ class Vehicle extends CGFobject {
         this.windowTexture = new CGFappearance(this.scene);
         this.windowTexture.loadTexture("scenes/images/galaxy.jpg");
 
+        this.flameTexture = new CGFappearance(this.scene);
+        this.flameTexture.loadTexture("scenes/images/flame.jpg");
+
         this.chapaTexture = new CGFappearance(this.scene);
         this.chapaTexture.setAmbient(0.2, 0.2, 0.2, 1.0);
         this.chapaTexture.setDiffuse(0.2, 0.2, 0.2, 1.0);
+
+
     };
 
     display() {
-
+    
         this.scene.pushMatrix()
 
             this.scene.rotate(-Math.PI/2,0,1,0);
@@ -907,12 +914,19 @@ class Vehicle extends CGFobject {
             this.bottom.display();
             this.scene.popMatrix();
 
-            /*this.scene.pushMatrix();
-            this.scene.translate(-10, 0.5, 0);
-            this.scene.scale(1,0.5,1.5);
+            this.scene.pushMatrix();
+            this.scene.translate(-10, 0.65, 0);
+            this.scene.scale(0.75,0.72,0.6);
             this.scene.rotate(-Math.PI / 2, 0, 1, 0);
             this.combustion_tube.display();
-            this.scene.popMatrix();*/
+            this.scene.popMatrix();
+
+            this.scene.pushMatrix();
+            this.scene.translate(-11.5, 0.65, 0);
+            this.scene.scale(1,0.72,0.6);
+            this.scene.rotate(-Math.PI / 2, 0, 1, 0);
+            this.cover.display();
+            this.scene.popMatrix();
 
             this.scene.pushMatrix();
             this.scene.translate(0, 0, 0);

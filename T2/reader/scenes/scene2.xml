@@ -1,6 +1,6 @@
 <yas>
     <scene root="scene" axis_length="5.0" />
-    <views default="perspective">
+    <views default="perspective2">
         <perspective id="perspective" near="0.1" far="1000.0" angle="25.0">
             <from x="300.0" y="300.0" z="300.0" />
             <to x="0.0" y="0.0" z="0.0" />
@@ -140,8 +140,7 @@
                 <componentref id="vehicle"/>
                 <componentref id="terrain"/>
                 <componentref id="water"/>
- -->
-                <componentref id="plane"/>
+                <componentref id="plane"/> 
             </children>
         </component>
         <component id="terrain">
@@ -160,7 +159,7 @@
         </component>
         <component id="water">
             <transformation>
-                <translate x="0.0" y="5.0" z="0.0"/>
+                <translate x="0.0" y="9.0" z="0.0"/>
                 <scale x="200" y="1" z="200"/>
             </transformation>
             <materials>
