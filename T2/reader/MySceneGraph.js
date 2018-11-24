@@ -665,7 +665,9 @@ class MySceneGraph {
 
     return null;
   }
-
+  /**
+   * Instantiates a new materail with the default values.
+   */
   getDefaultMaterial() {
     var material = new CGFappearance(this.scene);
     material.setAmbient(0.2, 0.2, 0.2, 1.0);
@@ -857,6 +859,15 @@ class MySceneGraph {
       return 'invalid transformation';
   }
 
+  /**
+   * This function is used to parse LinearAnimaton and Patch control points.
+   * Parses the current control point and addsit to the controlPointsParsed array.
+   * Control points may have 4 coordinates if they belong to a NURB surface (weight coordinate).
+   * 
+   * @param {Array} controlPoint current control point.
+   * @param {Array} controlPointsParsed Array containing the already parsed control points.
+   * @param {Boolean} isAnim Boolean variable that identifies if the control points belong or not to an animation.
+   */
   parseControlPoint(controlPoint, controlPointsParsed, isAnim = false) {
     var error;
 
@@ -960,6 +971,11 @@ class MySceneGraph {
     }
   }
 
+  /**
+   * parses cylinder primitive information and stores it in cylinderInf.
+   * @param {*} primitive Unparsed primitive (cylinder /cylinder2).
+   * @param {*} cylinderInf Object containing cylinder information.
+   */
   parseCylinder(primitive, cylinderInf) {
     var error;
 
@@ -1321,7 +1337,6 @@ class MySceneGraph {
   /**
    * Parses the <components> block.
    * @param {components block element} componentsNode
-   * TODO: animations depois de transformations
    */
   parseComponents(componentsNode) {
     this.components = [];
@@ -1620,6 +1635,10 @@ class MySceneGraph {
     return matId;
   }
 
+  /**
+   * Updates Animations only in the components that have them.
+   * @param {float} deltaTime Time passed since last update
+   */
   updateAnimations(deltaTime) {
     for (var key in this.components) {
       var component = this.components[key];
@@ -1627,12 +1646,15 @@ class MySceneGraph {
         component.animations[component.animationsIndex].update(deltaTime);
     }
   }
-
+  /**
+   * Applies an animation to a component
+   * @param {*} component 
+   */
   applyAnimation(component) {
     var animations = component.animations;
     var currAnim = component.animationsIndex;
     if (animations == null || currAnim == animations.length) return;
-
+    
     if (animations[currAnim].over) {
       animations[component.animationsIndex].apply();
       animations[currAnim].over = false;
@@ -1667,6 +1689,10 @@ class MySceneGraph {
     return false;
   }
 
+  /**
+   * Updates water properties to be applied by the shader.
+   * @param {float} currTime Time passed since last update
+   */
   updateWater(currTime){
     for(let key in this.primitives){
       if(this.primitives[key] instanceof Water){

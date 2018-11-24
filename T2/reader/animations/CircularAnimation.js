@@ -1,5 +1,17 @@
+/**
+ * Circular Animation class. Extends the Animation class.
+ */
 class CircularAnimation extends Animation {
 
+    /**
+     * Creates a circular animation with the given parameters.
+     * @param {*} scene main scene
+     * @param {*} time animation time span(duration)
+     * @param {*} center center of the circular movement
+     * @param {*} radius radius of the movement
+     * @param {*} initAngle initial angle of animation (determines initial position of the object to be animated)
+     * @param {*} rotAngle  rotation angle (how much the object will rotate)
+     */
     constructor(scene, time, center, radius, initAngle, rotAngle) {
         super(scene, time);
 
@@ -11,34 +23,11 @@ class CircularAnimation extends Animation {
         this.rotInc = this.InitAngle;
     }
 
-    setCenter(center) {
-        this.center = center;
-    }
-
-    setRadius(radius) {
-        this.radius = radius;
-    }
-
-    setInitAngle(initAngle) {
-        this.initAngle = initAngle;
-    }
-
-    setRotAngle(rotAngle) {
-        this.rotAngle = rotAngle;
-    }
-
-    getCenter() {
-        return this.center;
-    }
-
-    getRadius() {
-        return this.radius;
-    }
-
-    getInitAngle() {
-        return this.initAngle;
-    }
-
+    /**
+     * Updates the rotation angle if the animation is not over.
+     * Increments the time passed by since the animation started.
+     * @param {*} deltaTime time passed since last update
+     */
     update(deltaTime) {
 
         if (this.timeElapsed >= this.time * 1000) {
@@ -50,6 +39,9 @@ class CircularAnimation extends Animation {
         this.timeElapsed += deltaTime;
     }
 
+    /**
+    * Uses the updated animation parameters to simulate the animation.
+    */
     apply() {
 
         this.scene.translate(this.center[0], this.center[1], this.center[2]);

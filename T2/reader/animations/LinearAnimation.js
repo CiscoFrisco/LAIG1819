@@ -1,4 +1,13 @@
+/**
+ * Linear Animation class. Extends the Animation class.
+ */
 class LinearAnimation extends Animation {
+  /**
+   * Creates a linear animation with the given parameters.
+   * @param {CGFscene} scene  main scene
+   * @param {float} time animation time span(duration)
+   * @param {Array} controlPoints array with the scene coordinates the animation will have to go through sequentially.
+   */
   constructor(scene, time, controlPoints) {
     super(scene, time);
     this.controlPoints = controlPoints;
@@ -11,10 +20,10 @@ class LinearAnimation extends Animation {
     this.updateAng();
   }
 
-  setControlPoints(controlPoints) {
-    this.controlPoints = controlPoints;
-  }
-
+  /**
+   * Using the current velocity and the distances between the components(x,y,z) of two sequential points, it calculates 
+   * each component's velocity for the animation.
+   */
   setVelComponents() {
     var currPoint = this.controlPoints[this.currentControlPoint];
     var previousPoint = this.controlPoints[this.currentControlPoint - 1];
@@ -24,10 +33,11 @@ class LinearAnimation extends Animation {
     this.velZ = this.vel * ((currPoint[2] - previousPoint[2]) / dist);
   }
 
-  getControlPoints() {
-    return this.controlPoints;
-  }
-
+  /**
+   * Calculates the average velocity of the whole animation 
+   * (Sum of all the distances divided by the time span of the animation in milliseconds). 
+   * It also calculates the time it takes to travel between every two control points.
+   */
   getVel() {
     var dist = 0;
     this.dists = [];
@@ -49,6 +59,10 @@ class LinearAnimation extends Animation {
     return vel;
   }
 
+  /**
+   * Updates the angle of the animation so that the vehicle to be 
+   * animated always faces the direction of the next control point.
+   */
   updateAng() {
     var currPoint = this.controlPoints[this.currentControlPoint];
 
@@ -61,6 +75,13 @@ class LinearAnimation extends Animation {
       this.ang += Math.PI;
   }
 
+  /**
+   * Verifies if the vehicle reached the control point it is heading to. 
+   * If so it updates the control point to be next one after that one in the array of control points.
+   * Else it continues to update the vehicle's coordinates.
+   * If it reaches the last control point it ends the animation.
+   * @param {float} deltaTime  time passed by since last update.
+   */
   update(deltaTime) {
 
     var currPoint = this.controlPoints[this.currentControlPoint];
@@ -86,6 +107,12 @@ class LinearAnimation extends Animation {
     }
   }
 
+  /**
+   * Checks if the curent vehicle's coordinates are different from the control point's coordinates.
+   * If so, updates them.
+   * @param {Array} currPoint control point which the vehicle is heading to.
+   * @param {float} time time passed since last update.
+   */
   incVars(currPoint, time) {
 
     if (currPoint[0] != this.x)
@@ -96,6 +123,9 @@ class LinearAnimation extends Animation {
       this.z += this.velZ * time;
   }
 
+  /**
+   * Uses the updated animation parameters to simulate the animation.
+   */
   apply() {
     
     this.scene.translate(this.x, this.y, this.z);
