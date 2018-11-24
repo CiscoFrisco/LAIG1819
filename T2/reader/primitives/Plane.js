@@ -1,4 +1,16 @@
+/**
+ * Plane
+ * @param gl {WebGLRenderingContext}
+ * @constructor
+ */
 class Plane extends CGFobject {
+    /**
+     * Build a Plane object using NURBS.
+     * 
+     * @param {CGFscene} scene main scene 
+     * @param {Number} nPartsU division in parts on U domain
+     * @param {Number} nPartsV division in parts on V domain
+     */
     constructor(scene, nPartsU, nPartsV) {
         super(scene);
 
@@ -18,9 +30,11 @@ class Plane extends CGFobject {
         ]);
 
         this.obj = new CGFnurbsObject(this.scene, this.nPartsU, this.nPartsV, nurbsSurface);
-
     }
 
+    /**
+     * Display this object.
+     */
     display() {
         this.obj.display();
     }

@@ -214,6 +214,11 @@ class XMLscene extends CGFscene {
         // ---- END Background, camera and axis setup
     }
 
+    /**
+     * Update animations and Water.
+     * 
+     * @param {Number} currTime the current time in milliseconds
+     */
     update(currTime) {
         this.lastTime = this.lastTime || 0;
         this.deltaTime = currTime - this.lastTime;

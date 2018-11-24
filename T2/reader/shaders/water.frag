@@ -8,5 +8,6 @@ uniform float timeFactor;
 uniform float texscale;
 
 void main(){
+	// Apply texture according to texscale and timeFactor
 	gl_FragColor = texture2D(uSampler, vTextureCoord*texscale + timeFactor);
 }

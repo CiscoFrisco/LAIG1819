@@ -1,4 +1,19 @@
+/**
+ * Water
+ * @param gl {WebGLRenderingContext}
+ * @constructor
+ */
 class Water extends CGFobject {
+    /**
+     * Build a Water object.
+     * 
+     * @param {CGFscene} scene main scene
+     * @param {CGFtexture} texture color texture
+     * @param {CGFtexture} wavemap wavemap texture
+     * @param {Number} parts number of s and t divisions
+     * @param {Number} heightscale height scale factor
+     * @param {Number} texscale texture coordinates scale factor
+     */
     constructor(scene, texture, wavemap, parts, heightscale, texscale) {
         super(scene);
 
@@ -18,6 +33,10 @@ class Water extends CGFobject {
         this.shader.setUniformsValues({ timeFactor: this.factor });
     }
 
+    /**
+     * Display this object, setting the respective shader and binding color texture
+     * and wavemap.
+     */
     display() {
         this.scene.setActiveShader(this.shader);
         this.texture.bind(0);
@@ -26,6 +45,11 @@ class Water extends CGFobject {
         this.scene.setActiveShader(this.scene.defaultShader);
     }
 
+    /**
+     * Update time factor.
+     * 
+     * @param {Number} time milliseconds since last update
+     */
     update(time) {
         this.time += time;
 
