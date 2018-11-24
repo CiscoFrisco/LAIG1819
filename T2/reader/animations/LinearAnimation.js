@@ -97,14 +97,8 @@ class LinearAnimation extends Animation {
   }
 
   apply() {
-    this.scene.pushMatrix();
-    this.scene.loadIdentity();
-    this.scene.rotate(this.ang, 0, 1, 0);
-    var matrix = this.scene.getMatrix();
-    this.scene.popMatrix();
-
+    
     this.scene.translate(this.x, this.y, this.z);
-    this.scene.multMatrix(matrix);
-
+    this.scene.rotate(this.ang, 0, 1, 0);
   }
 }

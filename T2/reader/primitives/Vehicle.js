@@ -855,9 +855,6 @@ class Vehicle extends CGFobject {
         this.windowTexture = new CGFappearance(this.scene);
         this.windowTexture.loadTexture("scenes/images/galaxy.jpg");
 
-        this.flameTexture = new CGFappearance(this.scene);
-        this.flameTexture.loadTexture("scenes/images/flame.jpg");
-
         this.chapaTexture = new CGFappearance(this.scene);
         this.chapaTexture.setAmbient(0.2, 0.2, 0.2, 1.0);
         this.chapaTexture.setDiffuse(0.2, 0.2, 0.2, 1.0);
