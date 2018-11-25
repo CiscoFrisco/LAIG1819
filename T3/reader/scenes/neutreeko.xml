@@ -86,14 +86,17 @@
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="0.7" g="0.7" b="0.7" a="1.0" />
         </material>
-        <material id="board" shininess = "10.0">
+        <material id="board" shininess = "1.0">
             <emission r="0.8" g="0.4" b="0.4" a="1.0" />
-            <ambient r="0.8" g="0.4" b="0.4" a="1.0" />
-            <diffuse r="1.0" g="0.3" b="0.3" a="1.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+            <diffuse r="0.0" g="0.0" b="0.3" a="1.0" />
             <specular r="0.7" g="0.3" b="0.3" a="1.0" />
         </material>
     </materials>
     <transformations>
+        <transformation id="chairstransformation1">
+            <translate x="-30.0" y="0.0" z="-55.0" />
+        </transformation>
     </transformations>
     <animations>
     </animations>
@@ -142,11 +145,363 @@
             </materials>
             <texture id="none" />
             <children>
+                <componentref id="piece1"/>
+                <componentref id="piece2"/>
+                <componentref id="piece3"/>
+                <componentref id="piece4"/>
+                <componentref id="piece5"/>
+                <componentref id="piece6"/>
+                <componentref id="piece7"/>
+                <componentref id="piece8"/>
+                <componentref id="piece9"/>
+                <componentref id="piece10"/>
+                <componentref id="piece11"/>
+                <componentref id="piece12"/>
+                <componentref id="piece13"/>
+                <componentref id="piece14"/>
+                <componentref id="piece15"/>
+                <componentref id="piece16"/>
+                <componentref id="piece17"/>
+                <componentref id="piece18"/>
+                <componentref id="piece19"/>
+                <componentref id="piece20"/>
+                <componentref id="piece21"/>
+                <componentref id="piece22"/>
+                <componentref id="piece23"/>
+                <componentref id="piece24"/>
+                <componentref id="piece25"/>
+            </children>
+        </component>
+        <component id="piece1">
+            <transformation>
+                <translate x="-25.0" y="0.0" z="-25.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece2">
+            <transformation>
+                <translate x="-15.0" y="0.0" z="-25.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece3">
+            <transformation>
+                <translate x="-5.0" y="0.0" z="-25.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece4">
+            <transformation>
+                <translate x="5.0" y="0.0" z="-25.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece5">
+            <transformation>
+                <translate x="15.0" y="0.0" z="-25.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece6">
+            <transformation>
+                <translate x="-25.0" y="0.0" z="-15.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece7">
+            <transformation>
+                <translate x="-15.0" y="0.0" z="-15.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece8">
+            <transformation>
+                <translate x="-5.0" y="0.0" z="-15.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece9">
+            <transformation>
+                <translate x="5.0" y="0.0" z="-15.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece10">
+            <transformation>
+                <translate x="15.0" y="0.0" z="-15.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece11">
+            <transformation>
+                <translate x="-25.0" y="0.0" z="-5.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece12">
+            <transformation>
+                <translate x="-15.0" y="0.0" z="-5.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece13">
+            <transformation>
+                <translate x="-5.0" y="0.0" z="-5.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece14">
+            <transformation>
+                <translate x="5.0" y="0.0" z="-5.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece15">
+            <transformation>
+                <translate x="15.0" y="0.0" z="-5.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece16">
+            <transformation>
+                <translate x="-25.0" y="0.0" z="5.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece17">
+            <transformation>
+                <translate x="-15.0" y="0.0" z="5.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece18">
+            <transformation>
+                <translate x="-5.0" y="0.0" z="5.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece19">
+            <transformation>
+                <translate x="5.0" y="0.0" z="5.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece20">
+            <transformation>
+                <translate x="15.0" y="0.0" z="5.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece21">
+            <transformation>
+                <translate x="-25.0" y="0.0" z="15.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece22">
+            <transformation>
+                <translate x="-15.0" y="0.0" z="15.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece23">
+            <transformation>
+                <translate x="-5.0" y="0.0" z="15.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece24">
+            <transformation>
+                <translate x="5.0" y="0.0" z="15.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="piece25">
+            <transformation>
+                <translate x="15.0" y="0.0" z="15.0" />
+                <scale x="10.0" y ="5.0" z ="10.0" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
                 <componentref id="cube"/>
             </children>
         </component>
         <component id="black_piece1">
             <transformation>
+                <translate x="-15.0" y="5.0" z="-25.0" />
+                <scale x="5.0" y ="2.0" z ="5.0" />
+                <rotate angle="90" axis="x"/>
             </transformation>
             <materials>
                 <material id="black_piece" />
@@ -158,6 +513,9 @@
         </component>
         <component id="black_piece2">
             <transformation>
+                <translate x="5.0" y="5.0" z="-25.0" />
+                <scale x="5.0" y ="2.0" z ="5.0" />
+                <rotate angle="90" axis="x"/>
             </transformation>
             <materials>
                 <material id="black_piece" />
@@ -169,6 +527,9 @@
         </component>
         <component id="black_piece3">
             <transformation>
+                <translate x="-5.0" y="5.0" z="5.0" />
+                <scale x="5.0" y ="2.0" z ="5.0" />
+                <rotate angle="90" axis="x"/>
             </transformation>
             <materials>
                 <material id="black_piece" />
@@ -180,6 +541,9 @@
         </component>
         <component id="white_piece1">
             <transformation>
+                <translate x="-15.0" y="5.0" z="15.0" />
+                <scale x="5.0" y ="2.0" z ="5.0" />
+                <rotate angle="90" axis="x"/>
             </transformation>
             <materials>
                 <material id="white_piece" />
@@ -191,6 +555,9 @@
         </component>
         <component id="white_piece2">
             <transformation>
+                <translate x="5.0" y="5.0" z="15.0" />
+                <scale x="5.0" y ="2.0" z ="5.0" />
+                <rotate angle="90" axis="x"/>
             </transformation>
             <materials>
                 <material id="white_piece" />
@@ -202,6 +569,9 @@
         </component>
         <component id="white_piece3">
             <transformation>
+                <translate x="-5.0" y="5.0" z="-15.0" />
+                <scale x="5.0" y ="2.0" z ="5.0" />
+                <rotate angle="90" axis="x"/>
             </transformation>
             <materials>
                 <material id="white_piece" />
