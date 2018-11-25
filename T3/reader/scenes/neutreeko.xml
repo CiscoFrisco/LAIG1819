@@ -1,0 +1,308 @@
+<yas>
+    <scene root="scene" axis_length="5.0" />
+    <views default="perspective">
+        <perspective id="perspective" near="0.1" far="1000.0" angle="25.0">
+            <from x="300.0" y="300.0" z="300.0" />
+            <to x="0.0" y="0.0" z="0.0" />
+        </perspective>
+        <perspective id="perspective2" near="0.1" far="1000.0" angle="23.0">
+            <from x="50.0" y="50.0" z="50.0" />
+            <to x="0.0" y="0.0" z="0.0" />
+        </perspective>
+        <ortho id="ortho" near="0.1" far="1000.0" left="-100.0" right="100.0" top="100.0" bottom="-100.0">
+            <from x="300.0" y="300.0" z="300.0" />
+            <to x="0.0" y="0.0" z="0.0" />
+        </ortho>
+    </views>
+    <ambient>
+        <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+        <background r="0.5" g="0.75" b="0.93" a="1.0" />
+    </ambient>
+    <lights>
+        <omni id="light0" enabled="1">
+            <location x="-20.0" y="40.0" z="-20.0" w="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </omni>
+        <omni id="light1" enabled="1">
+            <location x="-20.0" y="40.0" z="20.0" w="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </omni>
+        <omni id="light2" enabled="1">
+            <location x="20.0" y="40.0" z="20.0" w="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </omni>
+        <omni id="light3" enabled="1">
+            <location x="20.0" y="40.0" z="-20.0" w="1.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </omni>
+        <spot id="light4" enabled="1" angle="45.0" exponent="1.0">
+            <location x="-190.0" y="20.0" z="30.0" w="1.0"/>
+            <target x="-200.0" y="20.0" z="0.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </spot>
+        <spot id="light5" enabled="1" angle="45.0" exponent="1.0">
+            <location x="-190.0" y="20.0" z="-30.0" w="1.0"/>
+            <target x="-200.0" y="20.0" z="0.0" />
+            <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+        </spot>
+        <omni id="light6" enabled="1">
+            <location x="0.0" y="90.0" z="0.0" w="1.0" />
+            <ambient r="0.3" g="0.3" b="0.3" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.0" g="0.0" b="1.0" a="1.0" />
+        </omni>
+    </lights>
+    <textures>
+        <texture id="terrain" file="scenes/images/terrain_texture.jpg" />
+    </textures>
+    <materials>
+        <material id="default" shininess = "10.0">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
+            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        </material>
+        <material id="black_piece" shininess = "10.0">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
+            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
+        </material>
+        <material id="white_piece" shininess = "10.0">
+            <emission r="0.8" g="0.8" b="0.8" a="1.0" />
+            <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
+            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+            <specular r="0.7" g="0.7" b="0.7" a="1.0" />
+        </material>
+        <material id="board" shininess = "10.0">
+            <emission r="0.8" g="0.4" b="0.4" a="1.0" />
+            <ambient r="0.8" g="0.4" b="0.4" a="1.0" />
+            <diffuse r="1.0" g="0.3" b="0.3" a="1.0" />
+            <specular r="0.7" g="0.3" b="0.3" a="1.0" />
+        </material>
+    </materials>
+    <transformations>
+    </transformations>
+    <animations>
+    </animations>
+    <primitives>
+        <primitive id="quad">
+            <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
+        </primitive>
+        <primitive id="cylinder">
+            <cylinder base="1.0" top="1.0" height="1.0" slices="20" stacks="20" />
+        </primitive>
+    </primitives>
+    <components>
+        <component id="scene">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="board"/>
+            </children>
+        </component>
+        <component id="board">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="board_base"/>
+                <componentref id="black_piece1"/>
+                <componentref id="black_piece2"/>
+                <componentref id="black_piece3"/>
+                <componentref id="white_piece1"/>
+                <componentref id="white_piece2"/>
+                <componentref id="white_piece3"/>
+            </children>
+        </component>
+        <component id="board_base">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="board" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="black_piece1">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="black_piece" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitive id="cylinder"/>
+            </children>
+        </component>
+        <component id="black_piece2">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="black_piece" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitive id="cylinder"/>
+            </children>
+        </component>
+        <component id="black_piece3">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="black_piece" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitive id="cylinder"/>
+            </children>
+        </component>
+        <component id="white_piece1">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="white_piece" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitive id="cylinder"/>
+            </children>
+        </component>
+        <component id="white_piece2">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="white_piece" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitive id="cylinder"/>
+            </children>
+        </component>
+        <component id="white_piece3">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="white_piece" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitive id="cylinder"/>
+            </children>
+        </component>
+        <component id="cube">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
+            <children>
+                <componentref id="cube1"/>
+                <componentref id="cube2"/>
+                <componentref id="cube3"/>
+                <componentref id="cube4"/>
+                <componentref id="cube5"/>
+                <componentref id="cube6"/>
+            </children>
+        </component>
+        <component id="cube1">
+            <transformation>
+                <translate x="0.0" y="0.0" z="0.5"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
+            <children>
+                <primitiveref id="quad"/>
+            </children>
+        </component>
+        <component id="cube2">
+            <transformation>
+                <translate x="0.0" y="0.0" z="-0.5"/>
+                <rotate axis="y" angle ="180"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
+            <children>
+                <primitiveref id="quad"/>
+            </children>
+        </component>
+        <component id="cube3">
+            <transformation>
+                <translate x="0.0" y="-0.5" z="0.0"/>
+                <rotate axis="x" angle ="90"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
+            <children>
+                <primitiveref id="quad"/>
+            </children>
+        </component>
+        <component id="cube4">
+            <transformation>
+                <translate x="0.0" y="0.5" z="0.0"/>
+                <rotate axis="x" angle ="-90"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
+            <children>
+                <primitiveref id="quad"/>
+            </children>
+        </component>
+        <component id="cube5">
+            <transformation>
+                <translate x="-0.5" y="0.0" z="0.0"/>
+                <rotate axis="y" angle ="-90"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
+            <children>
+                <primitiveref id="quad"/>
+            </children>
+        </component>
+        <component id="cube6">
+            <transformation>
+                <translate x="0.5" y="0.0" z="0.0"/>
+                <rotate axis="y" angle ="90"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="inherit" length_s="1.0" length_t="1.0"/>
+            <children>
+                <primitiveref id="quad"/>
+            </children>
+        </component>
+    </components>
+</yas>
