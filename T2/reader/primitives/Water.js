@@ -31,6 +31,8 @@ class Water extends CGFobject {
         this.shader.setUniformsValues({ heightscale: this.heightscale });
         this.shader.setUniformsValues({ texscale: this.texscale });
         this.shader.setUniformsValues({ timeFactor: this.factor });
+        this.shader.setUniformsValues({ uSampler2: 1 });
+
     }
 
     /**
@@ -40,7 +42,7 @@ class Water extends CGFobject {
     display() {
         this.scene.setActiveShader(this.shader);
         this.texture.bind(0);
-        this.texture.bind(1);
+        this.wavemap.bind(1);
         this.plane.display();
         this.scene.setActiveShader(this.scene.defaultShader);
     }
@@ -55,7 +57,7 @@ class Water extends CGFobject {
 
         if(this.time > 20){
             this.time = 0;
-            this.factor += (1/this.parts)*0.002;
+            this.factor += (1/this.parts)*0.02;
             this.shader.setUniformsValues({ timeFactor: this.factor });
         }   
     }

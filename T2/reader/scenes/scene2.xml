@@ -129,7 +129,7 @@
             <terrain idtexture="terrain" idheightmap="heightmap" parts="20" heightscale="60"/>
         </primitive>
         <primitive id="water">
-            <water idtexture="water" idwavemap="wavemap" parts="10" heightscale="8" texscale="1"/>
+            <water idtexture="water" idwavemap="wavemap" parts="10" heightscale="11" texscale="1"/>
         </primitive>
     </primitives>
     <components>
