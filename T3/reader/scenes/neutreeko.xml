@@ -2,7 +2,7 @@
     <scene root="scene" axis_length="5.0" />
     <views default="perspective">
         <perspective id="perspective" near="0.1" far="1000.0" angle="25.0">
-            <from x="300.0" y="300.0" z="300.0" />
+            <from x="10.0" y="10.0" z="10.0" />
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
         <perspective id="perspective2" near="0.1" far="1000.0" angle="23.0">
@@ -20,7 +20,7 @@
     </ambient>
     <lights>
         <omni id="light0" enabled="1">
-            <location x="-20.0" y="40.0" z="-20.0" w="1.0" />
+            <location x="0.0" y="40.0" z="0.0" w="1.0" />
             <ambient r="0.1" g="0.1" b="0.1" a="1.0" />
             <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
             <specular r="0.0" g="0.0" b="1.0" a="1.0" />
@@ -66,6 +66,10 @@
     </lights>
     <textures>
         <texture id="terrain" file="scenes/images/terrain_texture.jpg" />
+        <texture id="heightmap" file="scenes/images/heightmap.jpg" />
+        <texture id="water" file="scenes/images/water_texture.jpg" />
+        <texture id="wavemap" file="scenes/images/wavemap.png" />
+        <texture id="piece" file="scenes/images/piece.png" />
     </textures>
     <materials>
         <material id="default" shininess = "10.0">
@@ -107,6 +111,12 @@
         <primitive id="cylinder">
             <cylinder base="1.0" top="1.0" height="1.0" slices="20" stacks="20" />
         </primitive>
+        <primitive id="terrain">
+            <terrain idtexture="terrain" idheightmap="heightmap" parts="20" heightscale="0.2"/>
+        </primitive>
+        <primitive id="water">
+            <water idtexture="water" idwavemap="wavemap" parts="10" heightscale="0.2" texscale="1"/>
+        </primitive>
     </primitives>
     <components>
         <component id="scene">
@@ -117,7 +127,7 @@
             </materials>
             <texture id="none" />
             <children>
-                <componentref id="board"/>
+                <componentref id="aquarium"/>
             </children>
         </component>
         <component id="board">
@@ -137,13 +147,277 @@
                 <componentref id="white_piece3"/>
             </children>
         </component>
+        <component id="table">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="table_top"/>
+                <componentref id="table_leg1"/>
+                <componentref id="table_leg2"/>
+                <componentref id="table_leg3"/>
+                <componentref id="table_leg4"/>
+            </children>
+        </component>
+        <component id="aquarium">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="water"/>
+                <componentref id="terrain"/>
+                <componentref id="aquarium_bottom"/>
+                <componentref id="aquarium_leg1"/>
+                <componentref id="aquarium_leg2"/>
+                <componentref id="aquarium_leg3"/>
+                <componentref id="aquarium_leg4"/>
+                <componentref id="aquarium_leg5"/>
+                <componentref id="aquarium_leg6"/>
+                <componentref id="aquarium_leg7"/>
+                <componentref id="aquarium_leg8"/>
+            </children>
+        </component>
+        <component id="water">
+            <transformation>
+                <translate x="0" y="0.85" z="0"/>
+                <scale x="2" y ="1" z="1"/>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="water"/>
+            </children>
+        </component>
+        <component id="terrain">
+            <transformation>
+                <translate x="0" y="0.04" z="0"/>
+                <scale x="2" y ="1" z="1"/>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="terrain"/>
+            </children>
+        </component>
+
+        <component id="table_top">
+            <transformation>
+                <translate x="0" y="1.05" z="0"/>
+                <scale x="2.25" y="0.1" z="2.25"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="table_leg">
+            <transformation>
+                <scale x="0.25" y="1" z="0.25"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="table_leg1">
+            <transformation>
+                <translate x="-1" y="0.5" z="-1"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="table_leg"/>
+            </children>
+        </component>
+        <component id="table_leg2">
+            <transformation>
+                <translate x="1" y="0.5" z="-1"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="table_leg"/>
+            </children>
+        </component>
+        <component id="table_leg3">
+            <transformation>
+                <translate x="1" y="0.5" z="1"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="table_leg"/>
+            </children>
+        </component>
+        <component id="table_leg4">
+            <transformation>
+                <translate x="-1" y="0.5" z="1"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="table_leg"/>
+            </children>
+        </component>
+        <component id="aquarium_bottom">
+            <transformation>
+                <scale x="2.1" y="0.1" z="1.1"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="aquarium_leg">
+            <transformation>
+                <scale x="0.1" y="1" z="0.1"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="cube"/>
+            </children>
+        </component>
+        <component id="aquarium_leg1">
+            <transformation>
+                <translate x="-1" y="0.5" z="-0.5"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="aquarium_leg"/>
+            </children>
+        </component>
+        <component id="aquarium_leg2">
+            <transformation>
+                <translate x="1" y="0.5" z="-0.5"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="aquarium_leg"/>
+            </children>
+        </component>
+        <component id="aquarium_leg3">
+            <transformation>
+                <translate x="1" y="0.5" z="0.5"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="aquarium_leg"/>
+            </children>
+        </component>
+        <component id="aquarium_leg4">
+            <transformation>
+                <translate x="-1" y="0.5" z="0.5"/>
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="aquarium_leg"/>
+            </children>
+        </component>
+        <component id="aquarium_leg5">
+            <transformation>
+                <translate x="-1" y="0.95" z="0"/>
+                <rotate angle="90" axis = "x" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="aquarium_leg"/>
+            </children>
+        </component>
+        <component id="aquarium_leg6">
+            <transformation>
+                <translate x="0" y="0.95" z="-0.5"/>
+                <scale x="2" y="1" z="1"/>
+                <rotate angle="90" axis = "z" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="aquarium_leg"/>
+            </children>
+        </component>
+        <component id="aquarium_leg7">
+            <transformation>
+                <translate x="1" y="0.95" z="0"/>
+                <rotate angle="90" axis = "x" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="aquarium_leg"/>
+            </children>
+        </component>
+        <component id="aquarium_leg8">
+            <transformation>
+                <translate x="0" y="0.95" z="0.5"/>
+                <scale x="2" y="1" z="1"/>
+                <rotate angle="90" axis = "z" />
+            </transformation>
+            <materials>
+                <material id="inherit" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="aquarium_leg"/>
+            </children>
+        </component>
+
+
         <component id="board_base">
             <transformation>
             </transformation>
             <materials>
                 <material id="board" />
             </materials>
-            <texture id="none" />
+            <texture id="piece" />
             <children>
                 <componentref id="piece1"/>
                 <componentref id="piece2"/>
@@ -180,7 +454,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -193,7 +467,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -206,7 +480,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -219,7 +493,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -232,7 +506,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -245,7 +519,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -258,7 +532,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -271,7 +545,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -284,7 +558,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -297,7 +571,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -310,7 +584,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -323,7 +597,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -336,7 +610,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -349,7 +623,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -362,7 +636,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -375,7 +649,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -388,7 +662,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -401,7 +675,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -414,7 +688,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -427,7 +701,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -440,7 +714,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -453,7 +727,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -466,7 +740,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -479,7 +753,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -492,7 +766,7 @@
             <materials>
                 <material id="inherit" />
             </materials>
-            <texture id="none" />
+            <texture id="inherit" />
             <children>
                 <componentref id="cube"/>
             </children>
@@ -500,7 +774,7 @@
         <component id="black_piece1">
             <transformation>
                 <translate x="-15.0" y="5.0" z="-25.0" />
-                <scale x="5.0" y ="2.0" z ="5.0" />
+                <scale x="3.0" y ="2.0" z ="3.0" />
                 <rotate angle="90" axis="x"/>
             </transformation>
             <materials>
@@ -514,7 +788,7 @@
         <component id="black_piece2">
             <transformation>
                 <translate x="5.0" y="5.0" z="-25.0" />
-                <scale x="5.0" y ="2.0" z ="5.0" />
+                <scale x="3.0" y ="2.0" z ="3.0" />
                 <rotate angle="90" axis="x"/>
             </transformation>
             <materials>
@@ -528,7 +802,7 @@
         <component id="black_piece3">
             <transformation>
                 <translate x="-5.0" y="5.0" z="5.0" />
-                <scale x="5.0" y ="2.0" z ="5.0" />
+                <scale x="3.0" y ="2.0" z ="3.0" />
                 <rotate angle="90" axis="x"/>
             </transformation>
             <materials>
@@ -542,7 +816,7 @@
         <component id="white_piece1">
             <transformation>
                 <translate x="-15.0" y="5.0" z="15.0" />
-                <scale x="5.0" y ="2.0" z ="5.0" />
+                <scale x="3.0" y ="2.0" z ="3.0" />
                 <rotate angle="90" axis="x"/>
             </transformation>
             <materials>
@@ -556,7 +830,7 @@
         <component id="white_piece2">
             <transformation>
                 <translate x="5.0" y="5.0" z="15.0" />
-                <scale x="5.0" y ="2.0" z ="5.0" />
+                <scale x="3.0" y ="2.0" z ="3.0" />
                 <rotate angle="90" axis="x"/>
             </transformation>
             <materials>
@@ -570,7 +844,7 @@
         <component id="white_piece3">
             <transformation>
                 <translate x="-5.0" y="5.0" z="-15.0" />
-                <scale x="5.0" y ="2.0" z ="5.0" />
+                <scale x="3.0" y ="2.0" z ="3.0" />
                 <rotate angle="90" axis="x"/>
             </transformation>
             <materials>
