@@ -1,51 +1,55 @@
-class Cube extends CGFObject {
-    contructor(scene, scaleX = 1, scaleY = 1, scaleZ = 1){
+class Cube extends CGFobject {
+    constructor(scene, scaleX = 1, scaleY = 1, scaleZ = 1){
         super(scene);
 
         this.scaleX = scaleX;
         this.scaleY = scaleY;
         this.scaleZ = scaleZ;
 
-        this.side1 = new MyQuad();
-        this.side2 = new MyQuad();
-        this.side3 = new MyQuad();
-        this.side4 = new MyQuad();
-        this.side5 = new MyQuad();
-        this.side6 = new MyQuad();
-
-        this.initBuffers();
+        this.side = new MyQuad(this.scene, -0.5, -0.5, 0.5, 0.5);
     }
 
     display(){
 
-        this.pushMatrix();
+        this.scene.pushMatrix();
 
-        this.scene.scale(scaleX, scaleY, scaleZ);
+        this.scene.scale(this.scaleX, this.scaleY, this.scaleZ);
+        this.scene.translate(0,0,-0.5);
 
-        this.pushMatrix();
-        this.side1.display();
-        this.popMatrix();
+        this.scene.pushMatrix();
+        this.scene.rotate(Math.PI, 1, 0, 0);
+        this.side.display();
+        this.scene.popMatrix();
 
-        this.pushMatrix();
-        this.side2.display();
-        this.popMatrix();
+        this.scene.pushMatrix();
+        this.scene.translate(0,0,1);
+        this.side.display();
+        this.scene.popMatrix();
 
-        this.pushMatrix();
-        this.side3.display();
-        this.popMatrix();
+        this.scene.pushMatrix();
+        this.scene.translate(0, -0.5, 0.5);
+        this.scene.rotate(Math.PI/2, 1,0,0);
+        this.side.display();
+        this.scene.popMatrix();
 
-        this.pushMatrix();
-        this.side4.display();
-        this.popMatrix();
+        this.scene.pushMatrix();
+        this.scene.translate(0,0.5,0.5);
+        this.scene.rotate(-Math.PI/2, 1,0,0);
+        this.side.display();
+        this.scene.popMatrix();
 
-        this.pushMatrix();
-        this.side5.display();
-        this.popMatrix();
+        this.scene.pushMatrix();
+        this.scene.translate(0.5,0,0.5);
+        this.scene.rotate(Math.PI/2, 0,1,0);
+        this.side.display();
+        this.scene.popMatrix();
 
-        this.pushMatrix();
-        this.side6.display();
-        this.popMatrix();
+        this.scene.pushMatrix();
+        this.scene.translate(-0.5,0,0.5);
+        this.scene.rotate(-Math.PI/2, 0,1,0);
+        this.side.display();
+        this.scene.popMatrix();
 
-        this.popMatrix();
+        this.scene.popMatrix();
     }
 }
