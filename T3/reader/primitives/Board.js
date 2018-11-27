@@ -13,12 +13,48 @@ class Board extends CGFobject {
         for(let i = 0; i < 25; i++){
             this.divisions.push(new Cube(this.scene, 10, 5, 10));
         }
+
+        let x = -25, z = -25;
+
+        for(let i = 0; i < 5; i++){
+            for(let j = 0; j < 5; j++){
+                this.divisions.push({
+                    obj: new Cube(this.scene, 10, 5, 10),
+                    x: x,
+                    z: z
+                });
+                x+=10;
+            }
+            x=0;
+            z+=10
+        }
     }
 
     initPieces(){
 
         this.whitePieces = [];
         this.blackPieces = [];
+
+        let whitePiece1 = {
+            obj:  new Piece(this.scene, this.whiteAppearance),
+            x: -15,
+            y: 5,
+            z: 15
+        }
+
+        let whitePiece2 = {
+            obj:  new Piece(this.scene, this.whiteAppearance),
+            x: -15,
+            y: 5,
+            z: 15
+        }
+
+        let whitePiece3 = {
+            obj:  new Piece(this.scene, this.whiteAppearance),
+            x: -15,
+            y: 5,
+            z: 15
+        }
 
         for(let i = 0; i < 3; i++){
             this.whitePieces.push({object: new Piece(this.scene, this.whiteAppearance)});
@@ -56,20 +92,12 @@ class Board extends CGFobject {
         
         this.boardTexture.bind();
 
-        let x=-25, z = -25;
-
-        for(let i = 0; i < 5; i++)
-        {
-            for(let j = 0; j < 5; j++){
-                this.pushMatrix();
-                this.scene.translate(x,0,z);
-                this.divisions[i].display();
-                this.popMatrix();
-
-                x+=10;
-            }
-            x=0;
-            z+=10;
+        for(let i = 0; i < this.divisions.length; i++){
+            let division = this.divisions[i];
+            this.scene.pushMatrix();
+            this.scene.translate(division.x, 0, division.z);
+            division.obj.display();
+            this.scene.popMatrix();
         }
 
         this.boardTexture.unbind();
