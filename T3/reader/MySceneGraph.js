@@ -1310,7 +1310,11 @@ class MySceneGraph {
         this.primitives[id] =
             new Cube(this.scene);
         numPrimitives++;
-
+      }
+        else if (primitive.nodeName == 'plant') {
+          this.primitives[id] =
+              new Plant(this.scene);
+          numPrimitives++;
       } else {
         this.onXMLMinorError('unknown tag <' + primitive.nodeName + '>');
       }
