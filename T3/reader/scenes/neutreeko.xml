@@ -2,7 +2,7 @@
     <scene root="scene" axis_length="20.0" />
     <views default="perspective">
         <perspective id="perspective" near="0.1" far="1000.0" angle="25.0">
-            <from x="30.0" y="30.0" z="30.0" />
+            <from x="20.0" y="20.0" z="20.0" />
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
         <perspective id="perspective2" near="0.1" far="1000.0" angle="23.0">
@@ -112,7 +112,7 @@
             <terrain idtexture="terrain" idheightmap="heightmap" parts="20" heightscale="0.2"/>
         </primitive>
         <primitive id="water">
-            <water idtexture="water" idwavemap="wavemap" parts="10" heightscale="0.2" texscale="1"/>
+            <water idtexture="water" idwavemap="wavemap" parts="10" heightscale="0.1" texscale="1"/>
         </primitive>
         <primitive id="board">
             <board/>
@@ -122,6 +122,9 @@
         </primitive>
         <primitive id="plant">
             <plant/>
+        </primitive>
+        <primitive id="chair">
+            <chair/>
         </primitive>
     </primitives>
     <components>
@@ -133,6 +136,7 @@
             </materials>
             <texture id="none" />
             <children>
+                <componentref id="chairs"/>
                 <componentref id="plants"/>
                 <componentref id="aquarium"/>
                 <componentref id="aquarium_table"/>
@@ -159,6 +163,43 @@
                 <componentref id="plant2"/>
                 <componentref id="plant3"/>
                 <componentref id="plant4"/>
+            </children>
+        </component>
+        <component id="chairs">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <componentref id="chair1"/>
+                <componentref id="chair2"/>
+            </children>
+        </component>
+        <component id="chair1">
+            <transformation>
+                <translate x="-2.5" y="0" z="0"/>
+                <rotate angle="180" axis="y"/>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="chair"/>
+            </children>
+        </component>
+        <component id="chair2">
+            <transformation>
+                <translate x="2.5" y="0" z="0"/>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="chair"/>
             </children>
         </component>
         <component id="plant1">
@@ -334,6 +375,7 @@
         <component id="board">
             <transformation>
                 <translate x="0" y="1.15" z="0"/>
+                <rotate angle="90" axis="y"/>
             </transformation>
             <materials>
                 <material id="default" />
