@@ -115,7 +115,7 @@
             <water idtexture="water" idwavemap="wavemap" parts="10" heightscale="0.1" texscale="1"/>
         </primitive>
         <primitive id="board">
-            <board/>
+            <board boardMat="board" piece1Mat="black" piece2Mat="white"/>
         </primitive>
         <primitive id="cube">
             <cube/>

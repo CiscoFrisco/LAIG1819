@@ -1,8 +1,8 @@
 class Board extends CGFobject {
-    constructor(scene) {
+    constructor(scene, boardMat, piece1Mat, piece2Mat) {
         super(scene);
 
-        this.initAppearances();
+        this.initAppearances(boardMat, piece1Mat, piece2Mat);
         this.initPieces();
         this.initDivisions();
     }
@@ -87,27 +87,10 @@ class Board extends CGFobject {
         this.blackPieces.push(blackPiece3);
     }
 
-    initAppearances() {
-        this.whiteAppearance = new CGFappearance(this.scene);
-        this.whiteAppearance.setShininess(10);
-        this.whiteAppearance.setEmission(0.8, 0.8, 0.8, 1.0);
-        this.whiteAppearance.setDiffuse(0.8, 0.8, 0.8, 1.0);
-        this.whiteAppearance.setSpecular(1.0, 1.0, 1.0, 1.0);
-        this.whiteAppearance.setAmbient(0.7, 0.7, 0.7, 1.0);
-
-        this.blackAppearance = new CGFappearance(this.scene);
-        this.blackAppearance.setShininess(10);
-        this.blackAppearance.setEmission(0.0, 0.0, 0.0, 1.0);
-        this.blackAppearance.setDiffuse(0.2, 0.2, 0.2, 1.0);
-        this.blackAppearance.setSpecular(0.2, 0.2, 0.2, 1.0);
-        this.blackAppearance.setAmbient(0.1, 0.1, 0.1, 1.0);
-
-        this.boardAppearance = new CGFappearance(this.scene);
-        this.boardAppearance.setShininess(10);
-        this.boardAppearance.setEmission(0.8, 0.3, 0.3, 1.0);
-        this.boardAppearance.setDiffuse(0.8, 0.3, 0.3, 1.0);
-        this.boardAppearance.setSpecular(0.8, 0.3, 0.3, 1.0);
-        this.boardAppearance.setAmbient(0.8, 0.3, 0.3, 1.0);
+    initAppearances(boardMat, piece1Mat, piece2Mat) {
+        this.whiteAppearance = piece2Mat;
+        this.blackAppearance = piece1Mat;
+        this.boardAppearance = boardMat;
 
         this.boardTexture = new CGFtexture(this.scene, "scenes/images/piece.png");
     }

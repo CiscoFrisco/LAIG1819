@@ -1301,8 +1301,33 @@ class MySceneGraph {
         numPrimitives++;
 
       } else if (primitive.nodeName == 'board') {
+
+        var boardMat = this.reader.getString(primitive, 'boardMat', true);
+
+        if (boardMat == '') {
+          return 'invalid boardMat on primitive' + id;
+        } else if (this.materials[boardMat] == null) {
+          return 'nonexistent boardMat on primitive' + id;
+        }
+
+        var piece1Mat = this.reader.getString(primitive, 'piece1Mat', true);
+
+        if (piece1Mat == '') {
+          return 'invalid piece1Mat on primitive' + id;
+        } else if (this.materials[piece1Mat] == null) {
+          return 'nonexistent piece1Mat on primitive' + id;
+        }
+
+        var piece2Mat = this.reader.getString(primitive, 'piece2Mat', true);
+
+        if (piece2Mat == '') {
+          return 'invalid piece2Mat on primitive' + id;
+        } else if (this.materials[piece2Mat] == null) {
+          return 'nonexistent piece2Mat on primitive' + id;
+        }
+
         this.primitives[id] =
-          new Board(this.scene);
+          new Board(this.scene, this.materials[boardMat], this.materials[piece1Mat], this.materials[piece2Mat]);
         numPrimitives++;
 
       }
