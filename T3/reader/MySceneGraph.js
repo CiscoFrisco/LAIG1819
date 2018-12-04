@@ -1341,6 +1341,11 @@ class MySceneGraph {
           new Plant(this.scene);
         numPrimitives++;
       }
+      else if (primitive.nodeName == 'torch') {
+        this.primitives[id] =
+          new Torch(this.scene);
+        numPrimitives++;
+      }
       else if (primitive.nodeName == 'chair') {
         this.primitives[id] =
           new Chair(this.scene);

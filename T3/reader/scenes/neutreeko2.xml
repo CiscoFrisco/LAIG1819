@@ -40,7 +40,7 @@
     </lights>
     <textures>
         <texture id="wall" file="scenes/images/rock_wall.jpg" />
-        <texture id="floor" file="scenes/images/floor1.jpg" />
+        <texture id="floor" file="scenes/images/floor2.jpg" />
         <texture id="mrzephyr" file="scenes/images/mrzephyr.png" />
     </textures>
     <materials>
@@ -104,6 +104,9 @@
         <primitive id="board">
             <board boardMat="board" piece1Mat="black" piece2Mat="white"/>
         </primitive>
+        <primitive id="torch">
+            <torch/>
+        </primitive>
         <primitive id="cube">
             <cube/>
         </primitive>
@@ -123,10 +126,11 @@
             </materials>
             <texture id="none" />
             <children>
-                <componentref id="board"/>
+                <!--<componentref id="board"/>-->
                 <componentref id="walls"/>
                 <componentref id="floor"/>
                 <componentref id="ceiling"/>
+                <primitiveref id="torch"/>
             </children>
         </component>
         <component id="walls">
