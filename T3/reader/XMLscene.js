@@ -13,6 +13,15 @@ class XMLscene extends CGFscene {
 
         this.interface = myinterface;
         this.lightValues = {};
+
+        this.gameStates = Object.freeze({
+            "menu": 1,
+            "difficulty": 2,
+            "pvp": 3,
+            "pvc": 4,
+            "cvc": 5
+        });
+        this.gameState = this.gameStates.menu;
     }
 
     /**
@@ -40,7 +49,7 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.fps = 60;
-        this.setUpdatePeriod(1000/this.fps);
+        this.setUpdatePeriod(1000 / this.fps);
 
         this.setPickEnabled(true);
     }
@@ -165,19 +174,18 @@ class XMLscene extends CGFscene {
         this.materialNo = 0;
     }
 
-    logPicking(){
+    logPicking() {
         if (this.pickMode == false) {
             if (this.pickResults != null && this.pickResults.length > 0) {
-                for (var i=0; i< this.pickResults.length; i++) {
+                for (var i = 0; i < this.pickResults.length; i++) {
                     var obj = this.pickResults[i][0];
-                    if (obj)
-                    {
-                        var customId = this.pickResults[i][1];				
+                    if (obj) {
+                        var customId = this.pickResults[i][1];
                         console.log("Picked object: " + obj + ", with pick id " + customId);
                     }
                 }
-                this.pickResults.splice(0,this.pickResults.length);
-            }		
+                this.pickResults.splice(0, this.pickResults.length);
+            }
         }
     }
 

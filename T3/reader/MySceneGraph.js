@@ -1063,18 +1063,63 @@ class MySceneGraph {
       return 'nonexistent texture on primitive' + id;
     }
 
-    var idGamemode = this.reader.getString(primitive, 'idgamemode', true);
+    var idpvp = this.reader.getString(primitive, 'idpvp', true);
 
-    if (idGamemode == '') {
-      return 'invalid idgamemode in on primitive' + id;
-    } else if (this.textures[idGamemode] == null) {
-      return 'nonexistent idgamemode on primitive' + id;
+    if (idpvp == '') {
+      return 'invalid idpvp in on primitive' + id;
+    } else if (this.textures[idpvp] == null) {
+      return 'nonexistent idpvp on primitive' + id;
+    }
+
+    var idpvc = this.reader.getString(primitive, 'idpvc', true);
+
+    if (idpvc == '') {
+      return 'invalid idpvc in on primitive' + id;
+    } else if (this.textures[idpvc] == null) {
+      return 'nonexistent idpvc on primitive' + id;
+    }
+
+    var idcvc = this.reader.getString(primitive, 'idcvc', true);
+
+    if (idcvc == '') {
+      return 'invalid idcvc in on primitive' + id;
+    } else if (this.textures[idcvc] == null) {
+      return 'nonexistent idcvc on primitive' + id;
+    }
+
+    var iddiffez = this.reader.getString(primitive, 'iddiffez', true);
+
+    if (iddiffez == '') {
+      return 'invalid iddiffez in on primitive' + id;
+    } else if (this.textures[iddiffez] == null) {
+      return 'nonexistent iddiffez on primitive' + id;
+    }
+
+    var iddiffmed = this.reader.getString(primitive, 'iddiffmed', true);
+
+    if (iddiffmed == '') {
+      return 'invalid iddiffmed in on primitive' + id;
+    } else if (this.textures[iddiffmed] == null) {
+      return 'nonexistent iddiffmed on primitive' + id;
+    }
+
+    var iddiffhard = this.reader.getString(primitive, 'iddiffhard', true);
+
+    if (iddiffhard == '') {
+      return 'invalid iddiffhard in on primitive' + id;
+    } else if (this.textures[iddiffhard] == null) {
+      return 'nonexistent iddiffhard on primitive' + id;
     }
 
     var difficulty = this.textures[idDifficulty];
-    var gamemode = this.textures[idGamemode];
+    var pvp = this.textures[idpvp];
+    var pvc = this.textures[idpvc];
+    var cvc = this.textures[idcvc];
+    var diffez = this.textures[iddiffez];
+    var diffmed = this.textures[iddiffmed];
+    var diffhard = this.textures[iddiffhard];
 
-    this.primitives[id] = new Menu(this.scene, difficulty, gamemode);
+    this.primitives[id] = new Menu(this.scene, difficulty, pvp, pvc, cvc, diffez, diffmed, diffhard);
 
     return null;
   }

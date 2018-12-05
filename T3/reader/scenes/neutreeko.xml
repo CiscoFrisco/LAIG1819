@@ -49,9 +49,14 @@
         <texture id="mrzephyr" file="scenes/images/mrzephyr.png" />
         <texture id="painting" file="scenes/images/van_gogh.jpg" />
         <texture id="difficulty" file="scenes/images/difficulty.png" />
-        <texture id="gamemode" file="scenes/images/gamemode.png" />
+        <texture id="pvp" file="scenes/images/pvp.png" />
+        <texture id="pvc" file="scenes/images/pvc.png" />
+        <texture id="cvc" file="scenes/images/cvc.png" />
         <texture id="undo" file="scenes/images/undo.png" />
         <texture id="rotate" file="scenes/images/rotate.png" />
+        <texture id="diffez" file="scenes/images/diffeasy.png" />
+        <texture id="diffmed" file="scenes/images/diffmed.png" />
+        <texture id="diffhard" file="scenes/images/diffhard.png" />
     </textures>
     <materials>
         <material id="default" shininess = "10.0">
@@ -106,7 +111,7 @@
     </animations>
     <primitives>
         <primitive id="menu">
-            <menu iddifficulty="difficulty" idgamemode="gamemode"/>
+            <menu iddifficulty="difficulty" idpvp="pvp" idpvc="pvc" idcvc="cvc" iddiffez="diffez" iddiffmed="diffmed" iddiffhard="diffhard"/>
         </primitive>
         <primitive id="quad">
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
@@ -155,6 +160,7 @@
                 <componentref id="floor"/>
                 <componentref id="ceiling"/>
                 <componentref id="painting"/>
+                <primitiveref id="menu"/>
             </children>
         </component>
         <component id="plants">

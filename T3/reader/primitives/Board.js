@@ -6,7 +6,11 @@ class Board extends CGFobject {
         this.initPieces();
         this.initDivisions();
 
-        this.pickStates = Object.freeze({ "noPick": 1, "pickPiece": 2, "pickMove": 3 });
+        this.pickStates = Object.freeze({
+            "noPick": 1,
+            "pickPiece": 2,
+            "pickMove": 3
+        });
         this.pickState = this.pickStates.pickPiece;
     }
 
@@ -115,14 +119,16 @@ class Board extends CGFobject {
 
         this.boardTexture.unbind();
     }
-    
+
 
     // pickMove -> noPick ;; pickPiece -> pickMove ;; noPick -> pickPiece
     nextState() {
-        if(this.pickState === this.pickStates.pickMove)
-            this.pickState = this.pickStates.pickPiece;
-        else
-            ++this.pickState;
+        if (this.scene.gameState > 2) {
+            if (this.pickState === this.pickStates.pickMove)
+                this.pickState = this.pickStates.pickPiece;
+            else
+                ++this.pickState;
+        }
     }
 
     logPicking() {
@@ -158,7 +164,9 @@ class Board extends CGFobject {
     }
 
     display() {
-        this.logPicking();
+        if(this.scene.gameState > 2)
+            this.logPicking();
+
         this.scene.pushMatrix();
         this.scene.scale(0.3, 0.3, 0.3);
 
