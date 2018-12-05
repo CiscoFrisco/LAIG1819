@@ -52,6 +52,26 @@ class MySceneGraph {
      */
 
     this.reader.open('scenes/' + filename, this);
+
+    this.primitiveParsers = {
+      'rectangle': this.parseRectangle,
+      'triangle': this.parseTriangle,
+      'cylinder': this.parseCylinder,
+      'board': this.parseBoard,
+      'cube': this.parseCube,
+      'chair': this.parseChair,
+      'cylinder2': this.parseCylinder2,
+      'sphere': this.parseSphere,
+      'torus': this.parseTorus,
+      'patch': this.parsePatch,
+      'plane': this.parsePlane,
+      'plant': this.parsePlant,
+      'terrain': this.parseTerrain,
+      'vehicle': this.parseVehicle,
+      'water': this.parseWater,
+      'menu': this.parseMenu,
+      'torch': this.parseTorch
+    }
   }
 
 
@@ -960,7 +980,8 @@ class MySceneGraph {
     }
   }
 
-  parseCylinder(primitive, cylinderInf) {
+  parseCylinder(id, primitive) {
+
     var error;
 
     var base = this.reader.getFloat(primitive, 'base', true);
@@ -987,11 +1008,437 @@ class MySceneGraph {
     if ((error = this.checkNumber(primitive, stacks, 'stacks')) != null)
       return error;
 
-    cylinderInf.base = base;
-    cylinderInf.top = top;
-    cylinderInf.height = height;
-    cylinderInf.slices = slices;
-    cylinderInf.stacks = stacks;
+    this.primitives[id] =
+        new MyCylinder(this.scene, base, top, height, slices, stacks);
+
+        return null;
+
+  }
+
+  parseTorch(id, primitive){
+
+  }
+
+  parseCylinder2(id, primitive) {
+
+    var error;
+
+    var base = this.reader.getFloat(primitive, 'base', true);
+
+    if ((error = this.checkNumber(primitive, base, 'base')) != null)
+      return error;
+
+    var top = this.reader.getFloat(primitive, 'top', true);
+
+    if ((error = this.checkNumber(primitive, top, 'top')) != null) return error;
+
+    var height = this.reader.getFloat(primitive, 'height', true);
+
+    if ((error = this.checkNumber(primitive, height, 'height')) != null)
+      return error;
+
+    var slices = this.reader.getInteger(primitive, 'slices', true);
+
+    if ((error = this.checkNumber(primitive, slices, 'slices')) != null)
+      return error;
+
+    var stacks = this.reader.getInteger(primitive, 'stacks', true);
+
+    if ((error = this.checkNumber(primitive, stacks, 'stacks')) != null)
+      return error;
+
+    this.primitives[id] =
+        new Cylinder2(this.scene, base, top, height, slices, stacks);
+
+        return null;
+
+  }
+
+  parseMenu(id, primitive){
+    let error;
+
+    var idDifficulty = this.reader.getString(primitive, 'iddifficulty', true);
+
+    if (idDifficulty == '') {
+      return 'invalid texture on primitive' + id;
+    } else if (this.textures[idDifficulty] == null) {
+      return 'nonexistent texture on primitive' + id;
+    }
+
+    var idGamemode = this.reader.getString(primitive, 'idgamemode', true);
+
+    if (idGamemode == '') {
+      return 'invalid idgamemode in on primitive' + id;
+    } else if (this.textures[idGamemode] == null) {
+      return 'nonexistent idgamemode on primitive' + id;
+    }
+
+    var difficulty = this.textures[idDifficulty];
+    var gamemode = this.textures[idGamemode];
+
+    this.primitives[id] =
+        new Menu(this.scene, difficulty, gamemode);
+
+        return null;
+
+  }
+
+  parseRectangle(id, primitive) {
+
+    let error;
+
+    var x1 = this.reader.getFloat(primitive, 'x1', true);
+
+    if ((error = this.checkNumber(primitive, x1, 'x1', false)) != null)
+      return error;
+
+    var y1 = this.reader.getFloat(primitive, 'y1', true);
+
+    if ((error = this.checkNumber(primitive, y1, 'y1', false)) != null)
+      return error;
+
+    var x2 = this.reader.getFloat(primitive, 'x2', true);
+
+    if ((error = this.checkNumber(primitive, x2, 'x2', false)) != null)
+      return error;
+
+    var y2 = this.reader.getFloat(primitive, 'y2', true);
+
+    if ((error = this.checkNumber(primitive, y2, 'y2', false)) != null)
+      return error;
+
+    this.primitives[id] = new MyQuad(this.scene, x1, y1, x2, y2);
+
+    return null;
+  }
+
+  parseTriangle(id, primitive) {
+    let error;
+
+
+    var x1 = this.reader.getFloat(primitive, 'x1', true);
+
+    if ((error = this.checkNumber(primitive, x1, 'x1', false)) != null)
+      return error;
+
+    var y1 = this.reader.getFloat(primitive, 'y1', true);
+
+    if ((error = this.checkNumber(primitive, y1, 'y1', false)) != null)
+      return error;
+
+    var z1 = this.reader.getFloat(primitive, 'z1', true);
+
+    if ((error = this.checkNumber(primitive, z1, 'z1', false)) != null)
+      return error;
+
+    var x2 = this.reader.getFloat(primitive, 'x2', true);
+
+    if ((error = this.checkNumber(primitive, x2, 'x2', false)) != null)
+      return error;
+
+    var y2 = this.reader.getFloat(primitive, 'y2', true);
+
+    if ((error = this.checkNumber(primitive, y2, 'y2', false)) != null)
+      return error;
+
+    var z2 = this.reader.getFloat(primitive, 'z2', true);
+
+    if ((error = this.checkNumber(primitive, z2, 'z2', false)) != null)
+      return error;
+
+    var x3 = this.reader.getFloat(primitive, 'x3', true);
+
+    if ((error = this.checkNumber(primitive, x3, 'x3', false)) != null)
+      return error;
+
+    var y3 = this.reader.getFloat(primitive, 'y3', true);
+
+    if ((error = this.checkNumber(primitive, y3, 'y3', false)) != null)
+      return error;
+
+    var z3 = this.reader.getFloat(primitive, 'z3', true);
+
+    if ((error = this.checkNumber(primitive, z3, 'z3', false)) != null)
+      return error;
+
+    this.primitives[id] =
+        new MyTriangle(this.scene, x1, y1, z1, x2, y2, z2, x3, y3, z3);
+
+        return null;
+  }
+
+  parseSphere(id, primitive) {
+    let error;
+
+    var radius = this.reader.getFloat(primitive, 'radius', true);
+
+    if ((error = this.checkNumber(primitive, radius, 'radius')) != null)
+      return error;
+
+    var slices = this.reader.getInteger(primitive, 'slices', true);
+
+    if ((error = this.checkNumber(primitive, slices, 'slices')) != null)
+      return error;
+
+    var stacks = this.reader.getInteger(primitive, 'stacks', true);
+
+    if ((error = this.checkNumber(primitive, stacks, 'stacks')) != null)
+      return error;
+
+    this.primitives[id] = new MySphere(this.scene, radius, slices, stacks);
+
+    return null;
+
+  }
+
+  parseTorus(id, primitive) {
+    let error;
+
+    var inner = this.reader.getFloat(primitive, 'inner', true);
+
+    if ((error = this.checkNumber(primitive, inner, 'inner')) != null)
+      return error;
+
+    var outer = this.reader.getFloat(primitive, 'outer', true);
+
+    if ((error = this.checkNumber(primitive, outer, 'outer')) != null)
+      return error;
+
+    var slices = this.reader.getInteger(primitive, 'slices', true);
+
+    if ((error = this.checkNumber(primitive, slices, 'slices')) != null)
+      return error;
+
+    var loops = this.reader.getInteger(primitive, 'loops', true);
+
+    if ((error = this.checkNumber(primitive, loops, 'loops')) != null)
+      return error;
+
+    this.primitives[id] = new MyTorus(this.scene, inner, outer, slices, loops);
+
+    return null;
+
+  }
+
+  parsePlane(id, primitive) {
+    let error;
+
+    var npartsU = this.reader.getInteger(primitive, 'npartsU', true);
+
+    if ((error = this.checkNumber(primitive, npartsU, 'npartsU')) != null)
+      return error;
+
+    var npartsV = this.reader.getInteger(primitive, 'npartsV', true);
+
+    if ((error = this.checkNumber(primitive, npartsV, 'npartsV')) != null)
+      return error;
+
+    this.primitives[id] = new Plane(this.scene, npartsU, npartsV);
+
+    return null;
+
+  }
+
+  parsePatch(id, primitive) {
+    let error;
+    var npointsU = this.reader.getInteger(primitive, 'npointsU', true);
+
+    if ((error = this.checkNumber(primitive, npointsU, 'npointsU')) != null)
+      return error;
+
+    var npointsV = this.reader.getInteger(primitive, 'npointsV', true);
+
+    if ((error = this.checkNumber(primitive, npointsV, 'npointsV')) != null)
+      return error;
+
+    var npartsU = this.reader.getInteger(primitive, 'npartsU', true);
+
+    if ((error = this.checkNumber(primitive, npartsU, 'npartsU')) != null)
+      return error;
+
+    var npartsV = this.reader.getInteger(primitive, 'npartsV', true);
+
+    if ((error = this.checkNumber(primitive, npartsV, 'npartsV')) != null)
+      return error;
+
+
+    var controlPoints = primitive.children;
+
+    var controlPointsParsed = [];
+    var numControlPoints = 0;
+    for (let j = 0; j < controlPoints.length; ++j) {
+      if ((error = this.parseControlPoint(
+               controlPoints[j], controlPointsParsed)) != null)
+        return error;
+
+      numControlPoints++;
+
+      return null;
+
+    }
+
+    var allControlPoints = [];
+    var counter = 0;
+    for (let u = 0; u < npointsU; u++) {
+      var controlPointsU = [];
+      for (let v = 0; v < npointsV; v++)
+        controlPointsU.push(controlPointsParsed[counter++]);
+
+      allControlPoints.push(controlPointsU);
+    }
+
+    if (numControlPoints != npointsU * npointsV) {
+      return 'invalid number of controlPoints on primitive ' + id;
+    }
+
+    this.primitives[id] = new Patch(
+        this.scene, npointsU, npointsV, npartsU, npartsV, allControlPoints);
+
+        return null;
+
+  }
+
+  parseTerrain(id, primitive) {
+
+    let error;
+
+    var idTex = this.reader.getString(primitive, 'idtexture', true);
+
+    if (idTex == '') {
+      return 'invalid texture in on primitive' + id;
+    } else if (this.textures[idTex] == null) {
+      return 'nonexistent texture on primitive' + id;
+    }
+
+    var idheightmap = this.reader.getString(primitive, 'idheightmap', true);
+
+    if (idheightmap == '') {
+      return 'invalid heightmap in on primitive' + id;
+    } else if (this.textures[idheightmap] == null) {
+      return 'nonexistent heightmap on primitive' + id;
+    }
+
+    var parts = this.reader.getInteger(primitive, 'parts', true);
+    if ((error = this.checkNumber(primitive, parts, 'parts')) != null)
+      return error;
+
+    var heightscale = this.reader.getFloat(primitive, 'heightscale', true);
+
+    if ((error = this.checkNumber(primitive, heightscale, 'heightscale')) !=
+        null)
+      return error;
+
+    var tex = this.textures[idTex];
+    var heightmap = this.textures[idheightmap];
+
+    this.primitives[id] =
+        new Terrain(this.scene, tex, heightmap, parts, heightscale);    
+        
+    return null;
+  }
+
+  parseWater(id, primitive) {
+    let error;
+
+    var idTex = this.reader.getString(primitive, 'idtexture', true);
+
+    if (idTex == '') {
+      return 'invalid texture in on primitive' + id;
+    } else if (this.textures[idTex] == null) {
+      return 'nonexistent texture on primitive' + id;
+    }
+
+    var idwavemap = this.reader.getString(primitive, 'idwavemap', true);
+
+    if (idwavemap == '') {
+      return 'invalid wavemap in on primitive' + id;
+    } else if (this.textures[idwavemap] == null) {
+      return 'nonexistent wavemap on primitive' + id;
+    }
+
+    var parts = this.reader.getInteger(primitive, 'parts', true);
+
+    if ((error = this.checkNumber(primitive, parts, 'parts')) != null)
+      return error;
+
+    var heightscale = this.reader.getFloat(primitive, 'heightscale', true);
+
+    if ((error = this.checkNumber(primitive, heightscale, 'heightscale')) !=
+        null)
+      return error;
+
+    var texscale = this.reader.getFloat(primitive, 'texscale', true);
+
+    if ((error = this.checkNumber(primitive, texscale, 'texscale')) != null)
+      return error;
+
+    var tex = this.textures[idTex];
+    var wavemap = this.textures[idwavemap];
+
+    this.primitives[id] =
+        new Water(this.scene, tex, wavemap, parts, heightscale, texscale);
+
+        return null;
+
+  }
+
+  parseBoard(id, primitive) {
+    let error;
+
+    var boardMat = this.reader.getString(primitive, 'boardMat', true);
+
+    if (boardMat == '') {
+      return 'invalid boardMat on primitive' + id;
+    } else if (this.materials[boardMat] == null) {
+      return 'nonexistent boardMat on primitive' + id;
+    }
+
+    var piece1Mat = this.reader.getString(primitive, 'piece1Mat', true);
+
+    if (piece1Mat == '') {
+      return 'invalid piece1Mat on primitive' + id;
+    } else if (this.materials[piece1Mat] == null) {
+      return 'nonexistent piece1Mat on primitive' + id;
+    }
+
+    var piece2Mat = this.reader.getString(primitive, 'piece2Mat', true);
+
+    if (piece2Mat == '') {
+      return 'invalid piece2Mat on primitive' + id;
+    } else if (this.materials[piece2Mat] == null) {
+      return 'nonexistent piece2Mat on primitive' + id;
+    }
+
+    this.primitives[id] = new Board(
+        this.scene, this.materials[boardMat], this.materials[piece1Mat],
+        this.materials[piece2Mat]);
+
+        return null;
+
+  }
+
+  parseCube(id, primitive) {
+    this.primitives[id] = new Cube(this.scene);
+
+    return null;
+
+  }
+
+  parsePlant(id, primitive) {
+    this.primitives[id] = new Plant(this.scene);
+    return null;
+
+  }
+
+  parseChair(id, primitive) {
+    this.primitives[id] = new Chair(this.scene);    return null;
+
+  }
+
+  parseVehicle(id, primitive) {
+    this.primitives[id] = new Vehicle(this.scene);
+    return null;
+
   }
 
   /**
@@ -1005,6 +1452,7 @@ class MySceneGraph {
     var error;
 
     for (let i = 0; i < primitives.length; ++i) {
+
       if (primitives[i].nodeName != 'primitive') {
         this.onXMLMinorError('unknown tag <' + primitives[i].nodeName + '>');
         continue;
@@ -1021,337 +1469,13 @@ class MySceneGraph {
         return 'there should be only one primitive associated (id=' + id + ')';
 
       var primitive = primitives[i].children[0];
+      if (this.primitiveParsers[primitive.nodeName] !== null) {
+        error = this.primitiveParsers[primitive.nodeName].call(this, id, primitive);
 
-      if (primitive.nodeName == 'rectangle') {
-        var x1 = this.reader.getFloat(primitive, 'x1', true);
+        if (error !== null) return error;
 
-        if ((error = this.checkNumber(primitive, x1, 'x1', false)) != null)
-          return error;
-
-        var y1 = this.reader.getFloat(primitive, 'y1', true);
-
-        if ((error = this.checkNumber(primitive, y1, 'y1', false)) != null)
-          return error;
-
-        var x2 = this.reader.getFloat(primitive, 'x2', true);
-
-        if ((error = this.checkNumber(primitive, x2, 'x2', false)) != null)
-          return error;
-
-        var y2 = this.reader.getFloat(primitive, 'y2', true);
-
-        if ((error = this.checkNumber(primitive, y2, 'y2', false)) != null)
-          return error;
-
-        this.primitives[id] = new MyQuad(this.scene, x1, y1, x2, y2);
         numPrimitives++;
-
-      } else if (primitive.nodeName == 'triangle') {
-        var x1 = this.reader.getFloat(primitive, 'x1', true);
-
-        if ((error = this.checkNumber(primitive, x1, 'x1', false)) != null)
-          return error;
-
-        var y1 = this.reader.getFloat(primitive, 'y1', true);
-
-        if ((error = this.checkNumber(primitive, y1, 'y1', false)) != null)
-          return error;
-
-        var z1 = this.reader.getFloat(primitive, 'z1', true);
-
-        if ((error = this.checkNumber(primitive, z1, 'z1', false)) != null)
-          return error;
-
-        var x2 = this.reader.getFloat(primitive, 'x2', true);
-
-        if ((error = this.checkNumber(primitive, x2, 'x2', false)) != null)
-          return error;
-
-        var y2 = this.reader.getFloat(primitive, 'y2', true);
-
-        if ((error = this.checkNumber(primitive, y2, 'y2', false)) != null)
-          return error;
-
-        var z2 = this.reader.getFloat(primitive, 'z2', true);
-
-        if ((error = this.checkNumber(primitive, z2, 'z2', false)) != null)
-          return error;
-
-        var x3 = this.reader.getFloat(primitive, 'x3', true);
-
-        if ((error = this.checkNumber(primitive, x3, 'x3', false)) != null)
-          return error;
-
-        var y3 = this.reader.getFloat(primitive, 'y3', true);
-
-        if ((error = this.checkNumber(primitive, y3, 'y3', false)) != null)
-          return error;
-
-        var z3 = this.reader.getFloat(primitive, 'z3', true);
-
-        if ((error = this.checkNumber(primitive, z3, 'z3', false)) != null)
-          return error;
-
-        this.primitives[id] =
-          new MyTriangle(this.scene, x1, y1, z1, x2, y2, z2, x3, y3, z3);
-        numPrimitives++;
-
-      } else if (primitive.nodeName == 'cylinder') {
-        var inf = {};
-
-        if ((error = this.parseCylinder(primitive, inf)) != null) return error;
-
-        this.primitives[id] = new MyCylinder(
-          this.scene, inf.base, inf.top, inf.height, inf.slices, inf.stacks);
-        numPrimitives++;
-
-      } else if (primitive.nodeName == 'sphere') {
-        var radius = this.reader.getFloat(primitive, 'radius', true);
-
-        if ((error = this.checkNumber(primitive, radius, 'radius')) != null)
-          return error;
-
-        var slices = this.reader.getInteger(primitive, 'slices', true);
-
-        if ((error = this.checkNumber(primitive, slices, 'slices')) != null)
-          return error;
-
-        var stacks = this.reader.getInteger(primitive, 'stacks', true);
-
-        if ((error = this.checkNumber(primitive, stacks, 'stacks')) != null)
-          return error;
-
-
-        this.primitives[id] = new MySphere(this.scene, radius, slices, stacks);
-        numPrimitives++;
-      } else if (primitive.nodeName == 'torus') {
-        var inner = this.reader.getFloat(primitive, 'inner', true);
-
-        if ((error = this.checkNumber(primitive, inner, 'inner')) != null)
-          return error;
-
-        var outer = this.reader.getFloat(primitive, 'outer', true);
-
-        if ((error = this.checkNumber(primitive, outer, 'outer')) != null)
-          return error;
-
-        var slices = this.reader.getInteger(primitive, 'slices', true);
-
-        if ((error = this.checkNumber(primitive, slices, 'slices')) != null)
-          return error;
-
-        var loops = this.reader.getInteger(primitive, 'loops', true);
-
-        if ((error = this.checkNumber(primitive, loops, 'loops')) != null)
-          return error;
-
-        this.primitives[id] =
-          new MyTorus(this.scene, inner, outer, slices, loops);
-        numPrimitives++;
-      } else if (primitive.nodeName == 'plane') {
-        var npartsU = this.reader.getInteger(primitive, 'npartsU', true);
-
-        if ((error = this.checkNumber(primitive, npartsU, 'npartsU')) != null)
-          return error;
-
-        var npartsV = this.reader.getInteger(primitive, 'npartsV', true);
-
-        if ((error = this.checkNumber(primitive, npartsV, 'npartsV')) != null)
-          return error;
-
-        this.primitives[id] = new Plane(this.scene, npartsU, npartsV);
-        numPrimitives++;
-
-      } else if (primitive.nodeName == 'patch') {
-        var npointsU = this.reader.getInteger(primitive, 'npointsU', true);
-
-        if ((error = this.checkNumber(primitive, npointsU, 'npointsU')) != null)
-          return error;
-
-        var npointsV = this.reader.getInteger(primitive, 'npointsV', true);
-
-        if ((error = this.checkNumber(primitive, npointsV, 'npointsV')) != null)
-          return error;
-
-        var npartsU = this.reader.getInteger(primitive, 'npartsU', true);
-
-        if ((error = this.checkNumber(primitive, npartsU, 'npartsU')) != null)
-          return error;
-
-        var npartsV = this.reader.getInteger(primitive, 'npartsV', true);
-
-        if ((error = this.checkNumber(primitive, npartsV, 'npartsV')) != null)
-          return error;
-
-
-        var controlPoints = primitive.children;
-
-        var controlPointsParsed = [];
-        var numControlPoints = 0;
-        for (let j = 0; j < controlPoints.length; ++j) {
-          if ((error = this.parseControlPoint(
-            controlPoints[j], controlPointsParsed)) != null)
-            return error;
-
-          numControlPoints++;
-        }
-
-        var allControlPoints = [];
-        var counter = 0;
-        for (let u = 0; u < npointsU; u++) {
-          var controlPointsU = [];
-          for (let v = 0; v < npointsV; v++)
-            controlPointsU.push(controlPointsParsed[counter++]);
-
-          allControlPoints.push(controlPointsU);
-        }
-
-        if (numControlPoints != npointsU * npointsV) {
-          return 'invalid number of controlPoints on primitive ' + id;
-        }
-
-        this.primitives[id] = new Patch(
-          this.scene, npointsU, npointsV, npartsU, npartsV, allControlPoints);
-        numPrimitives++;
-
-      } else if (primitive.nodeName == 'vehicle') {
-        this.primitives[id] = new Vehicle(this.scene);
-        numPrimitives++;
-
-      } else if (primitive.nodeName == 'cylinder2') {
-        var inf = {};
-
-        if ((error = this.parseCylinder(primitive, inf)) != null) return error;
-
-        this.primitives[id] = new Cylinder2(
-          this.scene, inf.base, inf.top, inf.height, inf.slices, inf.stacks);
-        numPrimitives++;
-      } else if (primitive.nodeName == 'terrain') {
-        var idTex = this.reader.getString(primitive, 'idtexture', true);
-
-        if (idTex == '') {
-          return 'invalid texture in on primitive' + id;
-        } else if (this.textures[idTex] == null) {
-          return 'nonexistent texture on primitive' + id;
-        }
-
-        var idheightmap = this.reader.getString(primitive, 'idheightmap', true);
-
-        if (idheightmap == '') {
-          return 'invalid heightmap in on primitive' + id;
-        } else if (this.textures[idheightmap] == null) {
-          return 'nonexistent heightmap on primitive' + id;
-        }
-
-        var parts = this.reader.getInteger(primitive, 'parts', true);
-        if ((error = this.checkNumber(primitive, parts, 'parts')) != null)
-          return error;
-
-        var heightscale = this.reader.getFloat(primitive, 'heightscale', true);
-
-        if ((error = this.checkNumber(primitive, heightscale, 'heightscale')) !=
-          null)
-          return error;
-
-        var tex = this.textures[idTex];
-        var heightmap = this.textures[idheightmap];
-
-        this.primitives[id] =
-          new Terrain(this.scene, tex, heightmap, parts, heightscale);
-        numPrimitives++;
-
-      } else if (primitive.nodeName == 'water') {
-        var idTex = this.reader.getString(primitive, 'idtexture', true);
-
-        if (idTex == '') {
-          return 'invalid texture in on primitive' + id;
-        } else if (this.textures[idTex] == null) {
-          return 'nonexistent texture on primitive' + id;
-        }
-
-        var idwavemap = this.reader.getString(primitive, 'idwavemap', true);
-
-        if (idwavemap == '') {
-          return 'invalid wavemap in on primitive' + id;
-        } else if (this.textures[idwavemap] == null) {
-          return 'nonexistent wavemap on primitive' + id;
-        }
-
-        var parts = this.reader.getInteger(primitive, 'parts', true);
-
-        if ((error = this.checkNumber(primitive, parts, 'parts')) != null)
-          return error;
-
-        var heightscale = this.reader.getFloat(primitive, 'heightscale', true);
-
-        if ((error = this.checkNumber(primitive, heightscale, 'heightscale')) !=
-          null)
-          return error;
-
-        var texscale = this.reader.getFloat(primitive, 'texscale', true);
-
-        if ((error = this.checkNumber(primitive, texscale, 'texscale')) != null)
-          return error;
-
-        var tex = this.textures[idTex];
-        var wavemap = this.textures[idwavemap];
-
-        this.primitives[id] =
-          new Water(this.scene, tex, wavemap, parts, heightscale, texscale);
-        numPrimitives++;
-
-      } else if (primitive.nodeName == 'board') {
-
-        var boardMat = this.reader.getString(primitive, 'boardMat', true);
-
-        if (boardMat == '') {
-          return 'invalid boardMat on primitive' + id;
-        } else if (this.materials[boardMat] == null) {
-          return 'nonexistent boardMat on primitive' + id;
-        }
-
-        var piece1Mat = this.reader.getString(primitive, 'piece1Mat', true);
-
-        if (piece1Mat == '') {
-          return 'invalid piece1Mat on primitive' + id;
-        } else if (this.materials[piece1Mat] == null) {
-          return 'nonexistent piece1Mat on primitive' + id;
-        }
-
-        var piece2Mat = this.reader.getString(primitive, 'piece2Mat', true);
-
-        if (piece2Mat == '') {
-          return 'invalid piece2Mat on primitive' + id;
-        } else if (this.materials[piece2Mat] == null) {
-          return 'nonexistent piece2Mat on primitive' + id;
-        }
-
-        this.primitives[id] =
-          new Board(this.scene, this.materials[boardMat], this.materials[piece1Mat], this.materials[piece2Mat]);
-        numPrimitives++;
-
-      }
-      else if (primitive.nodeName == 'cube') {
-        this.primitives[id] =
-          new Cube(this.scene);
-        numPrimitives++;
-      }
-      else if (primitive.nodeName == 'plant') {
-        this.primitives[id] =
-          new Plant(this.scene);
-        numPrimitives++;
-      }
-      else if (primitive.nodeName == 'torch') {
-        this.primitives[id] =
-          new Torch(this.scene);
-        numPrimitives++;
-      }
-      else if (primitive.nodeName == 'chair') {
-        this.primitives[id] =
-          new Chair(this.scene);
-        numPrimitives++;
-      }
-      else {
+      } else {
         this.onXMLMinorError('unknown tag <' + primitive.nodeName + '>');
       }
     }

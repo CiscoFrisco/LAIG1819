@@ -48,7 +48,10 @@
         <texture id="wall" file="scenes/images/wall1.jpg" />
         <texture id="mrzephyr" file="scenes/images/mrzephyr.png" />
         <texture id="painting" file="scenes/images/van_gogh.jpg" />
-
+        <texture id="difficulty" file="scenes/images/difficulty.png" />
+        <texture id="gamemode" file="scenes/images/gamemode.png" />
+        <texture id="undo" file="scenes/images/undo.png" />
+        <texture id="rotate" file="scenes/images/rotate.png" />
     </textures>
     <materials>
         <material id="default" shininess = "10.0">
@@ -102,6 +105,9 @@
     <animations>
     </animations>
     <primitives>
+        <primitive id="menu">
+            <menu iddifficulty="difficulty" idgamemode="gamemode"/>
+        </primitive>
         <primitive id="quad">
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
         </primitive>
