@@ -57,6 +57,16 @@
         <texture id="diffez" file="scenes/images/diffeasy.png" />
         <texture id="diffmed" file="scenes/images/diffmed.png" />
         <texture id="diffhard" file="scenes/images/diffhard.png" />
+        <texture id="zero" file="scenes/images/zero.png" />
+        <texture id="one" file="scenes/images/one.png" />
+        <texture id="two" file="scenes/images/two.png" />
+        <texture id="three" file="scenes/images/three.png" />
+        <texture id="four" file="scenes/images/four.png" />
+        <texture id="five" file="scenes/images/five.png" />
+        <texture id="six" file="scenes/images/six.png" />
+        <texture id="seven" file="scenes/images/seven.png" />
+        <texture id="eight" file="scenes/images/eight.png" />
+        <texture id="nine" file="scenes/images/nine.png" />
     </textures>
     <materials>
         <material id="default" shininess = "10.0">
@@ -113,6 +123,12 @@
         <primitive id="menu">
             <menu iddifficulty="difficulty" idpvp="pvp" idpvc="pvc" idcvc="cvc" iddiffez="diffez" iddiffmed="diffmed" iddiffhard="diffhard"/>
         </primitive>
+        <primitive id="timer">
+            <timer maxtime="30" idzero="zero" idone="one" idtwo="two" idthree="three" idfour="four" idfive="five" idsix="six" idseven="seven" ideight="eight" idnine="nine" />
+        </primitive>
+        <primitive id="score">
+            <score idzero="zero" idone="one" idtwo="two" idthree="three" idfour="four" idfive="five" idsix="six" idseven="seven" ideight="eight" idnine="nine" />
+        </primitive>
         <primitive id="quad">
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
         </primitive>
@@ -147,7 +163,7 @@
             </materials>
             <texture id="none" />
             <children>
-                <componentref id="chairs"/>
+                <!-- <componentref id="chairs"/>
                 <componentref id="plants"/>
                 <componentref id="aquarium"/>
                 <componentref id="aquarium_table"/>
@@ -160,7 +176,8 @@
                 <componentref id="floor"/>
                 <componentref id="ceiling"/>
                 <componentref id="painting"/>
-                <primitiveref id="menu"/>
+                <primitiveref id="menu"/> -->
+                <primitiveref id="timer"/>
             </children>
         </component>
         <component id="plants">
