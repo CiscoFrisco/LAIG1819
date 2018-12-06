@@ -176,8 +176,9 @@
                 <componentref id="floor"/>
                 <componentref id="ceiling"/>
                 <componentref id="painting"/>
-                <primitiveref id="menu"/> -->
-                <primitiveref id="timer"/>
+                <primitiveref id="menu"/> 
+                <primitiveref id="timer"/> -->
+                <primitiveref id="score"/>
             </children>
         </component>
         <component id="plants">
