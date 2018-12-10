@@ -9,6 +9,7 @@ class Piece extends CGFobject {
     display(){
         this.scene.pushMatrix();
         this.appearance.apply();
+        this.scene.rotate(Math.PI / 2, 1, 0, 0);
         this.cylinder.display();
         this.scene.popMatrix();
     }

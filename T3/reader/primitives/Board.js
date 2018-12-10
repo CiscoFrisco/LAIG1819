@@ -12,6 +12,13 @@ class Board extends CGFobject {
             "pickMove": 3
         });
         this.pickState = this.pickStates.pickPiece;
+        this.currPlayer = 1;
+        this.selectedPiece = null;
+        this.selectedMove = null;
+        this.anim = {
+            id: 0,
+            isActive: false
+        };
     }
 
     initDivisions() {
@@ -110,24 +117,83 @@ class Board extends CGFobject {
             this.scene.pushMatrix();
             this.scene.translate(division.x, 0, division.z);
 
-            if (this.pickState === this.pickStates.pickMove)
+            if (this.pickState === this.pickStates.pickMove) {
                 this.scene.registerForPick(i + 1, division);
+            }
 
             division.obj.display();
             this.scene.popMatrix();
         }
 
         this.boardTexture.unbind();
+        this.scene.registerForPick(0, null);
     }
 
 
     // pickMove -> noPick ;; pickPiece -> pickMove ;; noPick -> pickPiece
     nextState() {
         if (this.scene.gameState > 2) {
-            if (this.pickState === this.pickStates.pickMove)
+            if (this.pickState === this.pickStates.pickMove) {
+                this.createAnim();
+                // this.currPlayer = this.currPlayer === 1 ? 2 : 1;
                 this.pickState = this.pickStates.pickPiece;
+            }
             else
                 ++this.pickState;
+        }
+    }
+
+    save(obj, id) {
+        if (this.pickState === this.pickStates.pickPiece) {
+            this.selectedPiece = {
+                x: obj.x,
+                y: obj.y,
+                z: obj.z,
+                id: id
+            }
+        }
+        else {
+            this.selectedMove = {
+                x: obj.x,
+                z: obj.z,
+                id: id
+            }
+        }
+    }
+
+    createAnim() {
+
+        var path = [
+            [0, 0, 0],
+            [this.selectedMove.x - this.selectedPiece.x, 0, this.selectedMove.z - this.selectedPiece.z]
+        ]
+
+        this.anim.anim = new LinearAnimation(this.scene, 2, path);
+        this.anim.id = this.selectedPiece.id;
+        this.anim.isActive = true;
+    }
+
+    checkAnim() {
+        if (this.anim.isActive && this.anim.anim.isOver()) {
+            switch (this.currPlayer) {
+                case 1:
+                    this.blackPieces[this.anim.id - 1].x = this.selectedMove.x;
+                    this.blackPieces[this.anim.id - 1].y = this.selectedPiece.y;
+                    this.blackPieces[this.anim.id - 1].z = this.selectedMove.z;
+                    break;
+                case 2:
+                    this.whitePieces[this.anim.id - 1].x = this.selectedMove.x;
+                    this.whitePieces[this.anim.id - 1].y = this.selectedPiece.y;
+                    this.whitePieces[this.anim.id - 1].z = this.selectedMove.z;
+                    break;
+                default:
+                    break;
+            }
+
+            this.selectedPiece = null;
+            this.selectedMove = null;
+
+            this.anim.isActive = false;
         }
     }
 
@@ -137,8 +203,9 @@ class Board extends CGFobject {
                 for (var i = 0; i < this.scene.pickResults.length; i++) {
                     var obj = this.scene.pickResults[i][0];
                     if (obj) {
-                        this.nextState();
                         var customId = this.scene.pickResults[i][1];
+                        this.save(obj, customId);
+                        this.nextState();
                         console.log("Picked object: " + obj + ", with pick id " + customId);
                     }
                 }
@@ -147,24 +214,30 @@ class Board extends CGFobject {
         }
     }
 
-    displayPieces(pieces) {
+    displayPieces(pieces, player) {
         for (let i = 0; i < pieces.length; i++) {
             let piece = pieces[i];
             this.scene.pushMatrix();
             this.scene.translate(piece.x, piece.y, piece.z);
-            this.scene.rotate(Math.PI / 2, 1, 0, 0);
 
             // and if these pieces belong to the current player
-            if (this.pickState === this.pickStates.pickPiece)
+            if (this.pickState === this.pickStates.pickPiece && this.currPlayer === player)
                 this.scene.registerForPick(i + 1, piece);
+
+
+            if (this.anim.isActive && this.anim.id === i + 1 && this.currPlayer === player) {
+                this.anim.anim.apply();
+            }
 
             piece.obj.display();
             this.scene.popMatrix();
         }
+
+        this.scene.registerForPick(0, null);
     }
 
     display() {
-        if(this.scene.gameState > 2)
+        if (this.scene.gameState > 2)
             this.logPicking();
 
         this.scene.pushMatrix();
@@ -172,9 +245,16 @@ class Board extends CGFobject {
 
         this.displayBoardBase();
 
-        this.displayPieces(this.whitePieces);
-        this.displayPieces(this.blackPieces);
+        this.displayPieces(this.whitePieces, 2);
+        this.displayPieces(this.blackPieces, 1);
 
+        this.checkAnim();
         this.scene.popMatrix();
+    }
+
+    update(deltaTime) {
+        if (this.anim.isActive) {
+            this.anim.anim.update(deltaTime);
+        }
     }
 }

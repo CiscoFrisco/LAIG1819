@@ -6,6 +6,7 @@ class Animation {
     this.scene = scene;
     this.time = time;
     this.over = false;
+    this.active = false;
     this.timeElapsed = 0;
   }
 

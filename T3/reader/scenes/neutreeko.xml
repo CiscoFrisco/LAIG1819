@@ -163,7 +163,7 @@
             </materials>
             <texture id="none" />
             <children>
-                <!-- <componentref id="chairs"/>
+                <componentref id="chairs"/>
                 <componentref id="plants"/>
                 <componentref id="aquarium"/>
                 <componentref id="aquarium_table"/>
@@ -177,8 +177,8 @@
                 <componentref id="ceiling"/>
                 <componentref id="painting"/>
                 <primitiveref id="menu"/> 
-                <primitiveref id="timer"/> -->
-                <primitiveref id="score"/>
+                <!-- <primitiveref id="timer"/> -->
+                <!-- <primitiveref id="score"/> -->
             </children>
         </component>
         <component id="plants">
@@ -405,7 +405,7 @@
         <component id="board">
             <transformation>
                 <translate x="0" y="1.15" z="0"/>
-                <rotate angle="90" axis="y"/>
+                <!-- <rotate angle="90" axis="y"/> -->
             </transformation>
             <materials>
                 <material id="default" />

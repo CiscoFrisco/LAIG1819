@@ -81,7 +81,7 @@ class LinearAnimation extends Animation {
         this.setVelComponents();
       }
     }
-    else {
+    else if (!this.over){
       this.incVars(currPoint, time_after);
     }
   }
@@ -97,8 +97,11 @@ class LinearAnimation extends Animation {
   }
 
   apply() {
-    
     this.scene.translate(this.x, this.y, this.z);
-    this.scene.rotate(this.ang, 0, 1, 0);
+    //this.scene.rotate(this.ang, 0, 1, 0);
+  }
+
+  isOver(){
+    return this.over;
   }
 }

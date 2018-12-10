@@ -2021,7 +2021,7 @@ class MySceneGraph {
 
   update(deltaTime){
     for (let key in this.primitives) {
-      if (this.primitives[key] instanceof Water || this.primitives[key] instanceof Timer) {
+      if (this.primitives[key] instanceof Water || this.primitives[key] instanceof Timer || this.primitives[key] instanceof Board) {
         this.primitives[key].update(deltaTime);
       }
     }
