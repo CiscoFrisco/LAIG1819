@@ -1,37 +1,3 @@
-% Indicates which player has the next turn (1/2)
-:- (dynamic nextPlayer/1).
-nextPlayer(1).
-
-% AI difficulty (EASY / MEDIUM / HARD), reflecting on depth
-:- (dynamic difficulty/1).
-difficulty(2).
-
-% Variables that hold each piece position on the board (i, j)
-:- (dynamic p1_1/2).
-:- (dynamic p1_2/2).
-:- (dynamic p1_3/2).
-:- (dynamic p2_1/2).
-:- (dynamic p2_2/2).
-:- (dynamic p2_3/2).
-
-p1_1(5, 2).
-p1_2(5, 4).
-p1_3(2, 3).
-
-p2_1(1, 2).
-p2_2(1, 4).
-p2_3(4, 3).
-
-% Variables to support checking for a draw
-:- (dynamic boards/1).
-:- (dynamic countOccurrences/1).
-boards([]).
-countOccurrences([]).
-
-% The game's board, represented by a list of lists
-:- (dynamic board/1).
-board([[empty, white, empty, white, empty], [empty, empty, black, empty, empty], [empty, empty, empty, empty, empty], [empty, empty, white, empty, empty], [empty, black, empty, black, empty]]).
-
 /**
  * Resets main variables to initial state, to support consecutive games.
  */ 
@@ -109,12 +75,10 @@ set_piece(N, NCol, [Elem |Rest1], [Elem|Out], Piece):-
  *
  * move(+Move, +Board, -NewBoard)
  */
-move([InitLine, InitCol, DestLine, DestCol], Board, NewBoard) :-
-    nextPlayer(Player),
+move([InitLine, InitCol, DestLine, DestCol], Player, Board, NewBoard) :-
     if_then_else(Player = 1, set(black, Piece), set(white, Piece)),
     set_piece(InitLine, InitCol, Board, TempBoard, empty),
-    set_piece(DestLine, DestCol, TempBoard, NewBoard, Piece),
-    update_piece(InitLine,InitCol,DestLine,DestCol, Player).
+    set_piece(DestLine, DestCol, TempBoard, NewBoard, Piece).
 
 /**
  * Checks if a move is duplicate, meaning that it's useless in practice since the piece doesn't change places.
@@ -139,16 +103,14 @@ discard_duplicate_moves([Head | Tail], TempList, NewList):-
  * 
  * valid_moves_piece(+Board, +Pieces , -TempMoves, -ValidMoves)
  */ 
-valid_moves_piece(_Board,[],ListOfMoves,ListOfMoves).
 
-valid_moves_piece(Board, [Head|Tail],List, ListOfMoves):-
-    Init = Head,
-    Curr = Head,
+valid_moves_piece(Board, Piece,List, ListOfMoves):-
+    Init = Piece,
+    Curr = Piece,
     valid_horizontal(Board, Curr, Init, List, HorMoves, -1),
     valid_vertical(Board, Curr, Init, HorMoves, HorVertMoves, -1),
     valid_diagonal(Board, Curr, Init, HorVertMoves, AllMoves, -1, -1),
-    discard_duplicate_moves(AllMoves, [], NewAllMoves),
-    valid_moves_piece(Board, Tail, NewAllMoves, ListOfMoves).
+    discard_duplicate_moves(AllMoves, [], ListOfMoves).
 
 /**
  * Gets a piece from the board.
@@ -294,8 +256,7 @@ valid_diagonal(Board, [Line,Col] , [InitLine,InitCol] , List, Moves , LineInc,Co
  * 
  * valid_moves(+Board, +Player, -ListOfMoves)
  */  
-valid_moves(Board, Player, ListOfMoves):-
-    get_pieces(Player, Pieces),
+valid_moves(Board, Pieces, ListOfMoves):-
     valid_moves_piece(Board,Pieces,[], ListOfMoves).
 
 

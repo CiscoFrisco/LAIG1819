@@ -13,15 +13,6 @@ class XMLscene extends CGFscene {
 
         this.interface = myinterface;
         this.lightValues = {};
-
-        this.gameStates = Object.freeze({
-            "menu": 1,
-            "difficulty": 2,
-            "pvp": 3,
-            "pvc": 4,
-            "cvc": 5
-        });
-        this.gameState = this.gameStates.menu;
     }
 
     /**
@@ -172,6 +163,8 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
 
         this.materialNo = 0;
+
+        this.game = new Game(this);
     }
 
     logPicking() {

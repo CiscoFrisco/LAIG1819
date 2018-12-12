@@ -105,8 +105,11 @@ print_header_line(_).
 
 :- consult('neutreeko.pl').
 
-parse_input(valid_moves(Board,Player),Moves):-
-	valid_moves(Board,Player,Moves).
+parse_input(valid_moves(Board, Piece),Moves):-
+	valid_moves_piece(Board,Piece,[],Moves).
+
+parse_input(move(Move, Player, Board), NewBoard):-
+	move(Move, Player, Board, NewBoard).
 
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).

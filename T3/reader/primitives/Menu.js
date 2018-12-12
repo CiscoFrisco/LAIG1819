@@ -101,11 +101,11 @@ class Menu extends CGFobject {
     }
 
     nextState(id) {
-        switch (this.scene.gameState) {
-            case this.scene.gameStates.menu:
-                this.scene.gameState = id;
+        switch (this.scene.game.gameState) {
+            case this.scene.game.gameStates.menu:
+                this.scene.game.gameState = id;
                 break;
-            case this.scene.gameStates.difficulty:
+            case this.scene.game.gameStates.difficulty:
                 break;
             default:
                 break;
@@ -130,11 +130,11 @@ class Menu extends CGFobject {
 
     display() {
         this.logPicking();
-        switch (this.scene.gameState) {
-            case this.scene.gameStates.menu:
+        switch (this.scene.game.gameState) {
+            case this.scene.game.gameStates.menu:
                 this.displayMainMenu();
                 break;
-            case this.scene.gameStates.difficulty:
+            case this.scene.game.gameStates.difficulty:
                 this.displayDifficultyMenu();
                 break;
             default:
