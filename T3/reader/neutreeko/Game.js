@@ -70,11 +70,11 @@ class Game {
         return string;
     }
 
-    getValidMoves(piece) {
+    getBoardString(){
 
-        let piece_string = this.parseArrayToString(piece);
+        console.log(this.board);
+
         let board_string = '';
-        let this_game = this;
 
         for (let i = 0; i < this.board.length; i++) {
             if (i > 0)
@@ -88,22 +88,31 @@ class Game {
             board_string += ']';
         }
 
-        console.log("valid_moves([" + board_string + "]," + piece_string + ")");
+        return board_string;
+    }
+
+    getValidMoves(piece) {
+
+        let piece_string = this.parseArrayToString(piece);
+        let board_string = this.getBoardString();
+        let this_game = this;
         
         this.server.getPrologRequest("valid_moves([" + board_string + "]," + piece_string + ")", function (data) {
             this_game.valid_moves = data.target.response;
+            this_game.ready = true;
         });
-
-        console.log(this_game.valid_moves);
-
-        return this_game.valid_moves;
     }
+
 
     move(move) {
         let this_game = this;
+        let board_string = this.getBoardString();
 
-        this.server.getPrologRequest("move([" + move + "]," + this.currPlayer + ",[" + this.board + "])", function (data) {
-            console.log(data.target.response);
+        this.server.getPrologRequest("move([" + move + "]," + this.currPlayer + ",[" + board_string + "])", function (data) {
+            let newBoard = JSON.parse(data.target.response.replace(/(empty|white|black)/g, '"$1"'));
+            console.log(newBoard);
+            this_game.board = newBoard;
+            this_game.ready = true;
         });
     }
 

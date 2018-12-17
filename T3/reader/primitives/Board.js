@@ -7,12 +7,12 @@ class Board extends CGFobject {
     this.initDivisions();
 
     this.pickStates =
-        Object.freeze({'noPick': 1, 'pickPiece': 2, 'pickMove': 3});
+      Object.freeze({ 'noPick': 1, 'pickPiece': 2, 'pickMove': 3 });
     this.pickState = this.pickStates.pickPiece;
     this.currPlayer = 1;
     this.selectedPiece = null;
     this.selectedMove = null;
-    this.anim = {id: 0, isActive: false};
+    this.anim = { id: 0, isActive: false };
   }
 
   initDivisions() {
@@ -23,7 +23,7 @@ class Board extends CGFobject {
     for (let i = 0; i < 5; i++) {
       let row = [];
       for (let j = 0; j < 5; j++) {
-        row.push({obj: new Cube(this.scene, 1, 0.5, 1), x: x, z: z});
+        row.push({ obj: new Cube(this.scene, 1, 0.5, 1), x: x, z: z, high: false });
         x += 1;
       }
 
@@ -44,7 +44,7 @@ class Board extends CGFobject {
       z: 2
     }
 
-                      this.whitePieces.push(whitePiece1);
+    this.whitePieces.push(whitePiece1);
 
     let whitePiece2 = {
       obj: new Piece(this.scene, this.whiteAppearance),
@@ -53,7 +53,7 @@ class Board extends CGFobject {
       z: 2
     }
 
-                      this.whitePieces.push(whitePiece2);
+    this.whitePieces.push(whitePiece2);
 
     let whitePiece3 = {
       obj: new Piece(this.scene, this.whiteAppearance),
@@ -62,7 +62,7 @@ class Board extends CGFobject {
       z: -1
     }
 
-                      this.whitePieces.push(whitePiece3);
+    this.whitePieces.push(whitePiece3);
 
     let blackPiece1 = {
       obj: new Piece(this.scene, this.blackAppearance),
@@ -71,7 +71,7 @@ class Board extends CGFobject {
       z: -2
     }
 
-                      this.blackPieces.push(blackPiece1);
+    this.blackPieces.push(blackPiece1);
 
     let blackPiece2 = {
       obj: new Piece(this.scene, this.blackAppearance),
@@ -80,7 +80,7 @@ class Board extends CGFobject {
       z: -2
     }
 
-                      this.blackPieces.push(blackPiece2);
+    this.blackPieces.push(blackPiece2);
 
     let blackPiece3 = {
       obj: new Piece(this.scene, this.blackAppearance),
@@ -89,7 +89,7 @@ class Board extends CGFobject {
       z: 1
     }
 
-                      this.blackPieces.push(blackPiece3);
+    this.blackPieces.push(blackPiece3);
   }
 
   initAppearances(boardMat, piece1Mat, piece2Mat) {
@@ -98,10 +98,10 @@ class Board extends CGFobject {
     this.boardAppearance = boardMat;
 
     this.boardTexture = new CGFtexture(this.scene, 'scenes/images/piece.png');
+    this.boardTextureHigh = new CGFtexture(this.scene, 'scenes/images/piece_high.png');
   }
 
   displayBoardBase() {
-    this.boardTexture.bind();
 
     for (let i = 0; i < this.divisions.length; i++) {
       for (let j = 0; j < this.divisions.length; j++) {
@@ -112,26 +112,38 @@ class Board extends CGFobject {
         if (this.pickState === this.pickStates.pickMove) {
           this.scene.registerForPick(i * 5 + j + 1, division);
         }
+        
+        let texture = division.high ? this.boardTextureHigh : this.boardTexture;
+
+        texture.bind();
 
         division.obj.display();
+
+        texture.unbind();
+
         this.scene.popMatrix();
       }
     }
 
-    this.boardTexture.unbind();
     this.scene.registerForPick(0, null);
   }
-
 
   // pickMove -> noPick ;; pickPiece -> pickMove ;; noPick -> pickPiece
   nextState() {
     if (this.scene.game.gameState > 2) {
       if (this.pickState === this.pickStates.pickMove) {
         this.createAnim();
-        // this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+        this.currPlayer = this.currPlayer === 1 ? 2 : 1;
         this.pickState = this.pickStates.pickPiece;
-      } else
+        this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
+      } else if (this.pickState === this.pickStates.noPick) {
         ++this.pickState;
+      }
+      else if (this.pickState === this.pickPiece && this.scene.game.ready) {
+        ++this.pickState;
+        this.scene.game.ready = false;
+        this.highlightPieces(JSON.parse(this.scene.game.valid_moves));
+      }
     }
   }
 
@@ -139,7 +151,7 @@ class Board extends CGFobject {
     for (let i = 0; i < this.divisions.length; i++) {
       for (let j = 0; j < this.divisions.length; j++) {
         let division = this.divisions[i][j];
-        if (division.x === piece.x && division.z === piece.z) return [i, j];
+        if (division.x === piece.x && division.z === piece.z) return [i + 1, j + 1];
       }
     }
   }
@@ -153,25 +165,37 @@ class Board extends CGFobject {
         id: id
       }
 
-    this.validMoves = this.scene.game.getValidMoves(this.getPieceCoordinates(this.selectedPiece));
-
-    console.log(this.validMoves);
+      this.scene.game.getValidMoves(this.getPieceCoordinates(this.selectedPiece));
     } else {
       this.selectedMove = { x: obj.x, z: obj.z, id: id }
     }
   }
 
+  highlightPieces(validMoves, high = true) {
+    for(let i = 0; i < validMoves.length; i++){
+      let piece = validMoves[i].slice(2, 4);
+
+      this.divisions[piece[0] - 1][piece[1] - 1].high = high;
+    }
+  }
+
   createAnim() {
     var path =
+      [
+        [0, 0, 0],
         [
-          [0, 0, 0],
-          [
-            this.selectedMove.x - this.selectedPiece.x, 0,
-            this.selectedMove.z - this.selectedPiece.z
-          ]
+          this.selectedMove.x - this.selectedPiece.x, 0,
+          this.selectedMove.z - this.selectedPiece.z
         ]
+      ]
 
-        this.anim.anim = new LinearAnimation(this.scene, 2, path);
+    let move = this.getPieceCoordinates(this.selectedPiece);
+    move.push(this.getPieceCoordinates(this.selectedMove));
+    console.log(move);
+
+    this.scene.game.move(move);
+
+    this.anim.anim = new LinearAnimation(this.scene, 2, path);
     this.anim.id = this.selectedPiece.id;
     this.anim.isActive = true;
   }
@@ -208,6 +232,7 @@ class Board extends CGFobject {
           if (obj) {
             var customId = this.scene.pickResults[i][1];
             this.save(obj, customId);
+
             this.nextState();
             console.log('Picked object: ' + obj + ', with pick id ' + customId);
           }
@@ -225,12 +250,12 @@ class Board extends CGFobject {
 
       // and if these pieces belong to the current player
       if (this.pickState === this.pickStates.pickPiece &&
-          this.currPlayer === player)
+        this.currPlayer === player)
         this.scene.registerForPick(i + 1, piece);
 
 
       if (this.anim.isActive && this.anim.id === i + 1 &&
-          this.currPlayer === player) {
+        this.currPlayer === player) {
         this.anim.anim.apply();
       }
 
