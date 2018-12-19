@@ -111,6 +111,12 @@ parse_input(valid_moves(Board, Piece),Moves):-
 parse_input(move(Move, Player, Board), NewBoard):-
 	move(Move, Player, Board, NewBoard).
 
+parse_input(game_over(Board), Winner):-
+	game_over(Board, Winner).
+
+parse_input(choose_move(Board, Difficulty), NewBoard):-
+	choose_move(Board, Difficulty, NewBoard).
+
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(quit, goodbye).

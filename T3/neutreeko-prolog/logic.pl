@@ -1,60 +1,4 @@
 /**
- * Resets main variables to initial state, to support consecutive games.
- */ 
-reset_data :-
-    board(Board),
-    retract(board(Board)),
-    assert(board(
-                 [ [empty, white, empty, white, empty],
-                   [empty, empty, black, empty, empty],
-                   [empty, empty, empty, empty, empty],
-                   [empty, empty, white, empty, empty],
-                   [empty, black, empty, black, empty]
-                 ])),
-    boards(Boards),
-    retract(boards(Boards)),
-    assert(boards([])),
-    countOccurrences(CountOccurrences),
-    retract(countOccurrences(CountOccurrences)),
-    assert(countOccurrences([])),
-    nextPlayer(Player),
-    retract(nextPlayer(Player)),
-    assert(nextPlayer(1)),
-    p1_1(A, B),
-    retract(p1_1(A, B)),
-    assert(p1_1(5, 2)),
-    p1_2(C, D),
-    retract(p1_2(C, D)),
-    assert(p1_2(5, 4)),
-    p1_3(E, F),
-    retract(p1_3(E, F)),
-    assert(p1_3(2, 3)),
-    p2_1(G, H),
-    retract(p2_1(G, H)),
-    assert(p2_1(1, 2)),
-    p2_2(I, J),
-    retract(p2_2(I, J)),
-    assert(p2_2(1, 4)),
-    p2_3(K, L),
-    retract(p2_3(K, L)),
-    assert(p2_3(4, 3)).
-
-/**
- * Updates a piece variable.
- * 
- * update_piece(+InitLine, +InitCol, +DestLine, +DestCol, +Player)
- */ 
-update_piece(InitLine,InitCol,DestLine,DestCol,1):-
-    (p1_1(A,B), A = InitLine,B = InitCol, retract(p1_1(A,B)), assert(p1_1(DestLine,DestCol)));
-    (p1_2(A,B), A = InitLine,B = InitCol, retract(p1_2(A,B)), assert(p1_2(DestLine,DestCol)));
-    (p1_3(A,B), A = InitLine,B = InitCol, retract(p1_3(A,B)), assert(p1_3(DestLine,DestCol))).
-
-update_piece(InitLine,InitCol,DestLine,DestCol,2):-
-    (p2_1(A,B), A = InitLine,B = InitCol, retract(p2_1(A,B)), assert(p2_1(DestLine,DestCol)));
-    (p2_2(A,B), A = InitLine,B = InitCol, retract(p2_2(A,B)), assert(p2_2(DestLine,DestCol)));
-    (p2_3(A,B), A = InitLine,B = InitCol, retract(p2_3(A,B)), assert(p2_3(DestLine,DestCol))).
-
-/**
  * Sets a piece on the board list.
  * 
  * set_piece(+NLine, +NCol, +List, -NewList, +Piece)
@@ -126,33 +70,28 @@ get_piece(LineN,ColN,Board,Piece):-
  *
  * get_pieces(+Player, -Pieces)
  */
-get_pieces(1, Pieces) :-
-    get_black_pieces(Pieces).
+get_pieces(Board, 1, Pieces) :-
+    get_pieces_aux(Board, black, [], Pieces, 1).
 
-get_pieces(2, Pieces) :-
-    get_white_pieces(Pieces).
+get_pieces(Board, 2, Pieces) :-
+    get_pieces_aux(Board, white, [], Pieces, 1).
 
-/**
- * Returns the black pieces positions on a list.
- *
- * get_black_pieces(-Pieces)
- */ 
-get_black_pieces(Pieces):-
-    p1_1(A,B),
-    p1_2(C,D),
-    p1_3(E,F),
-    Pieces = [[A,B],[C,D],[E,F]].
-    
-/**
- * Returns the white pieces positions on a list.
- *
- * get_white_pieces(-Pieces)
- */ 
-get_white_pieces(Pieces):-
-    p2_1(A,B),
-    p2_2(C,D),
-    p2_3(E,F),
-    Pieces = [[A,B],[C,D],[E,F]].
+get_pieces_row([], _, Pieces, Pieces, _, _).
+get_pieces_row([Piece | T], Piece, SoFar, Pieces, Line, Col):-
+    append(SoFar, [[Line, Col]], Next),
+    NextCol is Col + 1,
+    get_pieces_row(T, Piece, Next, Pieces, Line, NextCol).
+get_pieces_row([_ | T], Piece, SoFar, Pieces, Line, Col):-
+    NextCol is Col + 1,
+    get_pieces_row(T, Piece, SoFar, Pieces, Line, NextCol).
+
+get_pieces_aux([], _, Pieces, Pieces, _).
+get_pieces_aux([H | T], Piece, SoFar, Pieces, Line):-
+    get_pieces_row(H, Piece, SoFar, PiecesRow, Line, 1),
+    NextLine is Line + 1,
+    append(SoFar, PiecesRow, Next),
+    get_pieces_aux(T, Piece, Next, Pieces, NextLine).
+
 
 /**
  * Generates a list of the valid moves for a piece, in its line.
@@ -252,28 +191,19 @@ valid_diagonal(Board, [Line,Col] , [InitLine,InitCol] , List, Moves , LineInc,Co
     ).
 
 /**
- * Generates a list of valid moves for a given player.
- * 
- * valid_moves(+Board, +Player, -ListOfMoves)
- */  
-valid_moves(Board, Pieces, ListOfMoves):-
-    valid_moves_piece(Board,Pieces,[], ListOfMoves).
-
-
-/**
  * Checks if there's a winner and returns it. A game is over if someone connected its
  * three pieces horizontally, vertically or diagonally.
  *
  * game_over(-Winner)
  */ 
-game_over(Winner) :- 
-    game_over_row(Winner).
-game_over(Winner) :- 
-    game_over_col(Winner).
-game_over(Winner) :- 
-    game_over_diag(Winner).
-game_over(Winner):-
-    game_over_draw(Winner).
+game_over(Board, Winner) :- 
+    game_over_row(Board, Winner).
+game_over(Board, Winner) :- 
+    game_over_col(Board, Winner).
+game_over(Board, Winner) :- 
+    game_over_diag(Board, Winner).
+game_over(Board, Winner):-
+    game_over_draw(Board, Winner).
 
 /**
  * Checks if the same board configuration has happened 3 times (three-fold repetition),
@@ -281,8 +211,7 @@ game_over(Winner):-
  * 
  * game_over_draw(-Winner)
  */
-game_over_draw(-1):-
-    countOccurrences(Count),
+game_over_draw(-1, Count):-
     member(3, Count).
 
 game_over_draw(0).
@@ -292,12 +221,12 @@ game_over_draw(0).
  * 
  * game_over_row(-Winner)
  */
-game_over_row(2) :-
-    get_white_pieces(Pieces),
+game_over_row(Board, 2) :-
+    get_pieces(Board, 2, Pieces),
     are_consecutive_hor(Pieces).
 
-game_over_row(1) :-
-    get_black_pieces(Pieces),
+game_over_row(Board, 1) :-
+    get_pieces(Board, 1, Pieces),
     are_consecutive_hor(Pieces).
 
 /**
@@ -305,12 +234,12 @@ game_over_row(1) :-
  *
  * game_over_diag(-Winner)
  */
-game_over_diag(1) :-
-    get_black_pieces(Pieces),
+game_over_diag(Board, 1) :-
+    get_pieces(Board, 1, Pieces),
     are_consecutive_diag(Pieces).
 
-game_over_diag(2) :-
-    get_white_pieces(Pieces),
+game_over_diag(Board, 2) :-
+    get_pieces(Board, 2, Pieces),
     are_consecutive_diag(Pieces).
 
 /**
@@ -318,12 +247,12 @@ game_over_diag(2) :-
  *
  * game_over_col(-Winner)
  */
-game_over_col(1) :-
-    get_black_pieces(Pieces),
+game_over_col(Board, 1) :-
+    get_pieces(Board, 1, Pieces),
     are_consecutive_ver(Pieces).
 
-game_over_col(2) :-
-    get_white_pieces(Pieces),
+game_over_col(Board, 2) :-
+    get_pieces(Board, 2, Pieces),
     are_consecutive_ver(Pieces).
 
 /**
@@ -331,9 +260,7 @@ game_over_col(2) :-
  *
  * are_consecutive_hor(+Pieces)
  */ 
-are_consecutive_hor([[F1,F2], [S1,S2], [T1, T2]]) :-
-    F1=S1,
-    S1=T1,
+are_consecutive_hor([[F1,F2], [F1,S2], [F1, T2]]) :-
     are_numbers_consecutive([F2, S2, T2]).
 
 /**
@@ -341,9 +268,7 @@ are_consecutive_hor([[F1,F2], [S1,S2], [T1, T2]]) :-
  *
  * are_consecutive_ver(+Pieces)
  */
-are_consecutive_ver([[F1,F2], [S1,S2], [T1, T2]]) :-
-    F2=S2,
-    S2=T2,
+are_consecutive_ver([[F1,F2], [S1,F2], [T1, F2]]) :-
     are_numbers_consecutive([F1, S1, T1]).
 
 /**
@@ -373,16 +298,6 @@ check_final_cond([X1,MinY],[X2,MiddleY],[X3,MaxY]):-
     abs(X3 - X1) =:= 2.
 
 /**
- * Gets a player move, not allowing absurd options.
- * 
- * choose_player_move(+ListOfMoves, -Move)
- */  
-choose_player_move(ListOfMoves,Move):- 
-    write('\nMove?'),
-    read(Option),
-    if_then_else((integer(Option), nth1(Option, ListOfMoves, Move)), true, (write('Please choose a valid option.\n'), choose_player_move(ListOfMoves,Move))).
-
-/**
  * Updates draw related variables, at the end of each game turn. If the current board is new,
  * then it is appended to the board's list and a new element is added to the count list (1).
  * Else, the boards lists remains unaltered and the corresponding count is incremented.
@@ -395,21 +310,15 @@ handle_draw(NewBoard, Boards, CountOcurrences) :-
 /**
  * handle_draw_inc(+NewBoard, +Boards, +CountOcurrences) 
  */
-handle_draw_inc(NewBoard, Boards, CountOcurrences):-
+handle_draw_inc(NewBoard, Boards, CountOcurrences, NewCountOcurrences):-
     nth0(Index, Boards, NewBoard),
     nth0(Index, CountOcurrences, Count),
     NewCount is Count+1,
-    replace(CountOcurrences, Index, NewCount, NewCountOcurrences),
-    retract(countOccurrences(CountOcurrences)),
-    assert(countOccurrences(NewCountOcurrences)).
+    replace(CountOcurrences, Index, NewCount, NewCountOcurrences).
 
 /**
  * handle_draw_add(+NewBoard, +Boards, +CountOcurrences) 
  */
-handle_draw_add(NewBoard, Boards, CountOcurrences):-
-    append(Boards, [NewBoard], TempNewBoards),
-    append(CountOcurrences, [1], TempNewCount),
-    retract(boards(Boards)),
-    retract(countOccurrences(CountOcurrences)),
-    assert(boards(TempNewBoards)),
-    assert(countOccurrences(TempNewCount)).
+handle_draw_add(NewBoard, Boards, CountOcurrences, NewBoards, NewCountOcurrences):-
+    append(Boards, [NewBoard], NewBoards),
+    append(CountOcurrences, [1], NewCountOcurrences).

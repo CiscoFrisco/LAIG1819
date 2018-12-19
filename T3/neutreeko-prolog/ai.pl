@@ -51,36 +51,7 @@ choose_move(Board, Depth, NextBoard):-
     retract(lost(_)),
     assert(lost(0)),
     choose_move_aux([Player,play,Board], Depth),
-    currMaxBoard(NextBoard),
-    update_pieces_ai(Player, NextBoard).
-    
-/**
- * Update piece positions values after choosing the move.
- *     
- * update_pieces_ai(+Player, -Board)    
- */    
-update_pieces_ai(Player, Board):-
-    player_piece(Player, Piece),
-    get_pieces(Board, Piece, Pieces),
-    update_pieces_aux(Player, Pieces).
-
-/**
- * Update piece positions values for Player 1.
- * 
- * update_pieces_aux(+Player, +Pieces)
- */ 
-update_pieces_aux(1, [[I1, J1], [I2, J2], [I3, J3]]):-
-    p1_1(A,B), retract(p1_1(A,B)), assert(p1_1(I1, J1)),
-    p1_2(C,D), retract(p1_2(C,D)), assert(p1_2(I2, J2)),
-    p1_3(E,F), retract(p1_3(E,F)), assert(p1_3(I3, J3)).
-
-/**
- * Update piece positions values for Player 2.
- */ 
-update_pieces_aux(2, [[I1, J1], [I2, J2], [I3, J3]]):-
-    p2_1(A,B), retract(p2_1(A,B)), assert(p2_1(I1, J1)),
-    p2_2(C,D), retract(p2_2(C,D)), assert(p2_2(I2, J2)),
-    p2_3(E,F), retract(p2_3(E,F)), assert(p2_3(I3, J3)).
+    currMaxBoard(NextBoard).
 
 /**
  * Checks if in the current board, the game has ended.
@@ -90,64 +61,23 @@ update_pieces_aux(2, [[I1, J1], [I2, J2], [I3, J3]]):-
  * game_over_ai(+Board, -Winner).
  */
 game_over_ai(Board, Winner):-
-    game_over_ai_row(Board, Winner).
+    game_over_row(Board, Winner).
 
 game_over_ai(Board, Winner):-
-    game_over_ai_col(Board, Winner).
+    game_over_col(Board, Winner).
 
 game_over_ai(Board, Winner):-
-    game_over_ai_diag(Board, Winner).
+    game_over_diag(Board, Winner).
 
 game_over_ai(Board, Winner):-
     game_over_ai_draw(Board, Winner).
-
-/**
- * True if Player has 3 consecutive pieces horizontally.
- * 
- * game_over_ai_row(+Board, -Winner)
- */
-game_over_ai_row(Board, 1):-
-    get_pieces(Board, black, Pieces),
-    are_consecutive_hor(Pieces).
-
-game_over_ai_row(Board, 2):-
-    get_pieces(Board, white, Pieces),
-    are_consecutive_hor(Pieces).
-
-/**
- * True if Player has 3 consecutive pieces vertically.
- * 
- * game_over_ai_col(+Board, -Winner)
- */
-game_over_ai_col(Board, 1):-
-    get_pieces(Board, black, Pieces),
-    are_consecutive_ver(Pieces).
-
-game_over_ai_col(Board, 2):-
-    get_pieces(Board, white, Pieces),
-    are_consecutive_ver(Pieces).
-
-/**
- * True if Player has 3 consecutive pieces diagonally.
- * 
- * game_over_ai_diag(+Board, -Winner)
- */
-game_over_ai_diag(Board, 1):-
-    get_pieces(Board, black, Pieces),
-    are_consecutive_diag(Pieces).
-
-game_over_ai_diag(Board, 2):-
-    get_pieces(Board, white, Pieces),
-    are_consecutive_diag(Pieces).
 
 /**
  * True if this Board has appeared 3 times in the current game.
  * 
  * game_over_ai_draw(+Board, -Winner)
  */
-game_over_ai_draw(Board, -1):-
-    countOccurrences(CountOccurrences),
-    boards(Boards),
+game_over_ai_draw(Board, -1, CountOccurrences, Boards):-
     member(Board, Boards),
     nth0(Index, Boards, Board),
     nth0(Index, CountOccurrences, 2).
@@ -173,8 +103,7 @@ are_consecutive_ai(Pieces):-
  * 
  * are_consecutive_ai_hor(+Pieces)
  */
-are_consecutive_ai_hor([[F1,F2], [S1,S2]]):-
-    F1 = S1,
+are_consecutive_ai_hor([[F1,F2], [F1,S2]]):-
     are_numbers_consecutive([F2, S2]).
 
 /**
@@ -182,8 +111,7 @@ are_consecutive_ai_hor([[F1,F2], [S1,S2]]):-
  * 
  * are_consecutive_ai_ver(+Pieces)
  */
-are_consecutive_ai_ver([[F1,F2], [S1,S2]]):-
-    F2 = S2,
+are_consecutive_ai_ver([[F1,F2], [S1,F2]]):-
     are_numbers_consecutive([F1, S1]).
 
 /**
@@ -195,42 +123,6 @@ are_consecutive_ai_diag([[F1,F2], [S1,S2]]):-
     are_numbers_consecutive([F1, S1]),
     are_numbers_consecutive([F2, S2]).
     
-/**
- * Return the pieces (i,j) in the current line, equal to the given Type.
- * 
- * get_pieces_line(+Line, +NLine, +NCol, +Type, -Pieces, -NewPieces)
- */ 
-get_pieces_line([], _NLine, _NCol, _Type, NewPieces, NewPieces).
-
-get_pieces_line([Head | Rest], NLine, NCol, Head, Pieces, NewPieces):-
-    append(Pieces, [[NLine, NCol]], TempPieces),
-    NewNCol is NCol + 1,
-    get_pieces_line(Rest, NLine,NewNCol, Head,TempPieces, NewPieces).
-
-get_pieces_line([_Head | Rest], NLine, NCol, Type, Pieces, NewPieces):-
-    NewNCol is NCol + 1,
-    get_pieces_line(Rest, NLine,NewNCol, Type, Pieces, NewPieces).
-
-/**
- * Return the pieces (i,j) in the current Board equal to the given Type.
- * 
- * get_pieces_aux(+Board, +NLine, +NCol, +Type, -Pieces, -NewPieces)
- */ 
-get_pieces_aux([], _NLine, _NCol, _Type, NewPieces, NewPieces).
-
-get_pieces_aux([Head | Rest], NLine, NCol, Type, Pieces, NewPieces):-
-    get_pieces_line(Head, NLine, NCol, Type, Pieces, TempPieces),
-    NewNLine is NLine + 1,
-    get_pieces_aux(Rest,NewNLine, 1, Type, TempPieces, NewPieces).
-
-/**
- * Return the pieces (i,j) in the current Board equal to the given Type.
- * 
- * get_pieces(+Board, +Type, -Pieces)
- */ 
-get_pieces(Board, Type, Pieces):-
-    get_pieces_aux(Board, 1, 1, Type, [], Pieces).
-
 /**
  * Evaluates the board according to the pieces positions.
  * 
@@ -277,8 +169,7 @@ check_win(Player,Board, Depth,Val):-
  * value_aux(+Player, +Board, -Value)
  */ 
 value_aux(Player, Board, 10):-
-    player_piece(Player,Piece),
-    get_pieces(Board, Piece, [[F1,F2], [S1,S2], [T1,T2]]),
+    get_pieces(Board, Player, [[F1,F2], [S1,S2], [T1,T2]]),
     are_consecutive_ai([[F1,F2], [S1,S2]]);
     are_consecutive_ai([[F1,F2], [T1,T2]]);
     are_consecutive_ai([[S1,S2], [T1,T2]]).
@@ -291,8 +182,7 @@ value_aux(_,_Board, 0).
  * moves(+Pos, -PosList)
  */  
 moves([Player, _State, Board], PosList):-
-    player_piece(Player,Type),
-    get_pieces(Board, Type, Pieces),
+    get_pieces(Board, Player, Pieces),
     valid_moves_piece(Board, Pieces,[],Moves),
     generate_pos_list([Player, play, Board], Moves, _TempPosList, PosList).
 
@@ -337,7 +227,7 @@ move_ai([Player, play, Board], Move, [NextPlayer, play, NewBoard]):-
  * move_ai_aux(+Move, +Board, -NewBoard, +Player)
  */ 
 move_ai_aux([InitLine, InitCol, DestLine, DestCol], Board, NewBoard, Player) :-
-    player_piece(Player,Piece),
+    player_piece(Player, Piece),
     set_piece(InitLine, InitCol, Board, TempBoard, empty),
     set_piece(DestLine, DestCol, TempBoard, NewBoard, Piece).
 
@@ -357,12 +247,10 @@ random_shuffle(PosList,List,NewMoves):-
 /**
  * choose_move_aux(+Pos, +Depth)
  */ 
-choose_move_aux([_Player,_State,Board], Depth):-
-    difficulty(Diff),
+choose_move_aux([_Player,_State,Board], Depth, Diff):-
     Depth =:= Diff - 1,
     retract(currRoot(_)),
     assert(currRoot(Board)),
-    difficulty(Diff),
     lost(L),
     (
         (
@@ -388,8 +276,7 @@ choose_move_aux([_Player,_State,Board], Depth):-
     ),
     fail.
 
-choose_move_aux([_Player,_State,Board], Depth):-
-    difficulty(Diff),
+choose_move_aux([_Player,_State,Board], Depth, Diff):-
     Depth \= Diff,
     value(Board, Val, Depth),
     currMax(Max),

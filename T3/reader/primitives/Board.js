@@ -7,8 +7,8 @@ class Board extends CGFobject {
     this.initDivisions();
 
     this.pickStates =
-      Object.freeze({ 'noPick': 1, 'pickPiece': 2, 'pickMove': 3 });
-    this.pickState = this.pickStates.pickPiece;
+      Object.freeze({ 'NO_PICK': 1, 'PICK_PIECE': 2, 'PICK_MOVE': 3 });
+    this.pickState = this.pickStates.PICK_PIECE;
     this.currPlayer = 1;
     this.selectedPiece = null;
     this.selectedMove = null;
@@ -109,7 +109,7 @@ class Board extends CGFobject {
         this.scene.pushMatrix();
         this.scene.translate(division.x, 0, division.z);
 
-        if (this.pickState === this.pickStates.pickMove) {
+        if (this.pickState === this.pickStates.PICK_MOVE) {
           this.scene.registerForPick(i * 5 + j + 1, division);
         }
         
@@ -128,18 +128,18 @@ class Board extends CGFobject {
     this.scene.registerForPick(0, null);
   }
 
-  // pickMove -> noPick ;; pickPiece -> pickMove ;; noPick -> pickPiece
+  // PICK_MOVE -> NO_PICK ;; PICK_PIECE -> PICK_MOVE ;; NO_PICK -> PICK_PIECE
   nextState() {
     if (this.scene.game.gameState > 2) {
-      if (this.pickState === this.pickStates.pickMove) {
+      if (this.pickState === this.pickStates.PICK_MOVE) {
         this.createAnim();
         this.currPlayer = this.currPlayer === 1 ? 2 : 1;
-        this.pickState = this.pickStates.pickPiece;
+        this.pickState = this.pickStates.PICK_PIECE;
         this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
-      } else if (this.pickState === this.pickStates.noPick) {
+      } else if (this.pickState === this.pickStates.NO_PICK) {
         ++this.pickState;
       }
-      else if (this.pickState === this.pickPiece && this.scene.game.ready) {
+      else if (this.pickState === this.PICK_PIECE && this.scene.game.ready) {
         ++this.pickState;
         this.scene.game.ready = false;
         this.highlightPieces(JSON.parse(this.scene.game.valid_moves));
@@ -157,7 +157,7 @@ class Board extends CGFobject {
   }
 
   save(obj, id) {
-    if (this.pickState === this.pickStates.pickPiece) {
+    if (this.pickState === this.pickStates.PICK_PIECE) {
       this.selectedPiece = {
         x: obj.x,
         y: obj.y,
@@ -249,7 +249,7 @@ class Board extends CGFobject {
       this.scene.translate(piece.x, piece.y, piece.z);
 
       // and if these pieces belong to the current player
-      if (this.pickState === this.pickStates.pickPiece &&
+      if (this.pickState === this.pickStates.PICK_PIECE &&
         this.currPlayer === player)
         this.scene.registerForPick(i + 1, piece);
 

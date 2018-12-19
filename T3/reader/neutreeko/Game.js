@@ -14,13 +14,22 @@ class Game {
         this.scene = scene;
 
         this.gameStates = Object.freeze({
-            "menu": 1,
-            "difficulty": 2,
-            "pvp": 3,
-            "pvc": 4,
-            "cvc": 5
+            "MENU": 1,
+            "DIFFICULTY": 2,
+            "PVP": 3,
+            "PVC": 4,
+            "CVC": 5
         });
         this.gameState = this.gameStates.menu;
+        this.countOcurrences = [];
+        this.boards = [];
+        
+        this.difficulties = Object.freeze({
+            "EASY": 2,
+            "MEDIUM": 3,
+            "HARD": 4,
+        });
+        this.difficulty = this.difficulties.MEDIUM;
     }
 
     getPieces(player) {
@@ -116,7 +125,12 @@ class Game {
         });
     }
 
-    update() {
-        this.getValidMoves();
+    gameOver(){
+        let this_game = this;
+        let board_string = this.getBoardString();
+
+        this.server.getPrologRequest("game_over([" + board_string + "])", function (data){
+            this_game.winner = parseInt(data.target.response);
+        });
     }
 }

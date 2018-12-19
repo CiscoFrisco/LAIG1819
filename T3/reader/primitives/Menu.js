@@ -72,7 +72,7 @@ class Menu extends CGFobject {
         this.scene.rotate(-Math.PI/4,1,0,0);
         this.scene.scale(3, 1.5, 1);
         this.diffEz.bind();
-        this.scene.registerForPick(1, this.diffEzBoard);
+        this.scene.registerForPick(2, this.diffEzBoard);
         this.diffEzBoard.display();
         this.diffEz.unbind();
         this.scene.popMatrix();
@@ -83,7 +83,7 @@ class Menu extends CGFobject {
         this.scene.rotate(-Math.PI/4,1,0,0);
         this.scene.scale(3, 1.5, 1);
         this.diffMed.bind();
-        this.scene.registerForPick(2, this.diffMedBoard);
+        this.scene.registerForPick(3, this.diffMedBoard);
         this.diffMedBoard.display();
         this.diffMed.unbind();
         this.scene.popMatrix();
@@ -94,7 +94,7 @@ class Menu extends CGFobject {
         this.scene.rotate(-Math.PI/4,1,0,0);        
         this.scene.scale(3, 1.5, 1);
         this.diffHard.bind();
-        this.scene.registerForPick(3, this.diffHardBoard);
+        this.scene.registerForPick(4, this.diffHardBoard);
         this.diffHardBoard.display();
         this.diffHard.unbind();
         this.scene.popMatrix();
@@ -102,10 +102,12 @@ class Menu extends CGFobject {
 
     nextState(id) {
         switch (this.scene.game.gameState) {
-            case this.scene.game.gameStates.menu:
+            case this.scene.game.gameStates.MENU:
                 this.scene.game.gameState = id;
                 break;
-            case this.scene.game.gameStates.difficulty:
+            case this.scene.game.gameStates.DIFFICULTY:
+                this.scene.game.gameState = this.scene.game.gameStates.MENU;
+                this.scene.game.difficulty = id;
                 break;
             default:
                 break;
