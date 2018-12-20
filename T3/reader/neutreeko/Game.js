@@ -1,16 +1,7 @@
 class Game {
     constructor(scene) {
-        this.board = [
-            ['empty', 'white', 'empty', 'white', 'empty'],
-            ['empty', 'empty', 'black', 'empty', 'empty'],
-            ['empty', 'empty', 'empty', 'empty', 'empty'],
-            ['empty', 'empty', 'white', 'empty', 'empty'],
-            ['empty', 'black', 'empty', 'black', 'empty']
-        ];
-        this.currPlayer = 1;
 
         this.server = new Server();
-
         this.scene = scene;
 
         this.gameStates = Object.freeze({
@@ -20,15 +11,29 @@ class Game {
             "PVC": 4,
             "CVC": 5
         });
-        this.gameState = this.gameStates.menu;
-        this.countOcurrences = [];
-        this.boards = [];
-        
+
         this.difficulties = Object.freeze({
             "EASY": 2,
             "MEDIUM": 3,
             "HARD": 4,
         });
+
+        this.initData();
+    }
+
+
+    initData(){
+        this.board = [
+            ['empty', 'white', 'empty', 'white', 'empty'],
+            ['empty', 'empty', 'black', 'empty', 'empty'],
+            ['empty', 'empty', 'empty', 'empty', 'empty'],
+            ['empty', 'empty', 'white', 'empty', 'empty'],
+            ['empty', 'black', 'empty', 'black', 'empty']
+        ];
+        this.currPlayer = 1;
+        this.countOcurrences = [];
+        this.boards = [];
+        this.gameState = this.gameStates.MENU;
         this.difficulty = this.difficulties.MEDIUM;
     }
 
@@ -108,7 +113,7 @@ class Game {
         
         this.server.getPrologRequest("valid_moves([" + board_string + "]," + piece_string + ")", function (data) {
             this_game.valid_moves = data.target.response;
-            this_game.ready = true;
+            this_game.moves_ready = true;
         });
     }
 
@@ -121,7 +126,8 @@ class Game {
             let newBoard = JSON.parse(data.target.response.replace(/(empty|white|black)/g, '"$1"'));
             console.log(newBoard);
             this_game.board = newBoard;
-            this_game.ready = true;
+            this_game.nextPlayer();
+            this_game.move_ready = true;
         });
     }
 
@@ -130,7 +136,9 @@ class Game {
         let board_string = this.getBoardString();
 
         this.server.getPrologRequest("game_over([" + board_string + "])", function (data){
+            console.log(data.target.response);
             this_game.winner = parseInt(data.target.response);
+            this_game.winner_ready = true;
         });
     }
 }

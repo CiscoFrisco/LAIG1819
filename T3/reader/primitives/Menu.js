@@ -133,10 +133,10 @@ class Menu extends CGFobject {
     display() {
         this.logPicking();
         switch (this.scene.game.gameState) {
-            case this.scene.game.gameStates.menu:
+            case this.scene.game.gameStates.MENU:
                 this.displayMainMenu();
                 break;
-            case this.scene.game.gameStates.difficulty:
+            case this.scene.game.gameStates.DIFFICULTY:
                 this.displayDifficultyMenu();
                 break;
             default:

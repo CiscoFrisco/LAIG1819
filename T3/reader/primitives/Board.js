@@ -6,24 +6,37 @@ class Board extends CGFobject {
     this.initPieces();
     this.initDivisions();
 
-    this.pickStates =
-      Object.freeze({ 'NO_PICK': 1, 'PICK_PIECE': 2, 'PICK_MOVE': 3 });
-    this.pickState = this.pickStates.PICK_PIECE;
+    this.pickStates = Object.freeze({
+      NO_PICK: 1,
+      PICK_PIECE: 2,
+      PICK_MOVE: 3,
+      CHECK_GAME_OVER: 4
+    });
+    this.pickState = this.pickStates.NO_PICK;
     this.currPlayer = 1;
     this.selectedPiece = null;
     this.selectedMove = null;
-    this.anim = { id: 0, isActive: false };
+    this.anim = {
+      id: 0,
+      isActive: false
+    };
   }
 
   initDivisions() {
     this.divisions = [];
 
-    let x = -2, z = -2;
+    let x = -2,
+      z = -2;
 
     for (let i = 0; i < 5; i++) {
       let row = [];
       for (let j = 0; j < 5; j++) {
-        row.push({ obj: new Cube(this.scene, 1, 0.5, 1), x: x, z: z, high: false });
+        row.push({
+          obj: new Cube(this.scene, 1, 0.5, 1),
+          x: x,
+          z: z,
+          high: false
+        });
         x += 1;
       }
 
@@ -37,59 +50,50 @@ class Board extends CGFobject {
     this.whitePieces = [];
     this.blackPieces = [];
 
-    let whitePiece1 = {
-      obj: new Piece(this.scene, this.whiteAppearance),
-      x: -1,
-      y: 0.4,
-      z: 2
-    }
-
-    this.whitePieces.push(whitePiece1);
-
-    let whitePiece2 = {
-      obj: new Piece(this.scene, this.whiteAppearance),
-      x: 1,
-      y: 0.4,
-      z: 2
-    }
-
-    this.whitePieces.push(whitePiece2);
-
-    let whitePiece3 = {
-      obj: new Piece(this.scene, this.whiteAppearance),
-      x: 0,
-      y: 0.4,
-      z: -1
-    }
-
-    this.whitePieces.push(whitePiece3);
-
     let blackPiece1 = {
       obj: new Piece(this.scene, this.blackAppearance),
       x: -1,
       y: 0.4,
-      z: -2
-    }
-
-    this.blackPieces.push(blackPiece1);
+      z: 2
+    };
 
     let blackPiece2 = {
       obj: new Piece(this.scene, this.blackAppearance),
       x: 1,
       y: 0.4,
-      z: -2
-    }
-
-    this.blackPieces.push(blackPiece2);
+      z: 2
+    };
 
     let blackPiece3 = {
       obj: new Piece(this.scene, this.blackAppearance),
       x: 0,
       y: 0.4,
-      z: 1
-    }
+      z: -1
+    };
 
-    this.blackPieces.push(blackPiece3);
+    let whitePiece1 = {
+      obj: new Piece(this.scene, this.whiteAppearance),
+      x: -1,
+      y: 0.4,
+      z: -2
+    };
+
+    let whitePiece2 = {
+      obj: new Piece(this.scene, this.whiteAppearance),
+      x: 1,
+      y: 0.4,
+      z: -2
+    };
+
+    let whitePiece3 = {
+      obj: new Piece(this.scene, this.whiteAppearance),
+      x: 0,
+      y: 0.4,
+      z: 1
+    };
+
+    this.whitePieces.push(whitePiece1, whitePiece2, whitePiece3);
+    this.blackPieces.push(blackPiece1, blackPiece2, blackPiece3);
   }
 
   initAppearances(boardMat, piece1Mat, piece2Mat) {
@@ -98,21 +102,23 @@ class Board extends CGFobject {
     this.boardAppearance = boardMat;
 
     this.boardTexture = new CGFtexture(this.scene, 'scenes/images/piece.png');
-    this.boardTextureHigh = new CGFtexture(this.scene, 'scenes/images/piece_high.png');
+    this.boardTextureHigh =
+      new CGFtexture(this.scene, 'scenes/images/piece_high.png');
   }
 
   displayBoardBase() {
-
     for (let i = 0; i < this.divisions.length; i++) {
       for (let j = 0; j < this.divisions.length; j++) {
         let division = this.divisions[i][j];
         this.scene.pushMatrix();
         this.scene.translate(division.x, 0, division.z);
 
-        if (this.pickState === this.pickStates.PICK_MOVE) {
+        if (this.pickState === this.pickStates.PICK_MOVE && division.high) {
           this.scene.registerForPick(i * 5 + j + 1, division);
-        }
-        
+        } else
+          this.scene.registerForPick(0, null);
+
+
         let texture = division.high ? this.boardTextureHigh : this.boardTexture;
 
         texture.bind();
@@ -128,21 +134,55 @@ class Board extends CGFobject {
     this.scene.registerForPick(0, null);
   }
 
+  check_event(event) {
+    switch (this.pickState) {
+      case this.pickStates.PICK_PIECE:
+        break;
+      case this.pickStates.PICK_MOVE:
+        break;
+      default:
+        break;
+    }
+  }
+
   // PICK_MOVE -> NO_PICK ;; PICK_PIECE -> PICK_MOVE ;; NO_PICK -> PICK_PIECE
   nextState() {
     if (this.scene.game.gameState > 2) {
-      if (this.pickState === this.pickStates.PICK_MOVE) {
-        this.createAnim();
-        this.currPlayer = this.currPlayer === 1 ? 2 : 1;
-        this.pickState = this.pickStates.PICK_PIECE;
+      if (this.pickState === this.pickStates.PICK_MOVE &&
+        this.scene.game.move_ready) {
+        if (!this.anim.isActive) this.createAnim();
+        this.scene.game.move_ready = false;
         this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
+        this.pickState = this.pickStates.CHECK_GAME_OVER;
       } else if (this.pickState === this.pickStates.NO_PICK) {
         ++this.pickState;
-      }
-      else if (this.pickState === this.PICK_PIECE && this.scene.game.ready) {
+      } else if (
+        this.pickState === this.pickStates.PICK_PIECE &&
+        this.scene.game.moves_ready) {
         ++this.pickState;
-        this.scene.game.ready = false;
+        this.scene.game.moves_ready = false;
+        console.log('yoooooooo');
         this.highlightPieces(JSON.parse(this.scene.game.valid_moves));
+      }
+      else if(this.pickState === this.pickStates.CHECK_GAME_OVER){
+
+        if(this.scene.game.winner_ready){
+          let winner = this.scene.game.winner;
+          this.sent = false;
+
+          if(winner != 0){
+            this.scene.game.gameState = this.scene.game.gameStates.MENU;
+          }
+          else{
+            this.pickState = this.pickStates.PICK_PIECE;
+          }
+
+          this.scene.game.winner_ready = false;
+        }
+        else if(!this.sent){
+          this.scene.game.gameOver();
+          this.sent = true;
+        }
       }
     }
   }
@@ -151,7 +191,8 @@ class Board extends CGFobject {
     for (let i = 0; i < this.divisions.length; i++) {
       for (let j = 0; j < this.divisions.length; j++) {
         let division = this.divisions[i][j];
-        if (division.x === piece.x && division.z === piece.z) return [i + 1, j + 1];
+        if (division.x === piece.x && division.z === piece.z)
+          return [i + 1, j + 1];
       }
     }
   }
@@ -163,16 +204,27 @@ class Board extends CGFobject {
         y: obj.y,
         z: obj.z,
         id: id
-      }
+      };
 
-      this.scene.game.getValidMoves(this.getPieceCoordinates(this.selectedPiece));
+      this.scene.game.getValidMoves(
+        this.getPieceCoordinates(this.selectedPiece));
     } else {
-      this.selectedMove = { x: obj.x, z: obj.z, id: id }
+      this.selectedMove = {
+        x: obj.x,
+        z: obj.z,
+        id: id
+      };
+
+      let move = this.getPieceCoordinates(this.selectedPiece);
+      move.push(this.getPieceCoordinates(this.selectedMove));
+      console.log(move);
+
+      this.scene.game.move(move);
     }
   }
 
   highlightPieces(validMoves, high = true) {
-    for(let i = 0; i < validMoves.length; i++){
+    for (let i = 0; i < validMoves.length; i++) {
       let piece = validMoves[i].slice(2, 4);
 
       this.divisions[piece[0] - 1][piece[1] - 1].high = high;
@@ -180,20 +232,13 @@ class Board extends CGFobject {
   }
 
   createAnim() {
-    var path =
+    var path = [
+      [0, 0, 0],
       [
-        [0, 0, 0],
-        [
-          this.selectedMove.x - this.selectedPiece.x, 0,
-          this.selectedMove.z - this.selectedPiece.z
-        ]
+        this.selectedMove.x - this.selectedPiece.x, 0,
+        this.selectedMove.z - this.selectedPiece.z
       ]
-
-    let move = this.getPieceCoordinates(this.selectedPiece);
-    move.push(this.getPieceCoordinates(this.selectedMove));
-    console.log(move);
-
-    this.scene.game.move(move);
+    ];
 
     this.anim.anim = new LinearAnimation(this.scene, 2, path);
     this.anim.id = this.selectedPiece.id;
@@ -219,7 +264,7 @@ class Board extends CGFobject {
 
       this.selectedPiece = null;
       this.selectedMove = null;
-
+      this.currPlayer = this.currPlayer === 1 ? 2 : 1;
       this.anim.isActive = false;
     }
   }
@@ -232,8 +277,6 @@ class Board extends CGFobject {
           if (obj) {
             var customId = this.scene.pickResults[i][1];
             this.save(obj, customId);
-
-            this.nextState();
             console.log('Picked object: ' + obj + ', with pick id ' + customId);
           }
         }
@@ -252,7 +295,6 @@ class Board extends CGFobject {
       if (this.pickState === this.pickStates.PICK_PIECE &&
         this.currPlayer === player)
         this.scene.registerForPick(i + 1, piece);
-
 
       if (this.anim.isActive && this.anim.id === i + 1 &&
         this.currPlayer === player) {
@@ -282,6 +324,7 @@ class Board extends CGFobject {
   }
 
   update(deltaTime) {
+    this.nextState();
     if (this.anim.isActive) {
       this.anim.anim.update(deltaTime);
     }

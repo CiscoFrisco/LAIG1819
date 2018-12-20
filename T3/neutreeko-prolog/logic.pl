@@ -87,7 +87,7 @@ get_pieces_row([_ | T], Piece, SoFar, Pieces, Line, Col):-
 
 get_pieces_aux([], _, Pieces, Pieces, _).
 get_pieces_aux([H | T], Piece, SoFar, Pieces, Line):-
-    get_pieces_row(H, Piece, SoFar, PiecesRow, Line, 1),
+    get_pieces_row(H, Piece, [], PiecesRow, Line, 1),
     NextLine is Line + 1,
     append(SoFar, PiecesRow, Next),
     get_pieces_aux(T, Piece, Next, Pieces, NextLine).
@@ -202,8 +202,9 @@ game_over(Board, Winner) :-
     game_over_col(Board, Winner).
 game_over(Board, Winner) :- 
     game_over_diag(Board, Winner).
-game_over(Board, Winner):-
-    game_over_draw(Board, Winner).
+game_over(_, 0).
+% game_over(Board, Winner):-
+%     game_over_draw(Board, Winner).
 
 /**
  * Checks if the same board configuration has happened 3 times (three-fold repetition),
@@ -223,6 +224,7 @@ game_over_draw(0).
  */
 game_over_row(Board, 2) :-
     get_pieces(Board, 2, Pieces),
+    write(Pieces), nl,
     are_consecutive_hor(Pieces).
 
 game_over_row(Board, 1) :-
