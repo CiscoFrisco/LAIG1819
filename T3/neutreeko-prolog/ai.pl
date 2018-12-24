@@ -1,3 +1,5 @@
+:- use_module(library(random)).
+
 :- dynamic(currPlayer/1).
 :- dynamic(currMax/1).
 :- dynamic(currMaxBoard/1).
@@ -34,8 +36,7 @@ nextPlayer(2, 1).
 /**
  * choose_move(+Board, +Depth, -NextBoard)
  */
-choose_move(Board, Depth, NextBoard):-
-    nextPlayer(Player),
+choose_move(Board, Depth, Player, NextBoard):-
     retract(currPlayer(_)),
     assert(currPlayer(Player)),
     retract(currMax(_)),
@@ -50,7 +51,7 @@ choose_move(Board, Depth, NextBoard):-
     assert(currRoot([])),
     retract(lost(_)),
     assert(lost(0)),
-    choose_move_aux([Player,play,Board], Depth),
+    choose_move_aux([Player,play,Board], Depth, Depth),
     currMaxBoard(NextBoard).
 
 /**
@@ -68,21 +69,6 @@ game_over_ai(Board, Winner):-
 
 game_over_ai(Board, Winner):-
     game_over_diag(Board, Winner).
-
-game_over_ai(Board, Winner):-
-    game_over_ai_draw(Board, Winner).
-
-/**
- * True if this Board has appeared 3 times in the current game.
- * 
- * game_over_ai_draw(+Board, -Winner)
- */
-game_over_ai_draw(Board, -1, CountOccurrences, Boards):-
-    member(Board, Boards),
-    nth0(Index, Boards, Board),
-    nth0(Index, CountOccurrences, 2).
-
-game_over_ai_draw(_Board, 0).
 
 /**
  * Checks if two pieces are consecutive.
@@ -137,6 +123,7 @@ value(Board,Val, Depth):-
             ;
             (
                 check_win(NextP,Board,Depth,ValL), 
+
                 Val is 0 - ValL,
                 retract(lost(_)),
                 assert(lost(1))
@@ -183,7 +170,7 @@ value_aux(_,_Board, 0).
  */  
 moves([Player, _State, Board], PosList):-
     get_pieces(Board, Player, Pieces),
-    valid_moves_piece(Board, Pieces,[],Moves),
+    valid_moves(Board, Pieces,[],Moves),
     generate_pos_list([Player, play, Board], Moves, _TempPosList, PosList).
 
 /**
@@ -228,7 +215,7 @@ move_ai([Player, play, Board], Move, [NextPlayer, play, NewBoard]):-
  */ 
 move_ai_aux([InitLine, InitCol, DestLine, DestCol], Board, NewBoard, Player) :-
     player_piece(Player, Piece),
-    set_piece(InitLine, InitCol, Board, TempBoard, empty),
+    set_piece(InitLine, InitCol, Board, TempBoard, empty), 
     set_piece(DestLine, DestCol, TempBoard, NewBoard, Piece).
 
 /**
@@ -294,12 +281,12 @@ choose_move_aux([_Player,_State,Board], Depth, Diff):-
     ),
     fail.
 
-choose_move_aux([Player,State,Board], Depth) :-
+choose_move_aux([Player,State,Board], Depth, Diff) :-
     (
         Depth > 1,
         moves([Player,State,Board], PosList),!,
         random_shuffle(PosList,[],NewMoves),
-        best(NewMoves, Depth)
+        best(NewMoves, Depth, Diff)
     )
     ;
     true.
@@ -307,9 +294,9 @@ choose_move_aux([Player,State,Board], Depth) :-
 /**
  * best(+PosList, +Depth)
  */ 
-best([],_Depth).
+best([],_, _).
 
-best([Pos | PosList], Depth):-
+best([Pos | PosList], Depth, Diff):-
     NextDepth is Depth - 1, 
-    choose_move_aux(Pos, NextDepth),
-    best(PosList, Depth).
+    choose_move_aux(Pos, NextDepth, Diff),
+    best(PosList, Depth, Diff).

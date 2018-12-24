@@ -131,6 +131,38 @@ class Game {
         });
     }
 
+    getMove(board, newBoard){
+
+        let origin = [];
+        let dest = [];
+
+        for(let i = 0; i < board.length; ++i){
+            for(let j = 0; j < board.length; ++j){
+                if(board[i][j] === 'empty' && newBoard[i][j] !== 'empty'){
+                    dest = [i, j];
+                }
+                else if(board[i][j] !== 'empty' && newBoard[i][j] === 'empty'){
+                    origin = [i, j];
+                }
+            }
+        }
+        origin.push(dest[0], dest[1]);
+        return origin;
+    }
+
+    choose_move(){
+        let this_game = this;
+        let board_string = this.getBoardString();
+
+        this.server.getPrologRequest("choose_move([" + board_string + "]," + this.difficulty + "," + this.currPlayer + ")", function (data) {
+            let newBoard = JSON.parse(data.target.response.replace(/(empty|white|black)/g, '"$1"'));
+            this_game.bot_move = this_game.getMove(this_game.board, newBoard);
+            this_game.board = newBoard;
+            this_game.nextPlayer();
+            this_game.bot_ready = true;
+        });
+    }
+
     gameOver(){
         let this_game = this;
         let board_string = this.getBoardString();

@@ -103,7 +103,9 @@ print_header_line(_).
 
 % Require your Prolog Files here
 
-:- consult('neutreeko.pl').
+:- consult('ai.pl').
+:- consult('logic.pl').
+:- consult('utils.pl').
 
 parse_input(valid_moves(Board, Piece),Moves):-
 	valid_moves_piece(Board,Piece,[],Moves).
@@ -114,8 +116,8 @@ parse_input(move(Move, Player, Board), NewBoard):-
 parse_input(game_over(Board), Winner):-
 	game_over(Board, Winner).
 
-parse_input(choose_move(Board, Difficulty), NewBoard):-
-	choose_move(Board, Difficulty, NewBoard).
+parse_input(choose_move(Board, Difficulty, Player), NewBoard):-
+	choose_move(Board, Difficulty, Player, NewBoard).
 
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).

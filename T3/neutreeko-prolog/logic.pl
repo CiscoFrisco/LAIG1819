@@ -48,6 +48,18 @@ discard_duplicate_moves([Head | Tail], TempList, NewList):-
  * valid_moves_piece(+Board, +Pieces , -TempMoves, -ValidMoves)
  */ 
 
+valid_moves(_,[],ListOfMoves,ListOfMoves).
+
+valid_moves(Board, [Head|Tail],List, ListOfMoves):-
+    Init = Head,
+    Curr = Head,
+    valid_horizontal(Board, Curr, Init, List, HorMoves, -1),
+    valid_vertical(Board, Curr, Init, HorMoves, HorVertMoves, -1),
+    valid_diagonal(Board, Curr, Init, HorVertMoves, AllMoves, -1, -1),
+    discard_duplicate_moves(AllMoves, [], NewAllMoves),
+    valid_moves(Board, Tail, NewAllMoves, ListOfMoves).
+
+
 valid_moves_piece(Board, Piece,List, ListOfMoves):-
     Init = Piece,
     Curr = Piece,
@@ -202,9 +214,7 @@ game_over(Board, Winner) :-
     game_over_col(Board, Winner).
 game_over(Board, Winner) :- 
     game_over_diag(Board, Winner).
-game_over(_, 0).
-% game_over(Board, Winner):-
-%     game_over_draw(Board, Winner).
+game_over(_,0).
 
 /**
  * Checks if the same board configuration has happened 3 times (three-fold repetition),
@@ -215,8 +225,6 @@ game_over(_, 0).
 game_over_draw(-1, Count):-
     member(3, Count).
 
-game_over_draw(0).
-
 /**
  * Checks if a player has three consecutive pieces in a same row, thus winning the game.
  * 
@@ -224,7 +232,6 @@ game_over_draw(0).
  */
 game_over_row(Board, 2) :-
     get_pieces(Board, 2, Pieces),
-    write(Pieces), nl,
     are_consecutive_hor(Pieces).
 
 game_over_row(Board, 1) :-
@@ -306,8 +313,8 @@ check_final_cond([X1,MinY],[X2,MiddleY],[X3,MaxY]):-
  *
  * handle_draw(+NewBoard, +Boards, +CountOcurrences) 
  */
-handle_draw(NewBoard, Boards, CountOcurrences) :-
-    if_then_else(member(NewBoard, Boards), handle_draw_inc(NewBoard, Boards, CountOcurrences), handle_draw_add(NewBoard, Boards, CountOcurrences)).
+handle_draw(NewBoard, Boards, CountOcurrences, NewCountOcurrences) :-
+    if_then_else(member(NewBoard, Boards), handle_draw_inc(NewBoard, Boards, CountOcurrences, NewCountOcurrences), handle_draw_add(NewBoard, Boards, CountOcurrences, NewCountOcurrences)).
 
 /**
  * handle_draw_inc(+NewBoard, +Boards, +CountOcurrences) 
