@@ -49,6 +49,8 @@ class XMLscene extends CGFscene {
         this.cameraRotAngle = 0;
         this.currRotTime = 0;
         this.rotAxis = vec3.fromValues(0, 1, 0);
+
+        this.game = new Game(this);
     }
 
     /**
@@ -173,8 +175,6 @@ class XMLscene extends CGFscene {
         this.sceneInited = true;
 
         this.materialNo = 0;
-
-        this.game = new Game(this);
     }
 
     logPicking() {
@@ -271,5 +271,7 @@ class XMLscene extends CGFscene {
                 this.currRotTime = 0;
             }
         }
+
+        this.game.update(this.deltaTime);
     }
 }

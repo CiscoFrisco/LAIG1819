@@ -18,6 +18,8 @@ class Game {
             "HARD": 4,
         });
 
+        this.maxTime = 10;
+
         this.initData();
     }
 
@@ -36,6 +38,10 @@ class Game {
         this.gameState = this.gameStates.MENU;
         this.difficulty = this.difficulties.MEDIUM;
         this.score = 0;
+
+        this.time = this.maxTime;
+        this.timer = false;
+        this.elapsedTime = this.maxTime * 1000;
     }
 
     getPieces(player) {
@@ -143,8 +149,7 @@ class Game {
             for (let j = 0; j < board.length; ++j) {
                 if (board[i][j] === 'empty' && newBoard[i][j] !== 'empty') {
                     dest = [i, j];
-                }
-                else if (board[i][j] !== 'empty' && newBoard[i][j] === 'empty') {
+                } else if (board[i][j] !== 'empty' && newBoard[i][j] === 'empty') {
                     origin = [i, j];
                 }
             }
@@ -188,10 +193,35 @@ class Game {
             console.log(data.target.response);
             this_game.winner = parseInt(data.target.response);
 
-            if(this_game.winner != 0){
+            if (this_game.winner != 0) {
                 this_game.score = 0;
             }
             this_game.winner_ready = true;
         });
+    }
+
+    resetTimer() {
+        this.time = this.maxTime;
+        this.elapsedTime = this.maxTime * 1000;
+        this.timer = true;
+    }
+
+    stopTimer() {
+        this.timer = false;
+    }
+
+    update(deltaTime) {
+
+        if (this.timer) {
+            this.elapsedTime -= deltaTime;
+
+            this.time = Math.floor(this.elapsedTime / 1000);
+
+            if (this.time === 0) {
+                this.turnOver = true;
+                this.resetTimer();
+            }
+        }
+
     }
 }

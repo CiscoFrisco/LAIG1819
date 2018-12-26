@@ -103,6 +103,7 @@ class Menu extends CGFobject {
     nextState(id) {
         switch (this.scene.game.gameState) {
             case this.scene.game.gameStates.MENU:
+                this.scene.game.timer = true;
                 this.scene.game.gameState = id;
                 break;
             case this.scene.game.gameStates.DIFFICULTY:

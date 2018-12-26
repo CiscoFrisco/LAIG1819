@@ -123,9 +123,6 @@
         <primitive id="menu">
             <menu iddifficulty="difficulty" idpvp="pvp" idpvc="pvc" idcvc="cvc" iddiffez="diffez" iddiffmed="diffmed" iddiffhard="diffhard"/>
         </primitive>
-        <primitive id="timer">
-            <timer maxtime="30" idzero="zero" idone="one" idtwo="two" idthree="three" idfour="four" idfive="five" idsix="six" idseven="seven" ideight="eight" idnine="nine" />
-        </primitive>
         <primitive id="toolbar">
             <toolbar idzero="zero" idone="one" idtwo="two" idthree="three" idfour="four" idfive="five" idsix="six" idseven="seven" ideight="eight" idnine="nine" />
         </primitive>

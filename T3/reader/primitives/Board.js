@@ -249,8 +249,7 @@ class Board extends CGFobject {
             var customId = this.scene.pickResults[i][1];
             if (customId == 51) {
               this.scene.game.undoMove();
-            }
-            else {
+            } else {
               this.save(obj, customId);
             }
             console.log('Picked object: ' + obj + ', with pick id ' + customId);
@@ -327,6 +326,7 @@ class Board extends CGFobject {
             this.scene.game.gameState = this.scene.game.gameStates.MENU;
             this.init();
           } else {
+            this.scene.game.resetTimer();
             this.pickState = this.pickStates.PICK_MOVE;
           }
 
@@ -340,6 +340,7 @@ class Board extends CGFobject {
   }
 
   // PICK_MOVE -> NO_PICK ;; PICK_PIECE -> PICK_MOVE ;; NO_PICK -> PICK_PIECE
+  // TODO: falta caso em que tempo acaba enquanto peça esta selecionada
   updatePVP() {
     console.log(this.currPlayer);
     //undo move
@@ -355,16 +356,40 @@ class Board extends CGFobject {
 
     if (this.pickState === this.pickStates.PICK_PLAYER_MOVE) {
       if (this.scene.game.move_ready) {
-        if (!this.anim.isActive) this.createAnim();
+        if (!this.anim.isActive){
+          this.scene.game.stopTimer();
+          this.createAnim();
+        } 
         this.scene.game.move_ready = false;
         this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
       }
+
+
+      if (this.scene.game.turnOver) {
+
+        this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+        this.scene.game.currPlayer = this.currPlayer === 1 ? 2 : 1;
+
+        this.scene.game.turnOver = false;
+      }
+
     } else if (
-      this.pickState === this.pickStates.PICK_PIECE &&
-      this.scene.game.moves_ready) {
-      this.pickState = this.pickStates.PICK_PLAYER_MOVE;
-      this.scene.game.moves_ready = false;
-      this.highlightPieces(JSON.parse(this.scene.game.valid_moves));
+      this.pickState === this.pickStates.PICK_PIECE) {
+
+      if (this.scene.game.moves_ready) {
+        this.pickState = this.pickStates.PICK_PLAYER_MOVE;
+        this.scene.game.moves_ready = false;
+        this.highlightPieces(JSON.parse(this.scene.game.valid_moves));
+
+      }
+
+      if (this.scene.game.turnOver) {
+
+        this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+        this.scene.game.currPlayer = this.currPlayer === 1 ? 2 : 1;
+        this.scene.game.turnOver = false;
+      }
+
     } else if (this.pickState === this.pickStates.CHECK_GAME_OVER) {
       if (this.scene.game.winner_ready) {
         let winner = this.scene.game.winner;
@@ -373,10 +398,11 @@ class Board extends CGFobject {
           this.scene.game.gameState = this.scene.game.gameStates.MENU;
           this.init();
         } else {
-          if(!this.undo_move){
+          if (!this.undo_move) {
             this.currPlayer = this.currPlayer === 1 ? 2 : 1;
           }
           this.pickState = this.pickStates.PICK_PIECE;
+          this.scene.game.resetTimer();
           this.undo_move = false;
         }
 
@@ -402,10 +428,23 @@ class Board extends CGFobject {
 
     if (this.pickState === this.pickStates.PICK_PLAYER_MOVE) {
       if (this.scene.game.move_ready) {
-        if (!this.anim.isActive) this.createAnim();
+        if (!this.anim.isActive){
+          this.scene.game.stopTimer();
+          this.createAnim();
+        } 
         this.scene.game.move_ready = false;
         this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
       }
+
+
+      if (this.scene.game.turnOver) {
+
+        this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+        this.scene.game.currPlayer = this.currPlayer === 1 ? 2 : 1;
+
+        this.scene.game.turnOver = false;
+      }
+
     } else if (this.pickState === this.pickStates.PICK_MOVE) {
       if (!this.sent) {
         this.scene.game.choose_move();
@@ -414,16 +453,36 @@ class Board extends CGFobject {
         let move = this.scene.game.bot_move;
         this.selectedPiece = this.getPiece(move);
         this.selectedMove = this.getDivision(move);
-
+        
         this.createAnim();
+        this.scene.stopTimer();
         this.scene.game.bot_ready = false;
       }
+
+
+      if (this.scene.game.turnOver) {
+
+        this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+
+        this.scene.game.turnOver = false;
+      }
+
     } else if (
-      this.pickState === this.pickStates.PICK_PIECE &&
-      this.scene.game.moves_ready) {
-      this.pickState = this.pickStates.PICK_PLAYER_MOVE;
-      this.scene.game.moves_ready = false;
-      this.highlightPieces(JSON.parse(this.scene.game.valid_moves));
+      this.pickState === this.pickStates.PICK_PIECE) {
+
+      if (this.scene.game.moves_ready) {
+        this.pickState = this.pickStates.PICK_PLAYER_MOVE;
+        this.scene.game.moves_ready = false;
+        this.highlightPieces(JSON.parse(this.scene.game.valid_moves));
+      }
+
+      if (this.scene.game.turnOver) {
+
+        this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+        this.scene.game.currPlayer = this.currPlayer === 1 ? 2 : 1;
+        this.scene.game.turnOver = false;
+      }
+
     } else if (this.pickState === this.pickStates.CHECK_GAME_OVER) {
       if (this.scene.game.winner_ready) {
         let winner = this.scene.game.winner;
@@ -433,9 +492,11 @@ class Board extends CGFobject {
           this.scene.game.gameState = this.scene.game.gameStates.MENU;
           this.init();
         } else {
-          if(!this.undo_move){
+          if (!this.undo_move) {
             this.currPlayer = this.currPlayer === 1 ? 2 : 1;
           }
+
+          this.scene.game.resetTimer();
           this.pickState = this.currPlayer === 1 ? this.pickStates.PICK_PIECE : this.pickStates.PICK_MOVE;
           this.undo_move = false;
         }
@@ -449,6 +510,7 @@ class Board extends CGFobject {
   }
 
   update(deltaTime) {
+
     switch (this.scene.game.gameState) {
       case this.scene.game.gameStates.PVP:
         this.updatePVP();

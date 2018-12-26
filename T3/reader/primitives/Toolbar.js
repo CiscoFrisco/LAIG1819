@@ -10,15 +10,15 @@ class Toolbar extends CGFobject{
 
     display(){
 
-        // this.scene.pushMatrix();
-        // this.scene.translate(-15, 0, 0);
-        // this.timer.display();
-        // this.scene.popMatrix();
-
         this.scene.pushMatrix();
         this.scene.translate(2, 1, 0);
-        this.score.display();
+        this.timer.display();
         this.scene.popMatrix();
+
+        // this.scene.pushMatrix();
+        // this.scene.translate(2, 1, 0);
+        // this.score.display();
+        // this.scene.popMatrix();
 
         // this.scene.pushMatrix();
         // this.scene.translate(10, 0, 0);
@@ -29,9 +29,5 @@ class Toolbar extends CGFobject{
         // this.scene.translate(2, 1, 0);
         // this.undo.display();
         // this.scene.popMatrix();
-    }
-
-    update(deltaTime){
-        this.timer.update(deltaTime);
-    }   
+    }  
 }
