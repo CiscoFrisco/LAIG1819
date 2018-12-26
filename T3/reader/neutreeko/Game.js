@@ -35,6 +35,7 @@ class Game {
         this.boards = [this.board];
         this.gameState = this.gameStates.MENU;
         this.difficulty = this.difficulties.MEDIUM;
+        this.score = 0;
     }
 
     getPieces(player) {
@@ -129,6 +130,7 @@ class Game {
             this_game.boards.push(newBoard);
             this_game.nextPlayer();
             this_game.move_ready = true;
+            this_game.score++;
         });
     }
 
@@ -185,6 +187,10 @@ class Game {
         this.server.getPrologRequest("game_over([" + board_string + "])", function (data) {
             console.log(data.target.response);
             this_game.winner = parseInt(data.target.response);
+
+            if(this_game.winner != 0){
+                this_game.score = 0;
+            }
             this_game.winner_ready = true;
         });
     }
