@@ -43,6 +43,12 @@ class XMLscene extends CGFscene {
         this.setUpdatePeriod(1000 / this.fps);
 
         this.setPickEnabled(true);
+
+        this.rotTime = 2000;
+        this.cameraRotInc = Math.PI / this.rotTime;
+        this.cameraRotAngle = 0;
+        this.currRotTime = 0;
+        this.rotAxis = vec3.fromValues(0, 1, 0);
     }
 
     /**
@@ -77,6 +83,10 @@ class XMLscene extends CGFscene {
 
         this.interface.setActiveCamera(this.camera);
         this.interface.addCameraDrop();
+    }
+
+    startRotation() {
+        this.rotateCamera = true;
     }
 
     /**
@@ -190,6 +200,9 @@ class XMLscene extends CGFscene {
 
         this.clearPickRegistration();
 
+        if (this.rotateCamera)
+            this.camera.orbit(this.rotAxis, this.cameraRotAngle);
+
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
@@ -248,5 +261,15 @@ class XMLscene extends CGFscene {
 
         this.graph.updateAnimations(this.deltaTime);
         this.graph.update(this.deltaTime);
+
+        if (this.rotateCamera) {
+            this.currRotTime += this.deltaTime;
+            this.cameraRotAngle = this.deltaTime * this.cameraRotInc;
+
+            if (this.currRotTime >= this.rotTime) {
+                this.rotateCamera = false;
+                this.currRotTime = 0;
+            }
+        }
     }
 }

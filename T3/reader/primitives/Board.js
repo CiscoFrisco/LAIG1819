@@ -3,8 +3,6 @@ class Board extends CGFobject {
     super(scene);
 
     this.initAppearances(boardMat, piece1Mat, piece2Mat);
-    this.initPieces();
-    this.initDivisions();
 
     this.pickStates = Object.freeze({
       NO_PICK: 1,
@@ -13,14 +11,21 @@ class Board extends CGFobject {
       PICK_MOVE: 4,
       CHECK_GAME_OVER: 5
     });
-    this.pickState = this.pickStates.PICK_PIECE;
-    this.currPlayer = 1;
     this.selectedPiece = null;
     this.selectedMove = null;
     this.anim = {
       id: 0,
       isActive: false
     };
+
+    this.init();
+  }
+
+  init() {
+    this.initPieces();
+    this.initDivisions();
+    this.currPlayer = 1;
+    this.pickState = this.pickStates.PICK_PIECE;
   }
 
   initDivisions() {
@@ -275,7 +280,8 @@ class Board extends CGFobject {
 
   display() {
 
-    this.logPicking();
+    if (this.scene.game.gameState === this.scene.game.gameStates.PVP || this.scene.game.gameState === this.scene.game.gameStates.PVC)
+      this.logPicking();
 
     this.scene.pushMatrix();
     this.scene.scale(0.3, 0.3, 0.3);
@@ -314,6 +320,7 @@ class Board extends CGFobject {
 
           if (winner != 0) {
             this.scene.game.gameState = this.scene.game.gameStates.MENU;
+            this.init();
           } else {
             this.pickState = this.pickStates.PICK_MOVE;
           }
@@ -348,6 +355,7 @@ class Board extends CGFobject {
 
         if (winner != 0) {
           this.scene.game.gameState = this.scene.game.gameStates.MENU;
+          this.init();
         } else {
           this.pickState = this.pickStates.PICK_PIECE;
         }
@@ -392,6 +400,7 @@ class Board extends CGFobject {
 
         if (winner != 0) {
           this.scene.game.gameState = this.scene.game.gameStates.MENU;
+          this.init();
         } else {
           this.pickState = this.currPlayer === 1 ? this.pickStates.PICK_PIECE : this.pickStates.PICK_MOVE;
         }

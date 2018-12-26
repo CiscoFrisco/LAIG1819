@@ -72,7 +72,8 @@ class MySceneGraph {
       'menu': this.parseMenu,
       'torch': this.parseTorch,
       'timer': this.parseTimer,
-      'score': this.parseScore
+      'score': this.parseScore,
+      'toolbar': this.parseToolbar
     }
   }
 
@@ -1140,6 +1141,57 @@ class MySceneGraph {
     numbers.push(this.textures[idzero], this.textures[idone], this.textures[idtwo], this.textures[idthree], this.textures[idfour], this.textures[idfive], this.textures[idsix], this.textures[idseven], this.textures[ideight], this.textures[idnine]);
 
     this.primitives[id] = new Timer(this.scene, maxtime, numbers);
+
+    return null;
+  }
+
+  parseToolbar(id, primitive){
+    let error;
+
+    var idzero = this.reader.getString(primitive, 'idzero', true);
+    if ((error = this.parseTextureId(id, idzero)) != null)
+      return error;
+
+    var idone = this.reader.getString(primitive, 'idone', true);
+    if ((error = this.parseTextureId(id, idone)) != null)
+      return error;
+
+    var idtwo = this.reader.getString(primitive, 'idtwo', true);
+    if ((error = this.parseTextureId(id, idtwo)) != null)
+      return error;
+
+    var idthree = this.reader.getString(primitive, 'idthree', true);
+    if ((error = this.parseTextureId(id, idthree)) != null)
+      return error;
+
+    var idfour = this.reader.getString(primitive, 'idfour', true);
+    if ((error = this.parseTextureId(id, idfour)) != null)
+      return error;
+
+    var idfive = this.reader.getString(primitive, 'idfive', true);
+    if ((error = this.parseTextureId(id, idfive)) != null)
+      return error;
+
+    var idsix = this.reader.getString(primitive, 'idsix', true);
+    if ((error = this.parseTextureId(id, idsix)) != null)
+      return error;
+
+    var idseven = this.reader.getString(primitive, 'idseven', true);
+    if ((error = this.parseTextureId(id, idseven)) != null)
+      return error;
+
+    var ideight = this.reader.getString(primitive, 'ideight', true);
+    if ((error = this.parseTextureId(id, ideight)) != null)
+      return error;
+
+    var idnine = this.reader.getString(primitive, 'idnine', true);
+    if ((error = this.parseTextureId(id, idnine)) != null)
+      return error;
+
+    let numbers = [];
+    numbers.push(this.textures[idzero], this.textures[idone], this.textures[idtwo], this.textures[idthree], this.textures[idfour], this.textures[idfive], this.textures[idsix], this.textures[idseven], this.textures[ideight], this.textures[idnine]);
+
+    this.primitives[id] = new Toolbar(this.scene, numbers);
 
     return null;
   }

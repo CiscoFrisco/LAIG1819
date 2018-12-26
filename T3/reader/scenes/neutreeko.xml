@@ -126,6 +126,9 @@
         <primitive id="timer">
             <timer maxtime="30" idzero="zero" idone="one" idtwo="two" idthree="three" idfour="four" idfive="five" idsix="six" idseven="seven" ideight="eight" idnine="nine" />
         </primitive>
+        <primitive id="toolbar">
+            <toolbar idzero="zero" idone="one" idtwo="two" idthree="three" idfour="four" idfive="five" idsix="six" idseven="seven" ideight="eight" idnine="nine" />
+        </primitive>
         <primitive id="score">
             <score idzero="zero" idone="one" idtwo="two" idthree="three" idfour="four" idfive="five" idsix="six" idseven="seven" ideight="eight" idnine="nine" />
         </primitive>
@@ -163,7 +166,7 @@
             </materials>
             <texture id="none" />
             <children>
-                <componentref id="chairs"/>
+                <!-- <componentref id="chairs"/>
                 <componentref id="plants"/>
                 <componentref id="aquarium"/>
                 <componentref id="aquarium_table"/>
@@ -176,7 +179,8 @@
                 <componentref id="floor"/>
                 <componentref id="ceiling"/>
                 <componentref id="painting"/>
-                <primitiveref id="menu"/> 
+                <primitiveref id="menu"/> -->
+                <primitiveref id="toolbar"/>
                 <!-- <primitiveref id="timer"/> -->
                 <!-- <primitiveref id="score"/> -->
             </children>
@@ -193,6 +197,28 @@
                 <componentref id="plant2"/>
                 <componentref id="plant3"/>
                 <componentref id="plant4"/>
+            </children>
+        </component>
+        <component id="toolbar1">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="toolbar"/>
+            </children>
+        </component>
+        <component id="toolbar2">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="toolbar"/>
             </children>
         </component>
         <component id="chairs">
