@@ -160,6 +160,7 @@ class Game {
             this_game.undo_move = this_game.getMove(last_board, second_last_board);
             this_game.boards.pop();
             this_game.undo_ready = true;
+            this_game.board = this_game.boards[this_game.boards.length - 1];
         }
     }
 

@@ -234,7 +234,6 @@ class Board extends CGFobject {
 
       this.selectedPiece = null;
       this.selectedMove = null;
-      this.currPlayer = this.currPlayer === 1 ? 2 : 1;
       this.anim.isActive = false;
       this.pickState = this.pickStates.CHECK_GAME_OVER;
       this.sent = false;
@@ -342,9 +341,11 @@ class Board extends CGFobject {
 
   // PICK_MOVE -> NO_PICK ;; PICK_PIECE -> PICK_MOVE ;; NO_PICK -> PICK_PIECE
   updatePVP() {
-
+    console.log(this.currPlayer);
     //undo move
     if (this.scene.game.undo_ready) {
+      this.undo_move = true;
+      this.currPlayer = this.currPlayer === 1 ? 2 : 1;
       this.pickState = this.pickStates.PICK_PIECE;
       this.selectedPiece = this.getPiece(this.scene.game.undo_move);
       this.selectedMove = this.getDivision(this.scene.game.undo_move);
@@ -372,7 +373,11 @@ class Board extends CGFobject {
           this.scene.game.gameState = this.scene.game.gameStates.MENU;
           this.init();
         } else {
+          if(!this.undo_move){
+            this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+          }
           this.pickState = this.pickStates.PICK_PIECE;
+          this.undo_move = false;
         }
 
         this.scene.game.winner_ready = false;
@@ -387,6 +392,8 @@ class Board extends CGFobject {
 
     //undo_move
     if (this.scene.game.undo_ready) {
+      this.undo_move = true;
+      this.currPlayer = this.currPlayer === 1 ? 2 : 1;
       this.selectedPiece = this.getPiece(this.scene.game.undo_move);
       this.selectedMove = this.getDivision(this.scene.game.undo_move);
       this.createAnim();
@@ -426,7 +433,11 @@ class Board extends CGFobject {
           this.scene.game.gameState = this.scene.game.gameStates.MENU;
           this.init();
         } else {
+          if(!this.undo_move){
+            this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+          }
           this.pickState = this.currPlayer === 1 ? this.pickStates.PICK_PIECE : this.pickStates.PICK_MOVE;
+          this.undo_move = false;
         }
 
         this.scene.game.winner_ready = false;
