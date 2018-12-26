@@ -166,7 +166,7 @@
             </materials>
             <texture id="none" />
             <children>
-                <!-- <componentref id="chairs"/>
+                <componentref id="chairs"/>
                 <componentref id="plants"/>
                 <componentref id="aquarium"/>
                 <componentref id="aquarium_table"/>
@@ -179,7 +179,7 @@
                 <componentref id="floor"/>
                 <componentref id="ceiling"/>
                 <componentref id="painting"/>
-                <primitiveref id="menu"/> -->
+                <primitiveref id="menu"/>
                 <primitiveref id="toolbar"/>
                 <!-- <primitiveref id="timer"/> -->
                 <!-- <primitiveref id="score"/> -->
@@ -235,8 +235,8 @@
         </component>
         <component id="chair1">
             <transformation>
-                <translate x="-2.5" y="0" z="0"/>
-                <rotate angle="180" axis="y"/>
+                <translate x="0" y="0" z="-2.5"/>
+                <rotate angle="90" axis="y"/>
             </transformation>
             <materials>
                 <material id="default" />
@@ -248,7 +248,8 @@
         </component>
         <component id="chair2">
             <transformation>
-                <translate x="2.5" y="0" z="0"/>
+                <translate x="0" y="0" z="2.5"/>
+                <rotate angle="-90" axis="y"/>
             </transformation>
             <materials>
                 <material id="default" />
@@ -308,6 +309,8 @@
         </component>
         <component id="painting">
             <transformation>
+                <translate x="0" y="4" z="-7.45"/>
+                <scale x="5" y="3.5" z="0.1" />
             </transformation>
             <materials>
                 <material id="wall" />
@@ -319,10 +322,7 @@
             </children>
         </component>
         <component id="canvas">
-            <transformation>
-                <translate x="-7.45" y="4" z="0"/>
-                <rotate angle="90" axis ="y"/>
-                <scale x="5" y="3.5" z="0.1" />
+            <transformation> 
             </transformation>
             <materials>
                 <material id="white" />
@@ -334,9 +334,7 @@
         </component>
         <component id="picture">
             <transformation>
-                <translate x="-7.35" y="4" z="0"/>
-                <rotate angle="90" axis ="y"/>
-                <scale x="5" y="3.5" z="0.1" />
+                <translate x="0" y="0" z="0.75"/>
             </transformation>
             <materials>
                 <material id="default" />
@@ -469,7 +467,8 @@
         </component>
         <component id="aquarium_table">
             <transformation>
-                <translate x="0" y="0" z="-6"/>
+                <translate x="-6" y="0" z="0"/>
+                <rotate angle="90" axis="y"/>
                 <scale x="2" y="1.75" z="1"/>
             </transformation>
             <materials>
@@ -482,7 +481,8 @@
         </component>
         <component id="aquarium">
             <transformation>
-                <translate x="-0.75" y="2" z="-6"/>
+                <translate x="-6" y="2" z="-0.75"/>
+                <rotate angle="90" axis="y"/>
             </transformation>
             <materials>
                 <material id="default" />

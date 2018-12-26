@@ -22,7 +22,7 @@ class Game {
     }
 
 
-    initData(){
+    initData() {
         this.board = [
             ['empty', 'white', 'empty', 'white', 'empty'],
             ['empty', 'empty', 'black', 'empty', 'empty'],
@@ -32,7 +32,7 @@ class Game {
         ];
         this.currPlayer = 1;
         this.countOcurrences = [];
-        this.boards = [];
+        this.boards = [this.board];
         this.gameState = this.gameStates.MENU;
         this.difficulty = this.difficulties.MEDIUM;
     }
@@ -84,7 +84,7 @@ class Game {
         return string;
     }
 
-    getBoardString(){
+    getBoardString() {
 
         console.log(this.board);
 
@@ -110,7 +110,7 @@ class Game {
         let piece_string = this.parseArrayToString(piece);
         let board_string = this.getBoardString();
         let this_game = this;
-        
+
         this.server.getPrologRequest("valid_moves([" + board_string + "]," + piece_string + ")", function (data) {
             this_game.valid_moves = data.target.response;
             this_game.moves_ready = true;
@@ -126,22 +126,23 @@ class Game {
             let newBoard = JSON.parse(data.target.response.replace(/(empty|white|black)/g, '"$1"'));
             console.log(newBoard);
             this_game.board = newBoard;
+            this_game.boards.push(newBoard);
             this_game.nextPlayer();
             this_game.move_ready = true;
         });
     }
 
-    getMove(board, newBoard){
+    getMove(board, newBoard) {
 
         let origin = [];
         let dest = [];
 
-        for(let i = 0; i < board.length; ++i){
-            for(let j = 0; j < board.length; ++j){
-                if(board[i][j] === 'empty' && newBoard[i][j] !== 'empty'){
+        for (let i = 0; i < board.length; ++i) {
+            for (let j = 0; j < board.length; ++j) {
+                if (board[i][j] === 'empty' && newBoard[i][j] !== 'empty') {
                     dest = [i, j];
                 }
-                else if(board[i][j] !== 'empty' && newBoard[i][j] === 'empty'){
+                else if (board[i][j] !== 'empty' && newBoard[i][j] === 'empty') {
                     origin = [i, j];
                 }
             }
@@ -150,7 +151,19 @@ class Game {
         return origin;
     }
 
-    choose_move(){
+    undoMove() {
+
+        let this_game = this;
+        if (this_game.boards.length > 1) {
+            let last_board = this_game.boards[this_game.boards.length - 1];
+            let second_last_board = this_game.boards[this_game.boards.length - 2];
+            this_game.undo_move = this_game.getMove(last_board, second_last_board);
+            this_game.boards.pop();
+            this_game.undo_ready = true;
+        }
+    }
+
+    choose_move() {
         let this_game = this;
         let board_string = this.getBoardString();
 
@@ -158,16 +171,17 @@ class Game {
             let newBoard = JSON.parse(data.target.response.replace(/(empty|white|black)/g, '"$1"'));
             this_game.bot_move = this_game.getMove(this_game.board, newBoard);
             this_game.board = newBoard;
+            this_game.boards.push(newBoard);
             this_game.nextPlayer();
             this_game.bot_ready = true;
         });
     }
 
-    gameOver(){
+    gameOver() {
         let this_game = this;
         let board_string = this.getBoardString();
 
-        this.server.getPrologRequest("game_over([" + board_string + "])", function (data){
+        this.server.getPrologRequest("game_over([" + board_string + "])", function (data) {
             console.log(data.target.response);
             this_game.winner = parseInt(data.target.response);
             this_game.winner_ready = true;

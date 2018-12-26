@@ -42,7 +42,7 @@ function getUrlVars() {
     return vars;
 }
 //Include additional files here
-serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js', 'primitives/MyCylinder.js', 'primitives/MyQuad.js', 'primitives/MyTorus.js', 'primitives/MyTriangle.js', 'primitives/MySphere.js', 'animations/Animation.js', 'animations/LinearAnimation.js', 'animations/CircularAnimation.js', 'primitives/Cylinder2.js', 'primitives/Patch.js', 'primitives/Plane.js', 'primitives/Terrain.js', 'primitives/Vehicle.js', 'primitives/Water.js', 'primitives/Board.js', 'primitives/Piece.js',  'primitives/Cube.js', 'primitives/Plant.js', 'primitives/Chair.js', 'animations/ArcAnimation.js', 'primitives/Torch.js', 'primitives/Menu.js', 'primitives/Timer.js', 'primitives/Score.js', 'primitives/Rotate.js', 'primitives/Toolbar.js', 'neutreeko/Game.js', 'neutreeko/Server.js',
+serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.js', 'primitives/MyCylinder.js', 'primitives/MyQuad.js', 'primitives/MyTorus.js', 'primitives/MyTriangle.js', 'primitives/MySphere.js', 'animations/Animation.js', 'animations/LinearAnimation.js', 'animations/CircularAnimation.js', 'primitives/Cylinder2.js', 'primitives/Patch.js', 'primitives/Plane.js', 'primitives/Terrain.js', 'primitives/Vehicle.js', 'primitives/Water.js', 'primitives/Board.js', 'primitives/Piece.js',  'primitives/Cube.js', 'primitives/Plant.js', 'primitives/Chair.js', 'animations/ArcAnimation.js', 'primitives/Torch.js', 'primitives/Menu.js', 'primitives/Timer.js', 'primitives/Score.js', 'primitives/Rotate.js', 'primitives/Undo.js', 'primitives/Toolbar.js', 'neutreeko/Game.js', 'neutreeko/Server.js',
 
     main = function () {
         // Standard application, scene and interface setup

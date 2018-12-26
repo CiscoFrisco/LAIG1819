@@ -200,6 +200,8 @@ class Board extends CGFobject {
   }
 
   createAnim() {
+    console.log(this.selectedPiece);
+    console.log(this.selectedMove);
     var path = [
       [0, 0, 0],
       [
@@ -246,7 +248,12 @@ class Board extends CGFobject {
           var obj = this.scene.pickResults[i][0];
           if (obj) {
             var customId = this.scene.pickResults[i][1];
-            this.save(obj, customId);
+            if (customId == 51) {
+              this.scene.game.undoMove();
+            }
+            else {
+              this.save(obj, customId);
+            }
             console.log('Picked object: ' + obj + ', with pick id ' + customId);
           }
         }
@@ -305,7 +312,6 @@ class Board extends CGFobject {
           let move = this.scene.game.bot_move;
           this.selectedPiece = this.getPiece(move);
           this.selectedMove = this.getDivision(move);
-
           this.createAnim();
           this.scene.game.bot_ready = false;
         }
@@ -336,6 +342,16 @@ class Board extends CGFobject {
 
   // PICK_MOVE -> NO_PICK ;; PICK_PIECE -> PICK_MOVE ;; NO_PICK -> PICK_PIECE
   updatePVP() {
+
+    //undo move
+    if (this.scene.game.undo_ready) {
+      this.pickState = this.pickStates.PICK_PIECE;
+      this.selectedPiece = this.getPiece(this.scene.game.undo_move);
+      this.selectedMove = this.getDivision(this.scene.game.undo_move);
+      this.createAnim();
+      this.scene.game.undo_ready = false;
+    }
+
     if (this.pickState === this.pickStates.PICK_PLAYER_MOVE) {
       if (this.scene.game.move_ready) {
         if (!this.anim.isActive) this.createAnim();
@@ -352,7 +368,6 @@ class Board extends CGFobject {
       if (this.scene.game.winner_ready) {
         let winner = this.scene.game.winner;
         this.sent = false;
-
         if (winner != 0) {
           this.scene.game.gameState = this.scene.game.gameStates.MENU;
           this.init();
@@ -369,6 +384,15 @@ class Board extends CGFobject {
   }
 
   updatePVC() {
+
+    //undo_move
+    if (this.scene.game.undo_ready) {
+      this.selectedPiece = this.getPiece(this.scene.game.undo_move);
+      this.selectedMove = this.getDivision(this.scene.game.undo_move);
+      this.createAnim();
+      this.scene.game.undo_ready = false;
+    }
+
     if (this.pickState === this.pickStates.PICK_PLAYER_MOVE) {
       if (this.scene.game.move_ready) {
         if (!this.anim.isActive) this.createAnim();

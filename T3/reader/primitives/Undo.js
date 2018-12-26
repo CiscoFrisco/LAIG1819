@@ -1,10 +1,10 @@
-class Rotate extends CGFobject {
+class Undo extends CGFobject {
     constructor(scene) {
         super(scene);
 
         this.base = new MyQuad(this.scene, -0.5, -0.5, 0.5, 0.5);
-        this.texture = new CGFtexture(this.scene, 'scenes/images/rotate.png')
-        this.id = 50;
+        this.texture = new CGFtexture(this.scene, 'scenes/images/undo.png')
+        this.id = 51;
     }
 
 
@@ -15,8 +15,7 @@ class Rotate extends CGFobject {
                     var obj = this.scene.pickResults[i][0];
                     if (obj) {
                         var customId = this.scene.pickResults[i][1];
-                        this.scene.startRotation();
-                        console.log('hey');
+                        this.scene.game.undoMove();
                         console.log("Picked object: " + obj + ", with pick id " + customId);
                     }
                 }
@@ -32,7 +31,7 @@ class Rotate extends CGFobject {
         this.scene.pushMatrix();
 
         this.texture.bind();
-        this.scene.scale(5, 5, 1);
+        this.scene.scale(2, 2, 0.5);
         this.scene.registerForPick(this.id, this.base);
         this.base.display();
         this.texture.unbind();
