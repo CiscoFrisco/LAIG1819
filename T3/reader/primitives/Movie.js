@@ -1,19 +1,18 @@
-class Rotate extends CGFobject {
+class Movie extends CGFobject {
     constructor(scene) {
         super(scene);
 
         this.base = new MyQuad(this.scene, -0.5, -0.5, 0.5, 0.5);
-        this.texture = new CGFtexture(this.scene, 'scenes/images/rotate.png')
-        this.id = 50;
+        this.texture = new CGFtexture(this.scene, 'scenes/images/undo.png')
+        this.id = 52;
     }
 
     display() {
 
-        this.logPicking();
-
         this.scene.pushMatrix();
 
         this.texture.bind();
+        this.scene.scale(2, 2, 0.5);
         this.scene.registerForPick(this.id, this.base);
         this.base.display();
         this.texture.unbind();

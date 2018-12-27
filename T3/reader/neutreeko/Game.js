@@ -131,8 +131,11 @@ class Game {
 
         this.server.getPrologRequest("move([" + move + "]," + this.currPlayer + ",[" + board_string + "])", function (data) {
             let newBoard = JSON.parse(data.target.response.replace(/(empty|white|black)/g, '"$1"'));
-            console.log(newBoard);
             this_game.board = newBoard;
+            if(this_game.boards.length == 1){
+                console.log(this_game.currPlayer);
+                this_game.first_to_play = this_game.currPlayer;
+            }
             this_game.boards.push(newBoard);
             this_game.nextPlayer();
             this_game.move_ready = true;
@@ -158,16 +161,34 @@ class Game {
         return origin;
     }
 
+    movieAnim(){
+        if(this.boards.length > 1){
+            this.setup_anim = true;
+            this.getMovieMoves();
+       }
+    }
+
+    getMovieMoves(){
+        this.movie_moves = [];
+
+        for(let i = 0; i < this.boards.length - 1; i++){
+            let movie_move = this.getMove(this.boards[i],this.boards[i + 1]);
+            this.movie_moves.push(movie_move);
+        }
+
+        this.currAnim = 0;
+        this.currAnimOver = true;
+    }
+
     undoMove() {
 
-        let this_game = this;
-        if (this_game.boards.length > 1) {
-            let last_board = this_game.boards[this_game.boards.length - 1];
-            let second_last_board = this_game.boards[this_game.boards.length - 2];
-            this_game.undo_move = this_game.getMove(last_board, second_last_board);
-            this_game.boards.pop();
-            this_game.undo_ready = true;
-            this_game.board = this_game.boards[this_game.boards.length - 1];
+        if (this.boards.length > 1) {
+            let last_board = this.boards[this.boards.length - 1];
+            let second_last_board = this_game.boards[this.boards.length - 2];
+            this.undo_move = this.getMove(last_board, second_last_board);
+            this.boards.pop();
+            this.undo_ready = true;
+            this.board = this.boards[this.boards.length - 1];
         }
     }
 
@@ -179,6 +200,9 @@ class Game {
             let newBoard = JSON.parse(data.target.response.replace(/(empty|white|black)/g, '"$1"'));
             this_game.bot_move = this_game.getMove(this_game.board, newBoard);
             this_game.board = newBoard;
+            if(this_game.boards.length == 1){
+                this_game.first_to_play = this_game.currPlayer;
+            }
             this_game.boards.push(newBoard);
             this_game.nextPlayer();
             this_game.bot_ready = true;

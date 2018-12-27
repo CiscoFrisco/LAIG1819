@@ -168,7 +168,6 @@ class Board extends CGFobject {
 
       let move = this.getPieceCoordinates(this.selectedPiece);
       move.push(this.getPieceCoordinates(this.selectedMove));
-      console.log(move);
 
       this.scene.game.move(move);
     }
@@ -201,8 +200,6 @@ class Board extends CGFobject {
   }
 
   createAnim() {
-    console.log(this.selectedPiece);
-    console.log(this.selectedMove);
     var path = [
       [0, 0, 0],
       [
@@ -236,7 +233,12 @@ class Board extends CGFobject {
       this.selectedPiece = null;
       this.selectedMove = null;
       this.anim.isActive = false;
-      this.pickState = this.pickStates.CHECK_GAME_OVER;
+      if (this.movie_ready) {
+        this.scene.game.currAnim++;
+        this.scene.game.currAnimOver = true;
+      }
+      else
+        this.pickState = this.pickStates.CHECK_GAME_OVER;
       this.sent = false;
     }
   }
@@ -248,7 +250,9 @@ class Board extends CGFobject {
           var obj = this.scene.pickResults[i][0];
           if (obj) {
             var customId = this.scene.pickResults[i][1];
-            if (customId == 51) {
+            if (customId == 52) {
+              this.scene.game.movieAnim();
+            } else if (customId == 51) {
               this.scene.game.undoMove();
             } else if (customId === 50) {
               this.scene.startRotation();
@@ -304,50 +308,88 @@ class Board extends CGFobject {
   }
 
   updateCVC() {
-    switch (this.pickState) {
-      case this.pickStates.PICK_MOVE:
-        if (!this.sent) {
-          this.scene.game.choose_move();
-          this.sent = true;
-        } else if (this.scene.game.bot_ready) {
-          let move = this.scene.game.bot_move;
-          this.selectedPiece = this.getPiece(move);
-          this.selectedMove = this.getDivision(move);
-          this.createAnim();
-          this.scene.game.bot_ready = false;
-        }
-        break;
-      case this.pickStates.CHECK_GAME_OVER:
-        if (!this.sent) {
-          this.scene.game.gameOver();
-          this.sent = true;
-        } else if (this.scene.game.winner_ready) {
-          let winner = this.scene.game.winner;
-          this.sent = false;
 
-          if (winner != 0) {
-            this.scene.game.gameState = this.scene.game.gameStates.MENU;
-            this.init();
-          } else {
-            this.scene.game.resetTimer();
-            this.pickState = this.pickStates.PICK_MOVE;
+    if (this.scene.game.setup_anim) {
+      this.initPieces();
+      this.currPlayer = this.scene.game.first_to_play;
+      this.scene.game.setup_anim = false;
+      this.movie_ready = true;
+    }
+    else if (this.movie_ready) {
+      if (this.scene.game.currAnim == this.scene.game.movie_moves.length)
+        this.movie_ready = false;
+      else if (this.scene.game.currAnimOver) {
+        if (this.scene.game.currAnim != 0)
+          this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+        this.selectedPiece = this.getPiece(this.scene.game.movie_moves[this.scene.game.currAnim]);
+        this.selectedMove = this.getDivision(this.scene.game.movie_moves[this.scene.game.currAnim]);
+        this.createAnim();
+        this.scene.game.currAnimOver = false;
+      }
+    }
+    else {
+      switch (this.pickState) {
+        case this.pickStates.PICK_MOVE:
+          if (!this.sent) {
+            this.scene.game.choose_move();
+            this.sent = true;
+          } else if (this.scene.game.bot_ready) {
+            let move = this.scene.game.bot_move;
+            this.selectedPiece = this.getPiece(move);
+            this.selectedMove = this.getDivision(move);
+            this.createAnim();
+            this.scene.game.bot_ready = false;
           }
+          break;
+        case this.pickStates.CHECK_GAME_OVER:
+          if (!this.sent) {
+            this.scene.game.gameOver();
+            this.sent = true;
+          } else if (this.scene.game.winner_ready) {
+            let winner = this.scene.game.winner;
+            this.sent = false;
 
-          this.scene.game.winner_ready = false;
-        }
-        break;
-      default:
-        this.pickState = this.pickStates.PICK_MOVE;
-        break;
+            if (winner != 0) {
+              this.scene.game.gameState = this.scene.game.gameStates.MENU;
+              this.init();
+            } else {
+              this.scene.game.resetTimer();
+              this.pickState = this.pickStates.PICK_MOVE;
+            }
+
+            this.scene.game.winner_ready = false;
+          }
+          break;
+        default:
+          this.pickState = this.pickStates.PICK_MOVE;
+          break;
+      }
     }
   }
 
   // PICK_MOVE -> NO_PICK ;; PICK_PIECE -> PICK_MOVE ;; NO_PICK -> PICK_PIECE
   // TODO: falta caso em que tempo acaba enquanto peça esta selecionada
   updatePVP() {
-    console.log(this.currPlayer);
-    //undo move
-    if (this.scene.game.undo_ready) {
+
+    if (this.scene.game.setup_anim) {
+      this.initPieces();
+      this.currPlayer = this.scene.game.first_to_play;
+      this.scene.game.setup_anim = false;
+      this.movie_ready = true;
+    }
+    else if (this.movie_ready) {
+      if (this.scene.game.currAnim == this.scene.game.movie_moves.length)
+        this.movie_ready = false;
+      else if (this.scene.game.currAnimOver) {
+        if (this.scene.game.currAnim != 0)
+          this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+        this.selectedPiece = this.getPiece(this.scene.game.movie_moves[this.scene.game.currAnim]);
+        this.selectedMove = this.getDivision(this.scene.game.movie_moves[this.scene.game.currAnim]);
+        this.createAnim();
+        this.scene.game.currAnimOver = false;
+      }
+    }
+    else if (this.scene.game.undo_ready) {
       this.undo_move = true;
       this.currPlayer = this.currPlayer === 1 ? 2 : 1;
       this.pickState = this.pickStates.PICK_PIECE;
@@ -356,65 +398,62 @@ class Board extends CGFobject {
       this.createAnim();
       this.scene.game.undo_ready = false;
     }
-
-    if (this.pickState === this.pickStates.PICK_PLAYER_MOVE) {
-      if (this.scene.game.move_ready) {
-        if (!this.anim.isActive) {
-          this.scene.game.stopTimer();
-          this.createAnim();
-        }
-        this.scene.game.move_ready = false;
-        this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
-      }
-
-
-      if (this.scene.game.turnOver) {
-
-        this.currPlayer = this.currPlayer === 1 ? 2 : 1;
-        this.scene.game.currPlayer = this.currPlayer === 1 ? 2 : 1;
-        this.pickState = this.pickStates.PICK_PIECE;
-        this.scene.game.turnOver = false;
-        this.scene.game.move_ready = false;
-        this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
-      }
-
-    } else if (
-      this.pickState === this.pickStates.PICK_PIECE) {
-
-      if (this.scene.game.moves_ready) {
-        this.pickState = this.pickStates.PICK_PLAYER_MOVE;
-        this.scene.game.moves_ready = false;
-        this.highlightPieces(JSON.parse(this.scene.game.valid_moves));
-
-      }
-
-      if (this.scene.game.turnOver) {
-
-        this.currPlayer = this.currPlayer === 1 ? 2 : 1;
-        this.scene.game.currPlayer = this.currPlayer === 1 ? 2 : 1;
-        this.scene.game.turnOver = false;
-      }
-
-    } else if (this.pickState === this.pickStates.CHECK_GAME_OVER) {
-      if (this.scene.game.winner_ready) {
-        let winner = this.scene.game.winner;
-        this.sent = false;
-        if (winner != 0) {
-          this.scene.game.gameState = this.scene.game.gameStates.MENU;
-          this.init();
-        } else {
-          if (!this.undo_move) {
-            this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+    else {
+      if (this.pickState === this.pickStates.PICK_PLAYER_MOVE) {
+        if (this.scene.game.move_ready) {
+          if (!this.anim.isActive) {
+            this.scene.game.stopTimer();
+            this.createAnim();
           }
-          this.pickState = this.pickStates.PICK_PIECE;
-          this.scene.game.resetTimer();
-          this.undo_move = false;
+          this.scene.game.move_ready = false;
+          this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
         }
 
-        this.scene.game.winner_ready = false;
-      } else if (!this.sent) {
-        this.scene.game.gameOver();
-        this.sent = true;
+        if (this.scene.game.turnOver) {
+          this.scene.game.currPlayer = this.currPlayer === 1 ? 2 : 1;   
+          this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+          this.pickState = this.pickStates.PICK_PIECE;
+          this.scene.game.turnOver = false;
+          this.scene.game.move_ready = false;
+          this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
+        }
+
+      } else if (
+        this.pickState === this.pickStates.PICK_PIECE) {
+
+        if (this.scene.game.moves_ready) {
+          this.pickState = this.pickStates.PICK_PLAYER_MOVE;
+          this.scene.game.moves_ready = false;
+          this.highlightPieces(JSON.parse(this.scene.game.valid_moves));
+        }
+
+        if (this.scene.game.turnOver) {
+          this.scene.game.currPlayer = this.currPlayer === 1 ? 2 : 1;
+          this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+          this.scene.game.turnOver = false;
+        }
+
+      } else if (this.pickState === this.pickStates.CHECK_GAME_OVER) {
+        if (this.scene.game.winner_ready) {
+          let winner = this.scene.game.winner;
+          this.sent = false;
+          if (winner != 0) {
+            this.scene.game.gameState = this.scene.game.gameStates.MENU;
+            this.init();
+          } else {
+            if (!this.undo_move) {
+              this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+            }
+            this.pickState = this.pickStates.PICK_PIECE;
+            this.scene.game.resetTimer();
+            this.undo_move = false;
+          }
+
+          this.scene.game.winner_ready = false;
+        } else if (!this.sent) {
+          this.scene.game.gameOver();
+          this.sent = true;
+        }
       }
     }
   }
@@ -422,99 +461,119 @@ class Board extends CGFobject {
   updatePVC() {
 
     //undo_move
-    if (this.scene.game.undo_ready) {
+    if (this.scene.game.setup_anim) {
+      this.initPieces();
+      this.currPlayer = this.scene.game.first_to_play;
+      this.scene.game.setup_anim = false;
+      this.movie_ready = true;
+    }
+    else if (this.movie_ready) {
+      if (this.scene.game.currAnim == this.scene.game.movie_moves.length)
+        this.movie_ready = false;
+      else if (this.scene.game.currAnimOver) {
+        if (this.scene.game.currAnim != 0)
+          this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+        this.selectedPiece = this.getPiece(this.scene.game.movie_moves[this.scene.game.currAnim]);
+        this.selectedMove = this.getDivision(this.scene.game.movie_moves[this.scene.game.currAnim]);
+        this.createAnim();
+        this.scene.game.currAnimOver = false;
+      }
+    }
+    else if (this.scene.game.undo_ready) {
       this.undo_move = true;
       this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+      this.pickState = this.pickStates.PICK_PIECE;
       this.selectedPiece = this.getPiece(this.scene.game.undo_move);
       this.selectedMove = this.getDivision(this.scene.game.undo_move);
       this.createAnim();
       this.scene.game.undo_ready = false;
     }
-
-    if (this.pickState === this.pickStates.PICK_PLAYER_MOVE) {
-      if (this.scene.game.move_ready) {
-        if (!this.anim.isActive) {
-          this.scene.game.stopTimer();
-          this.createAnim();
+    else {
+      if (this.pickState === this.pickStates.PICK_PLAYER_MOVE) {
+        if (this.scene.game.move_ready) {
+          if (!this.anim.isActive) {
+            this.scene.game.stopTimer();
+            this.createAnim();
+          }
+          this.scene.game.move_ready = false;
+          this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
         }
-        this.scene.game.move_ready = false;
-        this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
-      }
 
 
-      if (this.scene.game.turnOver) {
+        if (this.scene.game.turnOver) {
 
-        this.currPlayer = 2;
-        this.scene.game.currPlayer = 2;
-        this.pickState = this.pickStates.PICK_MOVE;
-        this.scene.game.move_ready = false;
-        this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
-        this.scene.game.turnOver = false;
-      }
+          this.currPlayer = 2;
+          this.scene.game.currPlayer = 2;
+          this.pickState = this.pickStates.PICK_MOVE;
+          this.scene.game.move_ready = false;
+          this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
+          this.scene.game.turnOver = false;
+        }
 
-    } else if (this.pickState === this.pickStates.PICK_MOVE) {
-      if (!this.sent) {
-        this.scene.game.choose_move();
-        this.sent = true;
-      } else if (this.scene.game.bot_ready) {
-        let move = this.scene.game.bot_move;
-        this.selectedPiece = this.getPiece(move);
-        this.selectedMove = this.getDivision(move);
+      } else if (this.pickState === this.pickStates.PICK_MOVE) {
+        if (!this.sent) {
+          this.scene.game.choose_move();
+          this.sent = true;
+        } else if (this.scene.game.bot_ready) {
+          let move = this.scene.game.bot_move;
+          this.selectedPiece = this.getPiece(move);
+          this.selectedMove = this.getDivision(move);
 
-        this.createAnim();
-        this.scene.game.stopTimer();
-        this.scene.game.bot_ready = false;
-      }
+          this.createAnim();
+          this.scene.game.stopTimer();
+          this.scene.game.bot_ready = false;
+        }
 
 
-      if (this.scene.game.turnOver) {
+        if (this.scene.game.turnOver) {
 
-        this.currPlayer = 1;
-        this.scene.game.currPlayer = 1;
-        this.pickState = this.pickStates.PICK_PLAYER_MOVE;
+          this.currPlayer = 1;
+          this.scene.game.currPlayer = 1;
+          this.pickState = this.pickStates.PICK_PLAYER_MOVE;
 
-        this.scene.game.turnOver = false;
-      }
+          this.scene.game.turnOver = false;
+        }
 
-    } else if (
-      this.pickState === this.pickStates.PICK_PIECE) {
+      } else if (
+        this.pickState === this.pickStates.PICK_PIECE) {
 
-      if (this.scene.game.moves_ready) {
-        this.pickState = this.pickStates.PICK_PLAYER_MOVE;
-        this.scene.game.moves_ready = false;
-        this.highlightPieces(JSON.parse(this.scene.game.valid_moves));
-      }
+        if (this.scene.game.moves_ready) {
+          this.pickState = this.pickStates.PICK_PLAYER_MOVE;
+          this.scene.game.moves_ready = false;
+          this.highlightPieces(JSON.parse(this.scene.game.valid_moves));
+        }
 
-      if (this.scene.game.turnOver) {
+        if (this.scene.game.turnOver) {
 
-        this.currPlayer = 2;
-        this.scene.game.currPlayer = 2;
-        this.scene.game.turnOver = false;
-        this.pickState = this.pickStates.PICK_MOVE;
-      }
+          this.currPlayer = 2;
+          this.scene.game.currPlayer = 2;
+          this.scene.game.turnOver = false;
+          this.pickState = this.pickStates.PICK_MOVE;
+        }
 
-    } else if (this.pickState === this.pickStates.CHECK_GAME_OVER) {
-      if (this.scene.game.winner_ready) {
-        let winner = this.scene.game.winner;
-        this.sent = false;
+      } else if (this.pickState === this.pickStates.CHECK_GAME_OVER) {
+        if (this.scene.game.winner_ready) {
+          let winner = this.scene.game.winner;
+          this.sent = false;
 
-        if (winner != 0) {
-          this.scene.game.gameState = this.scene.game.gameStates.MENU;
-          this.init();
-        } else {
-          if (!this.undo_move) {
-            this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+          if (winner != 0) {
+            this.scene.game.gameState = this.scene.game.gameStates.MENU;
+            this.init();
+          } else {
+            if (!this.undo_move) {
+              this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+            }
+
+            this.scene.game.resetTimer();
+            this.pickState = this.currPlayer === 1 ? this.pickStates.PICK_PIECE : this.pickStates.PICK_MOVE;
+            this.undo_move = false;
           }
 
-          this.scene.game.resetTimer();
-          this.pickState = this.currPlayer === 1 ? this.pickStates.PICK_PIECE : this.pickStates.PICK_MOVE;
-          this.undo_move = false;
+          this.scene.game.winner_ready = false;
+        } else if (!this.sent) {
+          this.scene.game.gameOver();
+          this.sent = true;
         }
-
-        this.scene.game.winner_ready = false;
-      } else if (!this.sent) {
-        this.scene.game.gameOver();
-        this.sent = true;
       }
     }
   }

@@ -6,6 +6,7 @@ class Toolbar extends CGFobject{
         this.score = new Score(scene, numbers);
         this.rotate = new Rotate(scene);
         this.undo = new Undo(scene);
+        this.movie = new Movie(scene);
     }
 
     display(){
@@ -20,14 +21,21 @@ class Toolbar extends CGFobject{
         // this.score.display();
         // this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.scene.translate(2, 1, 0);
-        this.rotate.display();
-        this.scene.popMatrix();
+        // this.scene.pushMatrix();
+        // this.scene.translate(2, 1, 0);
+        // this.rotate.display();
+        // this.scene.popMatrix();
 
         // this.scene.pushMatrix();
         // this.scene.translate(2, 1, 0);
         // this.undo.display();
         // this.scene.popMatrix();
+
+         this.scene.pushMatrix();
+        this.scene.translate(2, 1, 0);
+        this.movie.display();
+        this.scene.popMatrix();
+
+        
     }  
 }
