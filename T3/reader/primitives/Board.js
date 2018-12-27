@@ -26,6 +26,7 @@ class Board extends CGFobject {
     this.initDivisions();
     this.currPlayer = 1;
     this.pickState = this.pickStates.PICK_PIECE;
+    this.scene.game.resetTimer(false);
   }
 
   initDivisions() {
@@ -369,8 +370,10 @@ class Board extends CGFobject {
 
         this.currPlayer = this.currPlayer === 1 ? 2 : 1;
         this.scene.game.currPlayer = this.currPlayer === 1 ? 2 : 1;
-
+        this.pickState = this.pickStates.PICK_PIECE;
         this.scene.game.turnOver = false;
+        this.scene.game.move_ready = false;
+        this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
       }
 
     } else if (
@@ -439,9 +442,11 @@ class Board extends CGFobject {
 
       if (this.scene.game.turnOver) {
 
-        this.currPlayer = this.currPlayer === 1 ? 2 : 1;
-        this.scene.game.currPlayer = this.currPlayer === 1 ? 2 : 1;
-
+        this.currPlayer = 2;
+        this.scene.game.currPlayer = 2;
+        this.pickState = this.pickStates.PICK_MOVE;
+        this.scene.game.move_ready = false;
+        this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
         this.scene.game.turnOver = false;
       }
 
@@ -455,14 +460,16 @@ class Board extends CGFobject {
         this.selectedMove = this.getDivision(move);
         
         this.createAnim();
-        this.scene.stopTimer();
+        this.scene.game.stopTimer();
         this.scene.game.bot_ready = false;
       }
 
 
       if (this.scene.game.turnOver) {
 
-        this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+        this.currPlayer = 1;
+        this.scene.game.currPlayer = 1;
+        this.pickState = this.pickStates.PICK_PLAYER_MOVE;
 
         this.scene.game.turnOver = false;
       }
@@ -478,9 +485,10 @@ class Board extends CGFobject {
 
       if (this.scene.game.turnOver) {
 
-        this.currPlayer = this.currPlayer === 1 ? 2 : 1;
-        this.scene.game.currPlayer = this.currPlayer === 1 ? 2 : 1;
+        this.currPlayer = 2;
+        this.scene.game.currPlayer = 2;
         this.scene.game.turnOver = false;
+        this.pickState = this.pickStates.PICK_MOVE;
       }
 
     } else if (this.pickState === this.pickStates.CHECK_GAME_OVER) {

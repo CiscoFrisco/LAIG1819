@@ -194,16 +194,16 @@ class Game {
             this_game.winner = parseInt(data.target.response);
 
             if (this_game.winner != 0) {
-                this_game.score = 0;
+                this_game.initData();
             }
             this_game.winner_ready = true;
         });
     }
 
-    resetTimer() {
+    resetTimer(timer = true) {
         this.time = this.maxTime;
         this.elapsedTime = this.maxTime * 1000;
-        this.timer = true;
+        this.timer = timer;
     }
 
     stopTimer() {
