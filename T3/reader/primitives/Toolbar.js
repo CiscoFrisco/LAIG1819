@@ -10,20 +10,20 @@ class Toolbar extends CGFobject{
 
     display(){
 
-        this.scene.pushMatrix();
-        this.scene.translate(2, 1, 0);
-        this.timer.display();
-        this.scene.popMatrix();
+        // this.scene.pushMatrix();
+        // this.scene.translate(2, 1, 0);
+        // this.timer.display();
+        // this.scene.popMatrix();
 
         // this.scene.pushMatrix();
         // this.scene.translate(2, 1, 0);
         // this.score.display();
         // this.scene.popMatrix();
 
-        // this.scene.pushMatrix();
-        // this.scene.translate(10, 0, 0);
-        // this.rotate.display();
-        // this.scene.popMatrix();
+        this.scene.pushMatrix();
+        this.scene.translate(2, 1, 0);
+        this.rotate.display();
+        this.scene.popMatrix();
 
         // this.scene.pushMatrix();
         // this.scene.translate(2, 1, 0);

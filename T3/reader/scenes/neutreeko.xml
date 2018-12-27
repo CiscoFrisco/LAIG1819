@@ -5,8 +5,8 @@
             <from x="20.0" y="20.0" z="20.0" />
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
-        <perspective id="perspective2" near="0.1" far="1000.0" angle="23.0">
-            <from x="50.0" y="50.0" z="50.0" />
+        <perspective id="perspective2" near="0.1" far="1000.0" angle="25.0">
+            <from x="0.0" y="20.0" z="20.0" />
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
         <ortho id="ortho" near="0.1" far="1000.0" left="-100.0" right="100.0" top="100.0" bottom="-100.0">

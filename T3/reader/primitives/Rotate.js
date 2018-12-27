@@ -32,7 +32,6 @@ class Rotate extends CGFobject {
         this.scene.pushMatrix();
 
         this.texture.bind();
-        this.scene.scale(5, 5, 1);
         this.scene.registerForPick(this.id, this.base);
         this.base.display();
         this.texture.unbind();

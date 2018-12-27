@@ -250,6 +250,8 @@ class Board extends CGFobject {
             var customId = this.scene.pickResults[i][1];
             if (customId == 51) {
               this.scene.game.undoMove();
+            } else if (customId === 50) {
+              this.scene.startRotation();
             } else {
               this.save(obj, customId);
             }
@@ -357,10 +359,10 @@ class Board extends CGFobject {
 
     if (this.pickState === this.pickStates.PICK_PLAYER_MOVE) {
       if (this.scene.game.move_ready) {
-        if (!this.anim.isActive){
+        if (!this.anim.isActive) {
           this.scene.game.stopTimer();
           this.createAnim();
-        } 
+        }
         this.scene.game.move_ready = false;
         this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
       }
@@ -431,10 +433,10 @@ class Board extends CGFobject {
 
     if (this.pickState === this.pickStates.PICK_PLAYER_MOVE) {
       if (this.scene.game.move_ready) {
-        if (!this.anim.isActive){
+        if (!this.anim.isActive) {
           this.scene.game.stopTimer();
           this.createAnim();
-        } 
+        }
         this.scene.game.move_ready = false;
         this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
       }
@@ -458,7 +460,7 @@ class Board extends CGFobject {
         let move = this.scene.game.bot_move;
         this.selectedPiece = this.getPiece(move);
         this.selectedMove = this.getDivision(move);
-        
+
         this.createAnim();
         this.scene.game.stopTimer();
         this.scene.game.bot_ready = false;
