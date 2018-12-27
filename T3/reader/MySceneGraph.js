@@ -1637,9 +1637,25 @@ class MySceneGraph {
       return 'nonexistent piece2Mat on primitive' + id;
     }
 
+    var boardTex = this.reader.getString(primitive, 'boardTex', true);
+
+    if (boardTex == '') {
+      return 'invalid boardTex on primitive' + id;
+    } else if (this.textures[boardTex] == null) {
+      return 'nonexistent boardTex on primitive' + id;
+    }
+
+    var highTex = this.reader.getString(primitive, 'highTex', true);
+
+    if (highTex == '') {
+      return 'invalid highTex on primitive' + id;
+    } else if (this.textures[highTex] == null) {
+      return 'nonexistent highTex on primitive' + id;
+    }
+
     this.primitives[id] = new Board(
       this.scene, this.materials[boardMat], this.materials[piece1Mat],
-      this.materials[piece2Mat]);
+      this.materials[piece2Mat], this.textures[boardTex], this.textures[highTex]);
 
     return null;
   }

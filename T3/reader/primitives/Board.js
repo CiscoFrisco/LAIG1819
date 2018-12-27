@@ -1,8 +1,8 @@
 class Board extends CGFobject {
-  constructor(scene, boardMat, piece1Mat, piece2Mat) {
+  constructor(scene, boardMat, piece1Mat, piece2Mat, boardTex, highTex) {
     super(scene);
 
-    this.initAppearances(boardMat, piece1Mat, piece2Mat);
+    this.initAppearances(boardMat, piece1Mat, piece2Mat, boardTex, highTex);
 
     this.pickStates = Object.freeze({
       NO_PICK: 1,
@@ -63,7 +63,7 @@ class Board extends CGFobject {
       x: -1,
       y: 0.4,
       z: 2,
-      id: 1
+      id: 26
     };
 
     let blackPiece2 = {
@@ -71,7 +71,7 @@ class Board extends CGFobject {
       x: 1,
       y: 0.4,
       z: 2,
-      id: 2
+      id: 27
     };
 
     let blackPiece3 = {
@@ -79,7 +79,7 @@ class Board extends CGFobject {
       x: 0,
       y: 0.4,
       z: -1,
-      id: 3
+      id: 28
     };
 
     let whitePiece1 = {
@@ -87,7 +87,7 @@ class Board extends CGFobject {
       x: -1,
       y: 0.4,
       z: -2,
-      id: 1
+      id: 26
     };
 
     let whitePiece2 = {
@@ -95,7 +95,7 @@ class Board extends CGFobject {
       x: 1,
       y: 0.4,
       z: -2,
-      id: 2
+      id: 27
     };
 
     let whitePiece3 = {
@@ -103,21 +103,20 @@ class Board extends CGFobject {
       x: 0,
       y: 0.4,
       z: 1,
-      id: 3
+      id: 28
     };
 
     this.whitePieces.push(whitePiece1, whitePiece2, whitePiece3);
     this.blackPieces.push(blackPiece1, blackPiece2, blackPiece3);
   }
 
-  initAppearances(boardMat, piece1Mat, piece2Mat) {
+  initAppearances(boardMat, piece1Mat, piece2Mat, boardTex, highTex) {
     this.whiteAppearance = piece2Mat;
     this.blackAppearance = piece1Mat;
     this.boardAppearance = boardMat;
 
-    this.boardTexture = new CGFtexture(this.scene, 'scenes/images/piece.png');
-    this.boardTextureHigh =
-      new CGFtexture(this.scene, 'scenes/images/piece_high.png');
+    this.boardTexture = boardTex;
+    this.boardTextureHigh = highTex;
   }
 
   displayBoardBase() {
@@ -158,11 +157,15 @@ class Board extends CGFobject {
   }
 
   save(obj) {
-    if (this.pickState === this.pickStates.PICK_PIECE) {
+    if (obj.id >= 26) {
       this.selectedPiece = obj;
+
+      if (this.pickState === this.pickStates.PICK_PLAYER_MOVE)
+        this.highlightPieces(JSON.parse(this.scene.game.valid_moves), false);
 
       this.scene.game.getValidMoves(
         this.getPieceCoordinates(this.selectedPiece));
+
     } else {
       this.selectedMove = obj;
 
@@ -217,14 +220,14 @@ class Board extends CGFobject {
     if (this.anim.isActive && this.anim.anim.isOver()) {
       switch (this.currPlayer) {
         case 1:
-          this.blackPieces[this.anim.id - 1].x = this.selectedMove.x;
-          this.blackPieces[this.anim.id - 1].y = this.selectedPiece.y;
-          this.blackPieces[this.anim.id - 1].z = this.selectedMove.z;
+          this.blackPieces[this.anim.id - 1 - 25].x = this.selectedMove.x;
+          this.blackPieces[this.anim.id - 1 - 25].y = this.selectedPiece.y;
+          this.blackPieces[this.anim.id - 1 - 25].z = this.selectedMove.z;
           break;
         case 2:
-          this.whitePieces[this.anim.id - 1].x = this.selectedMove.x;
-          this.whitePieces[this.anim.id - 1].y = this.selectedPiece.y;
-          this.whitePieces[this.anim.id - 1].z = this.selectedMove.z;
+          this.whitePieces[this.anim.id - 1 - 25].x = this.selectedMove.x;
+          this.whitePieces[this.anim.id - 1 - 25].y = this.selectedPiece.y;
+          this.whitePieces[this.anim.id - 1 - 25].z = this.selectedMove.z;
           break;
         default:
           break;
@@ -236,8 +239,7 @@ class Board extends CGFobject {
       if (this.movie_ready) {
         this.scene.game.currAnim++;
         this.scene.game.currAnimOver = true;
-      }
-      else
+      } else
         this.pickState = this.pickStates.CHECK_GAME_OVER;
       this.sent = false;
     }
@@ -274,7 +276,7 @@ class Board extends CGFobject {
       this.scene.translate(piece.x, piece.y, piece.z);
 
       // and if these pieces belong to the current player
-      if (this.pickState === this.pickStates.PICK_PIECE &&
+      if ((this.pickState === this.pickStates.PICK_PIECE || this.pickState === this.pickStates.PICK_PLAYER_MOVE) &&
         this.currPlayer === player)
         this.scene.registerForPick(piece.id, piece);
 
@@ -314,8 +316,7 @@ class Board extends CGFobject {
       this.currPlayer = this.scene.game.first_to_play;
       this.scene.game.setup_anim = false;
       this.movie_ready = true;
-    }
-    else if (this.movie_ready) {
+    } else if (this.movie_ready) {
       if (this.scene.game.currAnim == this.scene.game.movie_moves.length)
         this.movie_ready = false;
       else if (this.scene.game.currAnimOver) {
@@ -326,8 +327,7 @@ class Board extends CGFobject {
         this.createAnim();
         this.scene.game.currAnimOver = false;
       }
-    }
-    else {
+    } else {
       switch (this.pickState) {
         case this.pickStates.PICK_MOVE:
           if (!this.sent) {
@@ -376,8 +376,7 @@ class Board extends CGFobject {
       this.currPlayer = this.scene.game.first_to_play;
       this.scene.game.setup_anim = false;
       this.movie_ready = true;
-    }
-    else if (this.movie_ready) {
+    } else if (this.movie_ready) {
       if (this.scene.game.currAnim == this.scene.game.movie_moves.length)
         this.movie_ready = false;
       else if (this.scene.game.currAnimOver) {
@@ -388,8 +387,7 @@ class Board extends CGFobject {
         this.createAnim();
         this.scene.game.currAnimOver = false;
       }
-    }
-    else if (this.scene.game.undo_ready) {
+    } else if (this.scene.game.undo_ready) {
       this.undo_move = true;
       this.currPlayer = this.currPlayer === 1 ? 2 : 1;
       this.pickState = this.pickStates.PICK_PIECE;
@@ -397,9 +395,14 @@ class Board extends CGFobject {
       this.selectedMove = this.getDivision(this.scene.game.undo_move);
       this.createAnim();
       this.scene.game.undo_ready = false;
-    }
-    else {
+    } else {
       if (this.pickState === this.pickStates.PICK_PLAYER_MOVE) {
+
+        if (this.scene.game.moves_ready) {
+          this.scene.game.moves_ready = false;
+          this.highlightPieces(JSON.parse(this.scene.game.valid_moves));
+        }
+
         if (this.scene.game.move_ready) {
           if (!this.anim.isActive) {
             this.scene.game.stopTimer();
@@ -410,7 +413,7 @@ class Board extends CGFobject {
         }
 
         if (this.scene.game.turnOver) {
-          this.scene.game.currPlayer = this.currPlayer === 1 ? 2 : 1;   
+          this.scene.game.currPlayer = this.currPlayer === 1 ? 2 : 1;
           this.currPlayer = this.currPlayer === 1 ? 2 : 1;
           this.pickState = this.pickStates.PICK_PIECE;
           this.scene.game.turnOver = false;
@@ -466,8 +469,7 @@ class Board extends CGFobject {
       this.currPlayer = this.scene.game.first_to_play;
       this.scene.game.setup_anim = false;
       this.movie_ready = true;
-    }
-    else if (this.movie_ready) {
+    } else if (this.movie_ready) {
       if (this.scene.game.currAnim == this.scene.game.movie_moves.length)
         this.movie_ready = false;
       else if (this.scene.game.currAnimOver) {
@@ -478,8 +480,7 @@ class Board extends CGFobject {
         this.createAnim();
         this.scene.game.currAnimOver = false;
       }
-    }
-    else if (this.scene.game.undo_ready) {
+    } else if (this.scene.game.undo_ready) {
       this.undo_move = true;
       this.currPlayer = this.currPlayer === 1 ? 2 : 1;
       this.pickState = this.pickStates.PICK_PIECE;
@@ -487,9 +488,15 @@ class Board extends CGFobject {
       this.selectedMove = this.getDivision(this.scene.game.undo_move);
       this.createAnim();
       this.scene.game.undo_ready = false;
-    }
-    else {
+    } else {
       if (this.pickState === this.pickStates.PICK_PLAYER_MOVE) {
+
+        if (this.scene.game.moves_ready) {
+          this.pickState = this.pickStates.PICK_PLAYER_MOVE;
+          this.scene.game.moves_ready = false;
+          this.highlightPieces(JSON.parse(this.scene.game.valid_moves));
+        }
+        
         if (this.scene.game.move_ready) {
           if (!this.anim.isActive) {
             this.scene.game.stopTimer();

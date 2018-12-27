@@ -67,6 +67,8 @@
         <texture id="seven" file="scenes/images/seven.png" />
         <texture id="eight" file="scenes/images/eight.png" />
         <texture id="nine" file="scenes/images/nine.png" />
+        <texture id="boardTex" file="scenes/images/piece.png" />
+        <texture id="highTex" file="scenes/images/piece_high.png" />
     </textures>
     <materials>
         <material id="default" shininess = "10.0">
@@ -142,7 +144,7 @@
             <water idtexture="water" idwavemap="wavemap" parts="10" heightscale="0.1" texscale="1"/>
         </primitive>
         <primitive id="board">
-            <board boardMat="board" piece1Mat="black" piece2Mat="white"/>
+            <board boardMat="board" boardTex="boardTex" highTex="highTex" piece1Mat="black" piece2Mat="white"/>
         </primitive>
         <primitive id="cube">
             <cube/>
@@ -319,7 +321,7 @@
             </children>
         </component>
         <component id="canvas">
-            <transformation> 
+            <transformation>
             </transformation>
             <materials>
                 <material id="white" />
