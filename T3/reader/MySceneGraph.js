@@ -71,6 +71,9 @@ class MySceneGraph {
       'water': this.parseWater,
       'menu': this.parseMenu,
       'torch': this.parseTorch,
+      'column':this.parseColumn,
+      'barrel':this.parseBarrel,
+      'door':this.parseDoor,
       'timer': this.parseTimer,
       'score': this.parseScore,
       'toolbar': this.parseToolbar
@@ -1674,6 +1677,20 @@ class MySceneGraph {
   parseChair(id, primitive) {
     this.primitives[id] = new Chair(this.scene);
     return null;
+  }
+
+  parseColumn(id, primitive) {
+    this.primitives[id] = new Column(this.scene);
+    return null;
+  }
+
+  parseBarrel(id, primitive) {
+    this.primitives[id] = new Barrel(this.scene);
+    return null;
+  }
+
+  parseDoor(id, primitive) {
+    this.primitives[id] = new Door(this.scene);
     return null;
   }
 
