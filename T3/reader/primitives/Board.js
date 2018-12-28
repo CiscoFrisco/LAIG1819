@@ -211,7 +211,7 @@ class Board extends CGFobject {
       ]
     ];
 
-    this.anim.anim = new LinearAnimation(this.scene, 2, path);
+    this.anim.anim = new ArcAnimation(this.scene, 2, path);
     this.anim.id = this.selectedPiece.id;
     this.anim.isActive = true;
   }
