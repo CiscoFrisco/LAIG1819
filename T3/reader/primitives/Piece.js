@@ -2,15 +2,15 @@ class Piece extends CGFobject {
     constructor(scene, appearance){
         super(scene);
 
-        this.cylinder = new MyCylinder(scene, 0.3, 0.3, 0.15, 20, 20);
+		this.piece = new CGFOBJModel(this.scene, 'scenes/models/piece.obj', true);
         this.appearance = appearance;
     }
 
     display(){
         this.scene.pushMatrix();
         this.appearance.apply();
-        this.scene.rotate(Math.PI / 2, 1, 0, 0);
-        this.cylinder.display();
+        this.scene.scale(0.4,0.2,0.4);
+        this.piece.display();
         this.scene.popMatrix();
     }
 }

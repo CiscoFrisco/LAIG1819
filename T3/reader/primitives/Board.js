@@ -17,6 +17,9 @@ class Board extends CGFobject {
       id: 0,
       isActive: false
     };
+    this.boardLength = 5;
+    this.numPieces = this.boardLength * this.boardLength;
+    this.animDuration = 2;
 
     this.init();
   }
@@ -35,9 +38,9 @@ class Board extends CGFobject {
     let x = -2,
       z = -2;
 
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < this.boardLength; i++) {
       let row = [];
-      for (let j = 0; j < 5; j++) {
+      for (let j = 0; j < this.boardLength; j++) {
         row.push({
           obj: new Cube(this.scene, 1, 0.5, 1),
           x: x,
@@ -157,7 +160,7 @@ class Board extends CGFobject {
   }
 
   save(obj) {
-    if (obj.id >= 26) {
+    if (obj.id > this.numPieces) {
       this.selectedPiece = obj;
 
       if (this.pickState === this.pickStates.PICK_PLAYER_MOVE)
@@ -211,7 +214,7 @@ class Board extends CGFobject {
       ]
     ];
 
-    this.anim.anim = new ArcAnimation(this.scene, 2, path);
+    this.anim.anim = new ArcAnimation(this.scene, this.animDuration, path);
     this.anim.id = this.selectedPiece.id;
     this.anim.isActive = true;
   }
@@ -220,14 +223,14 @@ class Board extends CGFobject {
     if (this.anim.isActive && this.anim.anim.isOver()) {
       switch (this.currPlayer) {
         case 1:
-          this.blackPieces[this.anim.id - 1 - 25].x = this.selectedMove.x;
-          this.blackPieces[this.anim.id - 1 - 25].y = this.selectedPiece.y;
-          this.blackPieces[this.anim.id - 1 - 25].z = this.selectedMove.z;
+          this.blackPieces[this.anim.id - 1 - this.numPieces].x = this.selectedMove.x;
+          this.blackPieces[this.anim.id - 1 - this.numPieces].y = this.selectedPiece.y;
+          this.blackPieces[this.anim.id - 1 - this.numPieces].z = this.selectedMove.z;
           break;
         case 2:
-          this.whitePieces[this.anim.id - 1 - 25].x = this.selectedMove.x;
-          this.whitePieces[this.anim.id - 1 - 25].y = this.selectedPiece.y;
-          this.whitePieces[this.anim.id - 1 - 25].z = this.selectedMove.z;
+          this.whitePieces[this.anim.id - 1 - this.numPieces].x = this.selectedMove.x;
+          this.whitePieces[this.anim.id - 1 - this.numPieces].y = this.selectedPiece.y;
+          this.whitePieces[this.anim.id - 1 - this.numPieces].z = this.selectedMove.z;
           break;
         default:
           break;
@@ -321,7 +324,7 @@ class Board extends CGFobject {
         this.movie_ready = false;
       else if (this.scene.game.currAnimOver) {
         if (this.scene.game.currAnim != 0)
-          this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+          this.currPlayer = 3 - this.currPlayer;
         this.selectedPiece = this.getPiece(this.scene.game.movie_moves[this.scene.game.currAnim]);
         this.selectedMove = this.getDivision(this.scene.game.movie_moves[this.scene.game.currAnim]);
         this.createAnim();
@@ -367,8 +370,6 @@ class Board extends CGFobject {
     }
   }
 
-  // PICK_MOVE -> NO_PICK ;; PICK_PIECE -> PICK_MOVE ;; NO_PICK -> PICK_PIECE
-  // TODO: falta caso em que tempo acaba enquanto peça esta selecionada
   updatePVP() {
 
     if (this.scene.game.setup_anim) {
@@ -381,7 +382,7 @@ class Board extends CGFobject {
         this.movie_ready = false;
       else if (this.scene.game.currAnimOver) {
         if (this.scene.game.currAnim != 0)
-          this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+          this.currPlayer = 3 - this.currPlayer;
         this.selectedPiece = this.getPiece(this.scene.game.movie_moves[this.scene.game.currAnim]);
         this.selectedMove = this.getDivision(this.scene.game.movie_moves[this.scene.game.currAnim]);
         this.createAnim();
@@ -389,7 +390,7 @@ class Board extends CGFobject {
       }
     } else if (this.scene.game.undo_ready) {
       this.undo_move = true;
-      this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+      this.currPlayer = 3 - this.currPlayer;
       this.pickState = this.pickStates.PICK_PIECE;
       this.selectedPiece = this.getPiece(this.scene.game.undo_move);
       this.selectedMove = this.getDivision(this.scene.game.undo_move);
@@ -413,8 +414,8 @@ class Board extends CGFobject {
         }
 
         if (this.scene.game.turnOver) {
-          this.scene.game.currPlayer = this.currPlayer === 1 ? 2 : 1;
-          this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+          this.scene.game.nextPlayer();
+          this.currPlayer = 3 - this.currPlayer;
           this.pickState = this.pickStates.PICK_PIECE;
           this.scene.game.turnOver = false;
           this.scene.game.move_ready = false;
@@ -431,8 +432,8 @@ class Board extends CGFobject {
         }
 
         if (this.scene.game.turnOver) {
-          this.scene.game.currPlayer = this.currPlayer === 1 ? 2 : 1;
-          this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+          this.scene.game.nextPlayer();
+          this.currPlayer = 3 - this.currPlayer;
           this.scene.game.turnOver = false;
         }
 
@@ -445,7 +446,7 @@ class Board extends CGFobject {
             this.init();
           } else {
             if (!this.undo_move) {
-              this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+              this.currPlayer = 3 - this.currPlayer;
             }
             this.pickState = this.pickStates.PICK_PIECE;
             this.scene.game.resetTimer();
@@ -474,7 +475,7 @@ class Board extends CGFobject {
         this.movie_ready = false;
       else if (this.scene.game.currAnimOver) {
         if (this.scene.game.currAnim != 0)
-          this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+          this.currPlayer = 3 - this.currPlayer;
         this.selectedPiece = this.getPiece(this.scene.game.movie_moves[this.scene.game.currAnim]);
         this.selectedMove = this.getDivision(this.scene.game.movie_moves[this.scene.game.currAnim]);
         this.createAnim();
@@ -482,7 +483,7 @@ class Board extends CGFobject {
       }
     } else if (this.scene.game.undo_ready) {
       this.undo_move = true;
-      this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+      this.currPlayer = 3 - this.currPlayer;
       this.pickState = this.pickStates.PICK_PIECE;
       this.selectedPiece = this.getPiece(this.scene.game.undo_move);
       this.selectedMove = this.getDivision(this.scene.game.undo_move);
@@ -496,7 +497,7 @@ class Board extends CGFobject {
           this.scene.game.moves_ready = false;
           this.highlightPieces(JSON.parse(this.scene.game.valid_moves));
         }
-        
+
         if (this.scene.game.move_ready) {
           if (!this.anim.isActive) {
             this.scene.game.stopTimer();
@@ -568,7 +569,7 @@ class Board extends CGFobject {
             this.init();
           } else {
             if (!this.undo_move) {
-              this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+              this.currPlayer = 3 - this.currPlayer;
             }
 
             this.scene.game.resetTimer();

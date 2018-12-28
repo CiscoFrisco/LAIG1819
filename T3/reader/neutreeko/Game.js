@@ -73,7 +73,7 @@ class Game {
     }
 
     nextPlayer() {
-        this.currPlayer = this.currPlayer === 1 ? 2 : 1;
+        this.currPlayer = 3 - this.currPlayer;
     }
 
     parseArrayToString(array) {
