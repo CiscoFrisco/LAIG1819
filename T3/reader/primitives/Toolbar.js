@@ -1,5 +1,5 @@
-class Toolbar extends CGFobject{
-    constructor(scene, numbers, undo, movie, rotate){
+class Toolbar extends CGFobject {
+    constructor(scene, numbers, undo, movie, rotate) {
         super(scene);
 
         this.timer = new Timer(scene, this.scene.game.maxTime, numbers);
@@ -9,34 +9,36 @@ class Toolbar extends CGFobject{
         this.movie = new ToolbarItem(scene, movie, 52);
     }
 
-    display(){
+    display() {
 
-        this.scene.pushMatrix();
-        this.scene.translate(-4, -0.5, 0);
-        this.score.display();
-        this.scene.popMatrix();
+        if (this.scene.game.gameState > 2) {
+            this.scene.pushMatrix();
+            this.scene.translate(-4, -0.5, 0);
+            this.score.display();
+            this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.scene.translate(-1.5, -0.5, 0);
-        this.timer.display();
-        this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.scene.translate(-1.5, -0.5, 0);
+            this.timer.display();
+            this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.scene.translate(0.5, 0, 0);
-        this.scene.scale(2,2,1);
-        this.rotate.display();
-        this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.scene.translate(0.5, 0, 0);
+            this.scene.scale(2, 2, 1);
+            this.rotate.display();
+            this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.scene.translate(2.5, 0, 0);
-        this.scene.scale(2,2,1);
-        this.undo.display();
-        this.scene.popMatrix();
+            this.scene.pushMatrix();
+            this.scene.translate(2.5, 0, 0);
+            this.scene.scale(2, 2, 1);
+            this.undo.display();
+            this.scene.popMatrix();
 
-        this.scene.pushMatrix();
-        this.scene.translate(4.5, 0, 0);
-        this.scene.scale(2,2,1);
-        this.movie.display();
-        this.scene.popMatrix(); 
-    }  
+            this.scene.pushMatrix();
+            this.scene.translate(4.5, 0, 0);
+            this.scene.scale(2, 2, 1);
+            this.movie.display();
+            this.scene.popMatrix();
+        }
+    }
 }

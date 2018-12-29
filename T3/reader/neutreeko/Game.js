@@ -182,6 +182,8 @@ class Game {
 
     undoMove() {
 
+        let this_game = this;
+
         if (this.boards.length > 1) {
             let last_board = this.boards[this.boards.length - 1];
             let second_last_board = this_game.boards[this.boards.length - 2];
