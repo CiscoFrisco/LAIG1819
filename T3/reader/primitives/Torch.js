@@ -2,6 +2,9 @@ class Torch extends CGFobject {
     constructor(scene) {
         super(scene);
 
+
+        this.torch = new CGFOBJModel(this.scene, 'scenes/models/piece.obj');
+
         this.outCP = [
             [
                 [0.0, 0.0, 0.0, 1.0],
@@ -141,7 +144,7 @@ class Torch extends CGFobject {
                 // this.scene.translate(0, i * 0.2, 0);
                 // this.scene.rotate(j * Math.PI / 2, 0, 1, 0);
                 // this.scene.rotate(k * Math.PI / 20, 0, 0, 1);
-                this.leaf_out.display();
+                this.torch.display();
                 //this.leaf_in.display();
                 this.scene.popMatrix();
         //     }

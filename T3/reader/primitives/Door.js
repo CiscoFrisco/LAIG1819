@@ -99,10 +99,6 @@ class Door extends CGFobject {
     }
 
     initTextures() {
-        this.doorTexture = new CGFappearance(this.scene);
-        this.doorTexture.setAmbient(0.361, 0.171, 0.076, 1.0);
-        this.doorTexture.setDiffuse(0.661, 0.271, 0.0176, 1.0);
-
         this.barrelTexture = new CGFappearance(this.scene);
         this.barrelTexture.loadTexture("scenes/images/torch.jpg");
 
@@ -114,8 +110,7 @@ class Door extends CGFobject {
         this.gridTexture.setDiffuse(0.1, 0.1, 0.1, 1.0);
 
         this.doorFrameTexture = new CGFappearance(this.scene);
-        this.doorFrameTexture.setAmbient(0.15, 0.15, 0.15, 1.0);
-        this.doorFrameTexture.setDiffuse(0.15, 0.15, 0.15, 1.0);
+        this.doorFrameTexture.loadTexture("scenes/images/floor2.jpg");
     };
 
     display() {

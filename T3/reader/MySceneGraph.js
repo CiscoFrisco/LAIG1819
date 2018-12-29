@@ -1519,8 +1519,6 @@ class MySceneGraph {
         return error;
 
       numControlPoints++;
-
-      return null;
     }
 
     var allControlPoints = [];
