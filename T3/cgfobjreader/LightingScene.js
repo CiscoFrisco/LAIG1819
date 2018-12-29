@@ -22,7 +22,7 @@ class LightingScene extends CGFscene
 		this.suzanne = new CGFOBJModel(this, 'models/suzanne.obj');
 		this.male = new CGFOBJModel(this, 'models/male.obj');
 		this.navigator = new CGFOBJModel(this, 'models/navigator.obj', true);
-		this.piece = new CGFOBJModel(this, 'models/piece.obj', true);
+		this.piece = new CGFOBJModel(this, 'models/pawnTut17.obj', true);
 
 		// Materials
 		this.materialDefault = new CGFappearance(this);

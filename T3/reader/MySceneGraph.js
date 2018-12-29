@@ -71,9 +71,9 @@ class MySceneGraph {
       'water': this.parseWater,
       'menu': this.parseMenu,
       'torch': this.parseTorch,
-      'column':this.parseColumn,
-      'barrel':this.parseBarrel,
-      'door':this.parseDoor,
+      'column': this.parseColumn,
+      'barrel': this.parseBarrel,
+      'door': this.parseDoor,
       'timer': this.parseTimer,
       'score': this.parseScore,
       'toolbar': this.parseToolbar
@@ -1148,7 +1148,7 @@ class MySceneGraph {
     return null;
   }
 
-  parseToolbar(id, primitive){
+  parseToolbar(id, primitive) {
     let error;
 
     var idzero = this.reader.getString(primitive, 'idzero', true);
@@ -1191,10 +1191,22 @@ class MySceneGraph {
     if ((error = this.parseTextureId(id, idnine)) != null)
       return error;
 
+    var idundo = this.reader.getString(primitive, 'idundo', true);
+    if ((error = this.parseTextureId(id, idundo)) != null)
+      return error;
+
+    var idmovie = this.reader.getString(primitive, 'idmovie', true);
+    if ((error = this.parseTextureId(id, idmovie)) != null)
+      return error;
+
+    var idrotate = this.reader.getString(primitive, 'idrotate', true);
+    if ((error = this.parseTextureId(id, idrotate)) != null)
+      return error;
+
     let numbers = [];
     numbers.push(this.textures[idzero], this.textures[idone], this.textures[idtwo], this.textures[idthree], this.textures[idfour], this.textures[idfive], this.textures[idsix], this.textures[idseven], this.textures[ideight], this.textures[idnine]);
 
-    this.primitives[id] = new Toolbar(this.scene, numbers);
+    this.primitives[id] = new Toolbar(this.scene, numbers, this.textures[idundo], this.textures[idmovie], this.textures[idrotate]);
 
     return null;
   }
@@ -2104,7 +2116,7 @@ class MySceneGraph {
     return false;
   }
 
-  update(deltaTime){
+  update(deltaTime) {
     for (let key in this.primitives) {
       if (this.primitives[key] instanceof Water || this.primitives[key] instanceof Timer || this.primitives[key] instanceof Board) {
         this.primitives[key].update(deltaTime);
