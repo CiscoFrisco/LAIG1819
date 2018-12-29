@@ -103,21 +103,31 @@ class Door extends CGFobject {
         this.doorTexture.setAmbient(0.361, 0.171, 0.076, 1.0);
         this.doorTexture.setDiffuse(0.661, 0.271, 0.0176, 1.0);
 
+        this.barrelTexture = new CGFappearance(this.scene);
+        this.barrelTexture.loadTexture("scenes/images/torch.jpg");
+
+        this.frideTexture = new CGFappearance(this.scene);
+        this.frideTexture.loadTexture("scenes/images/rusty.jpg");
+
         this.gridTexture = new CGFappearance(this.scene);
         this.gridTexture.setAmbient(0.1, 0.1, 0.1, 1.0);
         this.gridTexture.setDiffuse(0.1, 0.1, 0.1, 1.0);
+
+        this.doorFrameTexture = new CGFappearance(this.scene);
+        this.doorFrameTexture.setAmbient(0.15, 0.15, 0.15, 1.0);
+        this.doorFrameTexture.setDiffuse(0.15, 0.15, 0.15, 1.0);
     };
 
     display() {
 
-        this.gridTexture.apply();
+        this.frideTexture.apply();
 
         this.scene.pushMatrix();
         this.scene.translate(0,4.4,0);
         this.window_grid.display();
         this.scene.popMatrix();
 
-        this.doorTexture.apply();
+        this.barrelTexture.apply();
 
         this.scene.pushMatrix();
         this.scene.translate(0,2.0,0);
@@ -158,6 +168,8 @@ class Door extends CGFobject {
         this.scene.rotate(Math.PI,0,1,0);
         this.up_door.display();
         this.scene.popMatrix();
+
+        this.doorFrameTexture.apply();
 
         this.scene.pushMatrix();
         this.scene.translate(-2.2,0.25,0);
@@ -245,44 +257,99 @@ class Door extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.translate(-2.05,4.9,0);
+        this.scene.translate(-2.2,4.1,0);
         this.scene.scale(0.5,0.5,0.5);
-        this.scene.rotate(-Math.PI/12,0,0,1);
         this.door_frame_bricks.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.translate(2.05,4.9,0);
+        this.scene.translate(2.2,4.1,0);
         this.scene.scale(0.5,0.5,0.5);
-        this.scene.rotate(Math.PI/12,0,0,1);
         this.door_frame_bricks.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.translate(-1.75,5.55,0);
+        this.scene.translate(-2.15,4.65,0);
         this.scene.scale(0.5,0.5,0.5);
-        this.scene.rotate(-Math.PI/4,0,0,1);
+        this.scene.rotate(-Math.PI/24,0,0,1);
         this.door_frame_bricks.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.translate(1.75,5.55,0);
+        this.scene.translate(2.15,4.65,0);
         this.scene.scale(0.5,0.5,0.5);
-        this.scene.rotate(Math.PI/4,0,0,1);
+        this.scene.rotate(Math.PI/24,0,0,1);
         this.door_frame_bricks.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.translate(-1.0,6.0,0);
-        this.scene.scale(0.5,0.5,0.5);
-        this.scene.rotate(-Math.PI/3,0,0,1);
+        this.scene.translate(-2.075,5.075,0);
+        this.scene.rotate(-Math.PI/10,0,0,1);
+        this.scene.scale(0.5,0.25,0.5);
         this.door_frame_bricks.display();
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.translate(1.0,6.0,0);
+        this.scene.translate(2.075,5.075,0);
+        this.scene.rotate(Math.PI/10,0,0,1);
+        this.scene.scale(0.5,0.25,0.5);
+        this.door_frame_bricks.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(-1.95,5.375,0);
+        this.scene.rotate(-Math.PI/6,0,0,1);
+        this.scene.scale(0.5,0.25,0.5);
+        this.door_frame_bricks.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(1.95,5.375,0);
+        this.scene.rotate(Math.PI/6,0,0,1);
+        this.scene.scale(0.5,0.25,0.5);
+        this.door_frame_bricks.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(-1.6,5.715,0);
         this.scene.scale(0.5,0.5,0.5);
-        this.scene.rotate(Math.PI/3,0,0,1);
+        this.scene.rotate(-Math.PI/3.25,0,0,1);
+        this.door_frame_bricks.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(1.6,5.715,0);
+        this.scene.scale(0.5,0.5,0.5);
+        this.scene.rotate(Math.PI/3.25,0,0,1);
+        this.door_frame_bricks.display();
+        this.scene.popMatrix();
+
+
+        this.scene.pushMatrix();
+        this.scene.translate(-1.1,5.985,0);
+        this.scene.scale(0.5,0.5,0.5);
+        this.scene.rotate(-Math.PI/2.65,0,0,1);
+        this.door_frame_bricks.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(1.1,5.985,0);
+        this.scene.scale(0.5,0.5,0.5);
+        this.scene.rotate(Math.PI/2.65,0,0,1);
+        this.door_frame_bricks.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(-0.55,6.15,0);
+        this.scene.scale(0.5,0.5,0.5);
+        this.scene.rotate(-Math.PI/2.25,0,0,1);
+        this.door_frame_bricks.display();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(0.55,6.15,0);
+        this.scene.scale(0.5,0.5,0.5);
+        this.scene.rotate(Math.PI/2.25,0,0,1);
         this.door_frame_bricks.display();
         this.scene.popMatrix();
 

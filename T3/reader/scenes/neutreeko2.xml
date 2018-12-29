@@ -43,6 +43,8 @@
         <texture id="floor" file="scenes/images/floor2.jpg" />
         <texture id="boardTex" file="scenes/images/piece.png" />
         <texture id="highTex" file="scenes/images/piece_high.png" />
+        <texture id="hay" file="scenes/images/hay.jpg" />
+        <texture id="haymap" file="scenes/images/heightmap.jpg" />
     </textures>
     <materials>
         <material id="default" shininess = "10.0">
@@ -96,12 +98,9 @@
         <primitive id="cylinder">
             <cylinder base="1.0" top="1.0" height="1.0" slices="20" stacks="20" />
         </primitive>
-        <!-- <primitive id="terrain">
-            <terrain idtexture="terrain" idheightmap="heightmap" parts="20" heightscale="0.2"/>
+        <primitive id="hay">
+            <terrain idtexture="hay" idheightmap="haymap" parts="20" heightscale="0.5"/>
         </primitive>
-        <primitive id="water">
-            <water idtexture="water" idwavemap="wavemap" parts="10" heightscale="0.1" texscale="1"/>
-        </primitive> -->
         <primitive id="board">
             <board boardMat="board" boardTex="boardTex" highTex="highTex" piece1Mat="black" piece2Mat="white"/>
         </primitive>
@@ -136,18 +135,20 @@
             </materials>
             <texture id="none" />
             <children>
-                <!-- <componentref id="board"/> -->
+                <componentref id="board"/>
                 <componentref id="walls"/>
                 <componentref id="floor"/>
                 <componentref id="barrels"/>
                 <componentref id="columns"/>
                 <componentref id="door"/>
+                <componentref id="hays"/>
             </children>
         </component>
-         <component id="door">
+        <component id="door">
             <transformation>
-            <translate x="0" y="0" z="-7.5"/>
-             <scale x="1.25" y="1.25" z="1.25" />
+                <translate x="-7.5" y="0" z="0"/>
+                <rotate angle="90" axis ="y"/>
+                <scale x="1.25" y="1.25" z="1.25" />
             </transformation>
             <materials>
                 <material id="default" />
@@ -157,13 +158,65 @@
                 <primitiveref id="door"/>
             </children>
         </component>
+        <component id="hays">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <componentref id="hay1"/>
+                <componentref id="hay2"/>
+                <componentref id="hay3"/>
+            </children>
+        </component>
+        <component id="hay1">
+            <transformation>
+                <translate x="-5" y="-0.1" z="5"/>
+                <scale x="5" y="1" z="5"/>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="hay"/>
+            </children>
+        </component>
+        <component id="hay2">
+            <transformation>
+                <translate x="5" y="-0.1" z="5"/>
+                <scale x="5" y="1" z="5"/>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="hay"/>
+            </children>
+        </component>
+        <component id="hay3">
+            <transformation>
+                <translate x="-5" y="-0.1" z="-5"/>
+                <scale x="5" y="1" z="5"/>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="hay"/>
+            </children>
+        </component>
         <component id="walls">
             <transformation>
             </transformation>
             <materials>
                 <material id="default" />
             </materials>
-            <texture id="wall" length_s="1.0" length_t="1.0"/>
+            <texture id="none"/>
             <children>
                 <componentref id="wall1"/>
                 <componentref id="wall2"/>
@@ -172,40 +225,41 @@
         </component>
         <component id="wall1">
             <transformation>
-                <translate x="-5.25" y="4" z="-7.5"/>
-                <scale x="4.5" y="8" z="1" />
+                <translate x="-7.5" y="4.1" z="-5.5"/>
+                <rotate angle="90" axis="y"/>
+                <scale x="5.0" y="8.2" z="1" />
             </transformation>
             <materials>
                 <material id="default" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="wall" length_s="1.0" length_t="1.0"/>
             <children>
                 <primitiveref id="cube"/>
             </children>
         </component>
         <component id="wall2">
             <transformation>
-                <translate x="5.25" y="4" z="-7.5"/>
-                <scale x="4.5" y="8" z="1" />
+                <translate x="-7.5" y="4.1" z="5.25"/>
+                <rotate angle="90" axis="y"/>
+                <scale x="4.5" y="8.2" z="1" />
             </transformation>
             <materials>
                 <material id="default" />
             </materials>
-            <texture id="inherit"/>
+            <texture id="wall" length_s="1.0" length_t="1.0"/>
             <children>
                 <primitiveref id="cube"/>
             </children>
         </component>
         <component id="wall3">
             <transformation>
-                <translate x="-7.5" y="4" z="0"/>
-                <scale x="1" y="8" z="15"/>
-                <rotate angle="90" axis="y"/>
+                <translate x="0" y="4.1" z="-7.5"/>
+                <scale x="15" y="8.2" z="1"/>
             </transformation>
             <materials>
-                <material id="default" />
+                <material id="default"/>
             </materials>
-            <texture id="inherit"/>
+            <texture id="wall" length_s="1.0" length_t="1.0"/>
             <children>
                 <primitiveref id="cube"/>
             </children>
@@ -216,7 +270,7 @@
             <materials>
                 <material id="default" />
             </materials>
-            <texture id="wall" length_s="1.0" length_t="1.0"/>
+            <texture id="none"/>
             <children>
                 <componentref id="barrel1"/>
                 <componentref id="barrel2"/>
@@ -226,59 +280,60 @@
         </component>
         <component id="barrel1">
             <transformation>
-            <translate x="-6.0" y="0.0" z="4.0"/>
+                <translate x="-6.0" y="0.0" z="4.0"/>
             </transformation>
             <materials>
                 <material id="default" />
             </materials>
-            <texture id="wall" length_s="1.0" length_t="1.0"/>
+            <texture id="none"/>
             <children>
                 <primitiveref id="barrel"/>
             </children>
         </component>
-         <component id="barrel2">
+        <component id="barrel2">
             <transformation>
-            <translate x="-6.0" y="0.0" z="6.0"/>
+                <translate x="-6.0" y="0.0" z="6.0"/>
             </transformation>
             <materials>
                 <material id="default" />
             </materials>
-            <texture id="wall" length_s="1.0" length_t="1.0"/>
+            <texture id="none"/>
             <children>
                 <primitiveref id="barrel"/>
             </children>
         </component>
-         <component id="barrel3">
+        <component id="barrel3">
             <transformation>
-            <translate x="-5.0" y="0.0" z="5.0"/>
+                <translate x="-5.0" y="0.0" z="5.0"/>
             </transformation>
             <materials>
                 <material id="default" />
             </materials>
-            <texture id="wall" length_s="1.0" length_t="1.0"/>
+            <texture id="none"/>
             <children>
                 <primitiveref id="barrel"/>
             </children>
         </component>
-         <component id="barrel4">
+        <component id="barrel4">
             <transformation>
-            <translate x="-6.0" y="2.0" z="5.0"/>
+                <translate x="-6.0" y="2.0" z="5.0"/>
             </transformation>
             <materials>
                 <material id="default" />
             </materials>
-            <texture id="wall" length_s="1.0" length_t="1.0"/>
+            <texture id="none"/>
             <children>
                 <primitiveref id="barrel"/>
             </children>
         </component>
         <component id="columns">
             <transformation>
+                <scale x="1" y="1.02" z="1"/>
             </transformation>
             <materials>
                 <material id="default" />
             </materials>
-            <texture id="wall" length_s="1.0" length_t="1.0"/>
+            <texture id="none"/>
             <children>
                 <componentref id="column1"/>
                 <componentref id="column2"/>
@@ -287,36 +342,36 @@
         </component>
         <component id="column1">
             <transformation>
-            <translate x="-7.5" y="0.0" z="8.0"/>
+                <translate x="-7.5" y="0.0" z="8.0"/>
             </transformation>
             <materials>
                 <material id="default" />
             </materials>
-            <texture id="wall" length_s="1.0" length_t="1.0"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="column"/>
             </children>
         </component>
-         <component id="column2">
+        <component id="column2">
             <transformation>
-            <translate x="-6.5" y="0.0" z="-6.5"/>
+                <translate x="-6.5" y="0.0" z="-6.5"/>
             </transformation>
             <materials>
                 <material id="default" />
             </materials>
-            <texture id="wall" length_s="1.0" length_t="1.0"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="column"/>
             </children>
         </component>
-         <component id="column3">
+        <component id="column3">
             <transformation>
-            <translate x="8.0" y="0.0" z="-7.5"/>
+                <translate x="8.0" y="0.0" z="-7.5"/>
             </transformation>
             <materials>
                 <material id="default" />
             </materials>
-            <texture id="wall" length_s="1.0" length_t="1.0"/>
+            <texture id="inherit"/>
             <children>
                 <primitiveref id="column"/>
             </children>
@@ -337,7 +392,6 @@
         <component id="board">
             <transformation>
                 <translate x="0" y="1.15" z="0"/>
-                <rotate angle="90" axis="y"/>
             </transformation>
             <materials>
                 <material id="default" />
