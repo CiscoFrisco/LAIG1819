@@ -64,7 +64,7 @@ class Board extends CGFobject {
     let blackPiece1 = {
       obj: new Piece(this.scene, this.blackAppearance),
       x: -1,
-      y: 0.4,
+      y: 0.25,
       z: 2,
       id: 26
     };
@@ -72,7 +72,7 @@ class Board extends CGFobject {
     let blackPiece2 = {
       obj: new Piece(this.scene, this.blackAppearance),
       x: 1,
-      y: 0.4,
+      y: 0.25,
       z: 2,
       id: 27
     };
@@ -80,7 +80,7 @@ class Board extends CGFobject {
     let blackPiece3 = {
       obj: new Piece(this.scene, this.blackAppearance),
       x: 0,
-      y: 0.4,
+      y: 0.25,
       z: -1,
       id: 28
     };
@@ -88,7 +88,7 @@ class Board extends CGFobject {
     let whitePiece1 = {
       obj: new Piece(this.scene, this.whiteAppearance),
       x: -1,
-      y: 0.4,
+      y: 0.25,
       z: -2,
       id: 26
     };
@@ -96,7 +96,7 @@ class Board extends CGFobject {
     let whitePiece2 = {
       obj: new Piece(this.scene, this.whiteAppearance),
       x: 1,
-      y: 0.4,
+      y: 0.25,
       z: -2,
       id: 27
     };
@@ -104,7 +104,7 @@ class Board extends CGFobject {
     let whitePiece3 = {
       obj: new Piece(this.scene, this.whiteAppearance),
       x: 0,
-      y: 0.4,
+      y: 0.25,
       z: 1,
       id: 28
     };

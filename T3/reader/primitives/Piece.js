@@ -2,7 +2,7 @@ class Piece extends CGFobject {
     constructor(scene, appearance){
         super(scene);
 
-		this.piece = new CGFOBJModel(this.scene, 'scenes/models/piece.obj', true);
+		this.piece = new CGFOBJModel(this.scene, 'scenes/models/piece.obj');
         this.appearance = appearance;
     }
 
