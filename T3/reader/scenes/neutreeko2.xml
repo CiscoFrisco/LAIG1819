@@ -714,7 +714,8 @@
             </materials>
             <texture id="wall" length_s="1.0" length_t="1.0"/>
             <children>
-                <componentref id="wall_top"/>
+                <componentref id="wall_top1"/>
+                <componentref id="wall_top2"/>
                 <componentref id="wall_arch1"/>
                 <componentref id="wall_arch2"/>
             </children>
@@ -730,10 +731,24 @@
                 <primitiveref id="wall_door"/>
             </children>
         </component>
-        <component id="wall_top">
+        <component id="wall_top1">
             <transformation>
                 <translate x="-7.5" y="8.2" z="0"/>
                 <rotate angle="-90" axis="x"/>
+                <scale x="1" y="6" z="1"/>
+            </transformation>
+            <materials>
+                <material id="default"/>
+            </materials>
+            <texture id="inherit"/>
+            <children>
+                <primitiveref id="quad"/>
+            </children>
+        </component>
+        <component id="wall_top2">
+            <transformation>
+                <translate x="-7.5" y="8.2" z="0"/>
+                <rotate angle="90" axis="x"/>
                 <scale x="1" y="6" z="1"/>
             </transformation>
             <materials>
