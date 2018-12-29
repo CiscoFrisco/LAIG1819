@@ -8,15 +8,14 @@ class Column extends CGFobject {
 
     initTextures() {
 
-        this.vaseTexture = new CGFappearance(this.scene);
-        this.vaseTexture.setAmbient(0.361, 0.171, 0.076, 1.0);
-        this.vaseTexture.setDiffuse(0.661, 0.271, 0.0176, 1.0);
+        this.columnTexture = new CGFappearance(this.scene);
+        this.columnTexture.loadTexture("scenes/images/rock_wall.jpg");
     };
 
     display() {
 
         this.scene.pushMatrix();
-        this.vaseTexture.apply();
+        this.columnTexture.apply();
         this.scene.rotate(Math.PI/4,0,1,0);
 
             this.scene.pushMatrix();
