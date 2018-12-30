@@ -94,7 +94,6 @@ class ArcAnimation extends Animation {
     }
 
     apply() {
-        console.log(this.y);
         this.scene.translate(this.x, this.y, this.z);
     }
 

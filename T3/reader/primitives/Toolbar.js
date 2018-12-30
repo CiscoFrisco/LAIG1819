@@ -9,9 +9,41 @@ class Toolbar extends CGFobject {
         this.movie = new ToolbarItem(scene, movie, 52);
     }
 
+    logPicking() {
+        let picked = false;
+
+        if (this.scene.pickMode == false) {
+            if (this.scene.pickResults != null && this.scene.pickResults.length > 0) {
+                for (var i = 0; i < this.scene.pickResults.length; i++) {
+                    var obj = this.scene.pickResults[i][0];
+                    if (obj) {
+                        var customId = this.scene.pickResults[i][1];
+
+                        if (customId >= 50 && customId <= 52) {
+                            picked = true;
+
+                            if (customId === 50)
+                                this.scene.startRotation();
+                            else if (customId === 51)
+                                this.scene.game.undoMove();
+                            else if (customId === 52)
+                                this.scene.game.movieAnim();
+                        }
+                        console.log('Picked object: ' + obj + ', with pick id ' + customId);
+                    }
+                }
+                if (picked)
+                    this.scene.pickResults.splice(0, this.scene.pickResults.length);
+            }
+        }
+    }
+
     display() {
 
         if (this.scene.game.gameState > 2) {
+
+            this.logPicking();
+
             this.scene.pushMatrix();
             this.scene.translate(-4, -0.5, 0);
             this.score.display();
