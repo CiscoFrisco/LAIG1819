@@ -35,6 +35,7 @@ class Game {
         this.currPlayer = 1;
         this.countOcurrences = [];
         this.boards = [this.board];
+        this.players = [];
         this.gameState = this.gameStates.MENU;
         this.difficulty = this.difficulties.MEDIUM;
         this.score = 0;
@@ -131,10 +132,12 @@ class Game {
             let newBoard = JSON.parse(data.target.response.replace(/(empty|white|black)/g, '"$1"'));
             this_game.board = newBoard;
             if(this_game.boards.length == 1){
-                console.log(this_game.currPlayer);
                 this_game.first_to_play = this_game.currPlayer;
             }
             this_game.boards.push(newBoard);
+            if(this_game.boards.length != 1){
+                this_game.players.push(this_game.currPlayer);
+            }
             this_game.nextPlayer();
             this_game.move_ready = true;
             this_game.score++;
@@ -187,6 +190,7 @@ class Game {
             let second_last_board = this_game.boards[this.boards.length - 2];
             this.undo_move = this.getMove(last_board, second_last_board);
             this.boards.pop();
+            this.players.pop();
             this.undo_ready = true;
             this.board = this.boards[this.boards.length - 1];
         }

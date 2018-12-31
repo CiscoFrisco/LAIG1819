@@ -9,7 +9,7 @@ class Piece extends CGFobject {
     display(){
         this.scene.pushMatrix();
         this.appearance.apply();
-        this.scene.scale(0.4,0.2,0.4);
+        this.scene.scale(0.4,0.4,0.4);
         this.piece.display();
         this.scene.popMatrix();
     }
