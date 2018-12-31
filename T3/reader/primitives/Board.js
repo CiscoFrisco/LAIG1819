@@ -28,7 +28,15 @@ class Board extends CGFobject {
     this.initPieces();
     this.initDivisions();
     this.currPlayer = 1;
-    this.pickState = this.pickStates.PICK_PIECE;
+    this.pickState = this.pickStates.NO_PICK;
+    this.scene.game.resetTimer(false);
+  }
+
+  reset() {
+    this.resetPieces();
+    this.resetDivisions();
+    this.currPlayer = 1;
+    this.pickState = this.pickStates.NO_PICK;
     this.scene.game.resetTimer(false);
   }
 
@@ -111,6 +119,60 @@ class Board extends CGFobject {
 
     this.whitePieces.push(whitePiece1, whitePiece2, whitePiece3);
     this.blackPieces.push(blackPiece1, blackPiece2, blackPiece3);
+  }
+
+  resetDivisions() {
+    let x = -2,
+      z = -2;
+
+    for (let i = 0; i < this.boardLength; i++) {
+      let row = this.divisions[i];
+      for (let j = 0; j < this.boardLength; j++) {
+
+        row[j].x = x;
+        row[j].z = z;
+        row[j].high = false;
+
+        x += 1;
+      }
+
+      this.divisions[i] = row;
+      x = -2;
+      z += 1;
+    }
+  }
+
+  resetPieces() {
+
+    let blackPiece1 = this.blackPieces[0];
+    blackPiece1.x = -1;
+    blackPiece1.y = 0.25;
+    blackPiece1.z = 2;
+
+    let blackPiece2 = this.blackPieces[1];
+    blackPiece2.x = 1;
+    blackPiece2.y = 0.25;
+    blackPiece2.z = 2;
+
+    let blackPiece3 = this.blackPieces[2];
+    blackPiece3.x = 0;
+    blackPiece3.y = 0.25;
+    blackPiece3.z = -1;
+
+    let whitePiece1 = this.whitePieces[0];
+    whitePiece1.x = -1;
+    whitePiece1.y = 0.25;
+    whitePiece1.z = -2;
+
+    let whitePiece2 = this.whitePieces[1];
+    whitePiece2.x = 1;
+    whitePiece2.y = 0.25;
+    whitePiece2.z = -2;
+
+    let whitePiece3 = this.whitePieces[2];
+    whitePiece3.x = 0;
+    whitePiece3.y = 0.25;
+    whitePiece3.z = 1;
   }
 
   initAppearances(boardMat, piece1Mat, piece2Mat, boardTex, highTex) {
@@ -249,25 +311,25 @@ class Board extends CGFobject {
   }
 
   logPicking() {
+
+    let picked = false;
+
     if (this.scene.pickMode == false) {
       if (this.scene.pickResults != null && this.scene.pickResults.length > 0) {
         for (var i = 0; i < this.scene.pickResults.length; i++) {
           var obj = this.scene.pickResults[i][0];
           if (obj) {
             var customId = this.scene.pickResults[i][1];
-            if (customId == 52) {
-              this.scene.game.movieAnim();
-            } else if (customId == 51) {
-              this.scene.game.undoMove();
-            } else if (customId === 50) {
-              this.scene.startRotation();
-            } else {
+
+            if (customId >= 1 && customId <= 28) {
+              picked = true;
               this.save(obj, customId);
             }
             console.log('Picked object: ' + obj + ', with pick id ' + customId);
           }
         }
-        this.scene.pickResults.splice(0, this.scene.pickResults.length);
+        if (picked)
+          this.scene.pickResults.splice(0, this.scene.pickResults.length);
       }
     }
   }
@@ -315,7 +377,7 @@ class Board extends CGFobject {
   updateCVC() {
 
     if (this.scene.game.setup_anim) {
-      this.initPieces();
+      this.resetPieces();
       this.currPlayer = this.scene.game.first_to_play;
       this.scene.game.setup_anim = false;
       this.movie_ready = true;
@@ -341,6 +403,7 @@ class Board extends CGFobject {
             this.selectedPiece = this.getPiece(move);
             this.selectedMove = this.getDivision(move);
             this.createAnim();
+            this.scene.game.stopTimer();
             this.scene.game.bot_ready = false;
           }
           break;
@@ -353,11 +416,12 @@ class Board extends CGFobject {
             this.sent = false;
 
             if (winner != 0) {
-              this.scene.game.gameState = this.scene.game.gameStates.MENU;
-              this.init();
+              this.scene.game.initData();
+              this.reset();
             } else {
               this.scene.game.resetTimer();
               this.pickState = this.pickStates.PICK_MOVE;
+              this.currPlayer = 3 - this.currPlayer;
             }
 
             this.scene.game.winner_ready = false;
@@ -365,6 +429,7 @@ class Board extends CGFobject {
           break;
         default:
           this.pickState = this.pickStates.PICK_MOVE;
+          this.scene.game.timer = true;
           break;
       }
     }
@@ -373,7 +438,7 @@ class Board extends CGFobject {
   updatePVP() {
 
     if (this.scene.game.setup_anim) {
-      this.initPieces();
+      this.resetPieces();
       this.currPlayer = this.scene.game.first_to_play;
       this.scene.game.setup_anim = false;
       this.movie_ready = true;
@@ -442,8 +507,8 @@ class Board extends CGFobject {
           let winner = this.scene.game.winner;
           this.sent = false;
           if (winner != 0) {
-            this.scene.game.gameState = this.scene.game.gameStates.MENU;
-            this.init();
+            this.scene.game.initData();
+            this.reset();
           } else {
             if (!this.undo_move) {
               this.currPlayer = 3 - this.currPlayer;
@@ -458,6 +523,9 @@ class Board extends CGFobject {
           this.scene.game.gameOver();
           this.sent = true;
         }
+      } else {
+        this.pickState = this.pickStates.PICK_PIECE;
+        this.scene.game.timer = true;
       }
     }
   }
@@ -466,7 +534,7 @@ class Board extends CGFobject {
 
     //undo_move
     if (this.scene.game.setup_anim) {
-      this.initPieces();
+      this.resetPieces();
       this.currPlayer = this.scene.game.first_to_play;
       this.scene.game.setup_anim = false;
       this.movie_ready = true;
@@ -565,8 +633,8 @@ class Board extends CGFobject {
           this.sent = false;
 
           if (winner != 0) {
-            this.scene.game.gameState = this.scene.game.gameStates.MENU;
-            this.init();
+            this.scene.game.initData();
+            this.reset();
           } else {
             if (!this.undo_move) {
               this.currPlayer = 3 - this.currPlayer;
@@ -582,6 +650,9 @@ class Board extends CGFobject {
           this.scene.game.gameOver();
           this.sent = true;
         }
+      } else {
+        this.pickState = this.pickStates.PICK_PIECE;
+        this.scene.game.timer = true;
       }
     }
   }

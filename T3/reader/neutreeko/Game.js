@@ -93,8 +93,6 @@ class Game {
 
     getBoardString() {
 
-        console.log(this.board);
-
         let board_string = '';
 
         for (let i = 0; i < this.board.length; i++) {
@@ -208,6 +206,7 @@ class Game {
             this_game.boards.push(newBoard);
             this_game.nextPlayer();
             this_game.bot_ready = true;
+            this_game.score++;
         });
     }
 
@@ -216,12 +215,7 @@ class Game {
         let board_string = this.getBoardString();
 
         this.server.getPrologRequest("game_over([" + board_string + "])", function (data) {
-            console.log(data.target.response);
             this_game.winner = parseInt(data.target.response);
-
-            if (this_game.winner != 0) {
-                this_game.initData();
-            }
             this_game.winner_ready = true;
         });
     }
