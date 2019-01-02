@@ -189,6 +189,7 @@ class Game {
             let last_board = this.boards[this.boards.length - 1];
             let second_last_board = this_game.boards[this.boards.length - 2];
             this.undo_move = this.getMove(last_board, second_last_board);
+            this.undo_player = this.players[this.players.length - 1];
             this.boards.pop();
             this.players.pop();
             this.undo_ready = true;
@@ -208,6 +209,9 @@ class Game {
                 this_game.first_to_play = this_game.currPlayer;
             }
             this_game.boards.push(newBoard);
+            if(this_game.boards.length != 1){
+                this_game.players.push(this_game.currPlayer);
+            }
             this_game.nextPlayer();
             this_game.bot_ready = true;
             this_game.score++;
