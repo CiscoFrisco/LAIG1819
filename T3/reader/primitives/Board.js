@@ -421,6 +421,7 @@ class Board extends CGFobject {
             if (winner != 0) {
               this.scene.game.initData();
               this.reset();
+              this.scene.updateCamera(0);
             } else {
               this.scene.game.resetTimer();
               this.pickState = this.pickStates.PICK_MOVE;
@@ -515,6 +516,7 @@ class Board extends CGFobject {
           if (winner != 0) {
             this.scene.game.initData();
             this.reset();
+            this.scene.updateCamera(0);
           } else {
             if (!this.undo_move) {
               this.currPlayer = 3 - this.currPlayer;
@@ -641,6 +643,7 @@ class Board extends CGFobject {
           if (winner != 0) {
             this.scene.game.initData();
             this.reset();
+            this.scene.updateCamera(0);
           } else {
             if (!this.undo_move) {
               this.currPlayer = 3 - this.currPlayer;
