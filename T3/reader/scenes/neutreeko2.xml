@@ -187,7 +187,131 @@
                 <componentref id="hays"/>
                 <componentref id="table"/>
                 <componentref id="stools"/>
+                <componentref id="chests"/>
                 <!-- <primitiveref id="torch"/> -->
+            </children>
+        </component>
+        <component id="chests">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="default"/>
+            </materials>
+            <texture id="wood" length_s="1.0" length_t="1.0"/>
+            <children>
+                <componentref id="chest1"/>
+                <componentref id="chest2"/>
+                <componentref id="chest3"/>
+            </children>
+        </component>
+        <component id="chest1">
+            <transformation>
+                <translate x="6" y="0" z="-3.5"/>
+                <rotate angle="90" axis="y"/>
+            </transformation>
+            <materials>
+                <material id="default"/>
+            </materials>
+            <texture id="wood" length_s="1.0" length_t="1.0"/>
+            <children>
+                <componentref id="chest"/>
+            </children>
+        </component>
+        <component id="chest2">
+            <transformation>
+                <translate x="6" y="0" z="0"/>
+                <rotate angle="90" axis="y"/>
+            </transformation>
+            <materials>
+                <material id="default"/>
+            </materials>
+            <texture id="wood" length_s="1.0" length_t="1.0"/>
+            <children>
+                <componentref id="chest"/>
+            </children>
+        </component>
+        <component id="chest3">
+            <transformation>
+                <translate x="6" y="0" z="3.5"/>
+                <rotate angle="90" axis="y"/>
+            </transformation>
+            <materials>
+                <material id="default"/>
+            </materials>
+            <texture id="wood" length_s="1.0" length_t="1.0"/>
+            <children>
+                <componentref id="chest"/>
+            </children>
+        </component>
+        <component id="chest">
+            <transformation>
+            </transformation>
+            <materials>
+                <material id="default"/>
+            </materials>
+            <texture id="wood" length_s="1.0" length_t="1.0"/>
+            <children>
+                <componentref id="chest_top"/>
+                <componentref id="chest_base"/>
+                <componentref id="chest_border1"/>
+                <componentref id="chest_border2"/>
+            </children>
+        </component>
+        <component id="chest_top">
+            <transformation>
+                <translate x="-1.475" y="1" z="0"/>
+                <scale x="2.95" y="1" z="1"/>
+                <rotate angle="90" axis="y"/>
+            </transformation>
+            <materials>
+                <material id="default"/>
+            </materials>
+            <texture id="wood" length_s="1.0" length_t="1.0"/>
+            <children>
+                <primitiveref id="cylinder"/>
+            </children>
+        </component>
+        <component id="chest_base">
+            <transformation>
+                <translate x="0" y="0.5" z="0"/>
+                <scale x="3" y="1" z="2"/>
+            </transformation>
+            <materials>
+                <material id="default"/>
+            </materials>
+            <texture id="wood" length_s="1.0" length_t="1.0"/>
+            <children>
+                <primitiveref id="cube"/>
+            </children>
+        </component>
+        <component id="chest_border1">
+            <transformation>
+                <translate x="0" y="1.0" z="0"/>
+                <scale x="2.4" y="1" z="1.6"/>
+                <rotate angle="90" axis="x"/>
+                <rotate angle="45" axis="z"/>
+            </transformation>
+            <materials>
+                <material id="default"/>
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="torus"/>
+            </children>
+        </component>
+        <component id="chest_border2">
+            <transformation>
+                <translate x="0" y="0.1" z="0"/>
+                <scale x="2.4" y="1" z="1.6"/>
+                <rotate angle="90" axis="x"/>
+                <rotate angle="45" axis="z"/>
+            </transformation>
+            <materials>
+                <material id="default"/>
+            </materials>
+            <texture id="none"/>
+            <children>
+                <primitiveref id="torus"/>
             </children>
         </component>
         <component id="stools">
