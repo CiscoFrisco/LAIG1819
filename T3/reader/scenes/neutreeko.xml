@@ -2,7 +2,7 @@
     <scene root="scene" axis_length="20.0" />
     <views default="perspective">
         <perspective id="perspective" near="0.1" far="1000.0" angle="25.0">
-            <from x="20.0" y="20.0" z="20.0" />
+            <from x="25.0" y="20.0" z="25.0" />
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
         <perspective id="perspective2" near="0.1" far="1000.0" angle="25.0">
@@ -70,6 +70,11 @@
         <texture id="boardTex" file="scenes/images/piece.png" />
         <texture id="highTex" file="scenes/images/piece_high.png" />
         <texture id="movie" file="scenes/images/movie.png" />
+        <texture id="maxtime" file="scenes/images/maxtime.png" />
+        <texture id="fifteen" file="scenes/images/15s.png" />
+        <texture id="thirty" file="scenes/images/30s.png" />
+        <texture id="fourtyfive" file="scenes/images/45s.png" />
+        <texture id="onemin" file="scenes/images/1m.png" />
     </textures>
     <materials>
         <material id="default" shininess = "10.0">
@@ -124,7 +129,7 @@
     </animations>
     <primitives>
         <primitive id="menu">
-            <menu iddifficulty="difficulty" idpvp="pvp" idpvc="pvc" idcvc="cvc" iddiffez="diffez" iddiffmed="diffmed" iddiffhard="diffhard"/>
+            <menu iddifficulty="difficulty" idpvp="pvp" idpvc="pvc" idcvc="cvc" iddiffez="diffez" iddiffmed="diffmed" iddiffhard="diffhard" idtimer="maxtime" idfifteen="fifteen" idthirty="thirty" idfourtyfive="fourtyfive" idonemin="onemin"/>
         </primitive>
         <primitive id="toolbar">
             <toolbar idzero="zero" idone="one" idtwo="two" idthree="three" idfour="four" idfive="five" idsix="six" idseven="seven" ideight="eight" idnine="nine" idmovie="movie" idundo="undo" idrotate="rotate"/>

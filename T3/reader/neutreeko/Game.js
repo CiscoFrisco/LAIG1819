@@ -7,9 +7,10 @@ class Game {
         this.gameStates = Object.freeze({
             "MENU": 1,
             "DIFFICULTY": 2,
-            "PVP": 3,
-            "PVC": 4,
-            "CVC": 5
+            "TIMER": 3,
+            "PVP": 4,
+            "PVC": 5,
+            "CVC": 6
         });
 
         this.difficulties = Object.freeze({
@@ -18,11 +19,17 @@ class Game {
             "HARD": 4,
         });
 
-        this.maxTime = 10;
+        this.maxTimes = [15, 30, 45, 60];
+        this.maxTime = this.maxTimes[1];
 
         this.initData();
     }
 
+    updateTimer(id){
+        this.maxTime = this.maxTimes[id - 1];
+        this.time = this.maxTime;
+        this.elapsedTime = this.maxTime * 1000;
+    }
 
     initData() {
         this.board = [

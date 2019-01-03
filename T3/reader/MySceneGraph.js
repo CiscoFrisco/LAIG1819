@@ -1265,71 +1265,69 @@ class MySceneGraph {
   parseMenu(id, primitive) {
     let error;
 
-    var idDifficulty = this.reader.getString(primitive, 'iddifficulty', true);
-
-    if (idDifficulty == '') {
-      return 'invalid texture on primitive' + id;
-    } else if (this.textures[idDifficulty] == null) {
-      return 'nonexistent texture on primitive' + id;
-    }
+    var iddifficulty = this.reader.getString(primitive, 'iddifficulty', true);
+    if ((error = this.parseTextureId(id, iddifficulty)) != null)
+      return error;
 
     var idpvp = this.reader.getString(primitive, 'idpvp', true);
-
-    if (idpvp == '') {
-      return 'invalid idpvp in on primitive' + id;
-    } else if (this.textures[idpvp] == null) {
-      return 'nonexistent idpvp on primitive' + id;
-    }
+    if ((error = this.parseTextureId(id, idpvp)) != null)
+      return error;
 
     var idpvc = this.reader.getString(primitive, 'idpvc', true);
-
-    if (idpvc == '') {
-      return 'invalid idpvc in on primitive' + id;
-    } else if (this.textures[idpvc] == null) {
-      return 'nonexistent idpvc on primitive' + id;
-    }
+    if ((error = this.parseTextureId(id, idpvc)) != null)
+      return error;
 
     var idcvc = this.reader.getString(primitive, 'idcvc', true);
-
-    if (idcvc == '') {
-      return 'invalid idcvc in on primitive' + id;
-    } else if (this.textures[idcvc] == null) {
-      return 'nonexistent idcvc on primitive' + id;
-    }
+    if ((error = this.parseTextureId(id, idcvc)) != null)
+      return error;
 
     var iddiffez = this.reader.getString(primitive, 'iddiffez', true);
-
-    if (iddiffez == '') {
-      return 'invalid iddiffez in on primitive' + id;
-    } else if (this.textures[iddiffez] == null) {
-      return 'nonexistent iddiffez on primitive' + id;
-    }
+    if ((error = this.parseTextureId(id, iddiffez)) != null)
+      return error;
 
     var iddiffmed = this.reader.getString(primitive, 'iddiffmed', true);
-
-    if (iddiffmed == '') {
-      return 'invalid iddiffmed in on primitive' + id;
-    } else if (this.textures[iddiffmed] == null) {
-      return 'nonexistent iddiffmed on primitive' + id;
-    }
+    if ((error = this.parseTextureId(id, iddiffmed)) != null)
+      return error;
 
     var iddiffhard = this.reader.getString(primitive, 'iddiffhard', true);
+    if ((error = this.parseTextureId(id, iddiffhard)) != null)
+      return error;
 
-    if (iddiffhard == '') {
-      return 'invalid iddiffhard in on primitive' + id;
-    } else if (this.textures[iddiffhard] == null) {
-      return 'nonexistent iddiffhard on primitive' + id;
-    }
+    var idtimer = this.reader.getString(primitive, 'idtimer', true);
+    if ((error = this.parseTextureId(id, idtimer)) != null)
+      return error;
 
-    var difficulty = this.textures[idDifficulty];
+    var idfifteen = this.reader.getString(primitive, 'idfifteen', true);
+    if ((error = this.parseTextureId(id, idfifteen)) != null)
+      return error;
+
+    var idthirty = this.reader.getString(primitive, 'idthirty', true);
+    if ((error = this.parseTextureId(id, idthirty)) != null)
+      return error;
+
+    var idfourtyfive = this.reader.getString(primitive, 'idfourtyfive', true);
+    if ((error = this.parseTextureId(id, idfourtyfive)) != null)
+      return error;
+
+    var idonemin = this.reader.getString(primitive, 'idonemin', true);
+    if ((error = this.parseTextureId(id, idonemin)) != null)
+      return error;
+
+    var difficulty = this.textures[iddifficulty];
     var pvp = this.textures[idpvp];
     var pvc = this.textures[idpvc];
     var cvc = this.textures[idcvc];
     var diffez = this.textures[iddiffez];
     var diffmed = this.textures[iddiffmed];
     var diffhard = this.textures[iddiffhard];
+    var timer = this.textures[idtimer];
+    var fifteen = this.textures[idfifteen];
+    var thirty = this.textures[idthirty];
+    var fourtyfive = this.textures[idfourtyfive];
+    var onemin = this.textures[idonemin];
 
-    this.primitives[id] = new Menu(this.scene, difficulty, pvp, pvc, cvc, diffez, diffmed, diffhard);
+
+    this.primitives[id] = new Menu(this.scene, difficulty, pvp, pvc, cvc, diffez, diffmed, diffhard, timer, fifteen, thirty, fourtyfive, onemin);
 
     return null;
   }
