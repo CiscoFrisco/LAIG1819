@@ -70,7 +70,6 @@ class MySceneGraph {
       'vehicle': this.parseVehicle,
       'water': this.parseWater,
       'menu': this.parseMenu,
-      'torch': this.parseTorch,
       'column': this.parseColumn,
       'barrel': this.parseBarrel,
       'door': this.parseDoor,
@@ -1039,12 +1038,6 @@ class MySceneGraph {
 
     this.primitives[id] =
       new MyCylinder(this.scene, base, top, height, slices, stacks);
-
-    return null;
-  }
-
-  parseTorch(id, primitive) {
-    this.primitives[id] = new Torch(this.scene);
 
     return null;
   }
