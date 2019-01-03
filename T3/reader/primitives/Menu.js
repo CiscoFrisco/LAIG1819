@@ -174,7 +174,7 @@ class Menu extends CGFobject {
         switch (this.scene.game.gameState) {
             case this.scene.game.gameStates.MENU:
                 this.scene.game.gameState = id;
-                if (id != this.scene.game.gameStates.DIFFICULTY)
+                if (id >= this.scene.game.gameStates.PVP)
                     this.scene.updateCamera(1);
                 break;
             case this.scene.game.gameStates.DIFFICULTY:
