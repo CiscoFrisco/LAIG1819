@@ -25,7 +25,7 @@ class Game {
         this.initData();
     }
 
-    updateTimer(id){
+    updateTimer(id) {
         this.maxTime = this.maxTimes[id - 1];
         this.time = this.maxTime;
         this.elapsedTime = this.maxTime * 1000;
@@ -81,6 +81,7 @@ class Game {
     }
 
     nextPlayer() {
+        console.log('nextPlayer');
         this.currPlayer = 3 - this.currPlayer;
     }
 
@@ -138,11 +139,11 @@ class Game {
         this.server.getPrologRequest("move([" + move + "]," + this.currPlayer + ",[" + board_string + "])", function (data) {
             let newBoard = JSON.parse(data.target.response.replace(/(empty|white|black)/g, '"$1"'));
             this_game.board = newBoard;
-            if(this_game.boards.length == 1){
+            if (this_game.boards.length == 1) {
                 this_game.first_to_play = this_game.currPlayer;
             }
             this_game.boards.push(newBoard);
-            if(this_game.boards.length != 1){
+            if (this_game.boards.length != 1) {
                 this_game.players.push(this_game.currPlayer);
             }
             this_game.nextPlayer();
@@ -152,6 +153,7 @@ class Game {
     }
 
     getMove(board, newBoard) {
+        console.log('getMove');
 
         let origin = [];
         let dest = [];
@@ -169,18 +171,21 @@ class Game {
         return origin;
     }
 
-    movieAnim(){
-        if(this.boards.length > 1){
-            this.setup_anim = true;
-            this.getMovieMoves();
-       }
+    movieAnim() {
+        if (!this.clicked_move) {
+            this.clicked_move = true;
+            if (this.boards.length > 1) {
+                this.setup_anim = true;
+                this.getMovieMoves();
+            }
+        }
     }
 
-    getMovieMoves(){
+    getMovieMoves() {
         this.movie_moves = [];
 
-        for(let i = 0; i < this.boards.length - 1; i++){
-            let movie_move = this.getMove(this.boards[i],this.boards[i + 1]);
+        for (let i = 0; i < this.boards.length - 1; i++) {
+            let movie_move = this.getMove(this.boards[i], this.boards[i + 1]);
             this.movie_moves.push(movie_move);
         }
 
@@ -189,7 +194,6 @@ class Game {
     }
 
     undoMove() {
-
         let this_game = this;
 
         if (this.boards.length > 1) {
@@ -197,7 +201,9 @@ class Game {
             let second_last_board = this_game.boards[this.boards.length - 2];
             this.undo_move = this.getMove(last_board, second_last_board);
             this.undo_player = this.players[this.players.length - 1];
+            console.log(this.boards);
             this.boards.pop();
+            console.log(this.boards);
             this.players.pop();
             this.undo_ready = true;
             this.board = this.boards[this.boards.length - 1];
@@ -205,6 +211,7 @@ class Game {
     }
 
     choose_move() {
+        console.log('choose_move');
         let this_game = this;
         let board_string = this.getBoardString();
 
@@ -212,11 +219,11 @@ class Game {
             let newBoard = JSON.parse(data.target.response.replace(/(empty|white|black)/g, '"$1"'));
             this_game.bot_move = this_game.getMove(this_game.board, newBoard);
             this_game.board = newBoard;
-            if(this_game.boards.length == 1){
+            if (this_game.boards.length == 1) {
                 this_game.first_to_play = this_game.currPlayer;
             }
             this_game.boards.push(newBoard);
-            if(this_game.boards.length != 1){
+            if (this_game.boards.length != 1) {
                 this_game.players.push(this_game.currPlayer);
             }
             this_game.nextPlayer();
@@ -241,12 +248,11 @@ class Game {
         this.timer = timer;
     }
 
-    stopTimer() {
-        this.timer = false;
+    setTimer(timer = false) {
+        this.timer = timer;
     }
 
     update(deltaTime) {
-
         if (this.timer) {
             this.elapsedTime -= deltaTime;
 
@@ -257,6 +263,5 @@ class Game {
                 this.resetTimer();
             }
         }
-
     }
 }
