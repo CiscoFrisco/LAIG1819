@@ -6,8 +6,8 @@
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
         <perspective id="perspective2" near="0.1" far="1000.0" angle="23.0">
-            <from x="50.0" y="50.0" z="50.0" />
-            <to x="0.0" y="0.0" z="0.0" />
+            <from x="0.0" y="15.0" z="10.0" />
+            <to x="0.0" y="2.0" z="0.0" />
         </perspective>
         <ortho id="ortho" near="0.1" far="1000.0" left="-100.0" right="100.0" top="100.0" bottom="-100.0">
             <from x="300.0" y="300.0" z="300.0" />
@@ -41,11 +41,31 @@
     <textures>
         <texture id="wall" file="scenes/images/rock_wall.jpg" />
         <texture id="floor" file="scenes/images/floor2.jpg" />
-        <texture id="boardTex" file="scenes/images/piece.png" />
-        <texture id="highTex" file="scenes/images/piece_high.png" />
+        <texture id="boardTex" file="scenes/images/piece2.jpg" />
+        <texture id="highTex" file="scenes/images/piece2_high.jpg" />
         <texture id="hay" file="scenes/images/hay.jpg" />
         <texture id="haymap" file="scenes/images/heightmap.jpg" />
         <texture id="wood" file="scenes/images/torch.jpg" />
+        <texture id="difficulty" file="scenes/images/difficulty.png" />
+        <texture id="pvp" file="scenes/images/pvp.png" />
+        <texture id="pvc" file="scenes/images/pvc.png" />
+        <texture id="cvc" file="scenes/images/cvc.png" />
+        <texture id="undo" file="scenes/images/undo.png" />
+        <texture id="rotate" file="scenes/images/rotate.png" />
+        <texture id="diffez" file="scenes/images/diffeasy.png" />
+        <texture id="diffmed" file="scenes/images/diffmed.png" />
+        <texture id="diffhard" file="scenes/images/diffhard.png" />
+        <texture id="zero" file="scenes/images/zero.png" />
+        <texture id="one" file="scenes/images/one.png" />
+        <texture id="two" file="scenes/images/two.png" />
+        <texture id="three" file="scenes/images/three.png" />
+        <texture id="four" file="scenes/images/four.png" />
+        <texture id="five" file="scenes/images/five.png" />
+        <texture id="six" file="scenes/images/six.png" />
+        <texture id="seven" file="scenes/images/seven.png" />
+        <texture id="eight" file="scenes/images/eight.png" />
+        <texture id="nine" file="scenes/images/nine.png" />
+        <texture id="movie" file="scenes/images/movie.png" />
     </textures>
     <materials>
         <material id="default" shininess = "10.0">
@@ -54,29 +74,17 @@
             <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
             <specular r="0.5" g="0.5" b="0.5" a="1.0" />
         </material>
-        <material id="black_piece" shininess = "10.0">
+        <material id="white_piece" shininess = "0.0">
             <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.2" g="0.2" b="0.2" a="1.0" />
-            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
-            <specular r="0.1" g="0.1" b="0.1" a="1.0" />
-        </material>
-        <material id="white_piece" shininess = "10.0">
-            <emission r="0.8" g="0.8" b="0.8" a="1.0" />
-            <ambient r="0.8" g="0.8" b="0.8" a="1.0" />
-            <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
-            <specular r="0.7" g="0.7" b="0.7" a="1.0" />
-        </material>
-        <material id="black" shininess = "0.0">
-            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
-            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.2" g="0.2" b="0.2" a="1.0" />
+            <ambient r="0.645" g="0.645" b="0.4" a="1.0" />
+            <diffuse r="0.6S45" g="0.645" b="0.4" a="1.0" />
             <specular r="0.2" g="0.2" b="0.2" a="1.0" />
         </material>
-        <material id="white" shininess = "0.0">
-            <emission r="0.5" g="0.5" b="0.5" a="1.0" />
-            <ambient r="0.0" g="0.0" b="0.0" a="1.0" />
-            <diffuse r="0.5" g="0.5" b="0.5" a="1.0" />
-            <specular r="0.5" g="0.5" b="0.5" a="1.0" />
+        <material id="black_piece" shininess = "0.0">
+            <emission r="0.0" g="0.0" b="0.0" a="1.0" />
+            <ambient r="0.169" g="0.114" b="0.055" a="1.0" />
+            <diffuse r="0.169" g="0.114" b="0.055" a="1.0" />
+            <specular r="0.2" g="0.2" b="0.2" a="1.0" />
         </material>
         <material id="board" shininess = "0.0">
             <emission r="0.8" g="0.4" b="0.4" a="1.0" />
@@ -109,7 +117,7 @@
             <terrain idtexture="hay" idheightmap="haymap" parts="20" heightscale="1.0"/>
         </primitive>
         <primitive id="board">
-            <board boardMat="board" boardTex="boardTex" highTex="highTex" piece1Mat="black" piece2Mat="white"/>
+            <board boardMat="board" boardTex="boardTex" highTex="highTex" piece1Mat="black_piece" piece2Mat="white_piece"/>
         </primitive>
         <primitive id="torch">
             <torch/>
@@ -131,6 +139,12 @@
         </primitive>
         <primitive id="chair">
             <chair/>
+        </primitive>
+        <primitive id="menu">
+            <menu iddifficulty="difficulty" idpvp="pvp" idpvc="pvc" idcvc="cvc" iddiffez="diffez" iddiffmed="diffmed" iddiffhard="diffhard"/>
+        </primitive>
+        <primitive id="toolbar">
+            <toolbar idzero="zero" idone="one" idtwo="two" idthree="three" idfour="four" idfive="five" idsix="six" idseven="seven" ideight="eight" idnine="nine" idmovie="movie" idundo="undo" idrotate="rotate"/>
         </primitive>
         <primitive id="wall_arch">
             <patch npointsU="7" npointsV="2" npartsU="20" npartsV="20">
@@ -188,7 +202,39 @@
                 <componentref id="table"/>
                 <componentref id="stools"/>
                 <componentref id="chests"/>
+                <primitiveref id="menu"/>
+                <componentref id="toolbar1"/>
+                <componentref id="toolbar2"/>
                 <!-- <primitiveref id="torch"/> -->
+            </children>
+        </component>
+        <component id="toolbar1">
+            <transformation>
+                <translate x="0" y="3" z="3"/>
+                <scale x="0.7" y="0.7" z="0.7"/>
+                <rotate angle="-45" axis="x"/>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="toolbar"/>
+            </children>
+        </component>
+        <component id="toolbar2">
+            <transformation>
+                <rotate angle="180" axis="y"/>
+                <translate x="0" y="3" z="3"/>
+                <scale x="0.7" y="0.7" z="0.7"/>
+                <rotate angle="-45" axis="x"/>
+            </transformation>
+            <materials>
+                <material id="default" />
+            </materials>
+            <texture id="none" />
+            <children>
+                <primitiveref id="toolbar"/>
             </children>
         </component>
         <component id="chests">
@@ -1036,7 +1082,7 @@
         <component id="board">
             <transformation>
                 <translate x="0" y="2.7" z="0"/>
-                <scale x="2" y="1" z="2"/>
+                <scale x="2" y="2" z="2"/>
             </transformation>
             <materials>
                 <material id="default" />

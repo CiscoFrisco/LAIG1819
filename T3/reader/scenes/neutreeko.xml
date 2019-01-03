@@ -6,7 +6,7 @@
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
         <perspective id="perspective2" near="0.1" far="1000.0" angle="25.0">
-            <from x="0.0" y="20.0" z="20.0" />
+            <from x="0.0" y="10.0" z="10.0" />
             <to x="0.0" y="0.0" z="0.0" />
         </perspective>
         <ortho id="ortho" near="0.1" far="1000.0" left="-100.0" right="100.0" top="100.0" bottom="-100.0">
@@ -205,7 +205,8 @@
         </component>
         <component id="toolbar1">
             <transformation>
-                <translate x="0" y="8" z="3"/>
+                <translate x="0" y="3.5" z="1"/>
+                <scale x="0.5" y="0.5" z="0.25"/>
                 <rotate angle="-45" axis="x"/>
             </transformation>
             <materials>
@@ -219,7 +220,8 @@
         <component id="toolbar2">
             <transformation>
                 <rotate angle="180" axis="y"/>
-                <translate x="0" y="8" z="3"/>
+                <translate x="0" y="3.5" z="1"/>
+                <scale x="0.5" y="0.5" z="0.25"/>
                 <rotate angle="-45" axis="x"/>
             </transformation>
             <materials>
