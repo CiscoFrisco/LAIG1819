@@ -39,7 +39,7 @@ class Menu extends CGFobject {
         this.scene.rotate(-Math.PI / 4, 1, 0, 0);
         this.scene.scale(3, 1.5, 1);
         this.pvp.bind();
-        this.scene.registerForPick(4, this.pvpBoard);
+        this.scene.registerForPick(this.scene.game.gameStates.PVP, this.pvpBoard);
         this.pvpBoard.display();
         this.pvp.unbind();
         this.scene.popMatrix();
@@ -50,7 +50,7 @@ class Menu extends CGFobject {
         this.scene.rotate(-Math.PI / 4, 1, 0, 0);
         this.scene.scale(3, 1.5, 1);
         this.pvc.bind();
-        this.scene.registerForPick(5, this.pvcBoard);
+        this.scene.registerForPick(this.scene.game.gameStates.PVC, this.pvcBoard);
         this.pvcBoard.display();
         this.pvc.unbind();
         this.scene.popMatrix();
@@ -61,7 +61,7 @@ class Menu extends CGFobject {
         this.scene.rotate(-Math.PI / 4, 1, 0, 0);
         this.scene.scale(3, 1.5, 1);
         this.cvc.bind();
-        this.scene.registerForPick(6, this.cvcBoard);
+        this.scene.registerForPick(this.scene.game.gameStates.CVC, this.cvcBoard);
         this.cvcBoard.display();
         this.cvc.unbind();
         this.scene.popMatrix();
@@ -72,7 +72,7 @@ class Menu extends CGFobject {
         this.scene.rotate(-Math.PI / 4, 1, 0, 0);
         this.scene.scale(3, 1.5, 1);
         this.difficulty.bind();
-        this.scene.registerForPick(2, this.diffBoard);
+        this.scene.registerForPick(this.scene.game.gameStates.DIFFICULTY, this.diffBoard);
         this.diffBoard.display();
         this.difficulty.unbind();
         this.scene.popMatrix();
@@ -83,7 +83,7 @@ class Menu extends CGFobject {
         this.scene.rotate(-Math.PI / 4, 1, 0, 0);
         this.scene.scale(3, 1.5, 1);
         this.timer.bind();
-        this.scene.registerForPick(3, this.timerBoard);
+        this.scene.registerForPick(this.scene.game.gameStates.TIMER, this.timerBoard);
         this.timerBoard.display();
         this.timer.unbind();
         this.scene.popMatrix();
@@ -96,7 +96,7 @@ class Menu extends CGFobject {
         this.scene.rotate(-Math.PI / 4, 1, 0, 0);
         this.scene.scale(3, 1.5, 1);
         this.diffEz.bind();
-        this.scene.registerForPick(2, this.diffEzBoard);
+        this.scene.registerForPick(this.scene.game.difficulties.EASY, this.diffEzBoard);
         this.diffEzBoard.display();
         this.diffEz.unbind();
         this.scene.popMatrix();
@@ -107,7 +107,7 @@ class Menu extends CGFobject {
         this.scene.rotate(-Math.PI / 4, 1, 0, 0);
         this.scene.scale(3, 1.5, 1);
         this.diffMed.bind();
-        this.scene.registerForPick(3, this.diffMedBoard);
+        this.scene.registerForPick(this.scene.game.difficulties.MEDIUM, this.diffMedBoard);
         this.diffMedBoard.display();
         this.diffMed.unbind();
         this.scene.popMatrix();
@@ -118,7 +118,7 @@ class Menu extends CGFobject {
         this.scene.rotate(-Math.PI / 4, 1, 0, 0);
         this.scene.scale(3, 1.5, 1);
         this.diffHard.bind();
-        this.scene.registerForPick(4, this.diffHardBoard);
+        this.scene.registerForPick(this.scene.game.difficulties.HARD, this.diffHardBoard);
         this.diffHardBoard.display();
         this.diffHard.unbind();
         this.scene.popMatrix();

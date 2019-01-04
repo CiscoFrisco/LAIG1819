@@ -48,7 +48,6 @@ class XMLscene extends CGFscene {
         this.cameraRotInc = Math.PI / this.rotTime;
         this.cameraRotAngle = 0;
         this.currRotTime = 0;
-        this.rotAxis = vec3.fromValues(0, 1, 0);
 
         this.game = new Game(this);
     }
@@ -200,9 +199,6 @@ class XMLscene extends CGFscene {
 
         this.clearPickRegistration();
 
-        if (this.rotateCamera)
-            this.camera.orbit(this.rotAxis, this.cameraRotAngle);
-
         // ---- BEGIN Background, camera and axis setup
 
         // Clear image and depth buffer everytime we update the scene
@@ -222,6 +218,9 @@ class XMLscene extends CGFscene {
 
             // Draw axis
             this.axis.display();
+
+            if (this.rotateCamera)
+                this.camera.orbit(CGFcameraAxis.y, this.cameraRotAngle);
 
             var i = 0;
             for (var key in this.lightValues) {
@@ -262,22 +261,24 @@ class XMLscene extends CGFscene {
         this.graph.updateAnimations(this.deltaTime);
         this.graph.update(this.deltaTime);
 
-        if (this.rotateCamera) {
-
-            if (this.currRotTime >= this.rotTime) {
-                this.rotateCamera = false;
-                this.currRotTime = 0;
-                this.cameraRotAngle = 0;
-            } else if (this.currRotTime + this.deltaTime >= this.rotTime) {
-                let rest = this.rotTime - this.currRotTime;
-                this.cameraRotAngle = rest * this.cameraRotInc;
-                this.currRotTime += this.deltaTime;
-            } else {
-                this.cameraRotAngle = this.deltaTime * this.cameraRotInc;
-                this.currRotTime += this.deltaTime;
-            }
-        }
+        if (this.rotateCamera)
+            this.updateCamera();
 
         this.game.update(this.deltaTime);
+    }
+
+    updateCamera() {
+        if (this.currRotTime >= this.rotTime) {
+            this.rotateCamera = false;
+            this.currRotTime = 0;
+            this.cameraRotAngle = 0;
+        } else if (this.currRotTime + this.deltaTime >= this.rotTime) {
+            let rest = this.rotTime - this.currRotTime;
+            this.cameraRotAngle = rest * this.cameraRotInc;
+            this.currRotTime += this.deltaTime;
+        } else {
+            this.cameraRotAngle = this.deltaTime * this.cameraRotInc;
+            this.currRotTime += this.deltaTime;
+        }
     }
 }

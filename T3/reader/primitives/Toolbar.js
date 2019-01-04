@@ -2,11 +2,16 @@ class Toolbar extends CGFobject {
     constructor(scene, numbers, undo, movie, rotate) {
         super(scene);
 
-        this.timer = new Timer(scene, this.scene.game.maxTime, numbers);
+        this.timer = new Timer(scene, numbers);
         this.score = new Score(scene, numbers);
-        this.rotate = new ToolbarItem(scene, rotate, 50);
-        this.undo = new ToolbarItem(scene, undo, 51);
-        this.movie = new ToolbarItem(scene, movie, 52);
+
+        this.rotateId = 50;
+        this.indoId = 51;
+        this.movieId = 52;
+
+        this.rotate = new ToolbarItem(scene, rotate, this.rotateId);
+        this.undo = new ToolbarItem(scene, undo, this.undoId);
+        this.movie = new ToolbarItem(scene, movie, this.movieId);
     }
 
     logPicking() {
@@ -19,14 +24,14 @@ class Toolbar extends CGFobject {
                     if (obj) {
                         var customId = this.scene.pickResults[i][1];
 
-                        if (customId >= 50 && customId <= 52) {
+                        if (customId >= this.rotateId && customId <= this.movieId) {
                             picked = true;
 
-                            if (customId === 50)
+                            if (customId === this.rotateId)
                                 this.scene.startRotation();
-                            else if (customId === 51)
+                            else if (customId === this.undoId)
                                 this.scene.game.undoMove();
-                            else if (customId === 52)
+                            else if (customId === this.movieId)
                                 this.scene.game.movieAnim();
                         }
                         console.log('Picked object: ' + obj + ', with pick id ' + customId);

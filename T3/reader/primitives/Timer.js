@@ -1,5 +1,5 @@
 class Timer extends CGFobject {
-    constructor(scene, maxTime, numbers){
+    constructor(scene, numbers){
         super(scene);
 
         this.numbers = numbers;

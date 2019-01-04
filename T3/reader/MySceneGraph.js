@@ -12,9 +12,6 @@ var ANIMATIONS_INDEX = 7;
 var PRIMITIVES_INDEX = 8;
 var COMPONENTS_INDEX = 9;
 
-// TODO: verificar erros e tipos de erro (minor e assumir valor default, ou
-// retornar logo)
-
 
 /**
  * MySceneGraph class, representing the scene graph.
@@ -1077,9 +1074,20 @@ class MySceneGraph {
 
   parseTextureId(primitiveId, textureId) {
     if (textureId == '') {
-      return 'invalid texture on primitive' + primitiveId;
+      return 'invalid texture on primitive ' + primitiveId;
     } else if (this.textures[textureId] == null) {
-      return 'nonexistent texture on primitive' + primitiveId;
+      return 'nonexistent texture on primitive ' + primitiveId;
+    }
+
+    return null;
+  }
+
+
+  parseMaterialId(primitiveId, materialId) {
+    if (materialId == '') {
+      return 'invalid material on primitive ' + primitiveId;
+    } else if (this.materials[materialId] == null) {
+      return 'nonexistent material on primitive ' + primitiveId;
     }
 
     return null;
@@ -1535,21 +1543,13 @@ class MySceneGraph {
   parseTerrain(id, primitive) {
     let error;
 
-    var idTex = this.reader.getString(primitive, 'idtexture', true);
-
-    if (idTex == '') {
-      return 'invalid texture in on primitive' + id;
-    } else if (this.textures[idTex] == null) {
-      return 'nonexistent texture on primitive' + id;
-    }
+    var idtexture = this.reader.getString(primitive, 'idtexture', true);
+    if ((error = this.parseTextureId(id, idtexture)) != null)
+      return error;
 
     var idheightmap = this.reader.getString(primitive, 'idheightmap', true);
-
-    if (idheightmap == '') {
-      return 'invalid heightmap in on primitive' + id;
-    } else if (this.textures[idheightmap] == null) {
-      return 'nonexistent heightmap on primitive' + id;
-    }
+    if ((error = this.parseTextureId(id, idheightmap)) != null)
+      return error;
 
     var parts = this.reader.getInteger(primitive, 'parts', true);
     if ((error = this.checkNumber(primitive, parts, 'parts')) != null)
@@ -1561,7 +1561,7 @@ class MySceneGraph {
       null)
       return error;
 
-    var tex = this.textures[idTex];
+    var tex = this.textures[idtexture];
     var heightmap = this.textures[idheightmap];
 
     this.primitives[id] =
@@ -1573,21 +1573,13 @@ class MySceneGraph {
   parseWater(id, primitive) {
     let error;
 
-    var idTex = this.reader.getString(primitive, 'idtexture', true);
-
-    if (idTex == '') {
-      return 'invalid texture in on primitive' + id;
-    } else if (this.textures[idTex] == null) {
-      return 'nonexistent texture on primitive' + id;
-    }
+    var idtexture = this.reader.getString(primitive, 'idtexture', true);
+    if ((error = this.parseTextureId(id, idtexture)) != null)
+      return error;
 
     var idwavemap = this.reader.getString(primitive, 'idwavemap', true);
-
-    if (idwavemap == '') {
-      return 'invalid wavemap in on primitive' + id;
-    } else if (this.textures[idwavemap] == null) {
-      return 'nonexistent wavemap on primitive' + id;
-    }
+    if ((error = this.parseTextureId(id, idwavemap)) != null)
+      return error;
 
     var parts = this.reader.getInteger(primitive, 'parts', true);
 
@@ -1605,7 +1597,7 @@ class MySceneGraph {
     if ((error = this.checkNumber(primitive, texscale, 'texscale')) != null)
       return error;
 
-    var tex = this.textures[idTex];
+    var tex = this.textures[idtexture];
     var wavemap = this.textures[idwavemap];
 
     this.primitives[id] =
@@ -1618,44 +1610,24 @@ class MySceneGraph {
     let error;
 
     var boardMat = this.reader.getString(primitive, 'boardMat', true);
-
-    if (boardMat == '') {
-      return 'invalid boardMat on primitive' + id;
-    } else if (this.materials[boardMat] == null) {
-      return 'nonexistent boardMat on primitive' + id;
-    }
+    if ((error = this.parseMaterialId(id, boardMat)) != null)
+      return error;
 
     var piece1Mat = this.reader.getString(primitive, 'piece1Mat', true);
-
-    if (piece1Mat == '') {
-      return 'invalid piece1Mat on primitive' + id;
-    } else if (this.materials[piece1Mat] == null) {
-      return 'nonexistent piece1Mat on primitive' + id;
-    }
+    if ((error = this.parseMaterialId(id, piece1Mat)) != null)
+      return error;
 
     var piece2Mat = this.reader.getString(primitive, 'piece2Mat', true);
-
-    if (piece2Mat == '') {
-      return 'invalid piece2Mat on primitive' + id;
-    } else if (this.materials[piece2Mat] == null) {
-      return 'nonexistent piece2Mat on primitive' + id;
-    }
+    if ((error = this.parseMaterialId(id, piece2Mat)) != null)
+      return error;
 
     var boardTex = this.reader.getString(primitive, 'boardTex', true);
-
-    if (boardTex == '') {
-      return 'invalid boardTex on primitive' + id;
-    } else if (this.textures[boardTex] == null) {
-      return 'nonexistent boardTex on primitive' + id;
-    }
+    if ((error = this.parseTextureId(id, boardTex)) != null)
+      return error;
 
     var highTex = this.reader.getString(primitive, 'highTex', true);
-
-    if (highTex == '') {
-      return 'invalid highTex on primitive' + id;
-    } else if (this.textures[highTex] == null) {
-      return 'nonexistent highTex on primitive' + id;
-    }
+    if ((error = this.parseTextureId(id, highTex)) != null)
+      return error;
 
     this.primitives[id] = new Board(
       this.scene, this.materials[boardMat], this.materials[piece1Mat],
@@ -1748,7 +1720,6 @@ class MySceneGraph {
   /**
    * Parses the <components> block.
    * @param {components block element} componentsNode
-   * TODO: animations depois de transformations
    */
   parseComponents(componentsNode) {
     this.components = [];
@@ -2107,7 +2078,7 @@ class MySceneGraph {
 
   update(deltaTime) {
     for (let key in this.primitives) {
-      if (this.primitives[key] instanceof Water || this.primitives[key] instanceof Timer || this.primitives[key] instanceof Board) {
+      if (this.primitives[key] instanceof Water || this.primitives[key] instanceof Board) {
         this.primitives[key].update(deltaTime);
       }
     }
