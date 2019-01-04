@@ -32,16 +32,17 @@ class Game {
     }
 
     initData() {
-        this.board = [
+        let board = [
             ['empty', 'white', 'empty', 'white', 'empty'],
             ['empty', 'empty', 'black', 'empty', 'empty'],
             ['empty', 'empty', 'empty', 'empty', 'empty'],
             ['empty', 'empty', 'white', 'empty', 'empty'],
             ['empty', 'black', 'empty', 'black', 'empty']
         ];
+        this.board = board;
         this.currPlayer = 1;
         this.countOcurrences = [];
-        this.boards = [this.board];
+        this.boards = [board];
         this.players = [];
         this.gameState = this.gameStates.MENU;
         this.difficulty = this.difficulties.MEDIUM;
@@ -193,20 +194,21 @@ class Game {
         this.currAnimOver = true;
     }
 
-    undoMove() {
-        let this_game = this;
-
-        if (this.boards.length > 1) {
-            let last_board = this.boards[this.boards.length - 1];
-            let second_last_board = this_game.boards[this.boards.length - 2];
-            this.undo_move = this.getMove(last_board, second_last_board);
-            this.undo_player = this.players[this.players.length - 1];
-            console.log(this.boards);
-            this.boards.pop();
-            console.log(this.boards);
-            this.players.pop();
-            this.undo_ready = true;
-            this.board = this.boards[this.boards.length - 1];
+    undoMove() { 
+        console.log(this.currPlayer);
+        if (this.gameState != this.gameStates.CVC) {
+            if (this.boards.length > 1) {
+                this.undo_ready = true;
+                let last_board = this.boards[this.boards.length - 1];
+                let second_last_board = this.boards[this.boards.length - 2];
+                this.undo_move = this.getMove(last_board, second_last_board);
+                this.undo_player = this.players[this.players.length - 1];
+                console.log(this.boards);
+                this.boards.pop();
+                console.log(this.boards);
+                this.players.pop();
+                this.board = this.boards[this.boards.length - 1];
+            }
         }
     }
 
