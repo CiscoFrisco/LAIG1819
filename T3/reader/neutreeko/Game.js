@@ -82,7 +82,6 @@ class Game {
     }
 
     nextPlayer() {
-        console.log('nextPlayer');
         this.currPlayer = 3 - this.currPlayer;
     }
 
@@ -147,15 +146,12 @@ class Game {
             if (this_game.boards.length != 1) {
                 this_game.players.push(this_game.currPlayer);
             }
-            this_game.nextPlayer();
             this_game.move_ready = true;
             this_game.score++;
         });
     }
 
     getMove(board, newBoard) {
-        console.log('getMove');
-
         let origin = [];
         let dest = [];
 
@@ -173,12 +169,11 @@ class Game {
     }
 
     movieAnim() {
+
         if (!this.clicked_move) {
             this.clicked_move = true;
-            if (this.boards.length > 1) {
+            if (this.boards.length > 1)
                 this.setup_anim = true;
-                this.getMovieMoves();
-            }
         }
     }
 
@@ -194,26 +189,29 @@ class Game {
         this.currAnimOver = true;
     }
 
-    undoMove() { 
-        console.log(this.currPlayer);
+    flagUndo() {
         if (this.gameState != this.gameStates.CVC) {
             if (this.boards.length > 1) {
                 this.undo_ready = true;
-                let last_board = this.boards[this.boards.length - 1];
-                let second_last_board = this.boards[this.boards.length - 2];
-                this.undo_move = this.getMove(last_board, second_last_board);
-                this.undo_player = this.players[this.players.length - 1];
-                console.log(this.boards);
-                this.boards.pop();
-                console.log(this.boards);
-                this.players.pop();
-                this.board = this.boards[this.boards.length - 1];
             }
         }
     }
 
+    undoMove() {
+
+        let last_board = this.boards[this.boards.length - 1];
+        let second_last_board = this.boards[this.boards.length - 2];
+        this.undo_move = this.getMove(last_board, second_last_board);
+        this.undo_player = this.players[this.players.length - 1];
+        this.boards.pop();
+        this.players.pop();
+        this.board = this.boards[this.boards.length - 1];
+    }
+
+
     choose_move() {
-        console.log('choose_move');
+        console.log('move_chosen');
+        this.move_chosen = true;
         let this_game = this;
         let board_string = this.getBoardString();
 
@@ -228,7 +226,6 @@ class Game {
             if (this_game.boards.length != 1) {
                 this_game.players.push(this_game.currPlayer);
             }
-            this_game.nextPlayer();
             this_game.bot_ready = true;
             this_game.score++;
         });

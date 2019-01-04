@@ -262,12 +262,12 @@ class XMLscene extends CGFscene {
         this.graph.update(this.deltaTime);
 
         if (this.rotateCamera)
-            this.updateCamera();
+            this.update_camera();
 
         this.game.update(this.deltaTime);
     }
 
-    updateCamera() {
+    update_camera() {
         if (this.currRotTime >= this.rotTime) {
             this.rotateCamera = false;
             this.currRotTime = 0;

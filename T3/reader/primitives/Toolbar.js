@@ -6,7 +6,7 @@ class Toolbar extends CGFobject {
         this.score = new Score(scene, numbers);
 
         this.rotateId = 50;
-        this.indoId = 51;
+        this.undoId = 51;
         this.movieId = 52;
 
         this.rotate = new ToolbarItem(scene, rotate, this.rotateId);
@@ -30,7 +30,7 @@ class Toolbar extends CGFobject {
                             if (customId === this.rotateId)
                                 this.scene.startRotation();
                             else if (customId === this.undoId)
-                                this.scene.game.undoMove();
+                                this.scene.game.flagUndo();
                             else if (customId === this.movieId)
                                 this.scene.game.movieAnim();
                         }
