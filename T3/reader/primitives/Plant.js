@@ -76,6 +76,8 @@ class Plant extends CGFobject {
         this.vaseTexture = new CGFappearance(this.scene);
         this.vaseTexture.setAmbient(0.361, 0.171, 0.076, 1.0);
         this.vaseTexture.setDiffuse(0.661, 0.271, 0.0176, 1.0);
+        this.vaseTexture.setSpecular(0.25, 0.25, 0.25, 1.0);
+
     };
 
     display() {

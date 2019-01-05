@@ -120,8 +120,9 @@ class Chair extends CGFobject {
         this.baseTexture.setDiffuse(0.75, 0.75, 0.75, 1.0);
 
         this.chairTexture = new CGFappearance(this.scene);
-        this.chairTexture.setAmbient(0.1, 0.1, 0.25, 1.0);
-        this.chairTexture.setDiffuse(0.1, 0.1, 0.25, 1.0);
+        this.chairTexture.setAmbient(0.5,0.25,0.25, 1.0);
+        this.chairTexture.setDiffuse(0.75, 0.75, 0.75, 1.0);
+        this.chairTexture.setSpecular(0.0, 0.0, 0.0, 1.0);
 
     };
 
