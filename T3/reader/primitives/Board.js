@@ -71,6 +71,7 @@ class Board extends CGFobject {
   initPieces(piece, y, rotate, scX, scY, scZ) {
     this.whitePieces = [];
     this.blackPieces = [];
+    this.y = y;
 
     let blackPiece1 = {
       obj: new Piece(this.scene, this.blackAppearance, piece, rotate, scX, scY, scZ),
@@ -149,32 +150,32 @@ class Board extends CGFobject {
 
     let blackPiece1 = this.blackPieces[0];
     blackPiece1.x = -1;
-    blackPiece1.y = 0.25;
+    blackPiece1.y = this.y;
     blackPiece1.z = 2;
 
     let blackPiece2 = this.blackPieces[1];
     blackPiece2.x = 1;
-    blackPiece2.y = 0.25;
+    blackPiece2.y = this.y;
     blackPiece2.z = 2;
 
     let blackPiece3 = this.blackPieces[2];
     blackPiece3.x = 0;
-    blackPiece3.y = 0.25;
+    blackPiece3.y = this.y;
     blackPiece3.z = -1;
 
     let whitePiece1 = this.whitePieces[0];
     whitePiece1.x = -1;
-    whitePiece1.y = 0.25;
+    whitePiece1.y = this.y;
     whitePiece1.z = -2;
 
     let whitePiece2 = this.whitePieces[1];
     whitePiece2.x = 1;
-    whitePiece2.y = 0.25;
+    whitePiece2.y = this.y;
     whitePiece2.z = -2;
 
     let whitePiece3 = this.whitePieces[2];
     whitePiece3.x = 0;
-    whitePiece3.y = 0.25;
+    whitePiece3.y = this.y;
     whitePiece3.z = 1;
   }
 
