@@ -141,7 +141,10 @@
             <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
         </primitive>
         <primitive id="cylinder">
-            <cylinder base="1.0" top="1.0" height="1.0" slices="20" stacks="20" />
+            <cylinder base="0.3" top="0.3" height="0.15" slices="20" stacks="20" />
+        </primitive>
+        <primitive id="pawn">
+            <objfile file="scenes/models/piece.obj" />
         </primitive>
         <primitive id="terrain">
             <terrain idtexture="terrain" idheightmap="heightmap" parts="20" heightscale="0.2"/>
@@ -150,7 +153,7 @@
             <water idtexture="water" idwavemap="wavemap" parts="10" heightscale="0.1" texscale="1"/>
         </primitive>
         <primitive id="board">
-            <board boardMat="board" boardTex="boardTex" highTex="highTex" piece1Mat="black" piece2Mat="white"/>
+            <board boardMat="board" boardTex="boardTex" highTex="highTex" piece1Mat="black" piece2Mat="white" pieceType="cylinder" y="0.4" rotate="true" scX="1.0" scY="1.0" scZ="1.0"/>
         </primitive>
         <primitive id="cube">
             <cube/>

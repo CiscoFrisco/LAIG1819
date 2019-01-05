@@ -121,8 +121,11 @@
         <primitive id="hay">
             <terrain idtexture="hay" idheightmap="haymap" parts="20" heightscale="1.0"/>
         </primitive>
+        <primitive id="pawn">
+            <objfile file="scenes/models/piece.obj" />
+        </primitive>
         <primitive id="board">
-            <board boardMat="board" boardTex="boardTex" highTex="highTex" piece1Mat="black_piece" piece2Mat="white_piece"/>
+            <board boardMat="board" boardTex="boardTex" highTex="highTex" piece1Mat="black_piece" piece2Mat="white_piece" pieceType="pawn" y="0.25" rotate="false" scX="0.4" scY="0.4" scZ="0.4"/>
         </primitive>
         <primitive id="cube">
             <cube/>

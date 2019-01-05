@@ -72,7 +72,8 @@ class MySceneGraph {
       'door': this.parseDoor,
       'timer': this.parseTimer,
       'score': this.parseScore,
-      'toolbar': this.parseToolbar
+      'toolbar': this.parseToolbar,
+      'objfile': this.parseObjFile
     }
   }
 
@@ -1629,9 +1630,36 @@ class MySceneGraph {
     if ((error = this.parseTextureId(id, highTex)) != null)
       return error;
 
+    var pieceType = this.reader.getString(primitive, 'pieceType', true);
+
+    if (this.primitives[pieceType] === null)
+      return 'No piece primitive found!';
+
+    var y = this.reader.getFloat(primitive, 'y', true);
+
+    if ((error = this.checkNumber(primitive, y, 'y')) != null)
+      return error;
+
+    var rotate = this.reader.getBoolean(primitive, 'rotate', true);
+
+    var scX = this.reader.getFloat(primitive, 'scX', true);
+
+    if ((error = this.checkNumber(primitive, scX, 'scX')) != null)
+      return error;
+
+    var scY = this.reader.getFloat(primitive, 'scY', true);
+
+    if ((error = this.checkNumber(primitive, scY, 'scY')) != null)
+      return error;
+
+    var scZ = this.reader.getFloat(primitive, 'scZ', true);
+
+    if ((error = this.checkNumber(primitive, scZ, 'scZ')) != null)
+      return error;
+
     this.primitives[id] = new Board(
       this.scene, this.materials[boardMat], this.materials[piece1Mat],
-      this.materials[piece2Mat], this.textures[boardTex], this.textures[highTex]);
+      this.materials[piece2Mat], this.textures[boardTex], this.textures[highTex], this.primitives[pieceType], y, rotate, scX, scY, scZ);
 
     return null;
   }
@@ -1669,6 +1697,13 @@ class MySceneGraph {
 
   parseVehicle(id, primitive) {
     this.primitives[id] = new Vehicle(this.scene);
+    return null;
+  }
+
+  parseObjFile(id, primitive) {
+    let file = this.reader.getString(primitive, 'file', true);
+
+    this.primitives[id] = new CGFOBJModel(this.scene, file);
     return null;
   }
 

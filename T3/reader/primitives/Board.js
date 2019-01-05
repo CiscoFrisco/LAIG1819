@@ -1,5 +1,5 @@
 class Board extends CGFobject {
-  constructor(scene, boardMat, piece1Mat, piece2Mat, boardTex, highTex) {
+  constructor(scene, boardMat, piece1Mat, piece2Mat, boardTex, highTex, piece, y, rotate, scX, scY, scZ) {
     super(scene);
 
     this.initAppearances(boardMat, piece1Mat, piece2Mat, boardTex, highTex);
@@ -11,21 +11,24 @@ class Board extends CGFobject {
       PICK_MOVE: 4,
       CHECK_GAME_OVER: 5
     });
+
     this.selectedPiece = null;
     this.selectedMove = null;
     this.anim = {
       id: 0,
       isActive: false
     };
+
     this.boardLength = 5;
     this.numPieces = this.boardLength * this.boardLength;
+
     this.animDuration = 1;
 
-    this.init();
+    this.init(piece, y, rotate, scX, scY, scZ);
   }
 
-  init() {
-    this.initPieces();
+  init(piece, y, rotate, scX, scY, scZ) {
+    this.initPieces(piece, y, rotate, scX, scY, scZ);
     this.initDivisions();
     this.scene.game.currPlayer = 1;
     this.pickState = this.pickStates.NO_PICK;
@@ -54,65 +57,65 @@ class Board extends CGFobject {
           x: x,
           z: z,
           high: false,
-          id: i * 5 + j + 1
+          id: i * this.boardLength + j + 1
         });
-        x += 1;
+        x++;
       }
 
       this.divisions.push(row);
       x = -2;
-      z += 1;
+      z++;
     }
   }
 
-  initPieces() {
+  initPieces(piece, y, rotate, scX, scY, scZ) {
     this.whitePieces = [];
     this.blackPieces = [];
 
     let blackPiece1 = {
-      obj: new Piece(this.scene, this.blackAppearance),
+      obj: new Piece(this.scene, this.blackAppearance, piece, rotate, scX, scY, scZ),
       x: -1,
-      y: 0.25,
+      y: y,
       z: 2,
       id: 26
     };
 
     let blackPiece2 = {
-      obj: new Piece(this.scene, this.blackAppearance),
+      obj: new Piece(this.scene, this.blackAppearance, piece, rotate, scX, scY, scZ),
       x: 1,
-      y: 0.25,
+      y: y,
       z: 2,
       id: 27
     };
 
     let blackPiece3 = {
-      obj: new Piece(this.scene, this.blackAppearance),
+      obj: new Piece(this.scene, this.blackAppearance, piece, rotate, scX, scY, scZ),
       x: 0,
-      y: 0.25,
+      y: y,
       z: -1,
       id: 28
     };
 
     let whitePiece1 = {
-      obj: new Piece(this.scene, this.whiteAppearance),
+      obj: new Piece(this.scene, this.whiteAppearance, piece, rotate, scX, scY, scZ),
       x: -1,
-      y: 0.25,
+      y: y,
       z: -2,
       id: 26
     };
 
     let whitePiece2 = {
-      obj: new Piece(this.scene, this.whiteAppearance),
+      obj: new Piece(this.scene, this.whiteAppearance, piece, rotate, scX, scY, scZ),
       x: 1,
-      y: 0.25,
+      y: y,
       z: -2,
       id: 27
     };
 
     let whitePiece3 = {
-      obj: new Piece(this.scene, this.whiteAppearance),
+      obj: new Piece(this.scene, this.whiteAppearance, piece, rotate, scX, scY, scZ),
       x: 0,
-      y: 0.25,
+      y: y,
       z: 1,
       id: 28
     };

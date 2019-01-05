@@ -1,7 +1,6 @@
 class Game {
     constructor(scene) {
 
-        this.server = new Server();
         this.scene = scene;
 
         this.gameStates = Object.freeze({
@@ -125,7 +124,7 @@ class Game {
         let board_string = this.getBoardString();
         let this_game = this;
 
-        this.server.getPrologRequest("valid_moves([" + board_string + "]," + piece_string + ")", function (data) {
+        this.getPrologRequest("valid_moves([" + board_string + "]," + piece_string + ")", function (data) {
             this_game.valid_moves = data.target.response;
             this_game.moves_ready = true;
         });
@@ -136,7 +135,7 @@ class Game {
         let this_game = this;
         let board_string = this.getBoardString();
 
-        this.server.getPrologRequest("move([" + move + "]," + this.currPlayer + ",[" + board_string + "])", function (data) {
+        this.getPrologRequest("move([" + move + "]," + this.currPlayer + ",[" + board_string + "])", function (data) {
             let newBoard = JSON.parse(data.target.response.replace(/(empty|white|black)/g, '"$1"'));
             this_game.board = newBoard;
             if (this_game.boards.length == 1) {
@@ -215,7 +214,7 @@ class Game {
         let this_game = this;
         let board_string = this.getBoardString();
 
-        this.server.getPrologRequest("choose_move([" + board_string + "]," + this.difficulty + "," + this.currPlayer + ")", function (data) {
+        this.getPrologRequest("choose_move([" + board_string + "]," + this.difficulty + "," + this.currPlayer + ")", function (data) {
             let newBoard = JSON.parse(data.target.response.replace(/(empty|white|black)/g, '"$1"'));
             this_game.bot_move = this_game.getMove(this_game.board, newBoard);
             this_game.board = newBoard;
@@ -235,7 +234,7 @@ class Game {
         let this_game = this;
         let board_string = this.getBoardString();
 
-        this.server.getPrologRequest("game_over([" + board_string + "])", function (data) {
+        this.getPrologRequest("game_over([" + board_string + "])", function (data) {
             this_game.winner = parseInt(data.target.response);
             this_game.winner_ready = true;
         });
@@ -262,5 +261,21 @@ class Game {
                 this.resetTimer();
             }
         }
+    }
+
+    getPrologRequest(requestString, onSuccess, onError, port) {
+        var requestPort = port || 8081
+        var request = new XMLHttpRequest();
+        request.open('GET', 'http://localhost:' + requestPort + '/' + requestString, true);
+
+        request.onload = onSuccess || function (data) {
+            console.log("Request successful. Reply: " + data.target.response);
+        };
+        request.onerror = onError || function () {
+            console.log("Error waiting for response");
+        };
+
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+        request.send();
     }
 }

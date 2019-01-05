@@ -1,15 +1,22 @@
 class Piece extends CGFobject {
-    constructor(scene, appearance){
+    constructor(scene, appearance, piece, rotate, scX, scY, scZ) {
         super(scene);
 
-		this.piece = new CGFOBJModel(this.scene, 'scenes/models/piece.obj');
+        this.piece = piece;
+        this.rotate = rotate;
         this.appearance = appearance;
+
+        this.scX = scX;
+        this.scY = scY;
+        this.scZ = scZ;
     }
 
-    display(){
+    display() {
         this.scene.pushMatrix();
         this.appearance.apply();
-        this.scene.scale(0.4,0.4,0.4);
+        if (this.rotate)
+            this.scene.rotate(Math.PI / 2, 1, 0, 0);
+        this.scene.scale(this.scX, this.scY, this.scZ);
         this.piece.display();
         this.scene.popMatrix();
     }
