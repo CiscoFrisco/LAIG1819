@@ -110,7 +110,7 @@ class MySceneGraph {
     this.scene.graphsLoaded++;
     this.scene.addGraph(this);
 
-    if(this.scene.graphsLoaded == this.scene.numGraphs)
+    if (this.scene.graphsLoaded == this.scene.numGraphs)
       this.scene.onGraphLoaded();
   }
 
@@ -135,52 +135,52 @@ class MySceneGraph {
     // Processes each node, verifying errors.
 
     if ((error = this.processNode(
-        'scene', nodeNames, nodes, SCENE_INDEX, this.parseScene)) != null)
+      'scene', nodeNames, nodes, SCENE_INDEX, this.parseScene)) != null)
       return error;
 
 
     if ((error = this.processNode(
-        'views', nodeNames, nodes, VIEWS_INDEX, this.parseViews)) != null)
+      'views', nodeNames, nodes, VIEWS_INDEX, this.parseViews)) != null)
       return error;
 
     if ((error = this.processNode(
-        'ambient', nodeNames, nodes, AMBIENT_INDEX, this.parseAmbient)) !=
+      'ambient', nodeNames, nodes, AMBIENT_INDEX, this.parseAmbient)) !=
       null)
       return error;
 
     if ((error = this.processNode(
-        'lights', nodeNames, nodes, LIGHTS_INDEX, this.parseLights)) !=
+      'lights', nodeNames, nodes, LIGHTS_INDEX, this.parseLights)) !=
       null)
       return error;
 
     if ((error = this.processNode(
-        'textures', nodeNames, nodes, TEXTURES_INDEX,
-        this.parseTextures)) != null)
+      'textures', nodeNames, nodes, TEXTURES_INDEX,
+      this.parseTextures)) != null)
       return error;
 
     if ((error = this.processNode(
-        'materials', nodeNames, nodes, MATERIALS_INDEX,
-        this.parseMaterials)) != null)
+      'materials', nodeNames, nodes, MATERIALS_INDEX,
+      this.parseMaterials)) != null)
       return error;
 
     if ((error = this.processNode(
-        'transformations', nodeNames, nodes, TRANSFORMATIONS_INDEX,
-        this.parseTransformations)) != null)
+      'transformations', nodeNames, nodes, TRANSFORMATIONS_INDEX,
+      this.parseTransformations)) != null)
       return error;
 
     if ((error = this.processNode(
-        'animations', nodeNames, nodes, ANIMATIONS_INDEX,
-        this.parseAnimations)) != null)
+      'animations', nodeNames, nodes, ANIMATIONS_INDEX,
+      this.parseAnimations)) != null)
       return error;
 
     if ((error = this.processNode(
-        'primitives', nodeNames, nodes, PRIMITIVES_INDEX,
-        this.parsePrimitives)) != null)
+      'primitives', nodeNames, nodes, PRIMITIVES_INDEX,
+      this.parsePrimitives)) != null)
       return error;
 
     if ((error = this.processNode(
-        'components', nodeNames, nodes, COMPONENTS_INDEX,
-        this.parseComponents)) != null)
+      'components', nodeNames, nodes, COMPONENTS_INDEX,
+      this.parseComponents)) != null)
       return error;
   }
 
@@ -237,7 +237,7 @@ class MySceneGraph {
     var axis_length = this.reader.getFloat(sceneNode, 'axis_length', true);
 
     if ((error = this.checkNumber(
-        sceneNode, axis_length, 'axis_length', true)) != null)
+      sceneNode, axis_length, 'axis_length', true)) != null)
       return error;
 
     this.sceneInfo = {
@@ -641,7 +641,7 @@ class MySceneGraph {
         var exponent = this.reader.getFloat(childNode, 'exponent', true);
 
         if ((error = this.checkNumber(
-            childNode, exponent, 'exponent', false)) != null)
+          childNode, exponent, 'exponent', false)) != null)
           return error;
 
         var targetIndex = nodeNames.indexOf('target');
@@ -756,7 +756,7 @@ class MySceneGraph {
       var shininess = this.reader.getFloat(childNode, 'shininess', true);
 
       if ((error = this.checkNumber(
-          childNode, shininess, 'shininess', false)) != null)
+        childNode, shininess, 'shininess', false)) != null)
         return error;
 
       var properties = childNode.children;
@@ -965,7 +965,7 @@ class MySceneGraph {
         var numControlPoints = 0;
         for (let j = 0; j < controlPoints.length; j++) {
           if ((error = this.parseControlPoint(
-              controlPoints[j], controlPointsParsed, true)) != null)
+            controlPoints[j], controlPointsParsed, true)) != null)
             return error;
 
           numControlPoints++;
@@ -990,7 +990,7 @@ class MySceneGraph {
         var startang = this.reader.getFloat(animation, 'startang', true);
 
         if ((error = this.checkNumber(
-            animation, startang, 'startang', false)) != null)
+          animation, startang, 'startang', false)) != null)
           return error;
 
         var rotang = this.reader.getFloat(animation, 'rotang', true);
@@ -1319,6 +1319,18 @@ class MySceneGraph {
     if ((error = this.parseTextureId(id, idonemin)) != null)
       return error;
 
+    var idscenes = this.reader.getString(primitive, 'idscenes', true);
+    if ((error = this.parseTextureId(id, idscenes)) != null)
+      return error;
+
+    var idscene1 = this.reader.getString(primitive, 'idscene1', true);
+    if ((error = this.parseTextureId(id, idscene1)) != null)
+      return error;
+
+    var idscene2 = this.reader.getString(primitive, 'idscene2', true);
+    if ((error = this.parseTextureId(id, idscene2)) != null)
+      return error;
+
     var difficulty = this.textures[iddifficulty];
     var pvp = this.textures[idpvp];
     var pvc = this.textures[idpvc];
@@ -1331,9 +1343,12 @@ class MySceneGraph {
     var thirty = this.textures[idthirty];
     var fourtyfive = this.textures[idfourtyfive];
     var onemin = this.textures[idonemin];
+    var scenes = this.textures[idscenes];
+    var scene1 = this.textures[idscene1];
+    var scene2 = this.textures[idscene2];
 
 
-    this.primitives[id] = new Menu(this.scene, difficulty, pvp, pvc, cvc, diffez, diffmed, diffhard, timer, fifteen, thirty, fourtyfive, onemin);
+    this.primitives[id] = new Menu(this.scene, difficulty, pvp, pvc, cvc, diffez, diffmed, diffhard, timer, fifteen, thirty, fourtyfive, onemin,scenes,scene1,scene2);
 
     return null;
   }
@@ -1519,7 +1534,7 @@ class MySceneGraph {
     var numControlPoints = 0;
     for (let j = 0; j < controlPoints.length; ++j) {
       if ((error = this.parseControlPoint(
-          controlPoints[j], controlPointsParsed)) != null)
+        controlPoints[j], controlPointsParsed)) != null)
         return error;
 
       numControlPoints++;
@@ -1801,7 +1816,7 @@ class MySceneGraph {
             component.transformations = this.transformations[transfId];
 
           } else if (!this.findStringOnArray(
-              'transformationref', transformations, 'nodeName')) {
+            'transformationref', transformations, 'nodeName')) {
             this.scene.loadIdentity();
             for (let c = 0; c < transformations.length; c++) {
               this.parseExplicitTransformation(transformations[c]);

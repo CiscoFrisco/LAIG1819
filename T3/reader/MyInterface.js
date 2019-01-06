@@ -47,15 +47,6 @@ class MyInterface extends CGFinterface {
         this.initKeys();
     }
 
-    addScenesDrop(){
-        var controller = this.gui.add(this.scene, 'scene', this.scene.graphsList);
-        
-        var self = this;
-        controller.onFinishChange(function (value) {
-            return self.scene.updateGraph();
-        });;
-    }
-
     /**
      * Adds a dropdown lists containing IDs for the scene's cameras.
      */

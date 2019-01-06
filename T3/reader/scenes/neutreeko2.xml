@@ -71,6 +71,9 @@
         <texture id="thirty" file="scenes/images/30s.png" />
         <texture id="fourtyfive" file="scenes/images/45s.png" />
         <texture id="onemin" file="scenes/images/1m.png" />
+        <texture id="scenes" file="scenes/images/piece_high.png" />
+        <texture id="scene1" file="scenes/images/mrzephyr.png" />
+        <texture id="scene2" file="scenes/images/hay.jpg" />
     </textures>
     <materials>
         <material id="default" shininess = "10.0">
@@ -146,7 +149,7 @@
             <chair/>
         </primitive>
         <primitive id="menu">
-            <menu iddifficulty="difficulty" idpvp="pvp" idpvc="pvc" idcvc="cvc" iddiffez="diffez" iddiffmed="diffmed" iddiffhard="diffhard" idtimer="maxtime" idfifteen="fifteen" idthirty="thirty" idfourtyfive="fourtyfive" idonemin="onemin"/>
+            <menu iddifficulty="difficulty" idpvp="pvp" idpvc="pvc" idcvc="cvc" iddiffez="diffez" iddiffmed="diffmed" iddiffhard="diffhard" idtimer="maxtime" idfifteen="fifteen" idthirty="thirty" idfourtyfive="fourtyfive" idonemin="onemin" idscenes="scenes" idscene1="scene1" idscene2="scene2"/>
         </primitive>
         <primitive id="toolbar">
             <toolbar idzero="zero" idone="one" idtwo="two" idthree="three" idfour="four" idfive="five" idsix="six" idseven="seven" ideight="eight" idnine="nine" idmovie="movie" idundo="undo" idrotate="rotate"/>

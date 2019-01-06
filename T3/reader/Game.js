@@ -7,9 +7,10 @@ class Game {
             "MENU": 1,
             "DIFFICULTY": 2,
             "TIMER": 3,
-            "PVP": 4,
-            "PVC": 5,
-            "CVC": 6
+            "SCENES": 4,
+            "PVP": 5,
+            "PVC": 6,
+            "CVC": 7
         });
 
         this.difficulties = Object.freeze({

@@ -1,5 +1,5 @@
 class Menu extends CGFobject {
-    constructor(scene, difficulty, pvp, pvc, cvc, diffEz, diffMed, diffHard, timer, fifteen, thirty, fourtyfive, onemin) {
+    constructor(scene, difficulty, pvp, pvc, cvc, diffEz, diffMed, diffHard, timer, fifteen, thirty, fourtyfive, onemin, scenes, scene1, scene2) {
         super(scene);
 
         this.difficulty = difficulty;
@@ -16,6 +16,10 @@ class Menu extends CGFobject {
         this.fourtyfive = fourtyfive;
         this.onemin = onemin;
 
+        this.scenes = scenes;
+        this.scene1 = scene1;
+        this.scene2 = scene2;
+
         this.pvpBoard = new MyQuad(this.scene, -0.5, -0.5, 0.5, 0.5);
         this.pvcBoard = new MyQuad(this.scene, -0.5, -0.5, 0.5, 0.5);
         this.cvcBoard = new MyQuad(this.scene, -0.5, -0.5, 0.5, 0.5);
@@ -30,11 +34,16 @@ class Menu extends CGFobject {
         this.thirtyBoard = new MyQuad(this.scene, -0.5, -0.5, 0.5, 0.5);
         this.oneminBoard = new MyQuad(this.scene, -0.5, -0.5, 0.5, 0.5);
         this.fourtyfiveBoard = new MyQuad(this.scene, -0.5, -0.5, 0.5, 0.5);
+
+        this.scenesBoard = new MyQuad(this.scene, -0.5, -0.5, 0.5, 0.5);
+        this.scene1Board = new MyQuad(this.scene, -0.5, -0.5, 0.5, 0.5);
+        this.scene2Board = new MyQuad(this.scene, -0.5, -0.5, 0.5, 0.5);
     }
 
     displayMainMenu() {
+
         this.scene.pushMatrix();
-        this.scene.translate(7.0, 10.5, 7.0);
+        this.scene.translate(7.0, 11.0, 7.0);
         this.scene.rotate(Math.PI / 4, 0, 1, 0);
         this.scene.rotate(-Math.PI / 4, 1, 0, 0);
         this.scene.scale(3, 1.5, 1);
@@ -45,7 +54,7 @@ class Menu extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.translate(8.0, 9, 8.0);
+        this.scene.translate(8.0, 9.75, 8.0);
         this.scene.rotate(Math.PI / 4, 0, 1, 0);
         this.scene.rotate(-Math.PI / 4, 1, 0, 0);
         this.scene.scale(3, 1.5, 1);
@@ -56,7 +65,7 @@ class Menu extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.translate(9.0, 7.5, 9.0);
+        this.scene.translate(9.0, 8.5, 9.0);
         this.scene.rotate(Math.PI / 4, 0, 1, 0);
         this.scene.rotate(-Math.PI / 4, 1, 0, 0);
         this.scene.scale(3, 1.5, 1);
@@ -67,7 +76,7 @@ class Menu extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.translate(10, 6, 10);
+        this.scene.translate(10, 7.25, 10);
         this.scene.rotate(Math.PI / 4, 0, 1, 0);
         this.scene.rotate(-Math.PI / 4, 1, 0, 0);
         this.scene.scale(3, 1.5, 1);
@@ -78,7 +87,7 @@ class Menu extends CGFobject {
         this.scene.popMatrix();
 
         this.scene.pushMatrix();
-        this.scene.translate(11, 4.5, 11);
+        this.scene.translate(11, 6.0, 11);
         this.scene.rotate(Math.PI / 4, 0, 1, 0);
         this.scene.rotate(-Math.PI / 4, 1, 0, 0);
         this.scene.scale(3, 1.5, 1);
@@ -86,6 +95,17 @@ class Menu extends CGFobject {
         this.scene.registerForPick(this.scene.game.gameStates.TIMER, this.timerBoard);
         this.timerBoard.display();
         this.timer.unbind();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(12, 4.75, 12);
+        this.scene.rotate(Math.PI / 4, 0, 1, 0);
+        this.scene.rotate(-Math.PI / 4, 1, 0, 0);
+        this.scene.scale(3, 1.5, 1);
+        this.scenes.bind();
+        this.scene.registerForPick(this.scene.game.gameStates.SCENES, this.scenesBoard);
+        this.scenesBoard.display();
+        this.scenes.unbind();
         this.scene.popMatrix();
     }
 
@@ -170,6 +190,30 @@ class Menu extends CGFobject {
         this.scene.popMatrix();
     }
 
+    displayScenesMenu() {
+        this.scene.pushMatrix();
+        this.scene.translate(7.0, 10.5, 7.0);
+        this.scene.rotate(Math.PI / 4, 0, 1, 0);
+        this.scene.rotate(-Math.PI / 4, 1, 0, 0);
+        this.scene.scale(3, 1.5, 1);
+        this.scene1.bind();
+        this.scene.registerForPick(1, this.scene1Board);
+        this.scene1Board.display();
+        this.scene1.unbind();
+        this.scene.popMatrix();
+
+        this.scene.pushMatrix();
+        this.scene.translate(8.0, 9, 8.0);
+        this.scene.rotate(Math.PI / 4, 0, 1, 0);
+        this.scene.rotate(-Math.PI / 4, 1, 0, 0);
+        this.scene.scale(3, 1.5, 1);
+        this.scene2.bind();
+        this.scene.registerForPick(2, this.scene2Board);
+        this.scene2Board.display();
+        this.scene2.unbind();
+        this.scene.popMatrix();
+    }
+
     nextState(id) {
         switch (this.scene.game.gameState) {
             case this.scene.game.gameStates.MENU:
@@ -184,6 +228,10 @@ class Menu extends CGFobject {
             case this.scene.game.gameStates.TIMER:
                 this.scene.game.gameState = this.scene.game.gameStates.MENU;
                 this.scene.game.updateTimer(id);
+                break;
+            case this.scene.game.gameStates.SCENES:
+                this.scene.game.gameState = this.scene.game.gameStates.MENU;
+                this.scene.updateGraph(id - 1);
                 break;
             default:
                 break;
@@ -208,7 +256,7 @@ class Menu extends CGFobject {
 
     display() {
         if (this.scene.game.gameState >= this.scene.game.gameStates.MENU &&
-            this.scene.game.gameState <= this.scene.game.gameStates.TIMER)
+            this.scene.game.gameState <= this.scene.game.gameStates.SCENES)
             this.logPicking();
 
         switch (this.scene.game.gameState) {
@@ -220,6 +268,9 @@ class Menu extends CGFobject {
                 break;
             case this.scene.game.gameStates.TIMER:
                 this.displayTimerMenu();
+                break;
+            case this.scene.game.gameStates.SCENES:
+                this.displayScenesMenu();
                 break;
             default:
                 break;
