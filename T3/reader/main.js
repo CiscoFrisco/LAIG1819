@@ -48,7 +48,7 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.j
         // Standard application, scene and interface setup
         var app = new CGFapplication(document.body);
         var myInterface = new MyInterface();
-        var myScene = new XMLscene(myInterface);
+        var myScene = new XMLscene(myInterface,2);
 
         app.init();
 
@@ -60,12 +60,13 @@ serialInclude(['../lib/CGF.js', 'XMLscene.js', 'MySceneGraph.js', 'MyInterface.j
         // get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml 
         // or use "scene.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor) 
 
-        var filename = getUrlVars()['file'] || "neutreeko.xml";
+        var filename1 =  "neutreeko.xml";
+        var filename2 =  "neutreeko2.xml";
 
         // create and load graph, and associate it to scene. 
         // Check console for loading errors
-        var myGraph = new MySceneGraph(filename, myScene);
-
+        var Graph1 = new MySceneGraph(filename1, myScene);
+        var Graph2 = new MySceneGraph(filename2, myScene);
         // start
         app.run();
     }

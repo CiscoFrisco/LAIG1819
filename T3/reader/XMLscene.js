@@ -8,10 +8,14 @@ class XMLscene extends CGFscene {
      * @constructor
      * @param {MyInterface} myinterface 
      */
-    constructor(myinterface) {
+    constructor(myinterface,numGraphs) {
         super();
 
         this.interface = myinterface;
+        this.graphs = [];
+        this.numGraphs = numGraphs;
+        this.graphsLoaded = 0;
+        this.scene = 0;
         this.lightValues = {};
     }
 
@@ -55,11 +59,11 @@ class XMLscene extends CGFscene {
     /**
      * Initializes the scene cameras.
      */
-    initCameras() {
+    initCameras(currCamera = null) {
 
         this.cameras = [];
 
-        var views = this.graph.views;
+        var views = this.graphs[this.scene].views;
         var def = views.default;
         var i = 0;
 
@@ -82,8 +86,23 @@ class XMLscene extends CGFscene {
 
         }
 
+        if(currCamera != null){
+            this.currCamera = currCamera;
+            this.camera = this.cameras[this.currCamera];
+        }
+        
         this.interface.setActiveCamera(this.camera);
-        this.interface.addCameraDrop();
+        if(currCamera == null)
+            this.interface.addCameraDrop();
+    }
+
+    initGraphs(){
+        
+        this.graphsList = {};
+        this.graphsList["modern"] = 0;
+        this.graphsList["classic"] = 1;
+        
+        this.interface.addScenesDrop();
     }
 
     startRotation() {
@@ -95,7 +114,18 @@ class XMLscene extends CGFscene {
      */
     updateCamera(camera = this.currCamera) {
         this.camera = this.cameras[camera];
+        this.currCamera = camera,
         this.interface.setActiveCamera(this.camera);
+    }
+
+    /**
+     * Updates the current camera according to the interface's active value 
+     */
+    updateGraph(graph = this.scene) {
+        console.log(this.game.board);
+        this.graph = this.graphs[graph];
+        this.interface.setActiveCamera(this.graph);
+        this.initCameras(this.currCamera);
     }
 
     /**
@@ -106,12 +136,12 @@ class XMLscene extends CGFscene {
         // Lights index.
 
         // Reads the lights from the scene graph.
-        for (var key in this.graph.lights) {
+        for (var key in this.graphs[this.scene].lights) {
             if (i >= 8)
                 break; // Only eight lights allowed by WebGL.
 
-            if (this.graph.lights.hasOwnProperty(key)) {
-                var light = this.graph.lights[key];
+            if (this.graphs[this.scene].lights.hasOwnProperty(key)) {
+                var light = this.graphs[this.scene].lights[key];
 
                 let pos = light.locationLight;
                 let ambient = light.ambientIllumination;
@@ -150,26 +180,29 @@ class XMLscene extends CGFscene {
         }
     }
 
+    addGraph(graph){
+        this.graphs.push(graph);
+    }
 
     /* Handler called when the graph is finally loaded. 
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
-
         this.initCameras();
 
         //TODO: Change reference length according to parsed graph
-        this.axis = new CGFaxis(this, this.graph.sceneInfo.axis_length);
+        this.axis = new CGFaxis(this, this.graphs[this.scene].sceneInfo.axis_length);
 
         // TODO: Change ambient and background details according to parsed graph
 
-        this.gl.clearColor(this.graph.background.r, this.graph.background.g, this.graph.background.b, this.graph.background.a);
-        this.setGlobalAmbientLight(this.graph.ambient.r, this.graph.ambient.g, this.graph.ambient.b, this.graph.ambient.a)
+        this.gl.clearColor(this.graphs[this.scene].background.r, this.graphs[this.scene].background.g, this.graphs[this.scene].background.b, this.graphs[this.scene].background.a);
+        this.setGlobalAmbientLight(this.graphs[this.scene].ambient.r, this.graphs[this.scene].ambient.g, this.graphs[this.scene].ambient.b, this.graphs[this.scene].ambient.a)
 
         this.initLights();
+        this.initGraphs();
 
         // Adds lights group.
-        this.interface.addLightsGroup(this.graph.lights);
+        this.interface.addLightsGroup(this.graphs[this.scene].lights);
 
         this.sceneInited = true;
 
@@ -238,7 +271,7 @@ class XMLscene extends CGFscene {
             }
 
             // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
+            this.graphs[this.scene].displayScene();
         } else {
             // Draw axis
             this.axis.display();
@@ -258,13 +291,15 @@ class XMLscene extends CGFscene {
         this.deltaTime = currTime - this.lastTime;
         this.lastTime = currTime;
 
-        this.graph.updateAnimations(this.deltaTime);
-        this.graph.update(this.deltaTime);
+        if(this.graphsLoaded == this.numGraphs){
+        this.graphs[this.scene].updateAnimations(this.deltaTime);
+        this.graphs[this.scene].update(this.deltaTime);
 
         if (this.rotateCamera)
             this.update_camera();
 
         this.game.update(this.deltaTime);
+        }
     }
 
     update_camera() {

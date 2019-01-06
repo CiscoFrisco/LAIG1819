@@ -209,7 +209,6 @@ class Game {
 
 
     choose_move() {
-        console.log('move_chosen');
         this.move_chosen = true;
         let this_game = this;
         let board_string = this.getBoardString();

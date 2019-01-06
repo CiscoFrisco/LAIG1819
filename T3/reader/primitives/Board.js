@@ -552,7 +552,6 @@ class Board extends CGFobject {
   }
 
   updatePVC() {
-    console.log(this.scene.game.currPlayer);
     if (this.scene.game.setup_anim && !this.anim.isActive && (!this.scene.game.move_chosen || this.pickState == this.pickStates.PICK_PIECE)) {
       this.scene.game.setTimer(false);
       this.resetPieces();
@@ -575,7 +574,6 @@ class Board extends CGFobject {
         this.scene.game.currAnimOver = false;
       }
     } else if (this.scene.game.undo_ready && !this.anim.isActive && !this.scene.game.move_chosen) {
-      console.log('jey');
       this.scene.game.undoMove();
       this.undo_move = true;
       this.scene.game.currPlayer = this.scene.game.undo_player;
@@ -663,7 +661,6 @@ class Board extends CGFobject {
             }
 
             this.scene.game.move_chosen = false;
-            console.log('not_move_chosen');
             this.scene.game.resetTimer();
             this.pickState = this.scene.game.currPlayer === 1 ? this.pickStates.PICK_PIECE : this.pickStates.PICK_MOVE;
           }
