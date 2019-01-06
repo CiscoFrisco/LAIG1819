@@ -75,9 +75,9 @@
         <texture id="thirty" file="scenes/images/30s.png" />
         <texture id="fourtyfive" file="scenes/images/45s.png" />
         <texture id="onemin" file="scenes/images/1m.png" />
-        <texture id="scenes" file="scenes/images/piece_high.png" />
-        <texture id="scene1" file="scenes/images/mrzephyr.png" />
-        <texture id="scene2" file="scenes/images/hay.jpg" />
+        <texture id="scenes" file="scenes/images/scenes.png" />
+        <texture id="scene1" file="scenes/images/modern.png" />
+        <texture id="scene2" file="scenes/images/ancient.png" />
     </textures>
     <materials>
         <material id="default" shininess = "10.0">

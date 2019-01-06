@@ -45,7 +45,7 @@ class Toolbar extends CGFobject {
 
     display() {
 
-        if (this.scene.game.gameState > this.scene.game.gameStates.TIMER) {
+        if (this.scene.game.gameState > this.scene.game.gameStates.SCENES) {
 
             this.logPicking();
 
